@@ -33,7 +33,48 @@ export const kokluSayiCalculatorDef: CalculatorDefinition<Input, any> = {
     description: 'Bir sayının n. dereceden kökünü (karekök, küpkök) anında hesaplayın. Tam kök tespiti ve negatif sayılarda tek kök desteği ile.',
     keywords: ["köklü sayı hesaplama", "karekök hesaplama", "küpkök", "karekök dışına çıkarma", "n. dereceden kök"],
     canonical: 'https://hesapera.com.tr/hesaplama/koklu-sayi',
-    faq: [],
+    faq: [
+      {
+        question: "Hesaplama 'Tam Kök mü: Hayır' diyor, ne anlama geliyor?",
+        answer: "Bu, girdiğiniz sayının mükemmel (tam kare veya tam küp vb.) bir sayı olmadığını, kök dışına çıkarken ondalıklı (virgüllü ve genellikle sonsuza uzanan irrasyonel) bir değere dönüştüğünü ifade eder."
+      },
+      {
+        question: "Sonuç neden 'Hesaplama aralık dışı' çıkabilir?",
+        answer: "Sisteme girilen kök derecesi (örneğin 0 veya 1 gibi) 2'nin altındaysa ya da çift dereceli bir kökte eksi (-) değerli bir sayı girilmeye çalışıldıysa matematiksel kural ihlali yapılmış demektir."
+      }
+    ],
+    content: {
+      intro: "Karekök, Küpkök ve diğer n'inci dereceden köklerin (tam kök sorgusu dahil) matematiksel olarak dışarıya çıkarılması",
+
+      sections: [
+        {
+          title: "Köklü Sayı (Karekök) Nedir?",
+          paragraphs: [
+            "Köklü sayılar, bir sayının kendisiyle kaç kez çarpılarak belirli bir değere ulaştığını bulmamızı sağlayan ters üs alma işlemleridir.",
+            "Eğer kök derecesi 2 ise (buna Karekök denir), aracımız kendisine girilen sayının 'Hangi sayının kendisiyle iki kez çarpımı olduğunu' bulur. Örneğin √144 sayısının sonucu 12'dir."
+          ]
+        },
+        {
+          title: "N'inci Dereceden Kök ve Küpkök",
+          paragraphs: [
+            "Aracımız sadece karekök değil, kök derecesini 3 (Küpkök) veya istediğiniz n'inci sayıya çıkartarak esnek işlem (n'inci kök hesaplama) yapmanıza olanak tanır.",
+            "Böylece ∛27 (Hangi sayıyı kendisiyle üç kez çarparsam 27 eder?) gibi soruları anında cevaplayarak (Sonuç: 3) karmaşık ödevlerinizi ve geometri denklemlerini çözmenizi sağlar."
+          ]
+        },
+        {
+          title: "Ondalık ve Negatif Sayı Sınırları",
+          paragraphs: [
+            "Sonuç tam çıkmıyorsa araç size ondalıklı küsuratı verecektir (örneğin √2 = 1.4142...). Ekranın altında 'Tam Kök mü?' sorusu 'Hayır' olarak yanıtlanacaktır.",
+            "Eğer kök derecesi ÇİFT bir sayı (2, 4, 6) ise, kök içine girdiğiniz sayı negatif olamaz; çünkü gerçek sayılar kümesinde negatif bir sayının çift dereceli kökü tanımsızdır. Ancak TEK bir kök derecesine (örneğin 3) negatif sayı (Örn: -27) girerseniz, sonuç rahatlıkla negatif (-3) çıkacaktır."
+          ]
+        },
+      ],
+      example: {
+        title: "Küp Hacminden Kenar Bulma (Küpkök)",
+        text: "Elinizde hacmi tam 125 m³ olan kusursuz bir küp (Örn: zar) var ve bir kenarının (uzunluğunun) kaç metre olduğunu bilmek istiyorsunuz. Kök Derecesini 3 (Küpkök), sayıyı ise 125 olarak girersiniz. Formül (125^(1/3)) hesaplamasını yaparak size 5 m sonucunu verir."
+      }
+    },
+
     relatedCalculators: ["uslu-sayi", "ebob-ekok"]
   },
   fields: [
