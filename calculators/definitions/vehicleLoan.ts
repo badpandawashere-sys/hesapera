@@ -80,7 +80,7 @@ export const vehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
           title: "Taşıt Kredisi Limitleri ve Kasko Değeri Oranları",
           paragraphs: [
             "Taşıt kredilerinde kullanılabilecek maksimum kredi tutarı ve vade süresi, aracın sıfır kilometre mi yoksa ikinci el mi olduğuna ve fatura/kasko değerine göre yasal düzenlemelerle belirlenmektedir.",
-            "BDDK (Bankacılık Düzenleme ve Denetleme Kurumu) tarafından güncellenen kurallara göre; belirli bir kasko değerine kadar olan araçlar için değerin %70'ine kadar, daha yüksek değerli araçlar için ise kademeli olarak %50, %30 ve %20 oranlarında kredi kullandırılabilmektedir.",
+            "Taşıt kredilerinde kullanılabilecek azami kredi tutarı ve vade, aracın türü, değeri ve yürürlükteki BDDK düzenlemelerine göre değişebilir. Bu nedenle %70, %50, %30 veya %20 gibi oranlar ile 48, 36, 24 veya 12 ay gibi vade sınırları bütün araçlar için değişmez bir kural olarak değerlendirilmemelidir. Özellikle elektrik motorlu taşıtlar için farklı düzenlemeler bulunabildiğinden, kredi başvurusu öncesinde güncel BDDK kuralları ve finans kuruluşunun uyguladığı limitler kontrol edilmelidir.",
             "Aynı şekilde maksimum vade sınırları da kasko değerine göre 48 ay, 36 ay, 24 ay veya 12 ay olarak sınırlandırılabilmektedir. Bu sınırlar piyasa koşullarına göre yetkili kurumlarca güncellenir."
           ]
         },
