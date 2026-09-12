@@ -1,3 +1,25 @@
+
+export interface CalculatorContentSection {
+  title: string;
+  paragraphs: string[];
+  bullets?: string[];
+}
+
+export interface CalculatorContentSource {
+  name: string;
+  url: string;
+}
+
+export interface CalculatorContent {
+  intro: string;
+  sections: CalculatorContentSection[];
+  example?: {
+    title: string;
+    text: string;
+  };
+  sources?: CalculatorContentSource[];
+}
+
 ﻿import { z } from 'zod';
 
 export type CalculatorCategory = 
@@ -45,6 +67,7 @@ export interface CalculatorMetadata {
   keywords?: string[];
   canonical?: string;
   faq?: Array<{ question: string; answer: string }>;
+  content?: CalculatorContent;
   relatedCalculators?: string[]; // array of slugs
   icon?: string; // name of the lucide icon, e.g. "CreditCard"
   features?: Array<{ label: string; icon?: string }>;

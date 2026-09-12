@@ -1,4 +1,5 @@
 ﻿import { SiteContainer } from '@/components/layout/site-container';
+import { CalculatorContentBlock } from '@/components/calculator/calculator-content-block';
 import { ComingSoon } from '@/components/calculator/coming-soon';
 import { CalculatorBreadcrumb } from '@/components/calculator/calculator-breadcrumb';
 import { notFound } from 'next/navigation';
@@ -148,6 +149,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
             </div>
           </section>
         )}
+
+        <CalculatorContentBlock content={calculator.metadata.content} />
 
         <AdBanner placement="calculator-after-content" />
       </SiteContainer>
