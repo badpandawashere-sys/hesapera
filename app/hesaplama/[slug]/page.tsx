@@ -1,4 +1,5 @@
 ﻿import { SiteContainer } from '@/components/layout/site-container';
+import { ComingSoon } from '@/components/calculator/coming-soon';
 import { CalculatorBreadcrumb } from '@/components/calculator/calculator-breadcrumb';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -19,9 +20,16 @@ export async function generateMetadata(props: CalculatorPageProps): Promise<Meta
   const { slug } = await props.params;
   const calculator = CalculatorRegistry.getBySlug(slug);
 
-  if (!calculator || calculator.status !== 'published') {
+  if (!calculator) {
     return {
       title: 'Sayfa Bulunamadı | Hesapera',
+    };
+  }
+
+  if (calculator.status === 'draft') {
+    return {
+      title: `Yakında: ${calculator.name} | Hesapera`,
+      description: calculator.shortDescription,
     };
   }
 
@@ -39,8 +47,12 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
   const { slug } = await props.params;
   const calculator = CalculatorRegistry.getBySlug(slug);
 
-  if (!calculator || calculator.status !== 'published') {
+  if (!calculator) {
     notFound();
+  }
+
+  if (calculator.status === 'draft') {
+    return <ComingSoon name={calculator.name} description={calculator.shortDescription} category={calculator.category} />;
   }
 
   const categoryMap: Record<string, string> = {
