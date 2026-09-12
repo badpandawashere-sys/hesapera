@@ -1,4 +1,4 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateIbanValidation } from '../formulas/ibanValidation';
 
@@ -13,29 +13,28 @@ export const ibanValidationCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'iban-dogrulama',
   status: 'published',
   name: 'IBAN Doğrulama',
-  shortDescription: 'Türkiye IBAN numarasının formatını ve MOD-97 doğrulama algoritmasını kontrol edin.',
+  shortDescription: 'IBAN numaranızın formatını, uzunluğunu ve MOD-97 kontrolünü hızlıca doğrulayın.',
   category: 'finance',
-  type: 'complex',
+  type: 'simple',
   metadata: {
-    title: 'IBAN Doğrulama Aracı | Hesapera',
-    description: 'Türkiye IBAN numarasının formatını ve MOD-97 doğrulama algoritmasını kontrol edin.',
-    keywords: ["iban doğrulama","iban kontrol","iban sorgulama","mod 97"],
-    canonical: 'https://hesapera.com/iban-dogrulama',
+    title: 'IBAN Doğrulama ve IBAN Kontrolü | Hesapera',
+    description: 'IBAN numaranızın formatını, uzunluğunu ve MOD-97 kontrolünü hızlıca doğrulayın. Türkiye ve desteklenen ülkeler için IBAN kontrolü.',
+    keywords: ["iban doğrulama","iban kontrol","iban sorgulama","mod-97","iban numarası kontrolü"],
+    canonical: 'https://hesapera.com.tr/hesaplama/iban-dogrulama',
     faq: [],
-    relatedCalculators: ["doviz","faiz"]
+    relatedCalculators: ["kredi", "ihtiyac-kredisi"]
   },
   fields: [
-  {
-    "id": "iban",
-    "label": "IBAN",
-    "type": "text",
-    "required": true,
-    "placeholder": "TR00 0000 0000 0000 0000 0000 00"
-  }
-],
+    {
+      id: "iban",
+      label: "IBAN Numarası",
+      type: "text",
+      required: true,
+      placeholder: "TR00 0000 0000 0000 0000 0000 00"
+    }
+  ],
   schema,
   calculate: (input) => {
     return calculateIbanValidation(input.iban);
   }
 };
-
