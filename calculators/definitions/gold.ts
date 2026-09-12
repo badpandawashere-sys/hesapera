@@ -52,7 +52,7 @@ export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
       },
       {
         question: "24 ayar ile 22 ayar altın arasındaki fark nedir?",
-        answer: "Ayar, altının saflık derecesini belirtir. 24 ayar altın içerisinde hiç yabancı metal barındırmayan saf altına (0.995 - 0.999) denir. 22 ayar altın ise %91.6 oranında saf altın içerirken geri kalanı dayanıklılık için bakır/gümüş karışımıdır."
+        answer: "Ayar, altının saflık derecesini belirtir. 24 ayar ifadesi yüksek saflıktaki altını ifade eder; ancak gerçek saflık ürün üzerinde belirtilen milyem veya saflık değeriyle kontrol edilmelidir. 22 ayar altın yaklaşık %91,6 saf altın içerir; kalan bölüm alaşım metallerinden oluşur."
       },
       {
         question: "Banka makas aralığı neden hafta sonları açılır?",
@@ -91,11 +91,11 @@ export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
             "Halk arasında en çok bilinen ve yatırım amacıyla kullanılan altın türleri standart gramaj ve saflık derecelerine (ayar) sahiptir. Piyasada en çok işlem gören altın türlerinin özellikleri şunlardır:"
           ],
           bullets: [
-            "Gram Altın: Genellikle 24 ayar (0.995 saflık) olarak üretilir. 1 gramdır.",
+            "Gram altın, piyasada farklı saflık standartlarında sunulabilmekle birlikte yatırım amaçlı gram altınlarda yüksek saflıkta ürünler yaygındır. Ürünün üzerindeki saflık bilgisi esas alınmalıdır.",
             "Çeyrek Altın: 22 ayar saflıktadır. Toplam ağırlığı 1.75 gram olup, içindeki saf altın miktarı 1.6065 gramdır.",
             "Yarım Altın: 22 ayar saflıktadır. 3.50 gramdır (Çeyreğin 2 katı).",
             "Tam (Ziynet) Altın: 22 ayar saflıktadır. 7.01 gram ağırlığındadır.",
-            "Ata (Cumhuriyet) Altını: 22 ayar saflıktadır ancak standart tam altından daha ağırdır. 7.21 gram ağırlığındadır."
+            "Ata/Cumhuriyet altını ile tam ziynet altını aynı ürün değildir. Her ikisi de 22 ayar sınıfında değerlendirilir; ancak standartları ve ağırlıkları farklıdır. Ürün adı ve niteliği alım-satım sırasında ayrıca kontrol edilmelidir."
           ]
         },
 
@@ -103,7 +103,7 @@ export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
           title: "Alış ve Satış Arasındaki Makas Farkı (Spread)",
           paragraphs: [
             "Piyasalarda altının alış fiyatı ile satış fiyatı arasında daima bir fark bulunur. Bu farka 'makas' (spread) denir.",
-            "Fiziki altın alım-satımında (kuyumcularda) makas aralığı genellikle Kapalıçarşı serbest piyasa koşullarına göre belirlenir. Bankalardaki altın hesaplarında (kaydi altın) ise mesai saatleri içinde makas daralırken, mesai saatleri dışında ve hafta sonlarında risk primi nedeniyle makas ciddi oranda açılabilir."
+            "Fiziki altın alım-satımında (kuyumcularda) makas aralığı genellikle Kapalıçarşı serbest piyasa koşullarına göre belirlenir. Bankaların alış-satış makası; piyasa likiditesi, işlem saatleri, fiyatlama politikası ve piyasa riskine göre değişebilir. Mesai dışı saatlerde veya piyasaların daha sınırlı olduğu dönemlerde makasın açılması görülebilir."
           ]
         },
 
