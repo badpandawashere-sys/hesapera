@@ -30,7 +30,58 @@ export const loanAnnualCostRateCalculatorDef: CalculatorDefinition<Input, any> =
     description: 'Bireysel, taşıt ve konut kredilerinizin yönetmeliğe uygun yıllık efektif maliyet oranını hesaplayın.',
     keywords: ["yıllık maliyet oranı","efektif faiz","kredi maliyeti","IRR hesaplama"],
     canonical: 'https://hesapera.com.tr/hesaplama/kredi-yillik-maliyet-orani',
-    faq: [],
+    faq: [
+      {
+        question: "Hesaplanan maliyet oranı neden aylık faizimin 12 katından çok daha büyük çıkıyor?",
+        answer: "Çünkü banka faizine ek olarak %30 vergi (BSMV+KKDF) kesilir ve kredinin başında ödediğiniz dosya masrafları elinize geçen parayı (net krediyi) düşürür. Ayrıca matematiksel olarak faiz her ay bileşiklendiği (efektif hesaplandığı) için sonuç doğrudan 12 ile çarpımdan çok daha yüksektir."
+      },
+      {
+        question: "Banka bana daha düşük bir maliyet oranı verdi, hangisi doğru?",
+        answer: "Bankanın sunduğu oran her zaman bağlayıcı olan yasal orandır. Araçtaki matematiksel hesaplamada sizin sisteme girmediğiniz veya hayat sigortası iadeleri gibi bankanın özel olarak işlettiği bir iç katsayı söz konusu olabilir."
+      }
+    ],
+    content: {
+      intro: "Kredilerdeki aylık faiz dışında kalan peşin masrafların toplam efektif finansal yüke etkisinin analizi",
+
+      sections: [
+        {
+          title: "Kredi Yıllık (Efektif) Maliyet Oranı Nedir?",
+          paragraphs: [
+            "Bankalar kredi ürünlerini genellikle 'Aylık Faiz Oranı' ile pazarlarlar. Ancak gerçek dünyada krediyi kullanırken bankaya dosya masrafı, sigorta bedeli, tahsis veya ipotek ücreti gibi peşin (başlangıçta kesilen) harcamalar yaparsınız.",
+            "Yıllık Maliyet Oranı, tüm bu peşin harcamaları ve ödeyeceğiniz vergileri matematiksel olarak kredinizin içine dahil ederek, kredinin size 'gerçekte yıllık yüzde kaç faizle' mal olduğunu (Efektif Yıllık Oran - IRR) bulur."
+          ]
+        },
+        {
+          title: "Matematiksel Nakit Akışı Mantığı (IRR)",
+          paragraphs: [
+            "Araç, Ticaret Bakanlığı Tüketici Kredisi Sözleşmeleri standartlarına yakın bir finansal nakit akışı formülü (IRR) kullanır. Girdiğiniz peşin kesintiler asıl kredi tutarından düşülür ve 'Net Kullanılan' yani gerçekten elinize geçen nakit bulunur.",
+            "Ardından aydan aya ödediğiniz taksitler, net geçen parayla kıyaslanarak bileşik (efektif) getiri formülünden geçirilir. Sonuç, ödediğiniz peşin paranın kredi vadesine yansımasıdır."
+          ]
+        },
+        {
+          title: "Vergiler ve Hukuki Kısıtlar",
+          paragraphs: [
+            "Hesaplamalarımıza İhtiyaç ve Taşıt kredilerinde yasal olarak uygulanan %15 BSMV ve %15 KKDF (toplam faizin %30'u kadar vergi) yansıtılmıştır. Konut kredilerinde ise yasa gereği vergilerden muafiyet tanımlanmıştır.",
+            "Hesapera bu aracı tamamen teorik bir nakit akış modeli olarak sunar. Nihai oran; bankanın sözleşme öncesi bilgi formundaki resmî rakamdır. Buradaki sonuç sadece teklifleri tarafsız karşılaştırmanız içindir."
+          ]
+        },
+      ],
+      example: {
+        title: "Görünmeyen Masrafların Etkisi",
+        text: "Bankadan 100.000 TL ihtiyaç kredisini %3 aylık faizle 12 ay vade ile çektiğinizi düşünelim. Eğer hiç dosya masrafı ve sigorta olmasaydı yıllık maliyet oranınız belirli bir bantta çıkardı. Ancak banka sizden 5.000 TL peşin tahsis ve sigorta kestiyse, elinize geçen net para 95.000 TL olacaktır. Siz 95.000 TL alıp, sanki 100.000 TL kullanmış gibi taksit ödeyeceğiniz için gerçek (efektif) yıllık maliyet oranınız bir anda ciddi şekilde sıçrayacaktır."
+      },
+      sources: [
+        {
+          name: "TCMB - Efektif Yıllık Faiz Oranı Hesaplamaları",
+          url: "https://www.tcmb.gov.tr/"
+        },
+        {
+          name: "Ticaret Bakanlığı - Tüketici Kredisi Mevzuatı",
+          url: "https://ticaret.gov.tr/"
+        }
+      ]
+    },
+
     relatedCalculators: ["kredi", "ihtiyac-kredisi", "konut-kredisi", "tasit-kredisi"]
   },
   fields: [
