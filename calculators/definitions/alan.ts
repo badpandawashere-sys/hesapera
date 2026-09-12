@@ -2,18 +2,23 @@
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAlan } from '../formulas/alan';
 
+const sekilEnum = z.enum(['Kare', 'Dikdörtgen', 'Üçgen', 'Paralelkenar', 'Yamuk', 'Daire', 'Elips']);
+const birimEnum = z.enum(['cm', 'm', 'mm']);
+
 const schema = z.object({
-  sekil: z.enum(['Kare', 'Dikdörtgen', 'Üçgen', 'Daire', 'Paralelkenar', 'Yamuk']),
-  birim: z.enum(['cm', 'm', 'mm']),
-  kenarA: z.number().min(0).optional(),
-  kenarB: z.number().min(0).optional(),
-  yukseklik: z.number().min(0).optional(),
-  yaricap: z.number().min(0).optional(),
-  taban: z.number().min(0).optional(),
-  ustTaban: z.number().min(0).optional()
+  sekil: sekilEnum.default('Dikdörtgen'),
+  birim: birimEnum.default('cm'),
+  kenarA: z.number().optional(),
+  kenarB: z.number().optional(),
+  taban: z.number().optional(),
+  ustTaban: z.number().optional(),
+  yukseklik: z.number().optional(),
+  yaricap: z.number().optional(),
+  buyukYaricap: z.number().optional(),
+  kucukYaricap: z.number().optional()
 }).superRefine((data, ctx) => {
   const requireField = (val: number | undefined, path: string) => {
-    if (val === undefined || val <= 0) {
+    if (val === undefined || isNaN(val) || val <= 0) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Bu şekil için bu alan zorunludur ve 0'dan büyük olmalıdır.", path: [path] });
     }
   };
@@ -22,9 +27,10 @@ const schema = z.object({
     case 'Kare': requireField(data.kenarA, 'kenarA'); break;
     case 'Dikdörtgen': requireField(data.kenarA, 'kenarA'); requireField(data.kenarB, 'kenarB'); break;
     case 'Üçgen': requireField(data.taban, 'taban'); requireField(data.yukseklik, 'yukseklik'); break;
-    case 'Daire': requireField(data.yaricap, 'yaricap'); break;
     case 'Paralelkenar': requireField(data.taban, 'taban'); requireField(data.yukseklik, 'yukseklik'); break;
     case 'Yamuk': requireField(data.taban, 'taban'); requireField(data.ustTaban, 'ustTaban'); requireField(data.yukseklik, 'yukseklik'); break;
+    case 'Daire': requireField(data.yaricap, 'yaricap'); break;
+    case 'Elips': requireField(data.buyukYaricap, 'buyukYaricap'); requireField(data.kucukYaricap, 'kucukYaricap'); break;
   }
 });
 
@@ -35,16 +41,16 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'alan',
   status: 'published',
   name: 'Alan Hesaplama',
-  shortDescription: 'Kare, dikdörtgen, üçgen, daire, paralelkenar veya yamuk gibi geometrik şekillerin alanını formüllerle hesaplayın.',
+  shortDescription: 'Kare, dikdörtgen, üçgen, daire, elips, paralelkenar veya yamuk gibi geometrik şekillerin alanını formüllerle hesaplayın.',
   category: 'math',
   type: 'simple',
   metadata: {
     title: 'Geometrik Alan Hesaplama (Kare, Üçgen, Daire, Yamuk) | Hesapera',
-    description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk) metrekare ve santimetrekare cinsinden alanını kolayca hesaplayın.',
+    description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk, Elips) metrekare ve santimetrekare cinsinden alanını kolayca hesaplayın.',
     keywords: ['alan hesaplama', 'üçgenin alanı', 'dairenin alanı', 'dikdörtgen alan hesabı', 'geometrik alan', 'metrekare hesaplama'],
-    canonical: 'https://hesapera.com/alan',
+    canonical: 'https://hesapera.com.tr/hesaplama/alan',
     faq: [],
-    relatedCalculators: []
+    relatedCalculators: ["cevre", "hacim"]
   },
   fields: [
     {
@@ -56,9 +62,10 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
         { label: 'Kare', value: 'Kare' },
         { label: 'Dikdörtgen', value: 'Dikdörtgen' },
         { label: 'Üçgen', value: 'Üçgen' },
-        { label: 'Daire', value: 'Daire' },
         { label: 'Paralelkenar', value: 'Paralelkenar' },
-        { label: 'Yamuk', value: 'Yamuk' }
+        { label: 'Yamuk', value: 'Yamuk' },
+        { label: 'Daire', value: 'Daire' },
+        { label: 'Elips', value: 'Elips' }
       ],
       defaultValue: 'Dikdörtgen'
     },
@@ -74,15 +81,39 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
       ],
       defaultValue: 'cm'
     },
-    { id: 'kenarA', label: 'Birinci Kenar (Kısa Kenar veya Kare Kenarı)', type: 'number', required: false },
-    { id: 'kenarB', label: 'İkinci Kenar (Uzun Kenar)', type: 'number', required: false },
-    { id: 'taban', label: 'Taban Uzunluğu (veya Yamuk için Alt Taban)', type: 'number', required: false },
-    { id: 'ustTaban', label: 'Üst Taban Uzunluğu (Sadece Yamuk)', type: 'number', required: false },
-    { id: 'yukseklik', label: 'Yükseklik', type: 'number', required: false },
-    { id: 'yaricap', label: 'Yarıçap (Sadece Daire)', type: 'number', required: false }
+    {
+      id: 'kenarA', label: 'Kenar (Kare) / Kısa Kenar (Dikdörtgen)', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'in', value: ['Kare', 'Dikdörtgen'] }]
+    },
+    {
+      id: 'kenarB', label: 'Uzun Kenar', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Dikdörtgen' }]
+    },
+    {
+      id: 'taban', label: 'Taban Uzunluğu (Üçgen, Paralelkenar, Yamuk)', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'in', value: ['Üçgen', 'Paralelkenar', 'Yamuk'] }]
+    },
+    {
+      id: 'ustTaban', label: 'Üst Taban Uzunluğu', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Yamuk' }]
+    },
+    {
+      id: 'yukseklik', label: 'Yükseklik', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'in', value: ['Üçgen', 'Paralelkenar', 'Yamuk'] }]
+    },
+    {
+      id: 'yaricap', label: 'Yarıçap (r)', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Daire' }]
+    },
+    {
+      id: 'buyukYaricap', label: 'Büyük Yarıçap (a)', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Elips' }]
+    },
+    {
+      id: 'kucukYaricap', label: 'Küçük Yarıçap (b)', type: 'number', required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Elips' }]
+    }
   ],
   schema,
   calculate: (input) => calculateAlan(input)
 };
-
-
