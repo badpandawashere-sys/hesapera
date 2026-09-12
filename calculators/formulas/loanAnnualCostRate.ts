@@ -1,20 +1,56 @@
 import { calculateIRR } from './finance/irr';
+import { generateAmortizationSchedule } from './loan/amortization';
 
-export function calculateLoanAnnualCostRate(principalReceived: number, monthlyPayment: number, termMonths: number, upfrontFees: number) {
-  const netReceived = principalReceived - upfrontFees;
+export interface LoanCostParams {
+  loanType: 'ihtiyac' | 'tasit' | 'konut';
+  principal: number;
+  monthlyInterestRate: number;
+  termMonths: number;
+  allocationFee: number;
+  insuranceFee: number;
+  appraisalFee: number;
+  mortgageFee: number;
+  otherFees: number;
+}
+
+export function calculateLoanAnnualCostRate(params: LoanCostParams) {
+  let kkdfRate = 0;
+  let bsmvRate = 0;
+
+  if (params.loanType === 'ihtiyac' || params.loanType === 'tasit') {
+    kkdfRate = 15;
+    bsmvRate = 15;
+  }
+
+  const amortization = generateAmortizationSchedule({
+    principal: params.principal,
+    monthlyInterestRate: params.monthlyInterestRate,
+    termMonths: params.termMonths,
+    kkdfRate,
+    bsmvRate
+  });
+
+  const totalUpfrontFees = 
+    params.allocationFee + 
+    params.insuranceFee + 
+    params.appraisalFee + 
+    params.mortgageFee + 
+    params.otherFees;
+
+  const netReceived = params.principal - totalUpfrontFees;
   
   if (netReceived <= 0) {
     return {
       success: false,
-      errors: ['Net kullanılan tutar (Elinize geçen - Peşin masraf) 0 dan büyük olmalıdır.']
+      errors: ['Net kullanılan tutar (Kredi Tutarı - Peşin Masraflar) 0 dan büyük olmalıdır.']
     };
   }
-  
+
   const cashFlows: number[] = [netReceived];
-  for (let i = 0; i < termMonths; i++) {
-    cashFlows.push(-monthlyPayment);
+  for (const row of amortization.schedule) {
+    cashFlows.push(-row.payment);
   }
-  
+
   let annualEffectiveRate = 0;
   try {
     const monthlyIRR = calculateIRR(cashFlows);
@@ -26,15 +62,22 @@ export function calculateLoanAnnualCostRate(principalReceived: number, monthlyPa
     };
   }
   
+  const formatter = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' });
+
   return {
     primaryResult: '%' + annualEffectiveRate.toFixed(4),
     secondaryResults: {
-      'Net Kullanılan Tutar': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(netReceived),
-      'Aylık Taksit': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(monthlyPayment),
-      'Vade': termMonths + ' Ay',
-      'Toplam Taksit Ödemesi': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(monthlyPayment * termMonths),
-      'Peşin Ücret': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(upfrontFees)
+      'Aylık Taksit': formatter.format(amortization.monthlyPayment),
+      'Net Kullanılan Kredi': formatter.format(netReceived),
+      'Toplam Geri Ödeme': formatter.format(amortization.totalPayment),
+      'Toplam Faiz': formatter.format(amortization.totalInterest),
+      'Toplam Vergi (BSMV+KKDF)': formatter.format((amortization.totalBSMV || 0) + (amortization.totalKKDF || 0)),
+      'Toplam Peşin Ek Maliyet': formatter.format(totalUpfrontFees)
     },
-    notes: ['Bu araç nakit akışları (Cash Flow / IRR) üzerinden efektif maliyet oranı simülasyonu yapar. Bankanızın resmi yasal Yıllık Maliyet Oranı ile kuruşsal farklar içerebilir.']
+    notes: [
+      'Bu hesaplama Ticaret Bakanlığı Tüketici Kredisi Sözleşmeleri Yönetmeliği Ek-1 nakit akışı mantığına uygun olarak hazırlanmıştır.',
+      'Sonuçlar bilgi amaçlıdır, bankanızın sözleşme öncesi bilgi formundaki resmî oran esastır.',
+      params.loanType !== 'konut' ? 'Hesaplamaya %15 KKDF ve %15 BSMV dâhil edilmiştir.' : 'Konut kredilerinde BSMV ve KKDF muafiyeti uygulanmıştır.'
+    ]
   };
 }

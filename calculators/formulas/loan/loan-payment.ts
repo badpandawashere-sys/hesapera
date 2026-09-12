@@ -1,9 +1,14 @@
-import { LoanParams } from './loan-types';
+﻿import { LoanParams } from './loan-types';
 
 export function calculateMonthlyPayment(params: LoanParams): number {
   const p = params.principal;
   const n = params.termMonths;
-  let r = params.monthlyInterestRate / 100;
+  
+  const kkdf = (params.kkdfRate || 0) / 100;
+  const bsmv = (params.bsmvRate || 0) / 100;
+  
+  // The effective monthly rate includes taxes
+  let r = (params.monthlyInterestRate / 100) * (1 + kkdf + bsmv);
 
   if (r === 0) {
     return p / n;
