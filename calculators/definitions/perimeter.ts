@@ -2,50 +2,51 @@
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePerimeter } from '../formulas/perimeter';
 
+const sekilEnum = z.enum(['Kare', 'Dikdörtgen', 'Üçgen', 'Paralelkenar', 'Yamuk', 'Daire']);
+const birimEnum = z.enum(['cm', 'm', 'mm']);
+
 const schema = z.object({
-  sekil: z.enum(['Kare', 'Dikdörtgen', 'Üçgen', 'Daire', 'Paralelkenar', 'Yamuk']),
-  birim: z.enum(['cm', 'm', 'mm']),
-  kenarA: z.number().positive().optional(),
-  kenarB: z.number().positive().optional(),
-  kenarC: z.number().positive().optional(),
-  kenarD: z.number().positive().optional(),
-  yaricap: z.number().positive().optional()
+  sekil: sekilEnum.default('Dikdörtgen'),
+  birim: birimEnum.default('cm'),
+  kenarA: z.number().optional(),
+  kenarB: z.number().optional(),
+  kenarC: z.number().optional(),
+  kenarD: z.number().optional(),
+  yaricap: z.number().optional()
 }).superRefine((data, ctx) => {
-  const req = (val: number | undefined, path: string) => {
-    if (val === undefined || val <= 0) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Bu şekil için bu alan zorunludur ve pozitif olmalıdır.", path: [path] });
+  const requireField = (val: number | undefined, path: string) => {
+    if (val === undefined || isNaN(val) || val <= 0) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Bu şekil için bu alan zorunludur ve 0'dan büyük olmalıdır.", path: [path] });
+      return false;
     }
+    return true;
   };
 
-  switch (data.sekil) {
-    case 'Kare': 
-      req(data.kenarA, 'kenarA'); 
-      break;
-    case 'Dikdörtgen': 
-    case 'Paralelkenar':
-      req(data.kenarA, 'kenarA'); 
-      req(data.kenarB, 'kenarB'); 
-      break;
-    case 'Üçgen': 
-      req(data.kenarA, 'kenarA'); 
-      req(data.kenarB, 'kenarB'); 
-      req(data.kenarC, 'kenarC'); 
-      if (data.kenarA && data.kenarB && data.kenarC) {
-        const { kenarA: a, kenarB: b, kenarC: c } = data;
-        if (a + b <= c || a + c <= b || b + c <= a) {
-          ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Üçgen eşitsizliği kuralına uymuyor. Kenarlar bir üçgen oluşturamaz.", path: ['kenarA'] });
-        }
+  if (data.sekil === 'Kare') {
+    requireField(data.kenarA, 'kenarA');
+  } else if (data.sekil === 'Dikdörtgen' || data.sekil === 'Paralelkenar') {
+    requireField(data.kenarA, 'kenarA');
+    requireField(data.kenarB, 'kenarB');
+  } else if (data.sekil === 'Üçgen') {
+    const aValid = requireField(data.kenarA, 'kenarA');
+    const bValid = requireField(data.kenarB, 'kenarB');
+    const cValid = requireField(data.kenarC, 'kenarC');
+
+    if (aValid && bValid && cValid && data.kenarA! && data.kenarB! && data.kenarC!) {
+      const a = data.kenarA;
+      const b = data.kenarB;
+      const c = data.kenarC;
+      if (a + b <= c || a + c <= b || b + c <= a) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Geçersiz üçgen: Herhangi iki kenarın toplamı üçüncü kenardan büyük olmalıdır.", path: ['kenarA'] });
       }
-      break;
-    case 'Daire': 
-      req(data.yaricap, 'yaricap'); 
-      break;
-    case 'Yamuk': 
-      req(data.kenarA, 'kenarA'); 
-      req(data.kenarB, 'kenarB'); 
-      req(data.kenarC, 'kenarC'); 
-      req(data.kenarD, 'kenarD'); 
-      break;
+    }
+  } else if (data.sekil === 'Yamuk') {
+    requireField(data.kenarA, 'kenarA');
+    requireField(data.kenarB, 'kenarB');
+    requireField(data.kenarC, 'kenarC');
+    requireField(data.kenarD, 'kenarD');
+  } else if (data.sekil === 'Daire') {
+    requireField(data.yaricap, 'yaricap');
   }
 });
 
@@ -56,32 +57,32 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'cevre',
   status: 'published',
   name: 'Çevre Hesaplama',
-  shortDescription: 'Kare, dikdörtgen, üçgen, daire, paralelkenar veya yamuğun çevre uzunluğunu hesaplayın.',
+  shortDescription: 'Kare, dikdörtgen, üçgen, paralelkenar, yamuk veya daire gibi geometrik şekillerin çevre uzunluğunu hesaplayın.',
   category: 'math',
   type: 'simple',
   metadata: {
-    title: 'Çevre Hesaplama Aracı | Hesapera',
-    description: 'Kare, dikdörtgen, üçgen, daire, paralelkenar ve yamuk şekillerinin çevre uzunluğunu hesaplayın.',
-    keywords: ["çevre hesaplama", "üçgen çevre", "daire çevre", "geometrik çevre"],
-    canonical: 'https://hesapera.com/cevre',
+    title: 'Çevre Hesaplama (Kare, Üçgen, Daire, Dikdörtgen) | Hesapera',
+    description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk) çevre uzunluğunu santimetre, metre veya milimetre cinsinden anında hesaplayın.',
+    keywords: ['çevre hesaplama', 'üçgenin çevresi', 'dairenin çevresi', 'dikdörtgen çevre hesabı', 'geometrik çevre', 'çevre uzunluğu'],
+    canonical: 'https://hesapera.com.tr/hesaplama/cevre',
     faq: [],
-    relatedCalculators: ["alan"]
+    relatedCalculators: ["alan", "hacim"]
   },
   fields: [
     {
-      id: "sekil",
-      label: "Geometrik Şekil",
-      type: "select",
+      id: 'sekil',
+      label: 'Geometrik Şekil',
+      type: 'select',
       required: true,
-      defaultValue: "Kare",
       options: [
-        { label: "Kare", value: "Kare" },
-        { label: "Dikdörtgen", value: "Dikdörtgen" },
-        { label: "Üçgen", value: "Üçgen" },
-        { label: "Daire", value: "Daire" },
-        { label: "Paralelkenar", value: "Paralelkenar" },
-        { label: "Yamuk", value: "Yamuk" }
-      ]
+        { label: 'Kare', value: 'Kare' },
+        { label: 'Dikdörtgen', value: 'Dikdörtgen' },
+        { label: 'Üçgen', value: 'Üçgen' },
+        { label: 'Paralelkenar', value: 'Paralelkenar' },
+        { label: 'Yamuk', value: 'Yamuk' },
+        { label: 'Daire', value: 'Daire' }
+      ],
+      defaultValue: 'Dikdörtgen'
     },
     {
       id: 'birim',
@@ -95,16 +96,42 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
       ],
       defaultValue: 'cm'
     },
-    { id: 'kenarA', label: 'Birinci Kenar (a)', type: 'number', required: false },
-    { id: 'kenarB', label: 'İkinci Kenar (b)', type: 'number', required: false },
-    { id: 'kenarC', label: 'Üçüncü Kenar (c)', type: 'number', required: false },
-    { id: 'kenarD', label: 'Dördüncü Kenar (d)', type: 'number', required: false },
-    { id: 'yaricap', label: 'Yarıçap (r)', type: 'number', required: false }
+    {
+      id: 'kenarA',
+      label: '1. Kenar / Taban / Alt Taban (a)',
+      type: 'number',
+      required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'in', value: ['Kare', 'Dikdörtgen', 'Üçgen', 'Paralelkenar', 'Yamuk'] }]
+    },
+    {
+      id: 'kenarB',
+      label: '2. Kenar / Yan Kenar / Üst Taban (b)',
+      type: 'number',
+      required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'in', value: ['Dikdörtgen', 'Üçgen', 'Paralelkenar', 'Yamuk'] }]
+    },
+    {
+      id: 'kenarC',
+      label: '3. Kenar / 1. Yan Kenar (c)',
+      type: 'number',
+      required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'in', value: ['Üçgen', 'Yamuk'] }]
+    },
+    {
+      id: 'kenarD',
+      label: '4. Kenar / 2. Yan Kenar (d)',
+      type: 'number',
+      required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Yamuk' }]
+    },
+    {
+      id: 'yaricap',
+      label: 'Yarıçap (r)',
+      type: 'number',
+      required: false,
+      conditions: [{ fieldId: 'sekil', operator: 'equals', value: 'Daire' }]
+    }
   ],
   schema,
-  calculate: (input) => {
-    return calculatePerimeter(input);
-  }
+  calculate: (input) => calculatePerimeter(input)
 };
-
-
