@@ -1,4 +1,4 @@
-﻿import { SiteContainer } from '@/components/layout/site-container';
+import { SiteContainer } from '@/components/layout/site-container';
 import { CalculatorContentBlock } from '@/components/calculator/calculator-content-block';
 import { ComingSoon } from '@/components/calculator/coming-soon';
 import { CalculatorBreadcrumb } from '@/components/calculator/calculator-breadcrumb';
@@ -8,6 +8,7 @@ import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
 import { calculatorToViewModel } from '@/calculators/core/calculator-types';
 import '@/calculators/core/init'; // Ensure registry is initialized
 import { CalculatorForm } from '@/components/calculator/calculator-form';
+import { LoanCalculatorForm } from '@/components/calculator/loan-calculator-form';
 import { AdBanner } from '@/components/ads/ad-banner';
 import * as LucideIcons from 'lucide-react';
 
@@ -134,7 +135,11 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
       </SiteContainer>
 
       <SiteContainer>
-        <CalculatorForm calculator={calculatorViewModel} />
+        {slug === 'kredi' ? (
+          <LoanCalculatorForm calculator={calculatorViewModel} />
+        ) : (
+          <CalculatorForm calculator={calculatorViewModel} />
+        )}
         
         {calculator.metadata.faq && calculator.metadata.faq.length > 0 && (
           <section className="mt-16 max-w-4xl mx-auto">
