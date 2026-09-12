@@ -26,7 +26,58 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
     description: 'KPSS 2026 Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre KPSSP1 ve KPSSP3 yaklaşık puanınızı hesaplayın.',
     keywords: ['kpss puan hesaplama', 'kpss 2026', 'kpssp3 hesaplama', 'kpss gk gy net'],
     canonical: 'https://hesapera.com.tr/hesaplama/kpss-puan',
-    faq: [],
+    faq: [
+      {
+        question: "Hesaplanan KPSS puanı kesin midir?",
+        answer: "Hayır. Hesaplama araçları, geçmiş yıllardaki puan oluşumlarına göre katsayı tahmini yaparak yaklaşık bir sonuç verir. Gerçek puan, sınavın yapıldığı senenin Türkiye ortalaması ve standart sapmasına göre ÖSYM tarafından açıklanan puandır."
+      },
+      {
+        question: "4 yanlış 1 doğruyu götürür mü?",
+        answer: "Evet, KPSS lisans, önlisans ve ortaöğretim sınavlarında Genel Yetenek ve Genel Kültür testlerindeki her 4 yanlış cevap, 1 doğru cevabı eksiltmektedir."
+      },
+      {
+        question: "KPSSP3 nedir ve kimler kullanır?",
+        answer: "KPSSP3 puan türü, üniversitelerin lisans (4 yıllık) bölümlerinden mezun olan adayların memur (B Grubu kadro) atamalarında kullanılan temel puan türüdür."
+      }
+    ],
+    content: {
+      intro: "KPSS puan türleri (KPSSP1, KPSSP3), net hesaplaması ve ÖSYM puanlama mantığı hakkında rehber",
+
+      sections: [
+        {
+          title: "KPSS Puanı Nasıl Hesaplanır?",
+          paragraphs: [
+            "Kamu Personel Seçme Sınavı (KPSS) puanları doğrudan 'Net Sayısı x Sabit Bir Katsayı' formülüyle hesaplanmaz. ÖSYM, adayların puanlarını hesaplarken sınavın genel zorluk derecesini ve katılımcıların başarı ortalamasını dikkate alan standart sapma yöntemini kullanır.",
+            "Hesaplama araçları ise geçmiş yılların ÖSYM verilerinden yola çıkarak ortalama bir katsayı üzerinden 'tahmini' puanlar üretir."
+          ]
+        },
+        {
+          title: "Doğru ve Yanlışların Netlere Etkisi",
+          paragraphs: [
+            "KPSS Genel Yetenek (GY) ve Genel Kültür (GK) testlerinde standart olarak 4 yanlış 1 doğruyu götürmektedir. Yani adayların testlerden elde ettiği 'Ham Puan' (Net Sayısı) hesaplanırken, doğru sayısından yanlış sayısının dörtte biri çıkarılır.",
+            "Elde edilen net sayıları daha sonra standart sapma hesaplamalarına dahil edilerek adayın ilgili puan türündeki skoru oluşturulur."
+          ]
+        },
+        {
+          title: "Puan Türlerinin Katsayı Farklılıkları",
+          paragraphs: [
+            "KPSSP3 (Lisans B Grubu) gibi en yaygın kullanılan puan türlerinde genellikle Genel Yetenek testinin ağırlığı %50, Genel Kültür testinin ağırlığı %50'dir.",
+            "Farklı memuriyet kadroları veya kurum sınavları (örneğin Merkez Bankası veya bazı uzmanlık kadroları) için kullanılan KPSSP1 gibi farklı puan türlerinde ise GY ve GK katsayı ağırlıkları değişebilmektedir (Örn: GY %70, GK %30 ağırlığında olabilir)."
+          ]
+        },
+      ],
+      example: {
+        title: "Tahmini Net ve Puan Örneği",
+        text: "Lisans düzeyinde sınava giren bir adayın Genel Yetenek testinde 45 doğru, 12 yanlış yaptığını varsayalım. 12 yanlış 3 doğruyu götüreceği için adayın GY neti 42 olacaktır. Genel Kültür testinde ise 50 doğru, 4 yanlış yaptığında neti 49 olur. Toplamda 91 net üzerinden o yılın sınav zorluğuna ve ortalamasına bağlı olarak tahmini bir KPSSP3 puanı üretilir."
+      },
+      sources: [
+        {
+          name: "ÖSYM - Sınav ve Değerlendirme Yönergeleri",
+          url: "https://www.osym.gov.tr/"
+        }
+      ]
+    },
+
     relatedCalculators: ['ekpss-puan', 'ales-puan', 'ags-puan']
   },
   fields: [

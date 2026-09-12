@@ -54,7 +54,41 @@ export const interestCalculatorDef: CalculatorDefinition<Input, any> = {
     description: 'Basit faiz ve bileşik faiz hesaplama aracı ile anapara, faiz oranı ve süreye göre getirinizi anında hesaplayın.',
     keywords: ["faiz hesaplama","basit faiz","bileşik faiz","ana para","faiz oranı","süre"],
     canonical: 'https://hesapera.com.tr/hesaplama/faiz',
-    faq: [],
+    faq: [
+      {
+        question: "Aylık faiz ile yıllık faiz aynı mıdır?",
+        answer: "Hayır. Yıllık faiz, bir yılın sonundaki brüt getiri oranını ifade eder. Hesaplama yaparken vade aylık seçilirse, yıllık faiz oranı ilgili ay süresine orantılanarak (örneğin 12'ye bölünerek) işlem yapılır."
+      },
+      {
+        question: "Hesaplanan faiz tutarı net midir?",
+        answer: "Genel faiz formülü brüt getiriyi hesaplar. Vadeli hesap veya tahvil gibi gerçek dünya yatırımlarında, faiz geliri üzerinden devlet tarafından stopaj (gelir vergisi) kesintisi yapılır."
+      }
+    ],
+    content: {
+      intro: "Faiz hesaplama, basit ve bileşik faizin mantığı ve vade kavramları hakkında bilmeniz gerekenler",
+
+      sections: [
+        {
+          title: "Faiz Nedir ve Nasıl Hesaplanır?",
+          paragraphs: [
+            "Faiz, bir miktar paranın belirli bir süre boyunca kullanılması karşılığında ödenen bedel veya elde edilen getiridir. Hesaplama temelde anapara, uygulanan faiz oranı ve vade (süre) parametrelerinin birbiriyle çarpılmasına dayanır.",
+            "Araç üzerinden hem tek seferlik faiz kazancını gösteren 'Basit Faiz', hem de kazanılan faizin de tekrar faiz getirdiği 'Bileşik Faiz' hesaplaması yapılabilmektedir."
+          ]
+        },
+        {
+          title: "Basit Faiz ve Bileşik Faiz Arasındaki Fark",
+          paragraphs: [
+            "Basit faizde, vade boyunca elde edilen getiri sadece ilk yatırılan anapara üzerinden hesaplanır. Yani her dönem aynı tutarda faiz getirisi elde edilir.",
+            "Bileşik faizde ise, belirli periyotlarla (örneğin aylık veya yıllık) elde edilen faiz kazancı anaparaya eklenir. Bir sonraki dönemin faizi, bu büyümüş yeni tutar üzerinden hesaplanır. Bu durum uzun vadede getirinin kar topu gibi büyümesini sağlar."
+          ]
+        },
+      ],
+      example: {
+        title: "Basit ve Bileşik Faiz Örneği",
+        text: "10.000 TL anaparayı, yıllık %20 faizle 2 yıllığına bankaya yatırdığınızı varsayalım. Basit faizle hesaplandığında her yıl 2.000 TL kazanır, vade sonunda toplam 14.000 TL elde edersiniz. Bileşik faizle (yıllık bileşme) yatırırsanız ilk yıl 2.000 TL kazanır, ikinci yıl ise 12.000 TL üzerinden faiz (2.400 TL) kazanarak toplamda 14.400 TL elde edersiniz."
+      }
+    },
+
     relatedCalculators: ["basit-faiz", "bilesik-faiz-hesaplama"]
   },
   fields: [
