@@ -21,7 +21,7 @@ export const rentIncreaseCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Kira Artış Oranı Hesaplama Aracı | Hesapera',
     description: 'Eski kira bedeli ve artış oranından yeni kira bedelinizi hesaplayın.',
     keywords: ["kira artışı","kira artış oranı","yeni kira","tefe tüfe kira artışı"],
-    canonical: 'https://hesapera.com/kira-artis-orani',
+    canonical: 'https://hesapera.com.tr/hesaplama/kira-artis-orani',
     faq: [],
     relatedCalculators: ["yuzde-hesaplama","zam-hesaplama","enflasyon"]
   },

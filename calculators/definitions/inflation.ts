@@ -31,7 +31,7 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Enflasyon Hesaplama Aracı | Hesapera',
     description: 'Başlangıç ve bitiş endeks (TÜFE) değerlerini girerek parasal tutarın enflasyon karşısındaki değişimini, enflasyon oranını ve fiyat artışını anında hesaplayın.',
     keywords: ["enflasyon hesaplama","parasal değer","tüfe hesaplama","fiyat artışı"],
-    canonical: 'https://hesapera.com/hesaplama/enflasyon',
+    canonical: 'https://hesapera.com.tr/hesaplama/enflasyon',
     faq: [],
     relatedCalculators: ["birikim","bilesik-buyume","faiz"]
   },

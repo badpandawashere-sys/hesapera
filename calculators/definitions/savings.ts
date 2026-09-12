@@ -23,7 +23,7 @@ export const savingsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Birikim Hesaplama Aracı | Hesapera',
     description: 'Başlangıç sermayeniz ve düzenli aylık katkılarınızla, varsayımsal bir getiri oranı üzerinden gelecekteki birikiminizi hesaplayın.',
     keywords: ["birikim hesaplama","düzenli yatırım","mevduat hesaplama","yatırım getirisi"],
-    canonical: 'https://hesapera.com/birikim',
+    canonical: 'https://hesapera.com.tr/hesaplama/birikim',
     faq: [],
     relatedCalculators: ["bilesik-buyume","altin"]
   },

@@ -21,7 +21,7 @@ export const oranCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Oran Hesaplama (Sadeleştirme) | Hesapera',
     description: 'İki sayı arasındaki oranı hesaplayın ve en sade haliyle (A:B) görün. Kesir sadeleştirme aracı.',
     keywords: ["oran hesaplama", "kesir sadeleştirme", "oran orantı", "oran bulma"],
-    canonical: 'https://hesapera.com/oran',
+    canonical: 'https://hesapera.com.tr/hesaplama/oran',
     faq: [],
     relatedCalculators: ["ebob-ekok", "yuzde"]
   },

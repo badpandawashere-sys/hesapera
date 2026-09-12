@@ -31,7 +31,7 @@ export const historicalGoldCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Geçmiş Altın Fiyatları Hesaplama Aracı | Hesapera',
     description: 'Belirli bir tarihteki altın fiyatı verisini kullanarak geçmiş tarihli bir altın değer hesabı yapın.',
     keywords: ["geçmiş altın fiyatları","tarihsel altın hesaplama","eski altın fiyatı"],
-    canonical: 'https://hesapera.com/gecmis-altin-fiyatlari',
+    canonical: 'https://hesapera.com.tr/hesaplama/gecmis-altin-fiyatlari',
     faq: [],
     relatedCalculators: ["altin","gecmis-doviz-kurlari","doviz"]
   },

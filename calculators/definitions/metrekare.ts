@@ -28,7 +28,7 @@ export const metrekareCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Metrekare Hesaplama Aracı | Hesapera',
     description: 'Uzunluk ve genişlik değerlerini girerek kolayca metrekare (m²) hesaplayın. Santimetre ve metre giriş desteği ile alan hesaplayıcı.',
     keywords: ["metrekare hesaplama", "m2 hesaplama", "alan hesaplama", "oda metrekaresi", "duvar metrekaresi"],
-    canonical: 'https://hesapera.com/hesaplama/metrekare',
+    canonical: 'https://hesapera.com.tr/hesaplama/metrekare',
     faq: [],
     relatedCalculators: ["alan"]
   },

@@ -24,7 +24,7 @@ export const gunlukKaloriIhtiyaciCalculatorDef: CalculatorDefinition<Input, any>
     title: 'Günlük Kalori İhtiyacı Hesaplama (TDEE) | Hesapera',
     description: 'Mifflin-St Jeor formülü ve fiziksel aktivite seviyeniz ile tahmini günlük kalori ihtiyacınızı (TDEE) bilimsel olarak hesaplayın.',
     keywords: ['günlük kalori ihtiyacı hesaplama', 'tdee hesaplama', 'kalori hesabı', 'günlük enerji ihtiyacı', 'zayıflamak için kalori'],
-    canonical: 'https://hesapera.com/gunluk-kalori-ihtiyaci',
+    canonical: 'https://hesapera.com.tr/hesaplama/gunluk-kalori-ihtiyaci',
     faq: [],
     relatedCalculators: ['bazal-metabolizma-hizi', 'gunluk-makro-besin-ihtiyaci']
   },

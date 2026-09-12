@@ -21,7 +21,7 @@ export const vkiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Vücut Kitle Endeksi (VKİ / BMI) Hesaplama | Hesapera',
     description: 'Boy ve kilo ölçüleriniz ile Vücut Kitle Endeksinizi (VKİ) hesaplayın. Dünya Sağlık Örgütü (WHO) standartlarında kilonuzun hangi kategoride olduğunu öğrenin.',
     keywords: ['vücut kitle endeksi hesaplama', 'vki hesaplama', 'bmi hesaplama', 'boy kilo endeksi', 'obezite testi'],
-    canonical: 'https://hesapera.com/vucut-kitle-endeksi',
+    canonical: 'https://hesapera.com.tr/hesaplama/vucut-kitle-endeksi',
     icon: 'HeartPulse',
     faq: [],
     features: [

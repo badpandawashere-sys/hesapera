@@ -50,7 +50,7 @@ export const yksCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'YKS Puan Hesaplama 2026 (TYT, AYT, YDT) | Hesapera',
     description: '2026 YKS sistemi için güncel katsayılar ve OBP ile TYT, SAY (Sayısal), EA (Eşit Ağırlık), SÖZ (Sözel) ve DİL puanlarınızı hesaplayın.',
     keywords: ['yks puan hesaplama', 'ayt puan hesaplama', 'yks net hesaplama', 'sayısal eşit ağırlık sözel', 'ydt dil puan hesaplama', '2026 yks hesaplama'],
-    canonical: 'https://hesapera.com/yks-puan',
+    canonical: 'https://hesapera.com.tr/hesaplama/yks-puan',
     faq: [],
     relatedCalculators: ['tyt-puan', 'obp-okul-puani', 'universite-yks-taban-puanlari']
   },

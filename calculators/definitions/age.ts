@@ -30,7 +30,7 @@ export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Yaş Hesaplama Aracı | Hesapera',
     description: 'Doğum tarihinizden bugüne kadar ne kadar zaman geçtiğini detaylı hesaplayın.',
     keywords: ["yaş hesaplama","doğum günü","kaç yaşındayım"],
-    canonical: 'https://hesapera.com/yas-hesaplama',
+    canonical: 'https://hesapera.com.tr/hesaplama/yas',
     icon: 'CalendarDays',
     faq: [],
     features: [

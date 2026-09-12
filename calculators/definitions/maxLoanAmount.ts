@@ -23,7 +23,7 @@ export const maxLoanAmountCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Ne Kadar Kredi Alabilirim Hesaplama Aracı | Hesapera',
     description: 'Ödeyebileceğiniz aylık taksit kapasitesine göre bankalardan teorik olarak çekebileceğiniz maksimum kredi miktarını hesaplayın.',
     keywords: ["ne kadar kredi alabilirim","kredi limiti hesaplama","aylık ödeme kapasitesi"],
-    canonical: 'https://hesapera.com/ne-kadar-kredi-alabilirim',
+    canonical: 'https://hesapera.com.tr/hesaplama/ne-kadar-kredi-alabilirim',
     faq: [],
     relatedCalculators: ["ihtiyac-kredisi","konut-kredisi"]
   },

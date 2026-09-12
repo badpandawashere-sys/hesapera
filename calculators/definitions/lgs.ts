@@ -31,7 +31,7 @@ export const lgsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'LGS Puan Hesaplama 2026 â€” Liselere Giriş Sınavı | Hesapera',
     description: '2026 LGS Türkçe, Matematik, Fen, İnkılap, Din Kültürü ve Yabancı Dil testleri doğru/yanlış sayılarınıza göre yaklaşık LGS puanınızı hesaplayın.',
     keywords: ['lgs puan hesaplama', 'lgs 2026', 'liselere giriş sınavı puan', 'lgs net hesaplama'],
-    canonical: 'https://hesapera.com/lgs-puan',
+    canonical: 'https://hesapera.com.tr/hesaplama/lgs-puan',
     faq: [],
     relatedCalculators: ['dgs-puan', 'ales-puan']
   },

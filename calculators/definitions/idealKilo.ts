@@ -21,7 +21,7 @@ export const idealKiloCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'İdeal Kilo Hesaplama (Devine Formülü) | Hesapera',
     description: 'Boyunuza ve cinsiyetinize göre tahmini ideal kilonuzu Devine formülü ile matematiksel olarak hesaplayın. (Yetişkinler içindir.)',
     keywords: ['ideal kilo hesaplama', 'boyuma göre kaç kilo olmalıyım', 'ideal vücut ağırlığı', 'devine formülü kilo'],
-    canonical: 'https://hesapera.com/ideal-kilo',
+    canonical: 'https://hesapera.com.tr/hesaplama/ideal-kilo',
     faq: [],
     relatedCalculators: ['vucut-kitle-indeksi', 'bazal-metabolizma-hizi']
   },
