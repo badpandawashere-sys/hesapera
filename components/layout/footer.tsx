@@ -29,9 +29,8 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-sm font-semibold tracking-wide uppercase text-foreground">Popüler</h4>
             <ul className="space-y-2.5">
-              <li><Link href="/hesaplama/yuzde-hesaplama" className="text-sm text-muted-foreground hover:text-primary transition-colors">Yüzde Hesaplama</Link></li>
-              <li><Link href="/hesaplama/kdv-hesaplama" className="text-sm text-muted-foreground hover:text-primary transition-colors">KDV Hesaplama</Link></li>
-              <li><Link href="/hesaplama/kredi-hesaplama" className="text-sm text-muted-foreground hover:text-primary transition-colors">Kredi Hesaplama</Link></li>
+              <li><Link href="/hesaplama/yuzde" className="text-sm text-muted-foreground hover:text-primary transition-colors">Yüzde Hesaplama</Link></li>
+                            <li><Link href="/hesaplama/kredi" className="text-sm text-muted-foreground hover:text-primary transition-colors">Kredi Hesaplama</Link></li>
             </ul>
           </div>
 
