@@ -7,56 +7,71 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
 
+// Türkçe lokale: binlik ayırıcı = nokta (.), ondalık ayırıcı = virgül (,)
+// Örnek: 1.000.000,50
+
 function FormattedNumberInput({ id, value, onChange, placeholder, className, error }: any) {
   const [displayValue, setDisplayValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const parseLocalString = (str: string) => {
-    if (!str) return '';
-    const cleanStr = str.replace(/\./g, '').replace(/,/g, '.');
-    return Number(cleanStr);
+  // "1.234,56" → 1234.56
+  const parseDisplay = (str: string): number | null => {
+    if (!str || str === '-') return null;
+    const normalized = str.replace(/\./g, '').replace(/,/g, '.');
+    const n = Number(normalized);
+    return isNaN(n) ? null : n;
   };
 
-  const formatLocalString = (str: string) => {
-    if (!str) return '';
-    let [int, dec] = str.replace(/[^0-9.,-]/g, '').replace(/\./g, ',').split(',');
-    if (int) {
-      // eksi işareti ve binlik ayırıcıyı koru
-      const isNegative = int.startsWith('-');
-      let absInt = int.replace(/-/g, '');
-      absInt = absInt.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      int = isNegative ? '-' + absInt : absInt;
-    }
-    return dec !== undefined ? `${int},${dec}` : int;
+  // "1234.56" veya "1234" → "1.234,56" veya "1.234"
+  const formatNumber = (numericStr: string): string => {
+    if (!numericStr) return '';
+    const isNeg = numericStr.startsWith('-');
+    const abs = numericStr.replace(/^-/, '');
+    const [intPart, decPart] = abs.split(',');
+    const formattedInt = (intPart || '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const full = isNeg ? '-' + formattedInt : formattedInt;
+    return decPart !== undefined ? full + ',' + decPart : full;
   };
 
+  // Dışarıdan gelen numeric value değişince displayValue'yu güncelle
   useEffect(() => {
     if (value === '' || value === undefined || value === null) {
+      // Kullanıcı '-' yazıp daha devam ediyorsa silme
       if (displayValue !== '-') {
         setDisplayValue('');
       }
-    } else {
-      const parsedDisplay = parseLocalString(displayValue);
-      if (parsedDisplay !== value) {
-        let strVal = value.toString();
-        setDisplayValue(formatLocalString(strVal.replace(/\./g, ',')));
-      }
+      return;
     }
+    // Şu anda gösterilen numeric değer ile dışarıdan gelen aynıysa dokunma
+    const current = parseDisplay(displayValue);
+    if (current === value) return;
+    // Farklıysa (örn. programatic reset), yeniden formatla
+    const s = (value as number).toString().replace('.', ',');
+    setDisplayValue(formatNumber(s));
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
-    let cursor = input.selectionStart || 0;
-    
-    let raw = input.value;
-    
+    const cursor = input.selectionStart ?? 0;
+    const raw = input.value;
+
+    // Sadece '-' girilmişse bekle
     if (raw === '-') {
       setDisplayValue('-');
       onChange('');
       return;
     }
-    
-    let cleaned = raw.replace(/[^0-9.,-]/g, '');
+
+    // 1) Binlik ayırıcı noktaları sil (Türkçe formatta '.' her zaman binlik)
+    //    İmleç konumunu da düzelt
+    const dotsBeforeCursor = (raw.substring(0, cursor).match(/\./g) || []).length;
+    const stripped = raw.replace(/\./g, '');
+    const cursorInStripped = Math.max(0, cursor - dotsBeforeCursor);
+
+    // 2) İzin verilen karakterler: rakam, eksi, virgül
+    let cleaned = stripped.replace(/[^0-9,-]/g, '');
+
+    // 3) Birden fazla virgülü temizle (ilk virgül = ondalık ayırıcı)
     const firstComma = cleaned.indexOf(',');
     if (firstComma !== -1) {
       const before = cleaned.substring(0, firstComma + 1);
@@ -64,39 +79,37 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       cleaned = before + after;
     }
 
-    // İmlecin solundaki binlik ayırıcı sayısını hesapla (eski durumda)
-    const oldLeftPart = raw.substring(0, cursor);
-    const oldDots = (oldLeftPart.match(/\./g) || []).length;
-    const oldCleanLeft = oldLeftPart.replace(/[^0-9.,-]/g, '');
-
-    const formatted = formatLocalString(cleaned);
+    // 4) Formatla
+    const formatted = formatNumber(cleaned);
     setDisplayValue(formatted);
 
-    // Yeni formatta o karakter pozisyonunu bul
+    // 5) İmleç pozisyonunu yeni formatlı string'de bul
+    //    Temizlenmiş string'deki sol karakter sayısını hesapla
+    const cleanLeft = stripped.substring(0, cursorInStripped).replace(/[^0-9,-]/g, '');
     let newCursor = 0;
-    let cleanCount = 0;
+    let counted = 0;
     for (let i = 0; i < formatted.length; i++) {
-      if (cleanCount === oldCleanLeft.length) {
+      if (counted === cleanLeft.length) {
         newCursor = i;
         break;
       }
       if (formatted[i] !== '.') {
-        cleanCount++;
+        counted++;
       }
       newCursor = i + 1;
     }
-
     window.requestAnimationFrame(() => {
       if (inputRef.current) {
         inputRef.current.setSelectionRange(newCursor, newCursor);
       }
     });
 
-    if (formatted === '' || formatted === '-') {
+    // 6) Motora numeric value gönder
+    if (!formatted || formatted === '-') {
       onChange('');
     } else {
-      const parsed = parseLocalString(formatted);
-      if (typeof parsed === "number" && !isNaN(parsed)) {
+      const parsed = parseDisplay(formatted);
+      if (parsed !== null) {
         onChange(parsed);
       }
     }
@@ -151,7 +164,7 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
       <Label htmlFor={id} className={`text-sm font-semibold ${error ? "text-destructive" : "text-foreground"}`}>
         {displayLabel} {field.required && <span className="text-destructive">*</span>}
       </Label>
-      
+
       {field.description && (
         <p className="text-sm text-muted-foreground">{field.description}</p>
       )}
@@ -164,7 +177,7 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
           {field.type === 'percentage' && (
             <div className="flex items-center pl-4 pr-1 text-muted-foreground font-medium text-sm select-none">%</div>
           )}
-          
+
           {isNumericField ? (
             <FormattedNumberInput
               id={id}
