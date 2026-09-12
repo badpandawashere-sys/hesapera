@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="tr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Hesapera - Profesyonel Hesaplama ve Finansal Mühendislik Platformu</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary": "#006243", "secondary-container": "#dae2fd", "surface-container-high": "#dce9ff", "outline": "#737686", "primary": "#004ac6", "on-tertiary-fixed-variant": "#005137", "on-background": "#0b1c30", "on-primary": "#ffffff", "surface": "#f8f9ff", "tertiary-container": "#007d57", "surface-bright": "#f8f9ff", "error-container": "#ffdad6", "secondary-fixed-dim": "#bec6e0", "inverse-surface": "#213145", "on-surface": "#0b1c30", "tertiary-fixed": "#85f8c4", "background": "#f8f9ff", "primary-container": "#2563eb", "surface-container-low": "#eff4ff", "on-secondary-fixed-variant": "#3f465c", "surface-container": "#e5eeff", "inverse-primary": "#b4c5ff", "on-tertiary-fixed": "#002114", "surface-variant": "#d3e4fe", "on-error-container": "#93000a", "surface-dim": "#cbdbf5", "secondary-fixed": "#dae2fd", "on-surface-variant": "#434655", "on-primary-fixed": "#00174b", "on-secondary-container": "#5c647a", "on-tertiary": "#ffffff", "primary-fixed-dim": "#b4c5ff", "surface-tint": "#0053db", "outline-variant": "#c3c6d7", "primary-fixed": "#dbe1ff", "tertiary-fixed-dim": "#68dba9", "surface-container-highest": "#d3e4fe", "on-primary-fixed-variant": "#003ea8", "inverse-on-surface": "#eaf1ff", "on-primary-container": "#eeefff", "on-error": "#ffffff", "surface-container-lowest": "#ffffff", "on-secondary-fixed": "#131b2e", "on-secondary": "#ffffff", "error": "#ba1a1a", "secondary": "#565e74", "on-tertiary-container": "#bdffdc" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "space-3xl": "4rem", "space-md": "1rem", "gutter-mobile": "1rem", "space-lg": "1.5rem", "container-max": "1440px", "space-2xs": "0.25rem", "space-2xl": "3rem", "space-sm": "0.75rem", "space-4xl": "6rem", "space-xl": "2rem", "space-xs": "0.5rem" }, "fontFamily": { "label-md": ["Inter"], "label-lg": ["Inter"], "body-sm": ["Inter"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "numeric-result": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"], "headline-lg": ["Plus Jakarta Sans"], "numeric-display": ["Inter"], "display-hero": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "numeric-result": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "numeric-display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } };</script><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-surface-container shadow-[0_1px_8px_rgba(15,23,42,0.03)]"><div class="h-16 max-w-[1440px] mx-auto px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md flex-shrink-0"><img alt="Hesapera Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W2uT798JtQVXwIH90SxzJpLdLqmN94KsgNNpGi7Nlp_JA5Mu6EjHGhEjzFAy-j5wIakwGwh54vxtKoE72BT2tMbV1KEHLrb2W0FVS4h43hvcBVQhacmvtzo-NmolwWDCH9ORw6vFdi_rWCwfNsoTRdax1EEE2HcXxZkyz_VQHosKMoIezwioptrq58Q3zRpfeeji09HgIu_z4z9l2PWq6GQF_yctZd4HmVjY3gBlBWVRWuifh8-uWuYMs"/><a class="flex flex-col" data-path="anasayfa" href="#"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight leading-none">Hesapera</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Finans &amp; Algoritma</span></a></div><nav class="hidden lg:flex items-center gap-space-xs px-space-xs" data-active-classes="text-primary bg-primary-fixed/40 font-semibold shadow-sm border-b-2 border-primary"><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="kategoriler" href="#">Kategoriler</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="populer-hesaplamalar" href="#">Popüler</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="one-cikanlar" href="#">Öne Çıkanlar</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="yeni-hesaplamalar" href="#">Yeni Hesaplamalar</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="hakkimizda" href="#">Hakkımızda</a></nav><div class="flex items-center gap-space-sm flex-shrink-0"><button class="flex items-center gap-space-sm h-10 px-space-md bg-surface-container-low hover:bg-surface-container border border-outline-variant/60 rounded-lg text-on-surface-variant transition-all text-left group" type="button"><span class="material-symbols-outlined text-primary text-[20px]">search</span><span class="font-body-sm text-body-sm hidden sm:inline text-on-surface-variant group-hover:text-on-surface">Formül veya araç ara...</span><span class="hidden md:inline-flex items-center px-space-2xs py-0.5 rounded bg-surface-container-lowest border border-outline-variant/80 text-[10px] font-mono text-on-surface-variant">⌘K</span></button><button class="flex items-center gap-space-2xs h-10 px-space-md bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg rounded-lg shadow-sm transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">calculate</span><span>Hızlı Hesapla</span><span class="material-symbols-outlined text-[16px]">expand_more</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full flex-grow pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Trust & Status Ribbon -->
+<section class="w-full bg-surface-container-low py-space-xs">
+<div class="max-w-[1440px] mx-auto px-gutter-desktop flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-tertiary">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+          Resmi Mevzuat Entegrasyonu: 2025/1
+        </span>
+<span class="hidden sm:inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="hidden sm:inline font-body-sm text-body-sm text-on-surface-variant">
+          Gelir İdaresi, TCMB ve SGK güncel katsayıları aktiftir.
+        </span>
+</div>
+<div class="flex items-center gap-space-md font-label-sm text-label-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container animate-pulse"></span>
+          120+ Doğrulanmış Motor
+        </span>
+<span class="hidden md:inline text-outline-variant">/</span>
+<span class="hidden md:inline">%100 İstemci Taraflı &amp; Anonim</span>
+</div>
+</div>
+</section>
+<!-- Hero Section -->
+<section class="relative w-full overflow-hidden bg-surface py-space-3xl md:py-space-4xl">
+<!-- Ambient Subtle Glow Circles -->
+<div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[920px] h-[380px] bg-gradient-to-b from-primary-fixed/50 via-surface-container-high/30 to-transparent blur-3xl opacity-70"></div>
+<div class="pointer-events-none absolute top-1/3 right-[-10%] w-[420px] h-[420px] bg-tertiary-fixed/30 rounded-full blur-[110px] opacity-40"></div>
+<div class="relative max-w-[1440px] mx-auto px-gutter-desktop flex flex-col items-center text-center">
+<!-- Tag Badge -->
+<div class="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-secondary-container/70 shadow-sm mb-space-lg">
+<span class="text-primary font-label-md text-label-md">✦ 14 Kategori</span>
+<span class="text-on-secondary-container/50 text-[11px]">•</span>
+<span class="text-on-secondary-container font-label-md text-label-md">120+ Doğrulanmış Hesaplama Aracı</span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-display-hero text-display-hero text-on-surface tracking-tight max-w-4xl mx-auto mb-space-md">
+        Aradığın hesabı saniyeler içinde yap.
+      </h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-space-2xl">
+        Finans, kredi, maaş, vergi, otomotiv, eğitim ve günlük hayat için güncel mevzuat ve doğrulanmış formüllerle çalışan pratik hesaplama araçları.
+      </p>
+<!-- Central Search Box (720px) -->
+<div class="w-full max-w-[720px] shadow-xl bg-surface-container-lowest rounded-xl p-space-xs mb-space-lg">
+<form class="flex items-center gap-space-xs" onsubmit="event.preventDefault();">
+<div class="flex items-center justify-center pl-space-sm text-primary">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="flex-1 bg-transparent py-space-sm px-space-xs text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none" id="hero-search-input" placeholder="Hangi hesabı yapmak istiyorsun? (Örn: Konut kredisi, kıdem tazminatı, net maaş...)" type="text"/>
+<div class="hidden sm:flex items-center gap-space-2xs px-space-xs py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-[10px]">⌘</span>K
+          </div>
+<button class="flex items-center gap-space-2xs px-space-lg py-space-sm rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg shadow-sm transition-all flex-shrink-0" type="submit">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Quick Sample Searches -->
+<div class="flex flex-wrap items-center justify-center gap-space-xs max-w-3xl">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-space-2xs">Sık Arananlar:</span>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('Konut Kredisi')" type="button">
+          Kredi hesaplama
+        </button>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('Kıdem Tazminatı')" type="button">
+          Kıdem tazminatı
+        </button>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('MTV')" type="button">
+          MTV hesaplama
+        </button>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('Yüzde')" type="button">
+          Yüzde hesaplama
+        </button>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('Yakıt Tüketimi')" type="button">
+          Yakıt tüketimi
+        </button>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('KDV')" type="button">
+          KDV hesaplama
+        </button>
+<button class="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" onclick="fillSearch('Mevduat Faizi')" type="button">
+          Mevduat getirisi
+        </button>
+</div>
+</div>
+</section>
+<!-- Categories Section -->
+<section class="w-full bg-surface-container-lowest py-space-3xl shadow-sm">
+<div class="max-w-[1440px] mx-auto px-gutter-desktop">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl gap-space-md">
+<div>
+<div class="font-label-sm text-label-sm text-primary uppercase tracking-wider mb-space-2xs">Kapsamlı Araç Seti</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Ne hesaplamak istiyorsun?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">İhtiyacın olan alana göre kategorilere ayrılmış kapsamlı araç seti.</p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-lg text-label-lg text-primary hover:text-primary-container group transition-colors" data-path="kategoriler" href="#">
+<span>Tüm 14 Kategoriyi İncele</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 14 Categories Grid (7x2 on xl screens, responsive wrap) -->
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-space-md">
+<!-- 1. Finans -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">trending_up</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Finans</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">18 Araç</span>
+</a>
+<!-- 2. Kredi -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">credit_card</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Kredi</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">12 Araç</span>
+</a>
+<!-- 3. Maaş & Çalışma -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Maaş &amp; Çalışma</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">14 Araç</span>
+</a>
+<!-- 4. Vergi -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">receipt_long</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Vergi</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">16 Araç</span>
+</a>
+<!-- 5. Otomotiv -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">directions_car</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Otomotiv</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">9 Araç</span>
+</a>
+<!-- 6. Emlak -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">apartment</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Emlak</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">8 Araç</span>
+</a>
+<!-- 7. Eğitim & Sınav -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">school</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Eğitim &amp; Sınav</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">11 Araç</span>
+</a>
+<!-- 8. Sağlık -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-error/10 text-error flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">favorite</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Sağlık</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">10 Araç</span>
+</a>
+<!-- 9. Matematik -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">calculate</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Matematik</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">15 Araç</span>
+</a>
+<!-- 10. Zaman -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">schedule</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Zaman</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">7 Araç</span>
+</a>
+<!-- 11. Hukuk -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">balance</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Hukuk</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">8 Araç</span>
+</a>
+<!-- 12. Sigorta -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">shield</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Sigorta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">6 Araç</span>
+</a>
+<!-- 13. Seyahat -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">flight</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Seyahat</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">5 Araç</span>
+</a>
+<!-- 14. Günlük Yaşam -->
+<a class="group flex flex-col p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all shadow-sm" data-path="kategoriler" href="#">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-space-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">local_cafe</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface text-[16px] leading-tight mb-1">Günlük Yaşam</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">9 Araç</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Featured Interactive Calculators Section -->
+<section class="w-full bg-surface py-space-3xl md:py-space-4xl">
+<div class="max-w-[1440px] mx-auto px-gutter-desktop">
+<div class="flex flex-col mb-space-2xl">
+<div class="flex items-center gap-space-xs mb-space-2xs">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Hızlı Simülasyon</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Öne Çıkan Hesaplamalar</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          En sık kullanılan 4 temel hesaplama aracını doğrudan parametreleriyle inceleyin.
+        </p>
+</div>
+<!-- 4 Premium Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-lg">
+<!-- Card 1: Konut Kredisi -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-container-lowest shadow-md hover:shadow-xl transition-all">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-primary-fixed/60 text-on-primary-fixed-variant font-label-sm text-label-sm">
+                2025 Güncel Faiz Oranları
+              </span>
+<span class="material-symbols-outlined text-primary text-[22px]">real_estate_agent</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Konut Kredisi Hesaplama</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Banka komisyonları ve taksit planlaması.
+            </p>
+<!-- Mini Inputs Preview -->
+<div class="space-y-space-sm mb-space-lg">
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Kredi Tutarı</span>
+<span class="font-label-md text-label-md text-on-surface">₺1.500.000</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Vade Süresi</span>
+<span class="font-label-md text-label-md text-on-surface">120 Ay (10 Yıl)</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Aylık Faiz</span>
+<span class="font-label-md text-label-md text-primary">%2.89</span>
+</div>
+</div>
+</div>
+<div>
+<!-- Result Chip -->
+<div class="p-space-md rounded-lg bg-surface-container-high mb-space-md flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Aylık Taksit</span>
+<span class="font-numeric-result text-numeric-result text-primary font-bold">₺44.250</span>
+</div>
+<a class="w-full inline-flex items-center justify-center gap-space-2xs py-space-sm px-space-md rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg transition-colors" data-path="kredi-hesaplama" href="#">
+<span>Detaylı Hesapla</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 2: Netten Brüte Maaş -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-container-lowest shadow-md hover:shadow-xl transition-all">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-tertiary-fixed/60 text-on-tertiary-fixed font-label-sm text-label-sm">
+                2025 Asgari Ücret &amp; Dilimler
+              </span>
+<span class="material-symbols-outlined text-tertiary text-[22px]">payments</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Netten Brüte Maaş</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              SGK, gelir vergisi ve damga vergisi kesintileri.
+            </p>
+<!-- Mini Inputs Preview -->
+<div class="space-y-space-sm mb-space-lg">
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Net Hedef Maaş</span>
+<span class="font-label-md text-label-md text-on-surface">₺45.000</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Vergilendirme Yılı</span>
+<span class="font-label-md text-label-md text-on-surface">2025 Mali Yılı</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">SGK Muafiyeti</span>
+<span class="font-label-md text-label-md text-tertiary">Uygulanıyor</span>
+</div>
+</div>
+</div>
+<div>
+<!-- Result Chip -->
+<div class="p-space-md rounded-lg bg-surface-container-high mb-space-md flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Gereken Brüt</span>
+<span class="font-numeric-result text-numeric-result text-tertiary font-bold">₺63.120</span>
+</div>
+<a class="w-full inline-flex items-center justify-center gap-space-2xs py-space-sm px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" data-path="maas-bordro-hesaplama" href="#">
+<span>Maaş Cetvelini Gör</span>
+<span class="material-symbols-outlined text-[16px]">table_chart</span>
+</a>
+</div>
+</div>
+<!-- Card 3: Kıdem ve İhbar -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-container-lowest shadow-md hover:shadow-xl transition-all">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+                Tavan Ücret Güncellendi
+              </span>
+<span class="material-symbols-outlined text-secondary text-[22px]">badge</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Kıdem ve İhbar Tazminatı</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Kıdem tavanı ve damga vergisi dahil net tutar.
+            </p>
+<!-- Mini Inputs Preview -->
+<div class="space-y-space-sm mb-space-lg">
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Giydirilmiş Brüt</span>
+<span class="font-label-md text-label-md text-on-surface">₺35.000</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Çalışma Süresi</span>
+<span class="font-label-md text-label-md text-on-surface">4 Yıl 3 Ay</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">İhbar Süresi</span>
+<span class="font-label-md text-label-md text-on-surface">8 Hafta</span>
+</div>
+</div>
+</div>
+<div>
+<!-- Result Chip -->
+<div class="p-space-md rounded-lg bg-surface-container-high mb-space-md flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Tahmini Tazminat</span>
+<span class="font-numeric-result text-numeric-result text-on-surface font-bold">₺148.750</span>
+</div>
+<a class="w-full inline-flex items-center justify-center gap-space-2xs py-space-sm px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" data-path="kidem-tazminati-hesaplama" href="#">
+<span>Tazminat Hesapla</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 4: MTV -->
+<div class="flex flex-col justify-between p-space-lg rounded-xl bg-surface-container-lowest shadow-md hover:shadow-xl transition-all">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">
+                2025 Yeniden Değerleme
+              </span>
+<span class="material-symbols-outlined text-primary text-[22px]">time_to_leave</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-space-xs">Motorlu Taşıtlar Vergisi</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-lg">
+              Tescil yılı ve motor silindir hacmi tarifesi.
+            </p>
+<!-- Mini Inputs Preview -->
+<div class="space-y-space-sm mb-space-lg">
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Araç Yaşı</span>
+<span class="font-label-md text-label-md text-on-surface">1 - 3 Yaş</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Motor Hacmi</span>
+<span class="font-label-md text-label-md text-on-surface">1301 - 1600 cc</span>
+</div>
+<div class="p-space-xs rounded-lg bg-surface-container-low flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">İlk İktisap</span>
+<span class="font-label-md text-label-md text-on-surface">2018 Sonrası</span>
+</div>
+</div>
+</div>
+<div>
+<!-- Result Chip -->
+<div class="p-space-md rounded-lg bg-surface-container-high mb-space-md flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Yıllık Toplam MTV</span>
+<span class="font-numeric-result text-numeric-result text-primary font-bold">₺7.026</span>
+</div>
+<a class="w-full inline-flex items-center justify-center gap-space-2xs py-space-sm px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors" data-path="mtv-hesaplama" href="#">
+<span>MTV Hesapla</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Popular Calculators Section -->
+<section class="w-full bg-surface-container-low py-space-3xl">
+<div class="max-w-[1440px] mx-auto px-gutter-desktop">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between mb-space-2xl gap-space-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Popüler Hesaplamalar</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Türkiye genelinde bu hafta en çok işlem gören hesaplayıcılar.</p>
+</div>
+<!-- Filter Tabs -->
+<div class="flex flex-wrap items-center gap-space-xs bg-surface-container-lowest p-1 rounded-xl shadow-sm" id="pop-filter-tabs">
+<button class="px-space-md py-1.5 rounded-lg bg-inverse-surface text-inverse-on-surface font-label-md text-label-md transition-all" type="button">
+            Tümü
+          </button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+            Finans &amp; Kredi
+          </button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+            İş &amp; Maaş
+          </button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+            Vergi
+          </button>
+<button class="px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+            Günlük
+          </button>
+</div>
+</div>
+<!-- 8 Compact Calculator Cards (2 rows of 4) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- 1. Kredi Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Kredi</span>
+<span class="material-symbols-outlined text-outline text-[20px]">account_balance</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              Kredi Hesaplama
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              İhtiyaç, taşıt ve konut kredisi taksit ve toplam maliyet tablosu.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="kredi-hesaplama" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 2. KDV Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Vergi</span>
+<span class="material-symbols-outlined text-outline text-[20px]">percent</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              KDV Hesaplama
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              KDV dahil ve KDV hariç tutarları tek tıkla hesaplayın (%1, %10, %20).
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="kdv-hesaplama" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 3. Yüzde Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Matematik</span>
+<span class="material-symbols-outlined text-outline text-[20px]">calculate</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              Yüzde Hesaplama
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Artış, azalış, indirim ve oran hesaplamalarını anında yapın.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="yuzde-hesaplama" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 4. Yakıt Tüketimi Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Otomotiv</span>
+<span class="material-symbols-outlined text-outline text-[20px]">local_gas_station</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              Yakıt Tüketimi Hesaplama
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Mesafe, yakıt fiyatı ve tüketim ortalamasıyla yol maliyeti.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="otomotiv-hesaplamalari" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 5. Mevduat Faizi Getirisi -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Finans</span>
+<span class="material-symbols-outlined text-outline text-[20px]">savings</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              Mevduat Faizi Getirisi
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Vadeli mevduat net getiri ve stopaj kesintisi hesabı.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="finans-hesaplamalari" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 6. Araç Değer Kaybı Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Sigorta &amp; Hukuk</span>
+<span class="material-symbols-outlined text-outline text-[20px]">minor_crash</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              Araç Değer Kaybı
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Kaza sonrası sigorta tazminat değer kaybı tutarı analizi.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="otomotiv-hesaplamalari" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 7. İhtiyaç Kredisi Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Kredi</span>
+<span class="material-symbols-outlined text-outline text-[20px]">paid</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              İhtiyaç Kredisi
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Farklı bankaların faiz oranlarına göre karşılaştırmalı taksit tablosu.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="kredi-hesaplama" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- 8. Emeklilik Yaşı Hesaplama -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-primary uppercase font-semibold">Sosyal Güvenlik</span>
+<span class="material-symbols-outlined text-outline text-[20px]">elderly</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-space-xs group-hover:text-primary transition-colors">
+              Emeklilik Yaşı Hesaplama
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-md">
+              Giriş tarihi ve prim gün sayısına göre emeklilik şartları tablosu.
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold" data-path="maas-bordro-hesaplama" href="#">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Visual Highlight Bento / Metrics Section -->
+<section class="w-full bg-surface py-space-3xl">
+<div class="max-w-[1440px] mx-auto px-gutter-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Live Formula Engine Metric Card -->
+<div class="p-space-xl rounded-2xl bg-surface-container-lowest shadow-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Hesapera Metodolojisi</span>
+<span class="px-space-xs py-0.5 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm">Akredite Formül</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Tüm formüller günlük resmi katsayılarla test edilir.</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg">
+              Hesaplama motorlarımız, Resmi Gazete, BDDK, SPK ve Maliye Bakanlığı tebliğlerini anlık olarak işleyip algoritmik modellere dönüştürür.
+            </p>
+</div>
+<!-- Inline SVG Visual: Mini Accuracy Sparkline & Gauge -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-center justify-between">
+<div class="space-y-1">
+<div class="font-label-sm text-label-sm text-on-surface-variant">Doğruluk Testi Oranı</div>
+<div class="font-numeric-result text-numeric-result text-on-surface font-bold">%99.998</div>
+</div>
+<svg class="w-28 h-12 text-primary" fill="none" viewbox="0 0 120 40">
+<path d="M2 30 Q 20 28, 35 15 T 70 18 T 100 8 T 118 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<circle cx="118" cy="4" fill="currentColor" r="3"></circle>
+</svg>
+</div>
+</div>
+<!-- Editorial Snapshot Card with Image Placeholder -->
+<div class="relative overflow-hidden rounded-2xl bg-inverse-surface text-inverse-on-surface p-space-xl shadow-md flex flex-col justify-between group">
+<div class="absolute inset-0 bg-cover bg-center opacity-25 group-hover:scale-105 transition-transform duration-700" data-alt="A modern high-end architectural corporate workspace with soft morning sunlight streaming onto minimalist oak desks and clean geometric glass partitions, representing calm financial precision and algorithmic clarity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmsAuYarMwVgLMDoFqCOwGomd0m42wsCK6UTKOqOSHgsG-RRQ4ccBR9RyTMwc5_sBWbvl91h8PJpKKGTwoRC2k3UK7fPWVLNkMj4GxwLnjJvmYEJ7ytFqutq9ciuYGfFTGGXU1BhgZ-hMbFJuvBjYmQUStcho3OI4q4KjSKNth8z14K7q8n30KI6ixHtpzEzFnLG16Yq-YOo5nbyD1guT0zxzT8cRo2Jgn1nVUHzmA4_HguPQ0ccmk')"></div>
+<div class="relative z-10">
+<div class="font-label-sm text-label-sm text-tertiary-fixed font-bold uppercase tracking-wider mb-space-xs">Kurumsal Entegrasyon</div>
+<h3 class="font-headline-md text-headline-md text-white mb-space-sm">Finansal Şeffaflık &amp; Açık Mimari</h3>
+<p class="font-body-md text-body-md text-inverse-on-surface/80">
+              Şirketler ve danışmanlar için bordro, tazminat ve amortisman algoritmalarını ücretsiz ve reklamsız kullanıma sunuyoruz.
+            </p>
+</div>
+<div class="relative z-10 pt-space-lg">
+<a class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-white/10 hover:bg-white/20 text-white font-label-lg text-label-lg backdrop-blur-sm transition-colors" data-path="metodoloji" href="#">
+<span>Metodolojiyi İncele</span>
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Newly Added Calculators (Yeni Hesaplamalar) List -->
+<div class="p-space-xl rounded-2xl bg-surface-container-lowest shadow-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">new_releases</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Yeni Hesaplamalar</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bu Ay</span>
+</div>
+<div class="space-y-space-sm">
+<!-- Item 1 -->
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container transition-colors group" data-path="yeni-hesaplamalar" href="#">
+<div class="pr-space-xs">
+<div class="flex items-center gap-space-xs mb-0.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm text-[10px]">YENİ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Maliye</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors block text-[13px] leading-snug">
+                    Enflasyon Farkı ve Satın Alma Gücü
+                  </span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[18px]">arrow_forward</span>
+</a>
+<!-- Item 2 -->
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container transition-colors group" data-path="yeni-hesaplamalar" href="#">
+<div class="pr-space-xs">
+<div class="flex items-center gap-space-xs mb-0.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm text-[10px]">YENİ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Otomotiv</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors block text-[13px] leading-snug">
+                    Araç Şarj Maliyeti &amp; Elektrik Tüketimi
+                  </span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[18px]">arrow_forward</span>
+</a>
+<!-- Item 3 -->
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container transition-colors group" data-path="yeni-hesaplamalar" href="#">
+<div class="pr-space-xs">
+<div class="flex items-center gap-space-xs mb-0.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm text-[10px]">YENİ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Yatırım</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors block text-[13px] leading-snug">
+                    Bileşik Faiz &amp; Gelecek Değer Projeksiyonu
+                  </span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[18px]">arrow_forward</span>
+</a>
+<!-- Item 4 -->
+<a class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container transition-colors group" data-path="yeni-hesaplamalar" href="#">
+<div class="pr-space-xs">
+<div class="flex items-center gap-space-xs mb-0.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm text-[10px]">YENİ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">İK &amp; Çalışma</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors block text-[13px] leading-snug">
+                    Yıllık İzin Ücreti ve Hak Ediş
+                  </span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="pt-space-md">
+<a class="w-full inline-flex items-center justify-center gap-1 font-label-md text-label-md text-primary hover:underline" data-path="yeni-hesaplamalar" href="#">
+<span>Tüm Yeni Eklenen Araçlar</span>
+<span class="material-symbols-outlined text-[16px]">east</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Reassurance & Trust Ribbon -->
+<section class="w-full bg-surface-container-low py-space-2xl">
+<div class="max-w-[1440px] mx-auto px-gutter-desktop">
+<div class="rounded-2xl bg-surface-container-lowest p-space-xl shadow-sm flex flex-col md:flex-row items-center justify-around gap-space-lg text-center md:text-left">
+<!-- Reassurance 1 -->
+<div class="flex items-center gap-space-md max-w-sm">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px]">gavel</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface text-[17px] font-bold">Güncel 2025 Mevzuatı</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Vergi dilimleri, asgari ücret ve yeniden değerleme oranları anında entegre.
+            </p>
+</div>
+</div>
+<!-- Separator -->
+<div class="hidden md:block w-px h-12 bg-surface-container"></div>
+<!-- Reassurance 2 -->
+<div class="flex items-center gap-space-md max-w-sm">
+<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px]">policy</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface text-[17px] font-bold">Resmi Gazete ve GİB</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Tüm parametreler teyitli kamu veritabanı referansıyla formülize edilir.
+            </p>
+</div>
+</div>
+<!-- Separator -->
+<div class="hidden md:block w-px h-12 bg-surface-container"></div>
+<!-- Reassurance 3 -->
+<div class="flex items-center gap-space-md max-w-sm">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[26px]">lock</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface text-[17px] font-bold">%100 Anonim &amp; Güvenli</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Girdiğiniz hiçbir tutar ve veri sunucularımıza kaydedilmez.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Client-side Script for Quick Pill Search -->
+<script>
+    function fillSearch(val) {
+      const input = document.getElementById('hero-search-input');
+      if (input) {
+        input.value = val;
+        input.focus();
+      }
+    }
+
+    // Filter tab switching simulation
+    const tabs = document.querySelectorAll('#pop-filter-tabs button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.className = 'px-space-md py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all';
+        });
+        tab.className = 'px-space-md py-1.5 rounded-lg bg-inverse-surface text-inverse-on-surface font-label-md text-label-md transition-all';
+      });
+    });
+  </script>
+</div></main><footer class="w-full bg-inverse-surface text-inverse-on-surface border-t border-inverse-surface pt-space-3xl pb-space-xl"><div class="max-w-[1440px] mx-auto px-gutter-desktop"><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-space-xl pb-space-2xl border-b border-white/10"><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Hesaplamalar</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="finans-hesaplamalari" href="#">Finans Hesaplamaları</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kredi-hesaplama" href="#">Kredi &amp; Taksit</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="maas-bordro-hesaplama" href="#">Maaş &amp; Bordro</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="vergi-hesaplama" href="#">Vergi &amp; Kesintiler</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="otomotiv-hesaplamalari" href="#">Otomotiv &amp; Yakıt</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="emlak-yatirim-hesaplama" href="#">Emlak &amp; Değerleme</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Kategoriler</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Tüm 14 Kategori</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Bireysel Finans</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Ticari &amp; Şirket</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Zaman &amp; Takvim</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Mühendislik &amp; Matematik</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Sağlık &amp; İstatistik</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Popüler Araçlar</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="konut-kredisi-hesaplama" href="#">Konut Kredisi</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kidem-tazminati-hesaplama" href="#">Kıdem Tazminatı</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="mtv-hesaplama" href="#">Motorlu Taşıtlar Vergisi (MTV)</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kdv-hesaplama" href="#">KDV Tevkifatı &amp; İade</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="yuzde-hesaplama" href="#">Yüzde &amp; Oran Analizi</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Hesapera</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="hakkimizda" href="#">Hakkımızda</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="metodoloji" href="#">Metodoloji</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="guvenilirlik" href="#">Güvenilirlik &amp; Doğruluk</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="iletisim" href="#">İletişim &amp; Destek</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="api-entegrasyonu" href="#">Geliştirici API</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Yasal</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kullanim-kosullari" href="#">Kullanım Koşulları</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="gizlilik-politikasi" href="#">Gizlilik Politikası</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="cerez-tercihleri" href="#">Çerez Tercihleri</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kvkk-aydinlatma" href="#">KVKK Aydınlatma Metni</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="sorumluluk-reddi" href="#">Sorumluluk Reddi</a></li></ul></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-inverse-on-surface/60 font-body-sm text-body-sm"><div class="flex items-center gap-space-xs"><span>© 2025 Hesapera. Tüm hakları saklıdır. Hesaplama sonuçları bilgilendirme amaçlıdır.</span></div><div class="flex items-center gap-space-sm"><span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-tertiary-container/30 border border-tertiary-fixed/30 text-tertiary-fixed font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">verified</span>Doğrulanmış Formüller</span><span class="inline-flex items-center gap-1 text-[12px] text-inverse-on-surface/60"><span class="w-2 h-2 rounded-full bg-tertiary-fixed inline-block"></span>Canlı Piyasa Oranları</span></div></div></div></footer></body></html>

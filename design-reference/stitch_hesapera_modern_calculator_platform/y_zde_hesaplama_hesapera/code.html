@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="tr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Hesapera - Profesyonel Hesaplama ve Finansal Mühendislik Platformu</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary": "#006243", "secondary-container": "#dae2fd", "surface-container-high": "#dce9ff", "outline": "#737686", "primary": "#004ac6", "on-tertiary-fixed-variant": "#005137", "on-background": "#0b1c30", "on-primary": "#ffffff", "surface": "#f8f9ff", "tertiary-container": "#007d57", "surface-bright": "#f8f9ff", "error-container": "#ffdad6", "secondary-fixed-dim": "#bec6e0", "inverse-surface": "#213145", "on-surface": "#0b1c30", "tertiary-fixed": "#85f8c4", "background": "#f8f9ff", "primary-container": "#2563eb", "surface-container-low": "#eff4ff", "on-secondary-fixed-variant": "#3f465c", "surface-container": "#e5eeff", "inverse-primary": "#b4c5ff", "on-tertiary-fixed": "#002114", "surface-variant": "#d3e4fe", "on-error-container": "#93000a", "surface-dim": "#cbdbf5", "secondary-fixed": "#dae2fd", "on-surface-variant": "#434655", "on-primary-fixed": "#00174b", "on-secondary-container": "#5c647a", "on-tertiary": "#ffffff", "primary-fixed-dim": "#b4c5ff", "surface-tint": "#0053db", "outline-variant": "#c3c6d7", "primary-fixed": "#dbe1ff", "tertiary-fixed-dim": "#68dba9", "surface-container-highest": "#d3e4fe", "on-primary-fixed-variant": "#003ea8", "inverse-on-surface": "#eaf1ff", "on-primary-container": "#eeefff", "on-error": "#ffffff", "surface-container-lowest": "#ffffff", "on-secondary-fixed": "#131b2e", "on-secondary": "#ffffff", "error": "#ba1a1a", "secondary": "#565e74", "on-tertiary-container": "#bdffdc" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-desktop": "1.5rem", "space-3xl": "4rem", "space-md": "1rem", "gutter-mobile": "1rem", "space-lg": "1.5rem", "container-max": "1440px", "space-2xs": "0.25rem", "space-2xl": "3rem", "space-sm": "0.75rem", "space-4xl": "6rem", "space-xl": "2rem", "space-xs": "0.5rem" }, "fontFamily": { "label-md": ["Inter"], "label-lg": ["Inter"], "body-sm": ["Inter"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "numeric-result": ["Inter"], "body-lg": ["Inter"], "label-sm": ["Inter"], "headline-lg": ["Plus Jakarta Sans"], "numeric-display": ["Inter"], "display-hero": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "numeric-result": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "numeric-display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } };</script><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-surface-container shadow-[0_1px_8px_rgba(15,23,42,0.03)]"><div class="h-16 max-w-[1440px] mx-auto px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md flex-shrink-0"><img alt="Hesapera Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1W2uT798JtQVXwIH90SxzJpLdLqmN94KsgNNpGi7Nlp_JA5Mu6EjHGhEjzFAy-j5wIakwGwh54vxtKoE72BT2tMbV1KEHLrb2W0FVS4h43hvcBVQhacmvtzo-NmolwWDCH9ORw6vFdi_rWCwfNsoTRdax1EEE2HcXxZkyz_VQHosKMoIezwioptrq58Q3zRpfeeji09HgIu_z4z9l2PWq6GQF_yctZd4HmVjY3gBlBWVRWuifh8-uWuYMs"/><a class="flex flex-col" data-path="anasayfa" href="#"><span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight leading-none">Hesapera</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Finans &amp; Algoritma</span></a></div><nav class="hidden lg:flex items-center gap-space-xs px-space-xs" data-active-classes="text-primary bg-primary-fixed/40 font-semibold shadow-sm border-b-2 border-primary"><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="kategoriler" href="#">Kategoriler</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="populer-hesaplamalar" href="#">Popüler</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="one-cikanlar" href="#">Öne Çıkanlar</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="yeni-hesaplamalar" href="#">Yeni Hesaplamalar</a><a class="px-space-sm py-space-xs rounded font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-all" data-path="hakkimizda" href="#">Hakkımızda</a></nav><div class="flex items-center gap-space-sm flex-shrink-0"><button class="flex items-center gap-space-sm h-10 px-space-md bg-surface-container-low hover:bg-surface-container border border-outline-variant/60 rounded-lg text-on-surface-variant transition-all text-left group" type="button"><span class="material-symbols-outlined text-primary text-[20px]">search</span><span class="font-body-sm text-body-sm hidden sm:inline text-on-surface-variant group-hover:text-on-surface">Formül veya araç ara...</span><span class="hidden md:inline-flex items-center px-space-2xs py-0.5 rounded bg-surface-container-lowest border border-outline-variant/80 text-[10px] font-mono text-on-surface-variant">⌘K</span></button><button class="flex items-center gap-space-2xs h-10 px-space-md bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg rounded-lg shadow-sm transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">calculate</span><span>Hızlı Hesapla</span><span class="material-symbols-outlined text-[16px]">expand_more</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full flex-grow pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Content Canvas Container -->
+<div class="w-full max-w-[1440px] mx-auto px-gutter-mobile md:px-gutter-desktop py-space-xl space-y-space-2xl">
+<!-- 1. Breadcrumb & Status Pill Strip -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<nav aria-label="Breadcrumb" class="flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant flex-wrap">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>Ana Sayfa</span>
+</a>
+<span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Matematik &amp; Pratik</a>
+<span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+<span class="text-on-surface font-semibold">Yüzde Hesaplama</span>
+</nav>
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container text-primary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          Anlık &amp; Canlı Sonuç
+        </span>
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded-full bg-tertiary-fixed-dim/20 text-tertiary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+          4 Formül Modu
+        </span>
+<span class="inline-flex items-center gap-1 px-space-sm py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+          Tamamen Ücretsiz
+        </span>
+</div>
+</div>
+<!-- 2. Header Area -->
+<div class="max-w-3xl space-y-space-xs">
+<div class="inline-flex items-center gap-2 px-space-sm py-1 rounded-md bg-secondary-container/50 text-primary font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[15px]">percent</span>
+<span>Matematik &amp; Finansal Pratik Araçlar</span>
+</div>
+<h1 class="font-display-hero text-headline-lg md:text-display-hero text-on-surface tracking-tight">
+        Yüzde Hesaplama
+      </h1>
+<p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant">
+        Bir sayının yüzdesini alma, yüzde artış veya indirim oranı, iki değer arası değişim miktarı gibi tüm matematiksel hesaplamaları adım adım formül dökümüyle saniyeler içinde tamamlayın.
+      </p>
+</div>
+<!-- 3. Core Calculator Workspace -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+<!-- Mode Tabs Switcher -->
+<div class="bg-surface-container-low p-2 flex items-center gap-1 overflow-x-auto" id="calcTabs">
+<button class="mode-tab active-tab px-space-md py-space-xs rounded-xl font-label-lg text-label-lg flex items-center gap-2 transition-all bg-surface-container-lowest text-primary shadow-sm" data-mode="mode1" type="button">
+<span class="material-symbols-outlined text-[18px]">calculate</span>
+<span>A'nın %B'si Kaçtır?</span>
+</button>
+<button class="mode-tab px-space-md py-space-xs rounded-xl font-label-lg text-label-lg flex items-center gap-2 transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-mode="mode2" type="button">
+<span class="material-symbols-outlined text-[18px]">pie_chart</span>
+<span>A Sayısı B'nin Yüzde Kaçı?</span>
+</button>
+<button class="mode-tab px-space-md py-space-xs rounded-xl font-label-lg text-label-lg flex items-center gap-2 transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-mode="mode3" type="button">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+<span>Yüzde Artış / Azalış</span>
+</button>
+<button class="mode-tab px-space-md py-space-xs rounded-xl font-label-lg text-label-lg flex items-center gap-2 transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container" data-mode="mode4" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+<span>Değişim Oranı (% Fark)</span>
+</button>
+</div>
+<!-- Main Calculator Split -->
+<div class="p-space-lg md:p-space-2xl grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left Column: Input Form -->
+<div class="lg:col-span-7 space-y-space-lg">
+<!-- Dynamic Guidance Alert -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex items-start gap-3" id="modeDescription">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="modeDescText">
+              Belirlediğiniz bir ana tutarın istenilen yüzde dilimini hesaplar ve toplam ekleme/çıkarma tutarlarını dökümler.
+            </p>
+</div>
+<form class="space-y-space-lg" id="calcForm" onsubmit="event.preventDefault();">
+<!-- Field 1 -->
+<div class="space-y-space-2xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface" for="inputA" id="labelA">
+                  Ana Sayı (A)
+                </label>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="helperA">Hesaplanacak tutar veya miktar</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-12 px-space-md bg-surface-container-lowest text-on-surface rounded-xl font-numeric-result text-headline-sm focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant shadow-inner" id="inputA" placeholder="0,00" step="any" type="number" value="2500"/>
+<button class="absolute right-3 p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" id="clearA" title="Temizle" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Quick Presets for Input A -->
+<div class="flex items-center gap-1.5 pt-1 flex-wrap" id="presetsA">
+<span class="font-label-sm text-label-sm text-outline mr-1">Hazır:</span>
+<button class="preset-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-val="100" type="button">100</button>
+<button class="preset-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-val="500" type="button">500</button>
+<button class="preset-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-val="1000" type="button">1.000</button>
+<button class="preset-btn px-2.5 py-1 rounded-md bg-surface-container text-primary font-semibold font-label-sm text-label-sm transition-colors" data-val="2500" type="button">2.500</button>
+<button class="preset-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-val="5000" type="button">5.000</button>
+<button class="preset-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-val="10000" type="button">10.000</button>
+</div>
+</div>
+<!-- Field 2 -->
+<div class="space-y-space-2xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface" for="inputB" id="labelB">
+                  Yüzde Oranı (%)
+                </label>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="helperB">Uygulanacak oran</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-12 px-space-md pr-12 bg-surface-container-lowest text-on-surface rounded-xl font-numeric-result text-headline-sm focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline-variant shadow-inner" id="inputB" placeholder="0" step="any" type="number" value="18"/>
+<span class="absolute right-4 font-numeric-result text-headline-sm text-on-surface-variant pointer-events-none select-none" id="unitB">%</span>
+</div>
+<!-- Quick Presets for Input B -->
+<div class="flex items-center gap-1.5 pt-1 flex-wrap" id="presetsB">
+<span class="font-label-sm text-label-sm text-outline mr-1">Hızlı Oran:</span>
+<button class="rate-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-rate="1" type="button">%1</button>
+<button class="rate-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-rate="8" type="button">%8</button>
+<button class="rate-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-rate="10" type="button">%10</button>
+<button class="rate-btn px-2.5 py-1 rounded-md bg-surface-container text-primary font-semibold font-label-sm text-label-sm transition-colors" data-rate="18" type="button">%18</button>
+<button class="rate-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-rate="20" type="button">%20</button>
+<button class="rate-btn px-2.5 py-1 rounded-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-rate="50" type="button">%50</button>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm">
+<button class="flex-1 h-12 px-space-lg bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all active:scale-[0.99]" id="calcBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+<span>Anında Hesapla</span>
+</button>
+<button class="h-12 px-space-md bg-surface-container-low hover:bg-surface-container text-on-surface font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 transition-colors" id="resetBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span>Sıfırla</span>
+</button>
+</div>
+</form>
+<!-- Micro Quick Action Links -->
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm flex-wrap gap-2">
+<button class="flex items-center gap-1 hover:text-primary transition-colors" id="copyResultBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Sonucu Kopyala</span>
+</button>
+<button class="flex items-center gap-1 hover:text-primary transition-colors" id="shareBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">share</span>
+<span>Hesaplamayı Paylaş</span>
+</button>
+<button class="flex items-center gap-1 hover:text-primary transition-colors" onclick="window.print()" type="button">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>Yazdır / PDF</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Prominent Calculation Results -->
+<div class="lg:col-span-5 bg-surface-container-low p-space-lg md:p-space-xl rounded-2xl flex flex-col justify-between space-y-space-lg shadow-inner">
+<div class="space-y-space-md">
+<!-- Header of card -->
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+                Hesaplama Sonucu
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-label-sm text-label-sm">
+                Canlı Formül
+              </span>
+</div>
+<!-- Big Result Output Box -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl space-y-1 shadow-sm">
+<div class="font-label-sm text-label-sm text-on-surface-variant" id="resultLabel">
+                2.500 sayısının %18'i:
+              </div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-hero text-display-hero font-bold text-primary tracking-tight" id="mainOutput">
+                  450
+                </span>
+<span class="font-numeric-result text-headline-sm text-on-surface-variant" id="outputUnit">
+                  ₺
+                </span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant pt-1" id="subOutputText">
+                Yüzde Tutarı: <strong class="text-on-surface">450,00 ₺</strong>
+</div>
+</div>
+<!-- Contextual Totals (Additive & Subtractive) -->
+<div class="grid grid-cols-2 gap-space-sm" id="contextualBoxes">
+<div class="bg-surface-container-lowest p-space-sm rounded-xl space-y-1 shadow-sm">
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[15px]">add_circle</span>
+<span>Artırılmış Tutar (+%)</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface" id="addedTotal">
+                  2.950,00
+                </div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">
+                  Ana Tutar + Yüzde
+                </div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-xl space-y-1 shadow-sm">
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-error">
+<span class="material-symbols-outlined text-[15px]">remove_circle</span>
+<span>İndirimli Tutar (-%)</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface" id="subtractedTotal">
+                  2.050,00
+                </div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">
+                  Ana Tutar - Yüzde
+                </div>
+</div>
+</div>
+<!-- Mathematical Formula Breakdown Box -->
+<div class="bg-surface-container p-space-md rounded-xl space-y-space-2xs">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="material-symbols-outlined text-[16px] text-primary">functions</span>
+<span>Matematiksel Formül ve Açılımı</span>
+</div>
+<p class="font-body-sm text-body-sm font-mono text-on-surface" id="formulaGeneric">
+                (A × B) / 100
+              </p>
+<div class="p-space-xs rounded bg-surface-container-lowest font-mono text-body-sm text-primary" id="formulaBreakdown">
+                (2.500 × 18) / 100 = 45.000 / 100 = 450
+              </div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                Hesaplama standart finansal yuvarlama kurallarına göre 2 ondalık basamak hassasiyetle yapılmıştır.
+              </p>
+</div>
+</div>
+<!-- Bottom Notice Pill -->
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+              Hata Payı: 0.00%
+            </span>
+<span class="hidden text-tertiary font-semibold" id="copiedNotice">Sonuç panoya kopyalandı!</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Alternative Quick Calculations Strip (Micro Quick Table) -->
+<div class="space-y-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+            Sık Kullanılan Hızlı Yüzde Değerleri
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Seçili sayı (<span class="font-semibold text-on-surface" id="quickBaseNum">2.500</span>) üzerinden anlık pratik yüzde dökümü:
+          </p>
+</div>
+<span class="hidden sm:inline-flex items-center gap-1 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">speed</span>
+          Otomatik Güncellenir
+        </span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-space-sm" id="quickGrid">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow transition-all space-y-1 group cursor-pointer" onclick="setQuickRate(1)">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="font-bold text-primary">%1</span>
+<span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface group-hover:text-primary transition-colors" id="qVal1">25</div>
+<div class="font-label-sm text-label-sm text-outline">Yüzde biri</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow transition-all space-y-1 group cursor-pointer" onclick="setQuickRate(5)">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="font-bold text-primary">%5</span>
+<span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface group-hover:text-primary transition-colors" id="qVal5">125</div>
+<div class="font-label-sm text-label-sm text-outline">Yirmide biri</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow transition-all space-y-1 group cursor-pointer" onclick="setQuickRate(10)">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="font-bold text-primary">%10</span>
+<span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface group-hover:text-primary transition-colors" id="qVal10">250</div>
+<div class="font-label-sm text-label-sm text-outline">Onda biri</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow transition-all space-y-1 group cursor-pointer" onclick="setQuickRate(18)">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="font-bold text-primary">%18</span>
+<span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface group-hover:text-primary transition-colors" id="qVal18">450</div>
+<div class="font-label-sm text-label-sm text-tertiary font-semibold">Standart KDV</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow transition-all space-y-1 group cursor-pointer" onclick="setQuickRate(20)">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="font-bold text-primary">%20</span>
+<span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface group-hover:text-primary transition-colors" id="qVal20">500</div>
+<div class="font-label-sm text-label-sm text-primary font-semibold">Genel KDV</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:shadow transition-all space-y-1 group cursor-pointer" onclick="setQuickRate(50)">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span class="font-bold text-primary">%50</span>
+<span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_outward</span>
+</div>
+<div class="font-numeric-result text-headline-sm text-on-surface group-hover:text-primary transition-colors" id="qVal50">1.250</div>
+<div class="font-label-sm text-label-sm text-outline">Yarısı</div>
+</div>
+</div>
+</div>
+<!-- 5. Educational / Mathematical Methodology Section -->
+<div class="space-y-space-md pt-space-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+          Yüzde Nasıl Hesaplanır? Temel Formüller
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Finansal hesaplamalardan akademik problemlere kadar en sık karşılaşılan 3 yüzde metodunun mantığı:
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm space-y-space-sm flex flex-col justify-between">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+              1
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Bir Sayının Yüzdesini Bulma
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              A sayısının %B'sini hesaplamak için sayı önce B ile çarpılır, ardından 100'e bölünür.
+            </p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low font-mono text-body-sm text-primary">
+            Sonuç = (A × B) / 100
+          </div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm space-y-space-sm flex flex-col justify-between">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center font-bold">
+              2
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              Yüzde Artış &amp; Zam Oranı
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Mevcut tutara belirli bir yüzde oranın eklenmesi işlemidir. Enflasyon veya fiyat artışlarında kullanılır.
+            </p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low font-mono text-body-sm text-tertiary">
+            Sonuç = A × (1 + B / 100)
+          </div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm space-y-space-sm flex flex-col justify-between">
+<div class="space-y-space-xs">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold">
+              3
+            </div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+              İki Değer Arası Değişim
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Eski fiyattan yeni fiyata geçerken gerçekleşen oransal büyüme veya küçülmeyi verir.
+            </p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container-low font-mono text-body-sm text-on-surface">
+            % Fark = ((Yeni - Eski) / Eski) × 100
+          </div>
+</div>
+</div>
+</div>
+<!-- 6. Frequently Asked Questions (FAQ) Section -->
+<div class="space-y-space-md pt-space-lg">
+<div class="space-y-space-2xs">
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+          Sıkça Sorulan Sorular
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Yüzde hesaplama mantığı ve kullanım alanlarıyla ilgili en çok merak edilen sorular.
+        </p>
+</div>
+<div class="space-y-space-xs">
+<!-- FAQ 1 -->
+<details class="group bg-surface-container-lowest rounded-xl shadow-sm p-space-md open:shadow-md transition-all">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-on-surface">
+<span>Bir sayının yüzdesi zihinden pratik olarak nasıl hesaplanır?</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-space-sm text-on-surface-variant font-body-md text-body-md space-y-2">
+<p>
+              Pratik zihinden hesaplama için %10 kuralını kullanabilirsiniz. Bir sayının %10'unu bulmak için sondan bir sıfır silin veya virgülü bir basamak sola kaydırın.
+            </p>
+<p>
+              Örneğin <strong>450'nin %20'si</strong>: %10'u 45'tir. %20'si ise 45 × 2 = <strong>90</strong> olur. Benzer şekilde %5'i bulmak için %10'unun yarısını alabilirsiniz.
+            </p>
+</div>
+</details>
+<!-- FAQ 2 -->
+<details class="group bg-surface-container-lowest rounded-xl shadow-sm p-space-md open:shadow-md transition-all">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-on-surface">
+<span>Yüzde artış ile yüzde azalış arasındaki fark nedir?</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-space-sm text-on-surface-variant font-body-md text-body-md space-y-2">
+<p>
+              Yüzde artışında ana tutarın üzerine hesaplanan yüzde eklenir (Fiyat = Ana × (1 + Oran)). Yüzde azalışında ise (örneğin indirimlerde) hesaplanan tutar ana paradan çıkarılır (Fiyat = Ana × (1 - Oran)).
+            </p>
+</div>
+</details>
+<!-- FAQ 3 -->
+<details class="group bg-surface-container-lowest rounded-xl shadow-sm p-space-md open:shadow-md transition-all">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-on-surface">
+<span>KDV ve iskonto hesaplamasında yüzde formülleri nasıl çalışır?</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-space-sm text-on-surface-variant font-body-md text-body-md space-y-2">
+<p>
+              KDV Dahil tutardan KDV Hariç tutara ulaşmak için doğrudan yüzde çıkarılmaz; formül <strong>Tutar / (1 + KDV Oranı)</strong> şeklinde uygulanır (Ters yüzde mantığı). İskontoda ise doğrudan liste fiyatından belirlenen oran kadar düşüş sağlanır.
+            </p>
+</div>
+</details>
+<!-- FAQ 4 -->
+<details class="group bg-surface-container-lowest rounded-xl shadow-sm p-space-md open:shadow-md transition-all">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-on-surface">
+<span>Ters yüzde hesaplama (yüzdesi bilinen sayının tamamı) nasıl bulunur?</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-space-sm text-on-surface-variant font-body-md text-body-md space-y-2">
+<p>
+              Örneğin %20'si 80 olan sayının tamamını bulmak için eldeki sayı 100 ile çarpılıp yüzde oranına bölünür: <strong>(80 × 100) / 20 = 400</strong>.
+            </p>
+</div>
+</details>
+</div>
+</div>
+<!-- 7. Related Calculators ("İlgili Hesaplama Motorları") -->
+<div class="space-y-space-md pt-space-lg">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+            İlgili Hesaplama Motorları
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Yüzde hesabı gerektiren diğer finansal ve ticari operasyon araçları.
+          </p>
+</div>
+<a class="hidden sm:inline-flex items-center gap-1 text-primary font-label-lg text-label-lg hover:underline" href="#">
+<span>Tüm Araçları Gör</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1 -->
+<a class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all group flex flex-col justify-between space-y-space-md" href="#">
+<div class="space-y-space-xs">
+<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">receipt_long</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+              KDV Hesaplama
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              KDV dahil ve hariç fiyat bulma, %1, %10, %20 ve tevkifatlı fatura analizi.
+            </p>
+</div>
+<div class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-semibold">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- Card 2 -->
+<a class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all group flex flex-col justify-between space-y-space-md" href="#">
+<div class="space-y-space-xs">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center group-hover:bg-tertiary group-hover:text-on-tertiary transition-colors">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-tertiary transition-colors">
+              Maaş &amp; Netten Brüte
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              SGK prim kesintileri, gelir vergisi dilimleri ve net/brüt bordro dönüşümü.
+            </p>
+</div>
+<div class="inline-flex items-center gap-1 font-label-sm text-label-sm text-tertiary font-semibold">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- Card 3 -->
+<a class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all group flex flex-col justify-between space-y-space-md" href="#">
+<div class="space-y-space-xs">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:bg-secondary group-hover:text-on-secondary transition-colors">
+<span class="material-symbols-outlined text-[24px]">sell</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+              İndirim &amp; İskonto
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Mağaza etiket indirimleri, sepet promosyonları ve kademeli indirim simülasyonu.
+            </p>
+</div>
+<div class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-semibold">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+<!-- Card 4 -->
+<a class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all group flex flex-col justify-between space-y-space-md" href="#">
+<div class="space-y-space-xs">
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">account_balance</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+              Faiz &amp; Mevduat Getirisi
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Vadeli mevduat stopaj kesintisi, bileşik faiz ve aylık net kazanç analizi.
+            </p>
+</div>
+<div class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-semibold">
+<span>Hesapla</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+<!-- Interactive Logic Script -->
+<script>
+    (function() {
+      let currentMode = 'mode1';
+
+      const inputA = document.getElementById('inputA');
+      const inputB = document.getElementById('inputB');
+      const labelA = document.getElementById('labelA');
+      const labelB = document.getElementById('labelB');
+      const helperA = document.getElementById('helperA');
+      const helperB = document.getElementById('helperB');
+      const unitB = document.getElementById('unitB');
+      const modeDescText = document.getElementById('modeDescText');
+
+      const resultLabel = document.getElementById('resultLabel');
+      const mainOutput = document.getElementById('mainOutput');
+      const outputUnit = document.getElementById('outputUnit');
+      const subOutputText = document.getElementById('subOutputText');
+      const addedTotal = document.getElementById('addedTotal');
+      const subtractedTotal = document.getElementById('subtractedTotal');
+      const contextualBoxes = document.getElementById('contextualBoxes');
+      const formulaGeneric = document.getElementById('formulaGeneric');
+      const formulaBreakdown = document.getElementById('formulaBreakdown');
+
+      const quickBaseNum = document.getElementById('quickBaseNum');
+      const presetsA = document.getElementById('presetsA');
+      const presetsB = document.getElementById('presetsB');
+
+      const modeConfigs = {
+        mode1: {
+          desc: "Belirlediğiniz bir ana tutarın istenilen yüzde dilimini hesaplar ve toplam ekleme/çıkarma tutarlarını dökümler.",
+          labelA: "Sayı (A)",
+          labelB: "Yüzde Oranı (%)",
+          helperA: "Hesaplanacak ana sayı",
+          helperB: "Yüzde dilimi",
+          unitB: "%",
+          formulaGen: "(A × B) / 100",
+          presetsA: [100, 500, 1000, 2500, 5000, 10000],
+          presetsB: [1, 8, 10, 18, 20, 50]
+        },
+        mode2: {
+          desc: "A sayısının, B sayısının yüzde kaçına denk geldiğini hesaplar. Oran analizi için idealdir.",
+          labelA: "Parça Sayı (A)",
+          labelB: "Bütün Sayı (B)",
+          helperA: "Oranı merak edilen pay",
+          helperB: "Referans toplam payda",
+          unitB: "",
+          formulaGen: "(A / B) × 100",
+          presetsA: [25, 50, 150, 250, 500],
+          presetsB: [100, 200, 500, 1000, 2500]
+        },
+        mode3: {
+          desc: "Bir sayıyı belirli bir oranda artırıp eksilttiğinizde oluşacak yeni toplamı ve net fark tutarını bulur.",
+          labelA: "Başlangıç Tutarı (A)",
+          labelB: "Artış / Azalış Oranı (%)",
+          helperA: "Mevcut baz değer",
+          helperB: "Eklenecek / çıkarılacak oran",
+          unitB: "%",
+          formulaGen: "Artış = A × (1 + B/100) | Azalış = A × (1 - B/100)",
+          presetsA: [500, 1000, 2500, 7500, 15000],
+          presetsB: [5, 10, 15, 25, 35, 50]
+        },
+        mode4: {
+          desc: "İlk değerden son değere geçerken gerçekleşen net yüzdesel artış veya azalış değişimini hesaplar.",
+          labelA: "Eski Değer (A)",
+          labelB: "Yeni Değer (B)",
+          helperA: "Önceki başlangıç değeri",
+          helperB: "Güncel son değer",
+          unitB: "",
+          formulaGen: "((B - A) / A) × 100",
+          presetsA: [100, 200, 500, 1000, 2500],
+          presetsB: [120, 250, 600, 1200, 3000]
+        }
+      };
+
+      function formatNumber(num) {
+        if (isNaN(num) || !isFinite(num)) return '0';
+        return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2, minimumFractionDigits: 0 }).format(num);
+      }
+
+      function formatCurrency(num) {
+        if (isNaN(num) || !isFinite(num)) return '0,00';
+        return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2, minimumFractionDigits: 2 }).format(num);
+      }
+
+      function calculate() {
+        const a = parseFloat(inputA.value) || 0;
+        const b = parseFloat(inputB.value) || 0;
+        quickBaseNum.textContent = formatNumber(a);
+
+        // Update Quick Table values based on input A
+        document.getElementById('qVal1').textContent = formatNumber((a * 1) / 100);
+        document.getElementById('qVal5').textContent = formatNumber((a * 5) / 100);
+        document.getElementById('qVal10').textContent = formatNumber((a * 10) / 100);
+        document.getElementById('qVal18').textContent = formatNumber((a * 18) / 100);
+        document.getElementById('qVal20').textContent = formatNumber((a * 20) / 100);
+        document.getElementById('qVal50').textContent = formatNumber((a * 50) / 100);
+
+        if (currentMode === 'mode1') {
+          contextualBoxes.classList.remove('hidden');
+          const result = (a * b) / 100;
+          const totalPlus = a + result;
+          const totalMinus = a - result;
+
+          resultLabel.textContent = `${formatNumber(a)} sayısının %${formatNumber(b)}'i:`;
+          mainOutput.textContent = formatNumber(result);
+          outputUnit.textContent = '₺';
+          subOutputText.innerHTML = `Hesaplanan Yüzde Tutarı: <strong class="text-on-surface">${formatCurrency(result)} ₺</strong>`;
+          addedTotal.textContent = formatCurrency(totalPlus);
+          subtractedTotal.textContent = formatCurrency(totalMinus);
+
+          formulaGeneric.textContent = '(A × B) / 100';
+          formulaBreakdown.textContent = `(${formatNumber(a)} × ${formatNumber(b)}) / 100 = ${formatNumber(a * b)} / 100 = ${formatNumber(result)}`;
+        } 
+        else if (currentMode === 'mode2') {
+          contextualBoxes.classList.add('hidden');
+          const pct = b !== 0 ? (a / b) * 100 : 0;
+
+          resultLabel.textContent = `${formatNumber(a)} sayısı ${formatNumber(b)}'nin yüzde kaçıdır?`;
+          mainOutput.textContent = `%${formatNumber(pct)}`;
+          outputUnit.textContent = '';
+          subOutputText.innerHTML = `Oran: <strong>%${formatCurrency(pct)}</strong> (Yaklaşık ${formatNumber(a)} / ${formatNumber(b)})`;
+
+          formulaGeneric.textContent = '(A / B) × 100';
+          formulaBreakdown.textContent = `(${formatNumber(a)} / ${formatNumber(b)}) × 100 = ${(a / (b || 1)).toFixed(4)} × 100 = %${formatNumber(pct)}`;
+        }
+        else if (currentMode === 'mode3') {
+          contextualBoxes.classList.remove('hidden');
+          const diff = (a * b) / 100;
+          const totalPlus = a + diff;
+          const totalMinus = a - diff;
+
+          resultLabel.textContent = `${formatNumber(a)} sayısına %${formatNumber(b)} uygulandığında:`;
+          mainOutput.textContent = formatNumber(totalPlus);
+          outputUnit.textContent = '₺';
+          subOutputText.innerHTML = `Artış Tutarı: <strong class="text-tertiary">+${formatCurrency(diff)} ₺</strong> | İndirim Tutarı: <strong class="text-error">-${formatCurrency(diff)} ₺</strong>`;
+          addedTotal.textContent = formatCurrency(totalPlus);
+          subtractedTotal.textContent = formatCurrency(totalMinus);
+
+          formulaGeneric.textContent = 'Artırılmış: A × (1 + B/100) | İndirimli: A × (1 - B/100)';
+          formulaBreakdown.textContent = `${formatNumber(a)} + ((${formatNumber(a)} × ${formatNumber(b)}) / 100) = ${formatNumber(a)} + ${formatNumber(diff)} = ${formatNumber(totalPlus)}`;
+        }
+        else if (currentMode === 'mode4') {
+          contextualBoxes.classList.add('hidden');
+          const diff = b - a;
+          const changePct = a !== 0 ? (diff / a) * 100 : 0;
+          const isPositive = changePct >= 0;
+
+          resultLabel.textContent = `${formatNumber(a)} değerinden ${formatNumber(b)} değerine değişim:`;
+          mainOutput.textContent = `${isPositive ? '+' : ''}%${formatNumber(changePct)}`;
+          outputUnit.textContent = '';
+          subOutputText.innerHTML = `Net Sayısal Fark: <strong class="${isPositive ? 'text-tertiary' : 'text-error'}">${isPositive ? '+' : ''}${formatNumber(diff)}</strong> (${isPositive ? 'Artış' : 'Azalış'})`;
+
+          formulaGeneric.textContent = '((Yeni - Eski) / Eski) × 100';
+          formulaBreakdown.textContent = `((${formatNumber(b)} - ${formatNumber(a)}) / ${formatNumber(a)}) × 100 = (${formatNumber(diff)} / ${formatNumber(a)}) × 100 = %${formatNumber(changePct)}`;
+        }
+      }
+
+      // Tab Switch Handlers
+      document.querySelectorAll('.mode-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.mode-tab').forEach(t => {
+            t.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+            t.classList.add('text-on-surface-variant');
+          });
+          this.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          this.classList.remove('text-on-surface-variant');
+
+          currentMode = this.getAttribute('data-mode');
+          const cfg = modeConfigs[currentMode];
+          modeDescText.textContent = cfg.desc;
+          labelA.textContent = cfg.labelA;
+          labelB.textContent = cfg.labelB;
+          helperA.textContent = cfg.helperA;
+          helperB.textContent = cfg.helperB;
+          unitB.textContent = cfg.unitB;
+
+          // Default inputs based on mode
+          if (currentMode === 'mode2') {
+            inputA.value = '450';
+            inputB.value = '2500';
+          } else if (currentMode === 'mode4') {
+            inputA.value = '2000';
+            inputB.value = '2500';
+          } else {
+            inputA.value = '2500';
+            inputB.value = '18';
+          }
+          calculate();
+        });
+      });
+
+      // Preset button handlers
+      presetsA.addEventListener('click', function(e) {
+        const btn = e.target.closest('.preset-btn');
+        if (btn) {
+          inputA.value = btn.getAttribute('data-val');
+          calculate();
+        }
+      });
+
+      presetsB.addEventListener('click', function(e) {
+        const btn = e.target.closest('.rate-btn');
+        if (btn) {
+          inputB.value = btn.getAttribute('data-rate');
+          calculate();
+        }
+      });
+
+      // Quick table click helper
+      window.setQuickRate = function(rate) {
+        inputB.value = rate;
+        calculate();
+        window.scrollTo({ top: document.getElementById('calcForm').offsetTop - 120, behavior: 'smooth' });
+      };
+
+      // Realtime listeners
+      inputA.addEventListener('input', calculate);
+      inputB.addEventListener('input', calculate);
+      document.getElementById('calcBtn').addEventListener('click', calculate);
+
+      document.getElementById('clearA').addEventListener('click', () => {
+        inputA.value = '';
+        inputA.focus();
+        calculate();
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        inputA.value = '2500';
+        inputB.value = '18';
+        calculate();
+      });
+
+      // Copy to clipboard
+      document.getElementById('copyResultBtn').addEventListener('click', () => {
+        const text = `${resultLabel.textContent} ${mainOutput.textContent}${outputUnit.textContent}`;
+        navigator.clipboard.writeText(text).then(() => {
+          const notice = document.getElementById('copiedNotice');
+          notice.classList.remove('hidden');
+          setTimeout(() => notice.classList.add('hidden'), 2500);
+        });
+      });
+
+      // Share fallback
+      document.getElementById('shareBtn').addEventListener('click', () => {
+        if (navigator.share) {
+          navigator.share({
+            title: 'Hesapera Yüzde Hesaplama',
+            text: `${resultLabel.textContent} ${mainOutput.textContent}`,
+            url: window.location.href
+          }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          alert('Bağlantı panoya kopyalandı!');
+        }
+      });
+
+      // Initial run
+      calculate();
+    })();
+  </script>
+</div></main><footer class="w-full bg-inverse-surface text-inverse-on-surface border-t border-inverse-surface pt-space-3xl pb-space-xl"><div class="max-w-[1440px] mx-auto px-gutter-desktop"><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-space-xl pb-space-2xl border-b border-white/10"><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Hesaplamalar</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="finans-hesaplamalari" href="#">Finans Hesaplamaları</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kredi-hesaplama" href="#">Kredi &amp; Taksit</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="maas-bordro-hesaplama" href="#">Maaş &amp; Bordro</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="vergi-hesaplama" href="#">Vergi &amp; Kesintiler</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="otomotiv-hesaplamalari" href="#">Otomotiv &amp; Yakıt</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="emlak-yatirim-hesaplama" href="#">Emlak &amp; Değerleme</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Kategoriler</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Tüm 14 Kategori</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Bireysel Finans</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Ticari &amp; Şirket</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Zaman &amp; Takvim</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Mühendislik &amp; Matematik</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kategoriler" href="#">Sağlık &amp; İstatistik</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Popüler Araçlar</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="konut-kredisi-hesaplama" href="#">Konut Kredisi</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kidem-tazminati-hesaplama" href="#">Kıdem Tazminatı</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="mtv-hesaplama" href="#">Motorlu Taşıtlar Vergisi (MTV)</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kdv-hesaplama" href="#">KDV Tevkifatı &amp; İade</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="yuzde-hesaplama" href="#">Yüzde &amp; Oran Analizi</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Hesapera</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="hakkimizda" href="#">Hakkımızda</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="metodoloji" href="#">Metodoloji</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="guvenilirlik" href="#">Güvenilirlik &amp; Doğruluk</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="iletisim" href="#">İletişim &amp; Destek</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="api-entegrasyonu" href="#">Geliştirici API</a></li></ul></div><div class="space-y-space-md"><div class="font-label-lg text-label-lg text-inverse-on-surface uppercase tracking-wider font-semibold">Yasal</div><ul class="space-y-space-xs font-body-sm text-body-sm text-inverse-on-surface/75"><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kullanim-kosullari" href="#">Kullanım Koşulları</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="gizlilik-politikasi" href="#">Gizlilik Politikası</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="cerez-tercihleri" href="#">Çerez Tercihleri</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="kvkk-aydinlatma" href="#">KVKK Aydınlatma Metni</a></li><li><a class="hover:text-inverse-on-surface transition-colors" data-path="sorumluluk-reddi" href="#">Sorumluluk Reddi</a></li></ul></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-inverse-on-surface/60 font-body-sm text-body-sm"><div class="flex items-center gap-space-xs"><span>© 2025 Hesapera. Tüm hakları saklıdır. Hesaplama sonuçları bilgilendirme amaçlıdır.</span></div><div class="flex items-center gap-space-sm"><span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-tertiary-container/30 border border-tertiary-fixed/30 text-tertiary-fixed font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">verified</span>Doğrulanmış Formüller</span><span class="inline-flex items-center gap-1 text-[12px] text-inverse-on-surface/60"><span class="w-2 h-2 rounded-full bg-tertiary-fixed inline-block"></span>Canlı Piyasa Oranları</span></div></div></div></footer></body></html>

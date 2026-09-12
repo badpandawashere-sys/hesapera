@@ -1,0 +1,232 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-success: var(--success);
+  
+  /* Stitch Colors */
+  --color-surface: var(--background);
+  --color-on-surface: var(--foreground);
+  --color-surface-variant: #d3e4fe;
+  --color-on-surface-variant: #434655;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-highest: #d3e4fe;
+  --color-outline: #737686;
+  --color-outline-variant: #c3c6d7;
+  
+  --color-primary-container: #2563eb;
+  --color-on-primary-container: #eeefff;
+  --color-primary-fixed: #dbe1ff;
+  --color-on-primary-fixed-variant: #003ea8;
+  
+  --color-secondary-container: #dae2fd;
+  --color-on-secondary-container: #5c647a;
+  
+  --color-tertiary: #006243;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #007d57;
+  --color-on-tertiary-container: #bdffdc;
+  --color-tertiary-fixed: #85f8c4;
+  --color-on-tertiary-fixed: #002114;
+  
+  --color-error: #ba1a1a;
+  
+  /* Stitch Spacing */
+  --spacing-space-2xs: 0.25rem;
+  --spacing-space-xs: 0.5rem;
+  --spacing-space-sm: 0.75rem;
+  --spacing-space-md: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2rem;
+  --spacing-space-2xl: 3rem;
+  --spacing-space-3xl: 4rem;
+  --spacing-space-4xl: 6rem;
+  --spacing-gutter-desktop: 1.5rem;
+  --spacing-gutter-mobile: 1rem;
+  --spacing-container-max: 1440px;
+
+  /* Stitch Typography */
+  --font-display-hero: var(--font-heading);
+  --font-headline-lg: var(--font-heading);
+  --font-headline-md: var(--font-heading);
+  --font-headline-sm: var(--font-heading);
+  --font-body-lg: var(--font-sans);
+  --font-body-md: var(--font-sans);
+  --font-body-sm: var(--font-sans);
+  --font-label-lg: var(--font-sans);
+  --font-label-md: var(--font-sans);
+  --font-label-sm: var(--font-sans);
+  --font-numeric-result: var(--font-sans);
+  --font-numeric-display: var(--font-sans);
+  
+  /* Stitch Font Sizes (font-size & line-height pairs mapped to custom classes if needed, or directly used) */
+  --text-display-hero: 48px;
+  --text-display-hero--line-height: 56px;
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 28px;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-md: 15px;
+  --text-body-md--line-height: 24px;
+  --text-body-sm: 13px;
+  --text-body-sm--line-height: 20px;
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 20px;
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-sm: 11px;
+  --text-label-sm--line-height: 14px;
+  --text-numeric-result: 24px;
+  --text-numeric-result--line-height: 32px;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-pill: 9999px;
+  --shadow-level-1: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.02);
+  --shadow-level-2: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-level-3: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+
+  /* Glass Card Tokens */
+  --color-glass-bg: rgba(255, 255, 255, 0.55);
+  --color-glass-bg-strong: rgba(255, 255, 255, 0.70);
+  --color-glass-bg-solid: rgba(255, 255, 255, 0.85);
+  --color-glass-border: rgba(255, 255, 255, 0.85);
+  --shadow-glass-subtle: 0 4px 20px rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-glass-standard: 0 8px 30px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-glass-elevated: 0 12px 40px rgba(15, 23, 42, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:root {
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #2563EB;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFFFFF;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+  --accent: #F1F5F9;
+  --accent-foreground: #0F172A;
+  --destructive: #BA1A1A;
+  --destructive-foreground: #FFFFFF;
+  --success: #059669;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #2563EB;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #0B1C30;
+  --foreground: #F8F9FF;
+  --card: #213145;
+  --card-foreground: #F8F9FF;
+  --popover: #213145;
+  --popover-foreground: #F8F9FF;
+  --primary: #B4C5FF;
+  --primary-foreground: #00174B;
+  --secondary: #213145;
+  --secondary-foreground: #F8F9FF;
+  --muted: #434655;
+  --muted-foreground: #C3C6D7;
+  --accent: #434655;
+  --accent-foreground: #F8F9FF;
+  --destructive: #FFDAD6;
+  --destructive-foreground: #93000A;
+  --success: #85F8C4;
+  --border: #434655;
+  --input: #434655;
+  --ring: #B4C5FF;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: 
+      radial-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px),
+      radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.08), transparent 45%),
+      radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.06), transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(124, 58, 237, 0.05), transparent 50%);
+    background-size: 16px 16px, 100% 100%, 100% 100%, 100% 100%;
+    background-attachment: fixed;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+  input[type="number"], .tabular-nums {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+/* Ambient Background Animations */
+@keyframes ambient-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, -6%) scale(1.05); }
+  66% { transform: translate(-3%, 4%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes ambient-drift-reverse {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-4%, 5%) scale(1.02); }
+  66% { transform: translate(3%, -4%) scale(0.98); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.animate-ambient-drift {
+  animation: ambient-drift 25s infinite ease-in-out;
+  will-change: transform;
+}
+
+.animate-ambient-drift-reverse {
+  animation: ambient-drift-reverse 22s infinite ease-in-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ambient-drift, .animate-ambient-drift-reverse {
+    animation: none !important;
+  }
+}
+
