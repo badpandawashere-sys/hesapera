@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { CalculatorField } from '@/calculators/core/calculator-types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -5,6 +6,117 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
+
+function FormattedNumberInput({ id, value, onChange, placeholder, className, error }: any) {
+  const [displayValue, setDisplayValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const parseLocalString = (str: string) => {
+    if (!str) return '';
+    const cleanStr = str.replace(/\./g, '').replace(/,/g, '.');
+    return Number(cleanStr);
+  };
+
+  const formatLocalString = (str: string) => {
+    if (!str) return '';
+    let [int, dec] = str.replace(/[^0-9.,-]/g, '').replace(/\./g, ',').split(',');
+    if (int) {
+      // eksi işareti ve binlik ayırıcıyı koru
+      const isNegative = int.startsWith('-');
+      let absInt = int.replace(/-/g, '');
+      absInt = absInt.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      int = isNegative ? '-' + absInt : absInt;
+    }
+    return dec !== undefined ? `${int},${dec}` : int;
+  };
+
+  useEffect(() => {
+    if (value === '' || value === undefined || value === null) {
+      if (displayValue !== '-') {
+        setDisplayValue('');
+      }
+    } else {
+      const parsedDisplay = parseLocalString(displayValue);
+      if (parsedDisplay !== value) {
+        let strVal = value.toString();
+        setDisplayValue(formatLocalString(strVal.replace(/\./g, ',')));
+      }
+    }
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    let cursor = input.selectionStart || 0;
+    
+    let raw = input.value;
+    
+    if (raw === '-') {
+      setDisplayValue('-');
+      onChange('');
+      return;
+    }
+    
+    let cleaned = raw.replace(/[^0-9.,-]/g, '');
+    const firstComma = cleaned.indexOf(',');
+    if (firstComma !== -1) {
+      const before = cleaned.substring(0, firstComma + 1);
+      const after = cleaned.substring(firstComma + 1).replace(/,/g, '');
+      cleaned = before + after;
+    }
+
+    // İmlecin solundaki binlik ayırıcı sayısını hesapla (eski durumda)
+    const oldLeftPart = raw.substring(0, cursor);
+    const oldDots = (oldLeftPart.match(/\./g) || []).length;
+    const oldCleanLeft = oldLeftPart.replace(/[^0-9.,-]/g, '');
+
+    const formatted = formatLocalString(cleaned);
+    setDisplayValue(formatted);
+
+    // Yeni formatta o karakter pozisyonunu bul
+    let newCursor = 0;
+    let cleanCount = 0;
+    for (let i = 0; i < formatted.length; i++) {
+      if (cleanCount === oldCleanLeft.length) {
+        newCursor = i;
+        break;
+      }
+      if (formatted[i] !== '.') {
+        cleanCount++;
+      }
+      newCursor = i + 1;
+    }
+
+    window.requestAnimationFrame(() => {
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(newCursor, newCursor);
+      }
+    });
+
+    if (formatted === '' || formatted === '-') {
+      onChange('');
+    } else {
+      const parsed = parseLocalString(formatted);
+      if (typeof parsed === "number" && !isNaN(parsed)) {
+        onChange(parsed);
+      }
+    }
+  };
+
+  return (
+    <Input
+      ref={inputRef}
+      id={id}
+      type="text"
+      inputMode="decimal"
+      value={displayValue}
+      onChange={handleChange}
+      placeholder={placeholder}
+      className={className}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${id}-error` : undefined}
+    />
+  );
+}
 
 interface CalculatorFieldProps {
   field: CalculatorField;
@@ -16,9 +128,6 @@ interface CalculatorFieldProps {
 export function CalculatorFieldComponent({ field, value, onChange, error }: CalculatorFieldProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val: any = e.target.value;
-    if (field.type === 'number' || field.type === 'currency' || field.type === 'percentage') {
-      val = val === '' ? '' : Number(val);
-    }
     onChange(val);
   };
 
@@ -35,6 +144,8 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
     }
   }
 
+  const isNumericField = field.type === 'number' || field.type === 'currency' || field.type === 'percentage';
+
   return (
     <div className="space-y-2">
       <Label htmlFor={id} className={`text-sm font-semibold ${error ? "text-destructive" : "text-foreground"}`}>
@@ -45,7 +156,7 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
         <p className="text-sm text-muted-foreground">{field.description}</p>
       )}
 
-      {field.type === 'text' || field.type === 'number' || field.type === 'currency' || field.type === 'percentage' || field.type === 'date' ? (
+      {field.type === 'text' || field.type === 'date' || isNumericField ? (
         <div className={`relative flex items-stretch rounded-xl border bg-background overflow-hidden transition-colors shadow-sm ${error ? 'border-destructive focus-within:ring-destructive/20 focus-within:border-destructive' : 'border-input focus-within:ring-2 focus-within:ring-violet-500/20 focus-within:border-violet-600'}`}>
           {field.type === 'currency' && (
             <div className="flex items-center pl-4 pr-1 text-muted-foreground font-medium text-sm select-none">₺</div>
@@ -53,19 +164,29 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
           {field.type === 'percentage' && (
             <div className="flex items-center pl-4 pr-1 text-muted-foreground font-medium text-sm select-none">%</div>
           )}
-          <Input
-            id={id}
-            type={field.type === 'text' ? 'text' : field.type === 'date' ? 'date' : 'number'}
-            value={value ?? ''}
-            onChange={handleChange}
-            placeholder={field.placeholder}
-            min={field.min}
-            max={field.max}
-            step={field.step ?? (field.type === 'number' || field.type === 'percentage' || field.type === 'currency' ? 'any' : undefined)}
-            className={`border-0 focus-visible:ring-0 shadow-none h-12 text-base rounded-none ${error ? 'text-destructive' : ''}`}
-            aria-invalid={!!error}
-            aria-describedby={error ? `${id}-error` : undefined}
-          />
+          
+          {isNumericField ? (
+            <FormattedNumberInput
+              id={id}
+              value={value}
+              onChange={onChange}
+              placeholder={field.placeholder}
+              className={`border-0 focus-visible:ring-0 shadow-none h-12 text-base rounded-none ${error ? 'text-destructive' : ''}`}
+              error={error}
+            />
+          ) : (
+            <Input
+              id={id}
+              type={field.type === 'text' ? 'text' : 'date'}
+              value={value ?? ''}
+              onChange={handleChange}
+              placeholder={field.placeholder}
+              className={`border-0 focus-visible:ring-0 shadow-none h-12 text-base rounded-none ${error ? 'text-destructive' : ''}`}
+              aria-invalid={!!error}
+              aria-describedby={error ? `${id}-error` : undefined}
+            />
+          )}
+
           {unit && (
             <div className="flex items-center px-4 bg-muted/20 border-l border-input text-muted-foreground font-medium text-sm select-none">
               {unit}
