@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateDibMbsts } from '../formulas/dibMbsts';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const dibMbstsCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_dibMbsts_001',
   slug: 'dib-mbsts-puan',
+  status: 'draft',
   name: 'DİB MBSTS Puan Hesaplama',
   shortDescription: '2026-DİB-MBSTS sınavı (29 Mart 2026) doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
   category: 'education',
@@ -47,3 +48,4 @@ export const dibMbstsCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateDibMbsts(input.correct, input.wrong);
   }
 };
+

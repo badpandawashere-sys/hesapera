@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLgs } from '../formulas/lgs';
 
@@ -22,12 +22,13 @@ type Input = z.infer<typeof schema>;
 export const lgsCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_lgs_001',
   slug: 'lgs-puan',
+  status: 'published',
   name: 'LGS Puan Hesaplama',
-  shortDescription: '2026 LGS (Liselere Giriş Sınavı) 6 test doğru/yanlış sayılarınıza göre yaklaşık puanınızı (100–500) hesaplayın. MEB resmi kılavuzu esas alınmıştır.',
+  shortDescription: '2026 LGS (Liselere Giriş Sınavı) 6 test doğru/yanlış sayılarınıza göre yaklaşık puanınızı (100â€“500) hesaplayın. MEB resmi kılavuzu esas alınmıştır.',
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'LGS Puan Hesaplama 2026 — Liselere Giriş Sınavı | Hesapera',
+    title: 'LGS Puan Hesaplama 2026 â€” Liselere Giriş Sınavı | Hesapera',
     description: '2026 LGS Türkçe, Matematik, Fen, İnkılap, Din Kültürü ve Yabancı Dil testleri doğru/yanlış sayılarınıza göre yaklaşık LGS puanınızı hesaplayın.',
     keywords: ['lgs puan hesaplama', 'lgs 2026', 'liselere giriş sınavı puan', 'lgs net hesaplama'],
     canonical: 'https://hesapera.com/lgs-puan',
@@ -58,3 +59,4 @@ export const lgsCalculatorDef: CalculatorDefinition<Input, any> = {
     yabancıDilC: input.yabancıDilCorrect, yabancıDilW: input.yabancıDilWrong
   })
 };
+

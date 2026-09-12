@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateBond } from '../formulas/bond';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const bondCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_bond_000', // avoid 001 clash
   slug: 'bono',
+  status: 'draft',
   name: 'Bono Hesaplama',
   shortDescription: 'Hazine bonosu getiri hesabı. İskontolu ihraç edilen bononun yıllık basit ve bileşik getirisini hesaplayın.',
   category: 'finance',
@@ -35,3 +36,4 @@ export const bondCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateBond(input.nominalValue, input.purchasePrice, input.daysToMaturity);
   }
 };
+

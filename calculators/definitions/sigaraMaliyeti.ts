@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateSigaraMaliyeti } from '../formulas/sigaraMaliyeti';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const sigaraMaliyetiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_sigara_maliyeti_001',
   slug: 'sigara-maliyeti',
+  status: 'draft',
   name: 'Sigara Maliyeti Hesaplama',
   shortDescription: 'Günlük içtiğiniz sigara adedi ve paket fiyatına göre aylık ve yıllık sigara masrafınızı hesaplayın.',
   category: 'health',
@@ -27,9 +28,11 @@ export const sigaraMaliyetiCalculatorDef: CalculatorDefinition<Input, any> = {
   },
   fields: [
     { id: 'gunlukAdet', label: 'Günde Kaç Adet Sigara İçiyorsunuz?', type: 'number', required: true, min: 1, max: 200, defaultValue: 10 },
-    { id: 'paketFiyati', label: 'Bir Paket Sigaranın Fiyatı (₺)', type: 'number', required: true, min: 1, max: 1000, defaultValue: 60 },
+    { id: 'paketFiyati', label: 'Bir Paket Sigaranın Fiyatı (â‚º)', type: 'number', required: true, min: 1, max: 1000, defaultValue: 60 },
     { id: 'pakettekiAdet', label: 'Paketteki Sigara Adedi', type: 'number', required: false, min: 1, max: 100, defaultValue: 20 }
   ],
   schema,
   calculate: (input) => calculateSigaraMaliyeti(input)
 };
+
+

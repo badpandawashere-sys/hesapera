@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEOkul } from '../formulas/eOkul';
 
@@ -20,6 +20,7 @@ type Input = z.infer<typeof schema>;
 export const eOkulNotCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_e_okul_001',
   slug: 'e-okul-not',
+  status: 'draft',
   name: 'E-Okul Not Hesaplama',
   shortDescription: 'MEB güncel yönetmeliğine göre e-okul dönem sonu ortalamanızı, belge durumunuzu ve ders bazlı başarı notunuzu hesaplayın.',
   category: 'education',
@@ -63,3 +64,5 @@ export const eOkulNotCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateEOkul(input.dersler as any[], input.egitimSeviyesi)
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateDersNotu } from '../formulas/dersNotu';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const dersNotuCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ders_notu_001',
   slug: 'ders-notu',
+  status: 'published',
   name: 'Ders Notu Hesaplama',
   shortDescription: 'Bir derse ait sınav, proje veya performans notlarınızı girerek basit veya ağırlıklı ders ortalamanızı hesaplayın.',
   category: 'education',
@@ -60,3 +61,5 @@ export const dersNotuCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateDersNotu(input.notlar, input.hesaplamaTuru === 'agirlikli')
 };
+
+

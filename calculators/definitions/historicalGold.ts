@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateHistoricalGold } from '../formulas/historicalGold';
 
@@ -22,6 +22,7 @@ type Input = z.infer<typeof schema>;
 export const historicalGoldCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_historicalGold_001',
   slug: 'gecmis-altin-fiyatlari',
+  status: 'published',
   name: 'Geçmiş Altın Fiyatları Hesaplama',
   shortDescription: 'Belirli bir tarihteki altın fiyatı verisini kullanarak geçmiş tarihli bir altın değer hesabı yapın.',
   category: 'finance',
@@ -104,3 +105,4 @@ export const historicalGoldCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateHistoricalGold(input.transactionType, input.instrumentId, input.date, input.quantity, input.cashAmount);
   }
 };
+

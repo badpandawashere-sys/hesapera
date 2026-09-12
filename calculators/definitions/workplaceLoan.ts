@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateWorkplaceLoan } from '../formulas/workplaceLoan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const workplaceLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_workplaceLoan_001',
   slug: 'is-yeri-kredisi',
+  status: 'draft',
   name: 'İş Yeri Kredisi Hesaplama',
   shortDescription: 'İş yeri alımı veya ticari ihtiyaçlarınız için kredi taksitlerinizi ve maliyet tablosunu hesaplayın.',
   category: 'finance',
@@ -35,3 +36,5 @@ export const workplaceLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateWorkplaceLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+
+

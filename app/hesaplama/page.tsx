@@ -1,8 +1,10 @@
-import { Metadata } from 'next';
+﻿import { Metadata } from 'next';
 import { SiteContainer } from '@/components/layout/site-container';
-import { mockCalculators } from '@/lib/data/calculators';
+import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
+import '@/calculators/core/init'; // populate registry
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { categories } from '@/lib/data/categories';
 
 export const metadata: Metadata = {
   title: 'Tüm Hesaplama Araçları | Hesapera',
@@ -10,6 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function HesaplamaIndexPage() {
+  const publishedCalculators = CalculatorRegistry.getPublishedAll();
+
   return (
     <main className="flex-1 py-12 bg-muted/10">
       <SiteContainer>
@@ -23,25 +27,30 @@ export default function HesaplamaIndexPage() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {mockCalculators.map((item) => (
-            <Link key={item.id} href={item.href} className="group p-5 rounded-2xl bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] hover:shadow-[var(--shadow-glass-standard)] hover:-translate-y-1 transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-label-sm text-label-sm text-[#7C3AED] uppercase font-bold tracking-wider">{item.category}</span>
+          {publishedCalculators.map((item) => {
+            const uiCategoryId = CalculatorRegistry.getUiCategory(item.slug, item.category);
+            const uiCategoryName = categories.find(c => c.id === uiCategoryId)?.name || uiCategoryId;
+
+            return (
+              <Link key={item.id} href={`/hesaplama/${item.slug}`} className="group p-5 rounded-2xl bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] hover:shadow-[var(--shadow-glass-standard)] hover:-translate-y-1 transition-all flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-label-sm text-label-sm text-[#7C3AED] uppercase font-bold tracking-wider">{uiCategoryName}</span>
+                  </div>
+                  <h3 className="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-2 group-hover:text-primary transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-4">
+                    {item.shortDescription}
+                  </p>
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-slate-900 text-[17px] leading-snug mb-2 group-hover:text-[#7C3AED] transition-colors">
-                  {item.title}
-                </h3>
-                <p className="font-body-sm text-body-sm text-slate-500 line-clamp-2">
-                  {item.desc}
-                </p>
-              </div>
-              <div className="inline-flex items-center gap-1 font-label-md text-label-md text-[#2563EB] font-semibold mt-4">
-                <span>Hesapla</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-          ))}
+                <div className="inline-flex items-center gap-1 font-label-md text-label-md text-primary font-semibold mt-2">
+                  <span>Hesapla</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </SiteContainer>
     </main>

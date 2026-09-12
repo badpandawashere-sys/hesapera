@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEus } from '../formulas/eus';
 
@@ -14,12 +14,13 @@ type Input = z.infer<typeof schema>;
 export const eusCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_eus_001',
   slug: 'eus-puan',
+  status: 'draft',
   name: 'EUS Puan Hesaplama',
   shortDescription: '2026-EUS (Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı) Temel Eczacılık ve Klinik/Uygulamalı Eczacılık testleri doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın. (7 Kasım 2026)',
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'EUS Puan Hesaplama — Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı | Hesapera',
+    title: 'EUS Puan Hesaplama â€” Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı | Hesapera',
     description: '2026-EUS (Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı, 7 Kasım 2026) Temel Eczacılık ve Klinik/Uygulamalı Eczacılık testleri doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
     keywords: ["eus puan hesaplama","eczacılık uzmanlık sınavı","eus 2026","eus hesabı"],
     canonical: 'https://hesapera.com/eus-puan',
@@ -65,3 +66,4 @@ export const eusCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateEus(input.temelCorrect, input.temelWrong, input.klinikCorrect, input.klinikWrong);
   }
 };
+

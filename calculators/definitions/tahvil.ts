@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateTahvil } from '../formulas/tahvil';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const tahvilCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_tahvil_001',
   slug: 'tahvil',
+  status: 'draft',
   name: 'Tahvil Hesaplama',
   shortDescription: 'Tahvilin nominal değeri, kupon oranı, vadesi ve piyasa getirisi üzerinden tahvil fiyatı ve getiri göstergelerini hesaplayın.',
   category: 'finance',
@@ -89,3 +90,4 @@ export const tahvilCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateTahvil(input.nominalValue, input.couponRate, input.couponFrequency, input.timeToMaturity, input.marketYield);
   }
 };
+

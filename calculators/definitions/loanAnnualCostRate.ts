@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLoanAnnualCostRate } from '../formulas/loanAnnualCostRate';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const loanAnnualCostRateCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loanAnnualCostRate_001',
   slug: 'kredi-yillik-maliyet-orani',
+  status: 'published',
   name: 'Kredi Yıllık Maliyet Oranı Hesaplama',
   shortDescription: 'Kullanılan net anapara ve ödenen taksitleri dikkate alarak efektif yıllık maliyet oranını (IRR) simüle edin.',
   category: 'finance',
@@ -62,3 +63,5 @@ export const loanAnnualCostRateCalculatorDef: CalculatorDefinition<Input, any> =
     return calculateLoanAnnualCostRate(input.principalReceived, input.monthlyPayment, input.termMonths, input.upfrontFees);
   }
 };
+
+

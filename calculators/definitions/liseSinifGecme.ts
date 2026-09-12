@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLiseSinifGecme } from '../formulas/liseSinifGecme';
 
@@ -19,6 +19,7 @@ type Input = z.infer<typeof schema>;
 export const liseSinifGecmeCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_lise_sinif_gecme_001',
   slug: 'lise-sinif-gecme',
+  status: 'draft',
   name: 'Lise Sınıf Geçme Hesaplama',
   shortDescription: 'MEB güncel lise yönetmeliğine göre yıl sonu başarı puanınızı, doğrudan/sorumlu geçme ve sınıf tekrarı durumunuzu hesaplayın.',
   category: 'education',
@@ -62,3 +63,5 @@ export const liseSinifGecmeCalculatorDef: CalculatorDefinition<Input, any> = {
     }))
   })
 };
+
+

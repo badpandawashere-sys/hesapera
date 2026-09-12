@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateTyt } from '../formulas/tyt';
 
@@ -18,6 +18,7 @@ type Input = z.infer<typeof schema>;
 export const tytCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_tyt_001',
   slug: 'tyt-puan',
+  status: 'published',
   name: 'TYT Puan Hesaplama',
   shortDescription: 'ÖSYM 2026-YKS Türkçe, Sosyal Bilimler, Matematik ve Fen Bilimleri test netlerinizi girerek TYT Sınav Puanınızı hesaplayın.',
   category: 'education',
@@ -48,3 +49,5 @@ export const tytCalculatorDef: CalculatorDefinition<Input, any> = {
     input.fenCorrect, input.fenWrong
   )
 };
+
+

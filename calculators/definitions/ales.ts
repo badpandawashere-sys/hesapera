@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAles } from '../formulas/ales';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const alesCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ales_001',
   slug: 'ales-puan',
+  status: 'draft',
   name: 'ALES Puan Hesaplama',
   shortDescription: 'ALES Sayısal, Sözel ve Eşit Ağırlık (EA) puanlarınızı ÖSYM katsayı standartlarıyla hesaplayın.',
   category: 'education',
@@ -65,3 +66,4 @@ export const alesCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateAles(input.sayCorrect, input.sayWrong, input.sozCorrect, input.sozWrong);
   }
 };
+

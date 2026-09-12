@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCompoundGrowth } from '../formulas/compoundGrowth';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const compoundGrowthCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_compoundGrowth_001',
   slug: 'bilesik-buyume',
+  status: 'published',
   name: 'Bileşik Büyüme Hesaplama',
   shortDescription: 'Bir değerin belirli dönemlerde ortalama büyüme oranıyla gelecekteki değerini (Compound Growth) hesaplayın.',
   category: 'finance',
@@ -54,3 +55,4 @@ export const compoundGrowthCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateCompoundGrowth(input.initialValue, input.growthRate, input.periods);
   }
 };
+

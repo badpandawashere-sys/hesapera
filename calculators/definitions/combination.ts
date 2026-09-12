@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCombination } from '../formulas/combination';
 
@@ -12,8 +12,9 @@ type Input = z.infer<typeof schema>;
 export const combinationCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_combination_001',
   slug: 'kombinasyon',
+  status: 'draft',
   name: 'Kombinasyon Hesaplama',
-  shortDescription: 'n elemanlı bir kümeden r eleman seçmenin kaç farklı yolu olduğunu BigInt hassasiyetiyle hesaplayın. C(n,r) = n! / (r! × (n-r)!)',
+  shortDescription: 'n elemanlı bir kümeden r eleman seçmenin kaç farklı yolu olduğunu BigInt hassasiyetiyle hesaplayın. C(n,r) = n! / (r! Ã— (n-r)!)',
   category: 'math',
   type: 'simple',
   metadata: {
@@ -44,3 +45,5 @@ export const combinationCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateCombination(input.n, input.r);
   }
 };
+
+

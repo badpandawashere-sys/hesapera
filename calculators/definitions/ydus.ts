@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateYdus } from '../formulas/ydus';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const ydusCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ydus_001',
   slug: 'ydus-puan',
+  status: 'draft',
   name: 'YDUS Puan Hesaplama',
   shortDescription: 'YDUS (Yan Dal Uzmanlık Eğitimi Giriş Sınavı) doğru/yanlış sayılarınıza göre yaklaşık puanınızı (100 üzerinden) hesaplayın.',
   category: 'education',
@@ -31,3 +32,5 @@ export const ydusCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateYdus(input.dogru, input.yanlis)
 };
+
+

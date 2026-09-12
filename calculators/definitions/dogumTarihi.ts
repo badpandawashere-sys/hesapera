@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateDogumTarihi } from '../formulas/dogumTarihi';
 
@@ -19,6 +19,7 @@ type Input = z.infer<typeof schema>;
 export const dogumTarihiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_dogum_tarihi_001',
   slug: 'dogum-tarihi',
+  status: 'draft',
   name: 'Doğum Tarihi / Yaş Hesaplama',
   shortDescription: 'Doğum tarihinizden tam yaşınızı bulun veya bilinen yaş değerlerinden (yıl, ay, gün) geriye dönük tahmini doğum tarihi hesaplayın.',
   category: 'health',
@@ -84,3 +85,5 @@ export const dogumTarihiCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateDogumTarihi({ ...input, referansTarihi: new Date().toISOString().split('T')[0] })
 };
+
+

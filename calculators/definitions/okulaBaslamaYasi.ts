@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateOkulaBaslamaYasi } from '../formulas/okulaBaslamaYasi';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const okulaBaslamaYasiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_okula_baslama_yasi_001',
   slug: 'okula-baslama-yasi',
+  status: 'draft',
   name: 'Okula Başlama Yaşı Hesaplama',
   shortDescription: 'Çocuğunuzun doğum tarihine göre ilkokul 1. sınıf veya anaokuluna başlama yaşını ve kayıt durumunu öğrenin.',
   category: 'education',
@@ -35,7 +36,7 @@ export const okulaBaslamaYasiCalculatorDef: CalculatorDefinition<Input, any> = {
       required: true,
       options: [
         { label: 'Ocak (1)', value: '1' },
-        { label: 'Şubat (2)', value: '2' },
+        { label: 'Åubat (2)', value: '2' },
         { label: 'Mart (3)', value: '3' },
         { label: 'Nisan (4)', value: '4' },
         { label: 'Mayıs (5)', value: '5' },
@@ -54,3 +55,5 @@ export const okulaBaslamaYasiCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateOkulaBaslamaYasi(input)
 };
+
+

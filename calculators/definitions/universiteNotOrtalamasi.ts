@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateUniversiteNotOrtalamasi } from '../formulas/universiteNotOrtalamasi';
 
@@ -17,6 +17,7 @@ type Input = z.infer<typeof schema>;
 export const universiteNotOrtalamasiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_universite_not_ortalamasi_001',
   slug: 'universite-not-ortalamasi',
+  status: 'draft',
   name: 'Üniversite Not Ortalaması Hesaplama (GPA / GANO)',
   shortDescription: 'Üniversite ders kredilerinizle 4\'lük, 100\'lük veya harf sistemi (AA, BA) üzerinden GPA/GANO hesaplayın.',
   category: 'education',
@@ -75,3 +76,5 @@ export const universiteNotOrtalamasiCalculatorDef: CalculatorDefinition<Input, a
   schema,
   calculate: (input) => calculateUniversiteNotOrtalamasi(input)
 };
+
+

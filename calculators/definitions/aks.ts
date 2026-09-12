@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAks } from '../formulas/aks';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const aksCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_aks_001',
   slug: 'aks-puan',
+  status: 'draft',
   name: 'AKS Puan Hesaplama',
   shortDescription: 'MEB Adaylık Kaldırma Sınavı (AKS) sonucunuzu hesaplayın.',
   category: 'education',
@@ -47,3 +48,4 @@ export const aksCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateAks(input.correct, input.wrong);
   }
 };
+

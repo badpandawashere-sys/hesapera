@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateBebekKilosu } from '../formulas/bebekKilosu';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const bebekKilosuCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_bebek_kilosu_001',
   slug: 'bebek-kilosu',
+  status: 'draft',
   name: 'Bebek Kilosu Hesaplama',
   shortDescription: 'Dünya Sağlık Örgütü (WHO) 0-24 ay referanslarına göre bebeğinizin kilosunu medyan değerlerle karşılaştırın.',
   category: 'health',
@@ -42,3 +43,5 @@ export const bebekKilosuCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateBebekKilosu(input)
 };
+
+

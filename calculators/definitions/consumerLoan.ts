@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateConsumerLoan } from '../formulas/consumerLoan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const consumerLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_consumerLoan_001',
   slug: 'ihtiyac-kredisi',
+  status: 'published',
   name: 'İhtiyaç Kredisi Hesaplama',
   shortDescription: 'Bireysel ihtiyaçlarınız için çekeceğiniz kredinin aylık taksitlerini ve ödeme planını hesaplayın.',
   category: 'finance',
@@ -35,3 +36,5 @@ export const consumerLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateConsumerLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+
+

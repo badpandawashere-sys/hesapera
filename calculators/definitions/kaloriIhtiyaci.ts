@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKaloriIhtiyaci } from '../formulas/kaloriIhtiyaci';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukKaloriIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_kalori_ihtiyaci_001',
   slug: 'gunluk-kalori-ihtiyaci',
+  status: 'published',
   name: 'Günlük Kalori İhtiyacı Hesaplama',
   shortDescription: 'Bazal Metabolizma Hızınızı (BMR) ve aktivite faktörünüzü kullanarak tahmini Günlük Toplam Enerji Harcamanızı (TDEE) hesaplayın.',
   category: 'health',
@@ -59,3 +60,5 @@ export const gunlukKaloriIhtiyaciCalculatorDef: CalculatorDefinition<Input, any>
   schema,
   calculate: (input) => calculateKaloriIhtiyaci(input)
 };
+
+

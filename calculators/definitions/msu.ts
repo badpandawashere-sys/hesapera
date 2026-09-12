@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateMsu } from '../formulas/msu';
 
@@ -19,12 +19,13 @@ type Input = z.infer<typeof schema>;
 export const msuCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_msu_001',
   slug: 'msu-puan',
+  status: 'draft',
   name: 'MSÜ Puan Hesaplama',
   shortDescription: '2026-MSÜ Türkçe (40), Sosyal (20), Matematik (40) ve Fen (20) doğru/yanlış sayılarınıza göre yaklaşık puanınızı hesaplayın.',
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'MSÜ Puan Hesaplama — Millî Savunma Üniversitesi Sınavı 2026 | Hesapera',
+    title: 'MSÜ Puan Hesaplama â€” MillÃ® Savunma Üniversitesi Sınavı 2026 | Hesapera',
     description: '2026-MSÜ Türkçe (40), Sosyal (20), Matematik (40) ve Fen (20) netlerinize göre MSÜ-SAY, SÖZ, EA ve GENEL yaklaşık puanınızı hesaplayın.',
     keywords: ['msü puan hesaplama', 'msu puan 2026', 'milli savunma universitesi sinavi', 'msü say söz ea genel'],
     canonical: 'https://hesapera.com/msu-puan',
@@ -62,3 +63,5 @@ export const msuCalculatorDef: CalculatorDefinition<Input, any> = {
     input.fenCorrect, input.fenWrong
   )
 };
+
+

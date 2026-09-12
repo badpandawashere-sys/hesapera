@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePomem } from '../formulas/pomem';
 
@@ -13,12 +13,13 @@ type Input = z.infer<typeof schema>;
 export const pomemCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_pomem_001',
   slug: 'pomem-puan',
+  status: 'draft',
   name: 'POMEM Puan Hesaplama',
   shortDescription: 'KPSS puanı, fiziki yeterlilik ve mülakat sınavı puanınıza göre Polis Meslek Eğitim Merkezi (POMEM) nihai başarı puanınızı hesaplayın.',
   category: 'education',
   type: 'simple',
   metadata: {
-    title: 'POMEM Puan Hesaplama — Polis Meslek Eğitim Merkezi | Hesapera',
+    title: 'POMEM Puan Hesaplama â€” Polis Meslek Eğitim Merkezi | Hesapera',
     description: 'Polis Meslek Eğitim Merkezi (POMEM) güncel başarı formülüne göre KPSS (%25), fiziki yeterlilik (%25) ve mülakat (%50) puanlarıyla nihai sıralama puanınızı öğrenin.',
     keywords: ['pomem puan hesaplama', 'polis meslek eğitim merkezi', 'pomem başarı puanı', 'kpss fiziki mülakat'],
     canonical: 'https://hesapera.com/pomem-puan',
@@ -72,3 +73,5 @@ export const pomemCalculatorDef: CalculatorDefinition<Input, any> = {
     };
   }
 };
+
+

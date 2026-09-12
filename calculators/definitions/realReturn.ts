@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateRealReturn } from '../formulas/realReturn';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const realReturnCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_realReturn_001',
   slug: 'reel-getiri',
+  status: 'draft',
   name: 'Reel Getiri Hesaplama',
   shortDescription: 'Nominal getiri ve enflasyon oranını dikkate alarak yatırımınızın gerçek reel getirisini hesaplayın.',
   category: 'finance',
@@ -46,3 +47,4 @@ export const realReturnCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateRealReturn(input.nominalRate, input.inflationRate);
   }
 };
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateSuIhtiyaci } from '../formulas/suIhtiyaci';
 
@@ -11,6 +11,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukSuIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_su_ihtiyaci_001',
   slug: 'gunluk-su-ihtiyaci',
+  status: 'draft',
   name: 'Günlük Su İhtiyacı Hesaplama',
   shortDescription: 'Vücut ağırlığınıza göre gün içinde ortalama olarak tüketmeniz gereken sıvı/su miktarını (Litre ve ml) hesaplayın.',
   category: 'health',
@@ -29,3 +30,5 @@ export const gunlukSuIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateSuIhtiyaci(input)
 };
+
+

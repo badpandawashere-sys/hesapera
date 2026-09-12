@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCommercialVehicleLoan } from '../formulas/commercialVehicleLoan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const commercialVehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_commercialVehicleLoan_001',
   slug: 'ticari-arac-kredisi',
+  status: 'draft',
   name: 'Ticari Araç Kredisi Hesaplama',
   shortDescription: 'Ticari faaliyetlerinizde kullanmak üzere alacağınız araçlar için ticari araç kredisi geri ödeme planını oluşturun.',
   category: 'finance',
@@ -35,3 +36,4 @@ export const commercialVehicleLoanCalculatorDef: CalculatorDefinition<Input, any
     return calculateCommercialVehicleLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateDus } from '../formulas/dus';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const dusCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_dus_001',
   slug: 'dus-puan',
+  status: 'draft',
   name: 'DUS Puan Hesaplama',
   shortDescription: '2026-DUS (Diş Hekimliği Uzmanlık Sınavı) Temel ve Klinik Bilimler testleri doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
   category: 'education',
@@ -65,3 +66,4 @@ export const dusCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateDus(input.temelCorrect, input.temelWrong, input.klinikCorrect, input.klinikWrong);
   }
 };
+

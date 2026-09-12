@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { Search, ArrowRight, Shield, Building, Wallet, Receipt, Car, CreditCard, WalletCards, Percent, CalendarDays, HeartPulse, Banknote } from 'lucide-react';
 import { SiteContainer } from '@/components/layout/site-container';
 import { FeaturedCalculatorCard } from '@/components/cards/featured-calculator-card';
@@ -19,7 +19,7 @@ export default function HomePage() {
 
   const popularCalculators = popularConfig.map(config => {
     const calc = CalculatorRegistry.getBySlug(config.slug);
-    if (!calc) return null;
+    if (!calc || calc.status !== 'published') return null;
     return {
       id: calc.id,
       slug: calc.slug,
@@ -30,9 +30,13 @@ export default function HomePage() {
     };
   }).filter((item): item is NonNullable<typeof item> => item !== null);
 
+  const activeCategories = categories.map(cat => {
+    const publishedCount = CalculatorRegistry.getPublishedByCategory(cat.id).length;
+    return { ...cat, publishedCount, dynamicCountText: `${publishedCount} Araç` };
+  }).filter(cat => cat.publishedCount > 0);
+
   return (
     <main className="w-full flex-grow relative overflow-hidden">
-      {/* Animated Ambient Background (Hero-focused) */}
       <div className="absolute inset-x-0 top-0 h-[1000px] pointer-events-none -z-10 overflow-hidden">
         {/* Top Center: Soft Violet (More prominent brand color) */}
         <div className="absolute top-[-10%] left-[15%] w-[60%] h-[500px] rounded-full bg-violet-600 opacity-[0.15] blur-[100px] animate-ambient-drift"></div>
@@ -50,11 +54,11 @@ export default function HomePage() {
           <div className="flex items-center gap-space-md">
             <span className="inline-flex items-center gap-1.5 font-label-md text-label-md text-tertiary">
               <Shield className="w-4 h-4 fill-current" />
-              Resmi mevzuat ve güncel katsayılarla hesaplama
+              Resmi mevzuat ve gÃ¼ncel katsayÄ±larla hesaplama
             </span>
             <span className="hidden sm:inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
             <span className="hidden sm:inline font-body-sm text-body-sm text-on-surface-variant">
-              Gelir İdaresi, TCMB ve SGK güncel verileri aktiftir.
+              Gelir Ä°daresi, TCMB ve SGK gÃ¼ncel verileri aktiftir.
             </span>
           </div>
         </SiteContainer>
@@ -65,16 +69,16 @@ export default function HomePage() {
         <SiteContainer className="relative flex flex-col items-center text-center">
           <div className="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-secondary-container/70 shadow-sm mb-space-md">
             <span className="text-primary font-label-md text-label-md">Top 14 Kategori</span>
-            <span className="text-on-secondary-container/50 text-[11px]">•</span>
-            <span className="text-on-secondary-container font-label-md text-label-md">120+ Doğrulanmış Hesaplama Aracı</span>
+            <span className="text-on-secondary-container/50 text-[11px]">â€¢</span>
+            <span className="text-on-secondary-container font-label-md text-label-md">120+ DoÄŸrulanmÄ±ÅŸ Hesaplama AracÄ±</span>
           </div>
           
           <h1 className="font-display-hero text-display-hero text-on-surface tracking-tight max-w-4xl mx-auto mb-space-sm">
-            Aradığın hesabı saniyeler içinde yap.
+            AradÄ±ÄŸÄ±n hesabÄ± saniyeler iÃ§inde yap.
           </h1>
           
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-space-xl">
-            Finans, kredi, maaş, vergi, otomotiv, eğitim ve günlük hayat için güncel mevzuat ve doğrulanmış formüllerle çalışan pratik hesaplama araçları.
+            Finans, kredi, maaÅŸ, vergi, otomotiv, eÄŸitim ve gÃ¼nlÃ¼k hayat iÃ§in gÃ¼ncel mevzuat ve doÄŸrulanmÄ±ÅŸ formÃ¼llerle Ã§alÄ±ÅŸan pratik hesaplama araÃ§larÄ±.
           </p>
           
           <div className="w-full max-w-[720px] mb-space-md">
@@ -82,8 +86,8 @@ export default function HomePage() {
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-space-xs max-w-3xl">
-            <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-space-2xs">Sık Arananlar:</span>
-            {['Kredi hesaplama', 'Kıdem tazminatı', 'MTV hesaplama', 'Yüzde hesaplama', 'Yakıt tüketimi', 'KDV hesaplama', 'Mevduat getirisi'].map((item) => (
+            <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-space-2xs">SÄ±k Arananlar:</span>
+            {['Kredi hesaplama', 'KÄ±dem tazminatÄ±', 'MTV hesaplama', 'YÃ¼zde hesaplama', 'YakÄ±t tÃ¼ketimi', 'KDV hesaplama', 'Mevduat getirisi'].map((item) => (
               <button key={item} className="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" type="button">
                 {item}
               </button>
@@ -92,12 +96,12 @@ export default function HomePage() {
         </SiteContainer>
       </section>
 
-      {/* Popüler Hesaplayıcılar Section */}
+      {/* PopÃ¼ler HesaplayÄ±cÄ±lar Section */}
       <section className="w-full py-space-3xl relative z-10">
         <SiteContainer>
           <div className="flex flex-col text-center items-center mb-space-2xl">
-            <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2">Popüler Hesaplayıcılar</h2>
-            <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl">En çok ihtiyaç duyulan hesaplamalara hızlıca ulaşın.</p>
+            <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2">PopÃ¼ler HesaplayÄ±cÄ±lar</h2>
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl">En Ã§ok ihtiyaÃ§ duyulan hesaplamalara hÄ±zlÄ±ca ulaÅŸÄ±n.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -140,24 +144,24 @@ export default function HomePage() {
         <SiteContainer>
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-space-2xl gap-space-md">
             <div>
-              <div className="font-label-sm text-label-sm text-[#7C3AED] uppercase tracking-wider mb-space-2xs">Kapsamlı Araç Seti</div>
+              <div className="font-label-sm text-label-sm text-[#7C3AED] uppercase tracking-wider mb-space-2xs">KapsamlÄ± AraÃ§ Seti</div>
               <h2 className="font-headline-lg text-headline-lg text-on-surface">Ne hesaplamak istiyorsun?</h2>
-              <p className="font-body-md text-body-md text-on-surface-variant mt-1">İhtiyacın olan alana göre kategorilere ayrılmış kapsamlı araç seti.</p>
+              <p className="font-body-md text-body-md text-on-surface-variant mt-1">Ä°htiyacÄ±n olan alana gÃ¶re kategorilere ayrÄ±lmÄ±ÅŸ kapsamlÄ± araÃ§ seti.</p>
             </div>
             <Link className="inline-flex items-center gap-1 font-label-lg text-label-lg text-[#7C3AED] hover:text-primary-container group transition-colors" href="/kategoriler">
-              <span>Tüm 14 Kategoriyi İncele</span>
+              <span>TÃ¼m 14 Kategoriyi Ä°ncele</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
-            {categories.map((cat) => (
+            {activeCategories.map((cat) => (
               <Link key={cat.id} href={`/kategoriler/${cat.id}`} className="group flex flex-col p-4 rounded-[20px] bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] hover:shadow-[var(--shadow-glass-standard)] hover:-translate-y-[2px] transition-all duration-200">
                 <div className={`w-11 h-11 rounded-[12px] bg-white/60 border border-white/70 shadow-sm ${cat.color} flex items-center justify-center mb-3 group-hover:scale-105 transition-transform`}>
                   <cat.icon className="w-[22px] h-[22px]" />
                 </div>
                 <span className="font-headline-sm text-headline-sm text-slate-900 text-[16px] leading-tight mb-1">{cat.name}</span>
-                <span className="font-body-sm text-body-sm text-slate-500">{cat.count}</span>
+                <span className="font-body-sm text-body-sm text-slate-500">{cat.dynamicCountText}</span>
               </Link>
             ))}
           </div>
@@ -170,85 +174,85 @@ export default function HomePage() {
           <div className="flex flex-col mb-space-2xl">
             <div className="flex items-center gap-space-xs mb-space-2xs">
               <span className="w-2 h-2 rounded-full bg-primary"></span>
-              <span className="font-label-sm text-label-sm text-primary uppercase tracking-wider">Hızlı Simülasyon</span>
+              <span className="font-label-sm text-label-sm text-primary uppercase tracking-wider">HÄ±zlÄ± SimÃ¼lasyon</span>
             </div>
-            <h2 className="font-headline-lg text-headline-lg text-on-surface">Öne Çıkan Hesaplamalar</h2>
+            <h2 className="font-headline-lg text-headline-lg text-on-surface">Ã–ne Ã‡Ä±kan Hesaplamalar</h2>
             <p className="font-body-md text-body-md text-on-surface-variant mt-1">
-              En sık kullanılan 4 temel hesaplama aracını doğrudan parametreleriyle inceleyin.
+              En sÄ±k kullanÄ±lan 4 temel hesaplama aracÄ±nÄ± doÄŸrudan parametreleriyle inceleyin.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-lg">
             <FeaturedCalculatorCard 
               title="Konut Kredisi Hesaplama"
-              desc="Banka komisyonları ve taksit planlaması."
+              desc="Banka komisyonlarÄ± ve taksit planlamasÄ±."
               category="Kredi"
               icon={Building}
-              badge="2025 Güncel Faiz Oranları"
+              badge="2025 GÃ¼ncel Faiz OranlarÄ±"
               href="/hesaplama/konut-kredisi"
               colorClass="text-primary"
               bgClass="bg-primary-fixed/60"
               previewData={[
-                { label: 'Kredi Tutarı', value: '₺1.500.000' },
-                { label: 'Vade Süresi', value: '120 Ay (10 Yıl)' },
-                { label: 'Aylık Faiz', value: '%2.89', valueClass: 'text-primary' },
+                { label: 'Kredi TutarÄ±', value: 'â‚º1.500.000' },
+                { label: 'Vade SÃ¼resi', value: '120 Ay (10 YÄ±l)' },
+                { label: 'AylÄ±k Faiz', value: '%2.89', valueClass: 'text-primary' },
               ]}
-              resultLabel="Aylık Taksit"
-              resultValue="₺44.250"
-              actionText="Detaylı Hesapla"
+              resultLabel="AylÄ±k Taksit"
+              resultValue="â‚º44.250"
+              actionText="DetaylÄ± Hesapla"
             />
             <FeaturedCalculatorCard 
-              title="Netten Brüte Maaş"
+              title="Netten BrÃ¼te MaaÅŸ"
               desc="SGK, gelir vergisi ve damga vergisi kesintileri."
-              category="Maaş"
+              category="MaaÅŸ"
               icon={Wallet}
-              badge="2025 Asgari Ücret & Dilimler"
+              badge="2025 Asgari Ãœcret & Dilimler"
               href="/hesaplama/maas-hesaplama"
               colorClass="text-tertiary"
               bgClass="bg-tertiary-fixed/60"
               previewData={[
-                { label: 'Net Hedef Maaş', value: '₺45.000' },
-                { label: 'Vergilendirme Yılı', value: '2025 Mali Yılı' },
-                { label: 'SGK Muafiyeti', value: 'Uygulanıyor', valueClass: 'text-tertiary' },
+                { label: 'Net Hedef MaaÅŸ', value: 'â‚º45.000' },
+                { label: 'Vergilendirme YÄ±lÄ±', value: '2025 Mali YÄ±lÄ±' },
+                { label: 'SGK Muafiyeti', value: 'UygulanÄ±yor', valueClass: 'text-tertiary' },
               ]}
-              resultLabel="Gereken Brüt"
-              resultValue="₺63.120"
-              actionText="Maaş Cetvelini Gör"
+              resultLabel="Gereken BrÃ¼t"
+              resultValue="â‚º63.120"
+              actionText="MaaÅŸ Cetvelini GÃ¶r"
             />
             <FeaturedCalculatorCard 
-              title="Kıdem ve İhbar Tazminatı"
-              desc="Kıdem tavanı ve damga vergisi dahil net tutar."
-              category="Çalışma"
+              title="KÄ±dem ve Ä°hbar TazminatÄ±"
+              desc="KÄ±dem tavanÄ± ve damga vergisi dahil net tutar."
+              category="Ã‡alÄ±ÅŸma"
               icon={Receipt}
-              badge="Tavan Ücret Güncellendi"
+              badge="Tavan Ãœcret GÃ¼ncellendi"
               href="/hesaplama/kidem-tazminati"
               colorClass="text-secondary"
               bgClass="bg-secondary-fixed"
               previewData={[
-                { label: 'Giydirilmiş Brüt', value: '₺35.000' },
-                { label: 'Çalışma Süresi', value: '4 Yıl 3 Ay' },
-                { label: 'İhbar Süresi', value: '8 Hafta' },
+                { label: 'GiydirilmiÅŸ BrÃ¼t', value: 'â‚º35.000' },
+                { label: 'Ã‡alÄ±ÅŸma SÃ¼resi', value: '4 YÄ±l 3 Ay' },
+                { label: 'Ä°hbar SÃ¼resi', value: '8 Hafta' },
               ]}
               resultLabel="Tahmini Tazminat"
-              resultValue="₺148.750"
+              resultValue="â‚º148.750"
               actionText="Tazminat Hesapla"
             />
             <FeaturedCalculatorCard 
-              title="Motorlu Taşıtlar Vergisi"
-              desc="Tescil yılı ve motor silindir hacmi tarifesi."
+              title="Motorlu TaÅŸÄ±tlar Vergisi"
+              desc="Tescil yÄ±lÄ± ve motor silindir hacmi tarifesi."
               category="Otomotiv"
               icon={Car}
-              badge="2025 Yeniden Değerleme"
+              badge="2025 Yeniden DeÄŸerleme"
               href="/hesaplama/mtv-hesaplama"
               colorClass="text-primary"
               bgClass="bg-surface-container-high"
               previewData={[
-                { label: 'Araç Yaşı', value: '1 - 3 Yaş' },
+                { label: 'AraÃ§ YaÅŸÄ±', value: '1 - 3 YaÅŸ' },
                 { label: 'Motor Hacmi', value: '1301 - 1600 cc' },
-                { label: 'İlk İktisap', value: '2018 Sonrası' },
+                { label: 'Ä°lk Ä°ktisap', value: '2018 SonrasÄ±' },
               ]}
-              resultLabel="Yıllık Toplam MTV"
-              resultValue="₺7.026"
+              resultLabel="YÄ±llÄ±k Toplam MTV"
+              resultValue="â‚º7.026"
               actionText="MTV Hesapla"
             />
           </div>
@@ -261,3 +265,4 @@ export default function HomePage() {
     </main>
   );
 }
+

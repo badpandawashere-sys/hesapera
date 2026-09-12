@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEhliyetSinavi } from '../formulas/ehliyetSinavi';
 
@@ -11,6 +11,7 @@ type Input = z.infer<typeof schema>;
 export const ehliyetSinaviCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ehliyetSinavi_001',
   slug: 'ehliyet-sinavi-puan',
+  status: 'draft',
   name: 'Ehliyet Sınavı Puan Hesaplama',
   shortDescription: 'MEB motorlu taşıt sürücü kursu teorik sınavı doğru sayınıza göre puanınızı ve başarı durumunuzu hesaplayın.',
   category: 'education',
@@ -38,3 +39,4 @@ export const ehliyetSinaviCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateEhliyetSinavi(input.correct);
   }
 };
+

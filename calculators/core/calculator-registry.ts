@@ -1,4 +1,52 @@
-import { CalculatorDefinition } from './calculator-types';
+﻿import { CalculatorDefinition } from './calculator-types';
+
+const CATEGORY_MAP: Record<string, string> = {
+  'yuzde': 'matematik',
+  'oran': 'matematik',
+  'metrekare': 'matematik',
+  'hacim': 'matematik',
+  'faktoriyel': 'matematik',
+  'ebob-ekok': 'matematik',
+  'koklu-sayi': 'matematik',
+  'alan': 'matematik',
+  'cevre': 'matematik',
+
+  'ihtiyac-kredisi': 'kredi',
+  'konut-kredisi': 'kredi',
+  'kredi': 'kredi',
+  'tasit-kredisi': 'kredi',
+  'kredi-karti-asgari-odeme-tutari': 'kredi',
+  'kredi-yapilandirma': 'kredi',
+  'kredi-yillik-maliyet-orani': 'kredi',
+  'ne-kadar-kredi-alabilirim': 'kredi',
+  'kredi-karti-gecikme-faizi': 'kredi',
+
+  'altin': 'finans',
+  'doviz': 'finans',
+  'enflasyon': 'finans',
+  'faiz': 'finans',
+  'vadeli-mevduat-faizi': 'finans',
+  'birikim': 'finans',
+  'bilesik-buyume': 'finans',
+  'basit-faiz': 'finans',
+  'gecmis-altin-fiyatlari': 'finans',
+  'gecmis-doviz-kurlari': 'finans',
+  'iban-dogrulama': 'finans',
+
+  'kpss-puan': 'egitim-sinav',
+  'tyt-puan': 'egitim-sinav',
+  'yks-puan': 'egitim-sinav',
+  'lgs-puan': 'egitim-sinav',
+  'ders-notu': 'egitim-sinav',
+  'takdir-tesekkur': 'egitim-sinav',
+
+  'vucut-kitle-endeksi': 'saglik',
+  'gunluk-kalori-ihtiyaci': 'saglik',
+  'ideal-kilo': 'saglik',
+  'yas': 'saglik',
+
+  'kira-artis-orani': 'emlak'
+};
 
 class Registry {
   private calculators: Map<string, CalculatorDefinition<any, any>> = new Map();
@@ -26,14 +74,29 @@ class Registry {
     return this.calculators.get(id);
   }
 
-  getByCategory(category: string): CalculatorDefinition<any, any>[] {
-    return Array.from(this.calculators.values()).filter(
-      (calc) => calc.category === category
-    );
-  }
-
   getAll(): CalculatorDefinition<any, any>[] {
     return Array.from(this.calculators.values());
+  }
+
+  getPublishedAll(): CalculatorDefinition<any, any>[] {
+    return this.getAll().filter(c => c.status === 'published');
+  }
+
+  getUiCategory(slug: string, originalCategory: string): string {
+    if (CATEGORY_MAP[slug]) return CATEGORY_MAP[slug];
+    const fallback: Record<string, string> = {
+      'finance': 'finans',
+      'math': 'matematik',
+      'health': 'saglik',
+      'education': 'egitim-sinav'
+    };
+    return fallback[originalCategory] || 'diger';
+  }
+
+  getPublishedByCategory(uiCategoryId: string): CalculatorDefinition<any, any>[] {
+    return this.getPublishedAll().filter(
+      (calc) => this.getUiCategory(calc.slug, calc.category) === uiCategoryId
+    );
   }
 
   has(id: string): boolean {

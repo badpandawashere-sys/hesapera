@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLoanLateFee } from '../formulas/loanLateFee';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const loanLateFeeCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loanLateFee_001',
   slug: 'kredi-gecikme-faizi',
+  status: 'draft',
   name: 'Kredi Gecikme Faizi Hesaplama',
   shortDescription: 'Gecikmiş kredi taksitleriniz için uygulanacak gecikme faizi ve toplam ödeme tutarını bulun.',
   category: 'finance',
@@ -55,3 +56,5 @@ export const loanLateFeeCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateLoanLateFee(input.overdueAmount, input.monthlyDelayRate, input.delayMonths);
   }
 };
+
+

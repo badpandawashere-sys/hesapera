@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateVehicleLoan } from '../formulas/vehicleLoan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const vehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_vehicleLoan_001',
   slug: 'tasit-kredisi',
+  status: 'published',
   name: 'Taşıt Kredisi Hesaplama',
   shortDescription: 'Otomobil veya diğer taşıt alımlarınız için kullanacağınız kredinin taksit ve ödeme planını anında hesaplayın.',
   category: 'finance',
@@ -35,3 +36,4 @@ export const vehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateVehicleLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+

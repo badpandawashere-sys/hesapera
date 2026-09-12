@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateOran } from '../formulas/oran';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const oranCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_oran_001',
   slug: 'oran',
+  status: 'published',
   name: 'Oran Hesaplama',
   shortDescription: 'İki sayı arasındaki oranı sadeleştirerek en basit formunda bulun.',
   category: 'math',
@@ -31,3 +32,5 @@ export const oranCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateOran(input)
 };
+
+

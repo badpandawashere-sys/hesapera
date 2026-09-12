@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCompoundInterest } from '../formulas/compoundInterest';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const compoundInterestCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_compoundInterest_001',
   slug: 'bilesik-faiz',
+  status: 'draft',
   name: 'Bileşik Faiz Hesaplama',
   shortDescription: 'Bileşik faiz mantığıyla gelecekteki toplam değeri ve kazancınızı hesaplayın.',
   category: 'math',
@@ -82,3 +83,5 @@ export const compoundInterestCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

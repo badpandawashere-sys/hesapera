@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateBebekBoyu } from '../formulas/bebekBoyu';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const bebekBoyuCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_bebek_boyu_001',
   slug: 'bebek-boyu',
+  status: 'draft',
   name: 'Bebek / Çocuk Hedef Boy Hesaplama',
   shortDescription: 'Ebeveyn boylarına dayanarak (Mid-Parental Height) çocuğunuzun genetik potansiyel yetişkinlik boyunu (hedef boy) hesaplayın.',
   category: 'health',
@@ -42,3 +43,5 @@ export const bebekBoyuCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateBebekBoyu(input)
 };
+
+

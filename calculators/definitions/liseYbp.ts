@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLiseYbp } from '../formulas/liseYbp';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const liseYbpCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_lise_ybp_001',
   slug: 'lise-ybp',
+  status: 'draft',
   name: 'Lise Yıl Sonu Başarı Puanı (YBP) Hesaplama',
   shortDescription: 'MEB güncel lise yönetmeliğine göre ders puanlarınız ve haftalık ders saatlerinizle Yıl Sonu Başarı Puanınızı (YBP) hesaplayın.',
   category: 'education',
@@ -44,3 +45,5 @@ export const liseYbpCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateLiseYbp(input)
 };
+
+

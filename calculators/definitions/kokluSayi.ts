@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKokluSayi } from '../formulas/kokluSayi';
 
@@ -20,6 +20,7 @@ type Input = z.infer<typeof schema>;
 export const kokluSayiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_koklu_sayi_001',
   slug: 'koklu-sayi',
+  status: 'published',
   name: 'Köklü Sayı Hesaplama',
   shortDescription: 'Bir sayının karekök, küpkök veya n. dereceden kökünü gerçek sayılar kurallarına uygun olarak hesaplayın.',
   category: 'math',
@@ -39,3 +40,5 @@ export const kokluSayiCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateKokluSayi(input)
 };
+
+

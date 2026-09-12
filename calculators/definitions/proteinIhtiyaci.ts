@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateProteinIhtiyaci } from '../formulas/proteinIhtiyaci';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukProteinIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_protein_ihtiyaci_001',
   slug: 'gunluk-protein-ihtiyaci',
+  status: 'draft',
   name: 'Günlük Protein İhtiyacı Hesaplama',
   shortDescription: 'Fiziksel aktivitenize ve vücut ağırlığınıza göre günlük protein ihtiyacınızı EFSA ve ISSN standartlarında hesaplayın.',
   category: 'health',
@@ -42,3 +43,5 @@ export const gunlukProteinIhtiyaciCalculatorDef: CalculatorDefinition<Input, any
   schema,
   calculate: (input) => calculateProteinIhtiyaci(input)
 };
+
+

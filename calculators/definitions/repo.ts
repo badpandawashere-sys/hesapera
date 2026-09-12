@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateRepo } from '../formulas/repo';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const repoCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_repo_001',
   slug: 'repo',
+  status: 'draft',
   name: 'Repo Hesaplama',
   shortDescription: 'Repo işleminizin anapara, faiz oranı ve vade gününe göre vade sonu net getirisini ve stopaj tutarını hesaplayın.',
   category: 'finance',
@@ -65,3 +66,4 @@ export const repoCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateRepo(input.principal, input.repoRate, input.days, input.taxRate);
   }
 };
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEurobond } from '../formulas/eurobond';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const eurobondCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_eurobond_001',
   slug: 'eurobond',
+  status: 'draft',
   name: 'Eurobond Hesaplama',
   shortDescription: 'Döviz cinsi tahvillerin (Eurobond) tahmini kupon getirisini ve vade sonu toplam nakit akışını simüle edin.',
   category: 'finance',
@@ -80,3 +81,4 @@ export const eurobondCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateEurobond(input.faceValue, input.purchasePrice, input.annualCouponRate, input.couponFrequency, input.remainingYears);
   }
 };
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateSimpleInterest } from '../formulas/simpleInterest';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const simpleInterestCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_simpleInterest_001',
   slug: 'basit-faiz',
+  status: 'published',
   name: 'Basit Faiz Hesaplama',
   shortDescription: 'Anapara, faiz oranı ve vade ile basit faiz getirisini hesaplayın.',
   category: 'math',
@@ -52,3 +53,5 @@ export const simpleInterestCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

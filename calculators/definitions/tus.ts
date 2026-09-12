@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateTus } from '../formulas/tus';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const tusCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_tus_001',
   slug: 'tus-puan',
+  status: 'draft',
   name: 'TUS Puan Hesaplama',
   shortDescription: 'TUS (Tıpta Uzmanlık Eğitimi Giriş Sınavı) Temel ve Klinik Tıp Bilimleri netlerinizi girerek T ve K puanınızı yaklaşık olarak hesaplayın.',
   category: 'education',
@@ -66,3 +67,5 @@ export const tusCalculatorDef: CalculatorDefinition<Input, any> = {
     input.mezuniyet
   )
 };
+
+

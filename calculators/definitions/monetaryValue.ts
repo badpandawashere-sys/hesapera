@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateMonetaryValue } from '../formulas/monetaryValue';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const monetaryValueCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_monetaryValue_001',
   slug: 'parasal-deger',
+  status: 'draft',
   name: 'Parasal Değer Hesaplama',
   shortDescription: 'Bir parasal tutarın belirli bir değişim (örneğin enflasyon) oranı sonrası nominal değerini hesaplayın.',
   category: 'finance',
@@ -54,3 +55,4 @@ export const monetaryValueCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateMonetaryValue(input.amount, input.rate, input.periods);
   }
 };
+

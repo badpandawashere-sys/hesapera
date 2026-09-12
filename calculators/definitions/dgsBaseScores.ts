@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { queryDgsBaseScores } from '../formulas/dgsBaseScores';
 
@@ -16,6 +16,7 @@ type Input = z.infer<typeof schema>;
 export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_dgs_base_scores_001',
   slug: 'dgs-taban-puanlari',
+  status: 'draft',
   name: 'DGS Taban Puanları',
   shortDescription: 'DGS taban puanlarını yıl, üniversite ve program bazında inceleyin. (Demo veri)',
   category: 'education',
@@ -40,7 +41,7 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
       { label: 'SÖZ (Sözel)', value: 'SOZ' },
       { label: 'EA (Eşit Ağırlık)', value: 'EA' }
     ]},
-    { id: 'city', label: 'Şehir (Arama)', type: 'text', required: false, placeholder: 'ör. Ankara' },
+    { id: 'city', label: 'Åehir (Arama)', type: 'text', required: false, placeholder: 'ör. Ankara' },
     { id: 'university', label: 'Üniversite (Arama)', type: 'text', required: false, placeholder: 'ör. ODTÜ' },
     { id: 'program', label: 'Program (Arama)', type: 'text', required: false, placeholder: 'ör. Bilgisayar' },
     { id: 'sortBy', label: 'Sıralama', type: 'select', required: false, options: [
@@ -51,7 +52,7 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
   ],
   schema,
   calculate: (input) => {
-    // Sync wrapper — returns a note; real data via server action
+    // Sync wrapper â€” returns a note; real data via server action
     const year = input.year ? parseInt(input.year) : undefined;
     const sortBy = (input.sortBy || 'score_desc') as 'score_asc' | 'score_desc' | 'university';
     return {
@@ -59,7 +60,7 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
       secondaryResults: {
         'Filtre: Yıl': input.year || 'Tüm Yıllar',
         'Filtre: Puan Türü': input.scoreType || 'Tümü',
-        'Filtre: Şehir': input.city || 'Hepsi',
+        'Filtre: Åehir': input.city || 'Hepsi',
         'Filtre: Üniversite': input.university || 'Hepsi',
         'Filtre: Program': input.program || 'Hepsi'
       },
@@ -67,3 +68,4 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
     };
   }
 };
+

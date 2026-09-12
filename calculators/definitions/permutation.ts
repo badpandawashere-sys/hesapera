@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePermutation } from '../formulas/permutation';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const permutationCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_permutation_001',
   slug: 'permutasyon-hesaplama',
+  status: 'draft',
   name: 'Permütasyon Hesaplama',
   shortDescription: 'n elemanlı bir kümenin r elemanlı permütasyonlarını (sıralı diziliş) hesaplayın.',
   category: 'math',
@@ -44,3 +45,5 @@ export const permutationCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculatePermutation(input.n, input.r);
   }
 };
+
+

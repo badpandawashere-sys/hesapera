@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateDgs } from '../formulas/dgs';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const dgsCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_dgs_001',
   slug: 'dgs-puan',
+  status: 'draft',
   name: 'DGS Puan Hesaplama',
   shortDescription: 'Dikey Geçiş Sınavı (DGS) Sayısal, Sözel ve Eşit Ağırlık (EA) puanlarınızı ÖBP dahil şekilde hesaplayın.',
   category: 'education',
@@ -74,3 +75,4 @@ export const dgsCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateDgs(input.sayCorrect, input.sayWrong, input.sozCorrect, input.sozWrong, input.obp);
   }
 };
+

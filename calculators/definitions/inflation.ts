@@ -22,6 +22,7 @@ type Input = z.infer<typeof schema>;
 export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_inflation_025',
   slug: 'enflasyon',
+  status: 'published',
   name: 'Enflasyon Hesaplama',
   shortDescription: 'Başlangıç ve bitiş endeks (TÜFE) değerlerini girerek parasal tutarın enflasyon karşısındaki değişimini hesaplayın.',
   category: 'finance',
@@ -67,3 +68,4 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateInflation(input.startAmount, input.startIndex, input.endIndex);
   }
 };
+

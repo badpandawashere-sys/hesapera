@@ -24,6 +24,7 @@ type Input = z.infer<typeof schema>;
 export const financialDiscountCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ic_ve_dis_iskonto_031',
   slug: 'ic-ve-dis-iskonto',
+  status: 'draft',
   name: 'İç ve Dış İskonto Hesaplama',
   shortDescription: 'İç iskonto ve dış iskonto hesaplama formülleriyle senedin veya finansal varlığın net bugünkü değerini simüle edin.',
   category: 'finance',
@@ -78,3 +79,4 @@ export const financialDiscountCalculatorDef: CalculatorDefinition<Input, any> = 
     return calculateFinancialDiscount(input);
   }
 };
+

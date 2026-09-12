@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateIyos } from '../formulas/iyos';
 
@@ -14,12 +14,13 @@ type Input = z.infer<typeof schema>;
 export const iyosCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_iyos_001',
   slug: 'iyos-puan',
+  status: 'draft',
   name: 'İYÖS Puan Hesaplama',
   shortDescription: '2026-İYÖS (İdari Yargı Ön Sınavı, 27 Eylül 2026) Genel Yetenek ve Hukuk testleri doğru/yanlış sayılarınıza göre yaklaşık puanınızı hesaplayın.',
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'İYÖS Puan Hesaplama — İdari Yargı Ön Sınavı 2026 | Hesapera',
+    title: 'İYÖS Puan Hesaplama â€” İdari Yargı Ön Sınavı 2026 | Hesapera',
     description: '2026-İYÖS (İdari Yargı Ön Sınavı, 27 Eylül 2026) Genel Yetenek ve Hukuk testleri doğru/yanlış sayılarınıza göre yaklaşık puanınızı hesaplayın.',
     keywords: ['iyos puan hesaplama', 'idari yargı ön sınavı', 'iyos 2026', 'iyos hesabı'],
     canonical: 'https://hesapera.com/iyos-puan',
@@ -35,3 +36,4 @@ export const iyosCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateIyos(input.gyCorrect, input.gyWrong, input.hukukCorrect, input.hukukWrong)
 };
+

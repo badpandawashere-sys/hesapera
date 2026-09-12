@@ -16,6 +16,7 @@ type Input = z.infer<typeof schema>;
 export const factorialCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_factorial_030',
   slug: 'faktoriyel',
+  status: 'published',
   name: 'Faktöriyel Hesaplama',
   shortDescription: 'Bir tam sayının faktöriyelini (n!) kesin doğrulukla hesaplayın. (n! = n × n-1 ... × 1)',
   category: 'math',
@@ -44,3 +45,4 @@ export const factorialCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateFactorial(input.n);
   }
 };
+

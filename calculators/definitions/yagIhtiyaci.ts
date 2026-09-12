@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateYagIhtiyaci } from '../formulas/yagIhtiyaci';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukYagIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_yag_ihtiyaci_001',
   slug: 'gunluk-yag-ihtiyaci',
+  status: 'draft',
   name: 'Günlük Yağ İhtiyacı Hesaplama',
   shortDescription: 'Günlük toplam kalori hedefinize ve belirlediğiniz yağ yüzdesine göre ihtiyacınız olan sağlıklı yağ miktarını (gram) hesaplayın.',
   category: 'health',
@@ -31,3 +32,5 @@ export const gunlukYagIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = 
   schema,
   calculate: (input) => calculateYagIhtiyaci(input)
 };
+
+

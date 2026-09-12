@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateRentIncrease } from '../formulas/rentIncrease';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const rentIncreaseCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_rentIncrease_001',
   slug: 'kira-artis-orani',
+  status: 'published',
   name: 'Kira Artış Oranı Hesaplama',
   shortDescription: 'Eski kira bedeli ve artış oranından yeni kira bedelinizi hesaplayın.',
   category: 'finance',
@@ -46,3 +47,4 @@ export const rentIncreaseCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateRentIncrease(input.currentRent, input.increaseRate);
   }
 };
+

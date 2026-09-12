@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCreditCardAdditionalInstallment } from '../formulas/creditCardAdditionalInstallment';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const creditCardAdditionalInstallmentCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_creditCardAdditionalInstallment_001',
   slug: 'kredi-karti-ek-taksit',
+  status: 'draft',
   name: 'Kredi Kartı Ek Taksit Hesaplama',
   shortDescription: 'Mevcut taksitli işleminize ek taksit eklendiğinde yeni taksit tutarınızı faizsiz eşit bölüşüm varsayımıyla hesaplayın.',
   category: 'finance',
@@ -53,3 +54,5 @@ export const creditCardAdditionalInstallmentCalculatorDef: CalculatorDefinition<
     return calculateCreditCardAdditionalInstallment(input.transactionAmount, input.currentInstallments, input.additionalInstallments);
   }
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateOzelGuvenlik } from '../formulas/ozelGuvenlik';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const ozelGuvenlikCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ozel_guvenlik_001',
   slug: 'ozel-guvenlik-sinavi-puani',
+  status: 'draft',
   name: 'Özel Güvenlik Sınavı Puanı Hesaplama',
   shortDescription: 'EGM Özel Güvenlik Temel/Yenileme eğitimi yazılı sınavı, silah bilgisi ve uygulamalı atış sonuçlarına göre sınav başarı durumunuzu hesaplayın.',
   category: 'education',
@@ -90,3 +91,5 @@ export const ozelGuvenlikCalculatorDef: CalculatorDefinition<Input, any> = {
     };
   }
 };
+
+

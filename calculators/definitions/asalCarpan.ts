@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAsalCarpan } from '../formulas/asalCarpan';
 
@@ -11,6 +11,7 @@ type Input = z.infer<typeof schema>;
 export const asalCarpanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_asal_carpan_001',
   slug: 'asal-carpan',
+  status: 'draft',
   name: 'Asal Çarpanlara Ayırma',
   shortDescription: 'Bir pozitif tam sayının asal çarpanlarını ve üslü gösterimini hesaplayın.',
   category: 'math',
@@ -35,3 +36,5 @@ export const asalCarpanCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateAsalCarpan(input)
 };
+
+

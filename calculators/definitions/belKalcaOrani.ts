@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateBelKalcaOrani } from '../formulas/belKalcaOrani';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const belKalcaOraniCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_bel_kalca_orani_001',
   slug: 'bel-kalca-orani',
+  status: 'draft',
   name: 'Bel / Kalça Oranı Hesaplama',
   shortDescription: 'Bel ve kalça çevrenizi cm cinsinden girerek abdominal obezite riskinizi Dünya Sağlık Örgütü (WHO) sınırlarına göre hesaplayın.',
   category: 'health',
@@ -42,3 +43,5 @@ export const belKalcaOraniCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateBelKalcaOrani(input)
 };
+
+

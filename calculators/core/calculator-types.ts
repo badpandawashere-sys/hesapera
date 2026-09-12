@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 
 export type CalculatorCategory = 
   | 'finance'
@@ -48,22 +48,13 @@ export interface CalculatorMetadata {
   relatedCalculators?: string[]; // array of slugs
   icon?: string; // name of the lucide icon, e.g. "CreditCard"
   features?: Array<{ label: string; icon?: string }>;
-  infoBox?: {
-    title: string;
-    text: string;
-    icon?: string;
-  };
-}
-
-export type CalculatorInput = Record<string, any>;
-
-export interface CalculatorContext {
-  // Can be extended later with localization, user preferences, etc.
   locale?: string;
   currency?: string;
+  infoBox?: any;
 }
 
 export interface CalculatorDefinition<TInput extends CalculatorInput = CalculatorInput, TResult = any> {
+  status?: 'published' | 'draft';
   id: string;
   slug: string;
   name: string;
@@ -76,18 +67,11 @@ export interface CalculatorDefinition<TInput extends CalculatorInput = Calculato
   calculate: (input: TInput, ctx?: CalculatorContext) => TResult | Promise<TResult>;
 }
 
-/**
- * Server-only calculator definitions must never cross the Server/Client boundary.
- * CalculatorViewModel is the client-safe, serializable representation of a calculator.
- */
 export type CalculatorViewModel = Omit<CalculatorDefinition<any, any>, 'schema' | 'calculate'>;
 
-/**
- * Strips non-serializable data (functions, class instances, schemas) from the CalculatorDefinition
- * so it can be safely passed to Client Components.
- */
 export function calculatorToViewModel(def: CalculatorDefinition<any, any>): CalculatorViewModel {
   return {
+    status: def.status || 'draft',
     id: def.id,
     slug: def.slug,
     name: def.name,
@@ -97,4 +81,9 @@ export function calculatorToViewModel(def: CalculatorDefinition<any, any>): Calc
     fields: def.fields,
     metadata: def.metadata,
   };
+}
+
+export type CalculatorInput = Record<string, any>;
+export interface CalculatorContext {
+  [key: string]: any;
 }

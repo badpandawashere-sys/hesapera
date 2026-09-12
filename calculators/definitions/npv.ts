@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateNpv } from '../formulas/npv';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const npvCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_npv_001',
   slug: 'net-bugunku-deger',
+  status: 'draft',
   name: 'Net Bugünkü Değer Hesaplama (NPV)',
   shortDescription: 'Gelecekteki nakit akışlarının, belirlenen iskonto oranıyla bugünkü değerini hesaplayın.',
   category: 'finance',
@@ -63,3 +64,4 @@ export const npvCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateNpv(input.discountRate, input.cashFlows);
   }
 };
+

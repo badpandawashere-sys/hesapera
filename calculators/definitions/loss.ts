@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLoss } from '../formulas/loss';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const lossCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loss_001',
   slug: 'zarar-hesaplama',
+  status: 'draft',
   name: 'Zarar Hesaplama',
   shortDescription: 'Satıştan doğan zararı ve zarar oranını anında bulun.',
   category: 'math',
@@ -45,3 +46,5 @@ export const lossCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

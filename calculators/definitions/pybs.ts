@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePybs } from '../formulas/pybs';
 
@@ -19,6 +19,7 @@ type Input = z.infer<typeof schema>;
 export const pybsCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_pybs_001',
   slug: 'pybs-puan',
+  status: 'draft',
   name: 'PYBS (İOKBS) Puan Hesaplama',
   shortDescription: 'MEB 2026 İlköğretim ve Ortaöğretim Kurumları Bursluluk Sınavı (İOKBS/PYBS) netlerinizi hesaplayın ve yaklaşık puanınızı (100-500) öğrenin.',
   category: 'education',
@@ -65,3 +66,5 @@ export const pybsCalculatorDef: CalculatorDefinition<Input, any> = {
     input.sosyalCorrect, input.sosyalWrong
   )
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { getUniversityBaseScores } from '../formulas/universityBaseScores';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const universiteYksTabanPuanlariDef: CalculatorDefinition<Input, any> = {
   id: 'calc_yks_base_001',
   slug: 'universite-yks-taban-puanlari',
+  status: 'draft',
   name: 'Üniversite / YKS Taban Puanları Hesaplama',
   shortDescription: 'ÖSYM 2026-YKS yerleştirme sonuçlarına göre üniversite taban puanları, tavan puanlar, kontenjan ve sıralama bilgilerini sorgulayın (Demo).',
   category: 'education',
@@ -65,3 +66,5 @@ export const universiteYksTabanPuanlariDef: CalculatorDefinition<Input, any> = {
     };
   }
 };
+
+

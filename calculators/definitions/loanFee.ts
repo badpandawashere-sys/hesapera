@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLoanFee } from '../formulas/loanFee';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const loanFeeCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loanFee_001',
   slug: 'kredi-dosya-masrafi',
+  status: 'draft',
   name: 'Kredi Dosya Masrafı Hesaplama',
   shortDescription: 'Kullanacağınız krediden kesilecek olan dosya masrafını matematiksel olarak hesaplayın. Oran mevzuata göre değişebilir.',
   category: 'finance',
@@ -47,3 +48,5 @@ export const loanFeeCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateLoanFee(input.loanAmount, input.feeRate);
   }
 };
+
+

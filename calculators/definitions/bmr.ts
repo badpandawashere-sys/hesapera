@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateBmr } from '../formulas/bmr';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const bazalMetabolizmaHiziCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_bazal_metabolizma_hizi_001',
   slug: 'bazal-metabolizma-hizi',
+  status: 'draft',
   name: 'Bazal Metabolizma Hızı (BMR) Hesaplama',
   shortDescription: 'Cinsiyet, yaş, boy ve kilonuza göre günlük dinlenik halde harcadığınız bazal enerji (BMR) miktarını hesaplayın.',
   category: 'health',
@@ -44,3 +45,5 @@ export const bazalMetabolizmaHiziCalculatorDef: CalculatorDefinition<Input, any>
   schema,
   calculate: (input) => calculateBmr(input)
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateYasamSuresi } from '../formulas/yasamSuresi';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const yasamSuresiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_yasam_suresi_001',
   slug: 'yasam-suresi',
+  status: 'draft',
   name: 'Yaşam Süresi Hesaplama',
   shortDescription: 'TÜİK (2023-2025) resmi verilerine göre belirli yaş grupları için istatistiksel kalan yaşam beklentinizi öğrenin.',
   category: 'health',
@@ -52,3 +53,5 @@ export const yasamSuresiCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateYasamSuresi(input)
 };
+
+

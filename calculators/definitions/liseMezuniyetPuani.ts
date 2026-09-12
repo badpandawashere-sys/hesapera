@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLiseMezuniyetPuani } from '../formulas/liseMezuniyetPuani';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const liseMezuniyetPuaniCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_lise_mezuniyet_puani_001',
   slug: 'lise-mezuniyet-puani',
+  status: 'draft',
   name: 'Lise Mezuniyet Puanı Hesaplama',
   shortDescription: 'Lise öğreniminiz boyunca elde ettiğiniz yıl sonu başarı puanlarıyla diploma puanınızı ve tahmini OBP\'nizi hesaplayın.',
   category: 'education',
@@ -53,3 +54,5 @@ export const liseMezuniyetPuaniCalculatorDef: CalculatorDefinition<Input, any> =
   schema,
   calculate: (input) => calculateLiseMezuniyetPuani(input)
 };
+
+

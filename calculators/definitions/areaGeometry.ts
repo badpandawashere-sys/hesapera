@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAreaGeometry } from '../formulas/areaGeometry';
 
@@ -28,6 +28,7 @@ type Input = z.infer<typeof schema>;
 export const areaGeometryCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_areaGeometry_001',
   slug: 'alan-hesaplama',
+  status: 'draft',
   name: 'Alan Hesaplama',
   shortDescription: 'Kare, dikdörtgen, üçgen veya dairenin alanını hesaplayın.',
   category: 'math',
@@ -43,7 +44,7 @@ export const areaGeometryCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
   {
     "id": "shape",
-    "label": "Geometrik Şekil",
+    "label": "Geometrik Åekil",
     "type": "select",
     "required": true,
     "defaultValue": "square",
@@ -144,3 +145,5 @@ export const areaGeometryCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateAreaGeometry(input);
   }
 };
+
+

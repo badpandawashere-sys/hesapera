@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAge } from '../formulas/age';
 
@@ -21,6 +21,7 @@ type Input = z.infer<typeof schema>;
 export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_age_001',
   slug: 'yas',
+  status: 'published',
   name: 'Yaş Hesaplama',
   shortDescription: 'Doğum tarihinizden bugüne kadar ne kadar zaman geçtiğini detaylı hesaplayın.',
   category: 'math',
@@ -58,3 +59,5 @@ export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateAge(input.birthDate, input.targetDate);
   }
 };
+
+

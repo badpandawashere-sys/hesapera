@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const loanRestructuringCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loanRestructuring_001',
   slug: 'kredi-yapilandirma',
+  status: 'published',
   name: 'Kredi Yapılandırma Hesaplama',
   shortDescription: 'Mevcut kredi bakiyenizi yeni faiz oranı ve vade ile yapılandırdığınızda aylık taksit, toplam ödeme ve toplam faiz tutarını hesaplayın.',
   category: 'finance',
@@ -67,3 +68,4 @@ export const loanRestructuringCalculatorDef: CalculatorDefinition<Input, any> = 
     return calculateLoanRestructuring(input.remainingPrincipal, input.newMonthlyInterestRate, input.newTermMonths);
   }
 };
+

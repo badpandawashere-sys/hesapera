@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateSutyenBedeni } from '../formulas/sutyenBedeni';
 
@@ -16,6 +16,7 @@ type Input = z.infer<typeof schema>;
 export const sutyenBedeniCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_sutyen_bedeni_001',
   slug: 'sutyen-bedeni',
+  status: 'draft',
   name: 'Sütyen Bedeni Hesaplama',
   shortDescription: 'Göğüs altı ve göğüs çevresi ölçülerinizi girerek Avrupa (EU) standartlarında tahmini sütyen bedeninizi ve kup ölçünüzü öğrenin.',
   category: 'health',
@@ -35,3 +36,5 @@ export const sutyenBedeniCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateSutyenBedeni(input)
 };
+
+

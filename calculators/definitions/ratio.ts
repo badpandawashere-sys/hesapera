@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateRatio } from '../formulas/ratio';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const ratioCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ratio_001',
   slug: 'oran-hesaplama',
+  status: 'draft',
   name: 'Oran Hesaplama',
   shortDescription: 'İki sayı arasındaki oranı ve yüzde karşılığını anında bulun.',
   category: 'math',
@@ -45,3 +46,5 @@ export const ratioCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

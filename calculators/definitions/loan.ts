@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLoan } from '../formulas/loan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const loanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loan_001',
   slug: 'kredi',
+  status: 'published',
   name: 'Kredi Hesaplama',
   shortDescription: 'Bireysel veya ticari kredilerinizin taksitlerini, faiz oranlarını ve geri ödeme planını anında hesaplayın.',
   category: 'finance',
@@ -67,3 +68,5 @@ export const loanCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+
+

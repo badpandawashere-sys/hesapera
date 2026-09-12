@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateMaxLoanAmount } from '../formulas/maxLoanAmount';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const maxLoanAmountCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_maxLoanAmount_001',
   slug: 'ne-kadar-kredi-alabilirim',
+  status: 'published',
   name: 'Ne Kadar Kredi Alabilirim Hesaplama',
   shortDescription: 'Ödeyebileceğiniz aylık taksit kapasitesine göre bankalardan teorik olarak çekebileceğiniz maksimum kredi miktarını hesaplayın.',
   category: 'finance',
@@ -64,3 +65,5 @@ export const maxLoanAmountCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateMaxLoanAmount(input.maxMonthlyPayment, input.monthlyInterestRate, input.termMonths, input.existingMonthlyDebt);
   }
 };
+
+

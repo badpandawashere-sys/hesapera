@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateMakroBesin } from '../formulas/makroBesin';
 
@@ -10,7 +10,7 @@ const schema = z.object({
 }).superRefine((data, ctx) => {
   const total = data.proteinYuzdesi + data.karbonhidratYuzdesi + data.yagYuzdesi;
   if (Math.round(total) !== 100) {
-    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Yüzdelerin toplamı tam 100 olmalıdır. Şu anki toplam: ${Math.round(total)}`, path: ['proteinYuzdesi'] });
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Yüzdelerin toplamı tam 100 olmalıdır. Åu anki toplam: ${Math.round(total)}`, path: ['proteinYuzdesi'] });
   }
 });
 
@@ -19,6 +19,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukMakroBesinIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_makro_besin_ihtiyaci_001',
   slug: 'gunluk-makro-besin-ihtiyaci',
+  status: 'draft',
   name: 'Günlük Makro Besin İhtiyacı Hesaplama',
   shortDescription: 'Toplam kalori hedefinize ve belirlediğiniz yüzdelik dağılıma göre günlük ihtiyacınız olan protein, karbonhidrat ve yağ miktarını (gram olarak) hesaplayın.',
   category: 'health',
@@ -40,3 +41,5 @@ export const gunlukMakroBesinIhtiyaciCalculatorDef: CalculatorDefinition<Input, 
   schema,
   calculate: (input) => calculateMakroBesin(input)
 };
+
+

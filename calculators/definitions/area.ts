@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateArea } from '../formulas/area';
 
@@ -12,13 +12,14 @@ type Input = z.infer<typeof schema>;
 export const areaCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_area_001',
   slug: 'metrekare-hesaplama',
+  status: 'draft',
   name: 'Metrekare Hesaplama',
-  shortDescription: 'Uzunluk ve genişlik girerek bir alanın metrekaresini (m²) hesaplayın.',
+  shortDescription: 'Uzunluk ve genişlik girerek bir alanın metrekaresini (mÂ²) hesaplayın.',
   category: 'math',
   type: 'simple',
   metadata: {
     title: 'Metrekare Hesaplama Aracı | Hesapera',
-    description: 'Uzunluk ve genişlik girerek bir alanın metrekaresini (m²) hesaplayın.',
+    description: 'Uzunluk ve genişlik girerek bir alanın metrekaresini (mÂ²) hesaplayın.',
     keywords: ["metrekare hesaplama","alan hesaplama","m2 hesaplama"],
     canonical: 'https://hesapera.com/metrekare-hesaplama',
     faq: [],
@@ -45,3 +46,5 @@ export const areaCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

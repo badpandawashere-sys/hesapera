@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateIrr } from '../formulas/irr';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const irrCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_irr_001',
   slug: 'ic-verim-orani',
+  status: 'draft',
   name: 'İç Verim Oranı Hesaplama',
   shortDescription: 'Bir dizi yatırım veya nakit akışının beklenen getiri oranını (IRR) hesaplayın.',
   category: 'finance',
@@ -54,3 +55,4 @@ export const irrCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateIrr(input.cashFlows);
   }
 };
+

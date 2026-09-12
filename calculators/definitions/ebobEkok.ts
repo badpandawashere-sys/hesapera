@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEbobEkok } from '../formulas/ebobEkok';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ebob_ekok_001',
   slug: 'ebob-ekok',
+  status: 'published',
   name: 'EBOB EKOK Hesaplama',
   shortDescription: 'İki pozitif tam sayının En Büyük Ortak Bölenini (EBOB/GCD) ve En Küçük Ortak Katını (EKOK/LCM) hesaplayın.',
   category: 'math',
@@ -31,3 +32,5 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateEbobEkok(input)
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateIbanValidation } from '../formulas/ibanValidation';
 
@@ -11,6 +11,7 @@ type Input = z.infer<typeof schema>;
 export const ibanValidationCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ibanValidation_001',
   slug: 'iban-dogrulama',
+  status: 'published',
   name: 'IBAN Doğrulama',
   shortDescription: 'Türkiye IBAN numarasının formatını ve MOD-97 doğrulama algoritmasını kontrol edin.',
   category: 'finance',
@@ -37,3 +38,4 @@ export const ibanValidationCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateIbanValidation(input.iban);
   }
 };
+

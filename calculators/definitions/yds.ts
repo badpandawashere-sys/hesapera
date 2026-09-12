@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateYds } from '../formulas/yds';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const ydsCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_yds_001',
   slug: 'yds-puan',
+  status: 'draft',
   name: 'YDS Puan Hesaplama',
   shortDescription: 'ÖSYM 2026-YDS (Yabancı Dil Bilgisi Seviye Tespit Sınavı) doğru sayınıza göre puanınızı ve dil seviyenizi (A-E) hesaplayın.',
   category: 'education',
@@ -31,3 +32,5 @@ export const ydsCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateYds(input.dogru, input.yanlis)
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePmyo } from '../formulas/pmyo';
 
@@ -13,12 +13,13 @@ type Input = z.infer<typeof schema>;
 export const pmyoCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_pmyo_001',
   slug: 'pmyo-puan',
+  status: 'draft',
   name: 'PMYO Puan Hesaplama',
   shortDescription: 'TYT ham puanı, fiziki yeterlilik ve mülakat sınavı puanınıza göre Polis Meslek Yüksekokulu (PMYO) nihai başarı puanınızı hesaplayın.',
   category: 'education',
   type: 'simple',
   metadata: {
-    title: 'PMYO Puan Hesaplama — Polis Meslek Yüksekokulu | Hesapera',
+    title: 'PMYO Puan Hesaplama â€” Polis Meslek Yüksekokulu | Hesapera',
     description: 'Polis Meslek Yüksekokulu (PMYO) güncel başarı puanı formülüne göre TYT (%25), fiziki yeterlilik (%25) ve mülakat (%50) bileşenleriyle nihai puanınızı hesaplayın.',
     keywords: ['pmyo puan hesaplama', 'polis meslek yüksekokulu', 'pmyo başarı puanı', 'tyt fiziki mülakat'],
     canonical: 'https://hesapera.com/pmyo-puan',
@@ -71,3 +72,5 @@ export const pmyoCalculatorDef: CalculatorDefinition<Input, any> = {
     };
   }
 };
+
+

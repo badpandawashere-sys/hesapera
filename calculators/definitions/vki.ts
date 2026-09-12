@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateVki } from '../formulas/vki';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const vkiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_vki_001',
   slug: 'vucut-kitle-endeksi',
+  status: 'published',
   name: 'Vücut Kitle Endeksi (VKİ) Hesaplama',
   shortDescription: 'Boyunuza ve kilonuza göre Vücut Kitle Endeksinizi (VKİ/BMI) hesaplayın ve WHO standartlarına göre kilonuzun durumunu öğrenin.',
   category: 'health',
@@ -42,3 +43,5 @@ export const vkiCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateVki(input)
 };
+
+

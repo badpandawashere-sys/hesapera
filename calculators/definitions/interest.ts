@@ -44,6 +44,7 @@ type Input = z.infer<typeof schema>;
 export const interestCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_interest_027',
   slug: 'faiz',
+  status: 'published',
   name: 'Faiz Hesaplama',
   shortDescription: 'Ana para, faiz oranı ve süre ile basit veya bileşik faiz getirinizi genel olarak hesaplayın.',
   category: 'finance',
@@ -135,3 +136,4 @@ export const interestCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+

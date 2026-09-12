@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCommercialLoan } from '../formulas/commercialLoan';
 
@@ -13,13 +13,14 @@ type Input = z.infer<typeof schema>;
 export const commercialLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_commercialLoan_001',
   slug: 'ticari-kredi',
+  status: 'draft',
   name: 'Ticari Kredi Hesaplama',
-  shortDescription: 'Şirketiniz için kullanacağınız ticari kredinin genel geri ödeme ve faiz tablosunu hesaplayın.',
+  shortDescription: 'Åirketiniz için kullanacağınız ticari kredinin genel geri ödeme ve faiz tablosunu hesaplayın.',
   category: 'finance',
   type: 'complex',
   metadata: {
     title: 'Ticari Kredi Hesaplama Aracı | Hesapera',
-    description: 'Şirketiniz için kullanacağınız ticari kredinin genel geri ödeme ve faiz tablosunu hesaplayın.',
+    description: 'Åirketiniz için kullanacağınız ticari kredinin genel geri ödeme ve faiz tablosunu hesaplayın.',
     keywords: ["ticari kredi hesaplama","kurumsal kredi","şirket kredisi"],
     canonical: 'https://hesapera.com/ticari-kredi',
     faq: [],
@@ -35,3 +36,4 @@ export const commercialLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateCommercialLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+

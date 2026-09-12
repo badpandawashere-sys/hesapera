@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAlan } from '../formulas/alan';
 
@@ -33,6 +33,7 @@ type Input = z.infer<typeof schema>;
 export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_alan_001',
   slug: 'alan',
+  status: 'published',
   name: 'Alan Hesaplama',
   shortDescription: 'Kare, dikdörtgen, üçgen, daire, paralelkenar veya yamuk gibi geometrik şekillerin alanını formüllerle hesaplayın.',
   category: 'math',
@@ -48,7 +49,7 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
     {
       id: 'sekil',
-      label: 'Geometrik Şekil',
+      label: 'Geometrik Åekil',
       type: 'select',
       required: true,
       options: [
@@ -83,3 +84,5 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateAlan(input)
 };
+
+

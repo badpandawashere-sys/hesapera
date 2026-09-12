@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLoanEarlyPayoffPenalty } from '../formulas/loanEarlyPayoffPenalty';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const loanEarlyPayoffPenaltyCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_loanEarlyPayoffPenalty_001',
   slug: 'kredi-erken-kapatma-cezasi',
+  status: 'draft',
   name: 'Kredi Erken Kapatma Cezası Hesaplama',
   shortDescription: 'Kredinizi vadesinden önce kapatmak istediğinizde ödemeniz gereken ceza tutarını hesaplayın.',
   category: 'finance',
@@ -47,3 +48,5 @@ export const loanEarlyPayoffPenaltyCalculatorDef: CalculatorDefinition<Input, an
     return calculateLoanEarlyPayoffPenalty(input.remainingPrincipal, input.penaltyRate);
   }
 };
+
+

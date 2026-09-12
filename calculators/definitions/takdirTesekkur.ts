@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateTakdirTesekkur } from '../formulas/takdirTesekkur';
 
@@ -16,6 +16,7 @@ type Input = z.infer<typeof schema>;
 export const takdirTesekkurCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_takdir_tesekkur_001',
   slug: 'takdir-tesekkur',
+  status: 'published',
   name: 'Takdir / Teşekkür Belgesi Hesaplama',
   shortDescription: 'Dönem ortalamanız, devamsızlık ve ders başarınıza göre MEB takdir veya teşekkür belgesi alma durumunuzu hesaplayın.',
   category: 'education',
@@ -60,3 +61,5 @@ export const takdirTesekkurCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateTakdirTesekkur(input)
 };
+
+

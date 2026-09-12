@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateFuturesPrice } from '../formulas/futuresPrice';
 
@@ -16,6 +16,7 @@ type Input = z.infer<typeof schema>;
 export const futuresPriceCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_futuresPrice_001',
   slug: 'vadeli-islem-fiyati',
+  status: 'draft',
   name: 'Vadeli İşlem Fiyatı Hesaplama',
   shortDescription: 'Dayanak varlığın spot fiyatı, finansman maliyeti ve temettü etkisi üzerinden teorik vadeli işlem fiyatını hesaplayın.',
   category: 'finance',
@@ -108,3 +109,4 @@ export const futuresPriceCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateFuturesPrice(input.spotPrice, input.interestRate, input.daysToMaturity, input.dividendType, input.dividendRate, input.dividendAmount);
   }
 };
+

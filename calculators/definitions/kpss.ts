@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKpss } from '../formulas/kpss';
 
@@ -16,12 +16,13 @@ type Input = z.infer<typeof schema>;
 export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_kpss_001',
   slug: 'kpss-puan',
+  status: 'published',
   name: 'KPSS Puan Hesaplama',
   shortDescription: 'KPSS Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre KPSSP1 veya KPSSP3 yaklaşık puanınızı hesaplayın.',
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'KPSS Puan Hesaplama — GY ve GK Bazlı | Hesapera',
+    title: 'KPSS Puan Hesaplama â€” GY ve GK Bazlı | Hesapera',
     description: 'KPSS 2026 Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre KPSSP1 ve KPSSP3 yaklaşık puanınızı hesaplayın.',
     keywords: ['kpss puan hesaplama', 'kpss 2026', 'kpssp3 hesaplama', 'kpss gk gy net'],
     canonical: 'https://hesapera.com/kpss-puan',
@@ -46,8 +47,8 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
       type: 'select',
       required: true,
       options: [
-        { label: 'KPSSP3 — GY %50 + GK %50', value: 'KPSSP3' },
-        { label: 'KPSSP1 — GY %30 + GK %70', value: 'KPSSP1' }
+        { label: 'KPSSP3 â€” GY %50 + GK %50', value: 'KPSSP3' },
+        { label: 'KPSSP1 â€” GY %30 + GK %70', value: 'KPSSP1' }
       ]
     },
     { id: 'gyCorrect', label: 'Genel Yetenek Doğru', type: 'number', required: true, min: 0, max: 60 },
@@ -63,3 +64,4 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
     input.gkCorrect, input.gkWrong
   )
 };
+

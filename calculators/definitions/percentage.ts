@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePercentage } from '../formulas/percentage';
 
@@ -12,6 +12,7 @@ type PercentageInput = z.infer<typeof percentageSchema>;
 export const percentageCalculatorDef: CalculatorDefinition<PercentageInput, number> = {
   id: 'calc_percentage_001',
   slug: 'yuzde',
+  status: 'published',
   name: 'Yüzde Hesaplama',
   shortDescription: 'Bir sayının belirli bir yüzdesini hızlıca hesaplayın.',
   category: 'math',
@@ -56,3 +57,5 @@ export const percentageCalculatorDef: CalculatorDefinition<PercentageInput, numb
     return calculatePercentage(input.baseValue, input.percentage);
   }
 };
+
+

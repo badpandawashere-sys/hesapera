@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateMortgageLoan } from '../formulas/mortgageLoan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const mortgageLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_mortgageLoan_001',
   slug: 'konut-kredisi',
+  status: 'published',
   name: 'Konut Kredisi Hesaplama',
   shortDescription: 'Ev sahibi olmak için çekeceğiniz konut kredisinin aylık ödemelerini ve faiz detaylarını görün.',
   category: 'finance',
@@ -35,3 +36,5 @@ export const mortgageLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateMortgageLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+
+

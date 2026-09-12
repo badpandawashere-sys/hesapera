@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLiseDersPuani } from '../formulas/liseDersPuani';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const liseDersPuaniCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_lise_ders_puani_001',
   slug: 'lise-ders-puani',
+  status: 'draft',
   name: 'Lise Ders Puanı Hesaplama',
   shortDescription: 'MEB 2026 lise yönetmeliğine göre sınav, performans ve proje notlarınızla bir dersin yıl sonu başarı puanını hesaplayın.',
   category: 'education',
@@ -52,3 +53,5 @@ export const liseDersPuaniCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateLiseDersPuani(input)
 };
+
+

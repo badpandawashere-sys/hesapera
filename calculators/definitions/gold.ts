@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateGold } from '../formulas/gold';
 import { marketDataService } from '../../lib/market-data/market-data-service';
@@ -22,6 +22,7 @@ type Input = z.infer<typeof schema>;
 export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gold_001',
   slug: 'altin',
+  status: 'published',
   name: 'Altın Hesaplama',
   shortDescription: 'Canlı altın fiyatları üzerinden elinizdeki altının değerini veya paranızla ne kadar altın alabileceğinizi hesaplayın.',
   category: 'finance',
@@ -122,3 +123,5 @@ export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

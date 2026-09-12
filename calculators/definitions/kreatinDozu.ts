@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKreatinDozu } from '../formulas/kreatinDozu';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukKreatinDozuCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_kreatin_dozu_001',
   slug: 'gunluk-kreatin-dozu',
+  status: 'draft',
   name: 'Günlük Kreatin Dozu Hesaplama',
   shortDescription: 'Uluslararası Spor Beslenmesi Derneği (ISSN) standartlarına göre kilonuza ve takviye protokolünüze uygun kreatin dozunu hesaplayın.',
   category: 'health',
@@ -53,3 +54,5 @@ export const gunlukKreatinDozuCalculatorDef: CalculatorDefinition<Input, any> = 
   schema,
   calculate: (input) => calculateKreatinDozu(input)
 };
+
+

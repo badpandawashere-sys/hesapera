@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAverageMaturity } from '../formulas/averageMaturity';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const averageMaturityCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_averageMaturity_001',
   slug: 'ortalama-vade',
+  status: 'draft',
   name: 'Ortalama Vade Hesaplama',
   shortDescription: 'Farklı tutarlardaki ödeme veya alacaklarınızın ağırlıklı ortalama vadesini (gün olarak) hesaplayın.',
   category: 'finance',
@@ -55,3 +56,4 @@ export const averageMaturityCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateAverageMaturity(input.items);
   }
 };
+

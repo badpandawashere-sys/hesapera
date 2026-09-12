@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCreditCardCashAdvance } from '../formulas/creditCardCashAdvance';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const creditCardCashAdvanceCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_creditCardCashAdvance_001',
   slug: 'kredi-karti-taksitli-nakit-avans',
+  status: 'draft',
   name: 'Kredi Kartı Taksitli Nakit Avans Hesaplama',
   shortDescription: 'Çektiğiniz nakit avansın taksitlerini ve işlem ücretleriyle toplam maliyetini parametrik olarak hesaplayın.',
   category: 'finance',
@@ -65,3 +66,5 @@ export const creditCardCashAdvanceCalculatorDef: CalculatorDefinition<Input, any
     return calculateCreditCardCashAdvance(input.cashAdvanceAmount, input.monthlyInterestRate, input.installmentCount, input.feeRate);
   }
 };
+
+

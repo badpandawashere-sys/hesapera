@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { queryLiseBaseScores } from '../formulas/liseBaseScores';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const liseLgsTabanPuanlariCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_liseLgsTabanPuanlari_001',
   slug: 'lise-lgs-taban-puanlari',
+  status: 'draft',
   name: 'Lise / LGS Taban Puanları Hesaplama',
   shortDescription: 'LGS ile öğrenci alan lise ve ortaöğretim kurumlarının yıl, il ve okul türüne göre geçmiş taban puanlarını sorgulayın. (Demo veridir.)',
   category: 'education',
@@ -85,3 +86,5 @@ export const liseLgsTabanPuanlariCalculatorDef: CalculatorDefinition<Input, any>
     };
   }
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCapitalDividend } from '../formulas/capitalDividend';
 
@@ -22,6 +22,7 @@ type Input = z.infer<typeof schema>;
 export const capitalDividendCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_capitalDividend_001',
   slug: 'sermaye-ve-temettu',
+  status: 'draft',
   name: 'Sermaye ve Temettü Hesaplama',
   shortDescription: 'Sermaye, hisse adedi ve temettü oranları arasındaki ilişkiyi kullanarak hisse başına düşen temettü ve nominal değeri hesaplayın.',
   category: 'finance',
@@ -100,3 +101,4 @@ export const capitalDividendCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateCapitalDividend(input.capital, input.sharesCount, input.calculationType, input.dividendRate, input.dividendAmount);
   }
 };
+

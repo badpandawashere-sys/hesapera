@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateSavings } from '../formulas/savings';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const savingsCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_savings_001',
   slug: 'birikim',
+  status: 'published',
   name: 'Birikim Hesaplama',
   shortDescription: 'Başlangıç sermayeniz ve düzenli aylık katkılarınızla, varsayımsal bir getiri oranı üzerinden gelecekteki birikiminizi hesaplayın.',
   category: 'finance',
@@ -64,3 +65,4 @@ export const savingsCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateSavings(input.initialDeposit, input.periodicContribution, input.annualInterestRate, input.termMonths);
   }
 };
+

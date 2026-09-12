@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const milCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_mil_029',
   slug: 'mil',
+  status: 'draft',
   name: 'Mil Hesaplama',
   shortDescription: 'Mil, Kilometre (km) ve Metre (m) arasında hassas uzunluk birimi dönüşümü yapın.',
   category: 'math',
@@ -54,3 +55,4 @@ export const milCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateMil(input.miktar, input.birim);
   }
 };
+

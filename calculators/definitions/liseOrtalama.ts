@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateLiseOrtalama } from '../formulas/liseOrtalama';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const liseOrtalamaCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_lise_ortalama_001',
   slug: 'lise-ortalama',
+  status: 'draft',
   name: 'Lise Ortalama Hesaplama',
   shortDescription: 'Lise derslerinizin puanı ve haftalık ders saatiyle dönem veya yıl sonu ağırlıklı ortalamanızı hesaplayın.',
   category: 'education',
@@ -44,3 +45,5 @@ export const liseOrtalamaCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateLiseOrtalama(input)
 };
+
+

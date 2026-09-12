@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCreditCardInstallment } from '../formulas/creditCardInstallment';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const creditCardInstallmentCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_creditCardInstallment_001',
   slug: 'kredi-karti-islem-taksitlendirme',
+  status: 'draft',
   name: 'Kredi Kartı İşlem Taksitlendirme Hesaplama',
   shortDescription: 'Peşin yaptığınız bir harcamayı sonradan taksitlendirmek istediğinizde aylık ödeme planını oluşturun.',
   category: 'finance',
@@ -56,3 +57,5 @@ export const creditCardInstallmentCalculatorDef: CalculatorDefinition<Input, any
     return calculateCreditCardInstallment(input.transactionAmount, input.installmentCount, input.monthlyInterestRate);
   }
 };
+
+

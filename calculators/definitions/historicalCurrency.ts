@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateHistoricalCurrency } from '../formulas/historicalCurrency';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const historicalCurrencyCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_historicalCurrency_001',
   slug: 'gecmis-doviz-kurlari',
+  status: 'published',
   name: 'Geçmiş Döviz Kurları Hesaplama',
   shortDescription: 'Belirli bir tarihteki döviz kurlarını kullanarak geçmiş tutarları güncel veya karşılıklı döviz cinslerine çevirin.',
   category: 'finance',
@@ -86,3 +87,4 @@ export const historicalCurrencyCalculatorDef: CalculatorDefinition<Input, any> =
     return calculateHistoricalCurrency(input.amount, input.fromCurrency, input.toCurrency, input.date);
   }
 };
+

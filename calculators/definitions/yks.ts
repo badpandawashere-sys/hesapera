@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateYks } from '../formulas/yks';
 
@@ -41,6 +41,7 @@ type Input = z.infer<typeof schema>;
 export const yksCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_yks_001',
   slug: 'yks-puan',
+  status: 'published',
   name: 'YKS Puan Hesaplama',
   shortDescription: 'ÖSYM 2026-YKS puan hesaplama aracı. TYT, SAY, EA, SÖZ ve DİL puan türlerinde güncel katsayılarla yaklaşık sınav ve yerleştirme puanınızı hesaplayın.',
   category: 'education',
@@ -138,3 +139,5 @@ export const yksCalculatorDef: CalculatorDefinition<Input, any> = {
     isKirikObp: input.isKirikObp
   })
 };
+
+

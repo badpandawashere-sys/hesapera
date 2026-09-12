@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEkpss } from '../formulas/ekpss';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const ekpssCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ekpss_001',
   slug: 'ekpss-puan',
+  status: 'draft',
   name: 'EKPSS Puan Hesaplama',
   shortDescription: '2026-EKPSS (Engelli Kamu Personeli Seçme Sınavı) Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
   category: 'education',
@@ -86,3 +87,4 @@ export const ekpssCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateEkpss(input.educationLevel, input.gyCorrect, input.gyWrong, input.gkCorrect, input.gkWrong);
   }
 };
+

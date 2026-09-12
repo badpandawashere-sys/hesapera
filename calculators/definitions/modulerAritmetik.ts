@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateModulerAritmetik } from '../formulas/modulerAritmetik';
 
@@ -14,6 +14,7 @@ type Input = z.infer<typeof schema>;
 export const modulerAritmetikCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_mod_001',
   slug: 'moduler-aritmetik',
+  status: 'draft',
   name: 'Modüler Aritmetik Hesaplama',
   shortDescription: 'Sayıların belirtilen bir moda göre (mod m) değerlerini, toplama, çıkarma ve çarpma işlemlerini hesaplayın.',
   category: 'math',
@@ -37,7 +38,7 @@ export const modulerAritmetikCalculatorDef: CalculatorDefinition<Input, any> = {
         { label: 'Mod Alma (a mod m)', value: 'mod' },
         { label: 'Toplama (a + b) mod m', value: 'toplama' },
         { label: 'Çıkarma (a - b) mod m', value: 'cikarma' },
-        { label: 'Çarpma (a × b) mod m', value: 'carpma' }
+        { label: 'Çarpma (a Ã— b) mod m', value: 'carpma' }
       ]
     },
     { id: 'm', label: 'Mod Değeri (m)', type: 'number', required: true, min: 1, description: 'Hangi moda göre işlem yapılacak?' },
@@ -60,3 +61,5 @@ export const modulerAritmetikCalculatorDef: CalculatorDefinition<Input, any> = {
     m: input.m
   })
 };
+
+

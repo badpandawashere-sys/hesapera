@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateDiscount } from '../formulas/discount';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const discountCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_discount_001',
   slug: 'indirim-hesaplama',
+  status: 'draft',
   name: 'İndirim Hesaplama',
   shortDescription: 'Bir ürünün veya hizmetin indirimli fiyatını ve indirim tutarını kolayca hesaplayın.',
   category: 'finance',
@@ -46,3 +47,4 @@ export const discountCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateDiscount(input.price, input.discountRate);
   }
 };
+

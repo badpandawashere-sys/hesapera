@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAdetGunu } from '../formulas/adetGunu';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const adetGunuCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_adet_gunu_001',
   slug: 'adet-gunu',
+  status: 'draft',
   name: 'Adet Günü Hesaplama',
   shortDescription: 'Son adet tarihinize ve döngü uzunluğunuza göre tahmini bir sonraki adet gününüzü ve yumurtlama döneminizi hesaplayın.',
   category: 'health',
@@ -31,3 +32,5 @@ export const adetGunuCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateAdetGunu(input)
 };
+
+

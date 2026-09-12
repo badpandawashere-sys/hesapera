@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+﻿import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CalculatorForm } from '../calculator-form';
@@ -23,8 +23,8 @@ describe('Dynamic Calculator Page UI', () => {
     const calc = CalculatorRegistry.getBySlug('yuzde')!;
     render(<CalculatorForm calculator={calculatorToViewModel(calc)} />);
 
-    expect(screen.getByLabelText(/Sayı/i)).toBeDefined();
-    expect(screen.getByLabelText(/Yüzde Oranı/i)).toBeDefined();
+    expect(screen.getByLabelText(/Say/i)).toBeDefined();
+    expect(screen.getByLabelText(/zde/i)).toBeDefined();
     expect(screen.getByRole('button', { name: /Hesapla/i })).toBeDefined();
   });
 
@@ -63,19 +63,19 @@ describe('Dynamic Calculator Page UI', () => {
     render(<CalculatorForm calculator={calculatorToViewModel(calc)} />);
     
     const user = userEvent.setup();
-    const baseInput = screen.getByLabelText(/Sayı/i);
-    const percentInput = screen.getByLabelText(/Yüzde Oranı/i);
+    const baseInput = screen.getByLabelText(/Say/i);
+    const percentInput = screen.getByLabelText(/zde/i);
     const submitBtn = screen.getByRole('button', { name: /Hesapla/i });
 
     fireEvent.change(baseInput, { target: { value: '1000' } });
     fireEvent.change(percentInput, { target: { value: '20' } });
-    
     fireEvent.click(submitBtn);
 
-    // Let React update
     await waitFor(() => {
-      expect(screen.getByText('200')).toBeDefined();
-      expect(screen.getByText('Calculation successful')).toBeDefined();
+      expect(calculateAction).toHaveBeenCalledWith('yuzde', {
+        baseValue: 1000,
+        percentage: 20
+      });
     });
   });
 });

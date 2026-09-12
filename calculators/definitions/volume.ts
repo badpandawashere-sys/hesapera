@@ -42,6 +42,7 @@ type Input = z.infer<typeof schema>;
 export const volumeCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_volume_029',
   slug: 'hacim',
+  status: 'published',
   name: 'Hacim Hesaplama',
   shortDescription: 'Küp, dikdörtgenler prizması, küre, silindir ve koni gibi geometrik cisimlerin hacmini pratik olarak hesaplayın.',
   category: 'math',
@@ -141,3 +142,4 @@ export const volumeCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateVolume(input);
   }
 };
+

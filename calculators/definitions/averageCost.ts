@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAverageCost } from '../formulas/averageCost';
 
@@ -19,6 +19,7 @@ type Input = z.infer<typeof schema>;
 export const averageCostCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_averageCost_001',
   slug: 'ortalama-maliyet-hesaplama',
+  status: 'draft',
   name: 'Ortalama Maliyet Hesaplama',
   shortDescription: 'Farklı fiyatlardan alınan ürünlerin toplam ortalama maliyetini bulun.',
   category: 'math',
@@ -70,3 +71,5 @@ export const averageCostCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

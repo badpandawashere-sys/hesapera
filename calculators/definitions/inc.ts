@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateInc } from '../formulas/inc';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const incCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_inc_001',
   slug: 'inc',
+  status: 'draft',
   name: 'İnç Hesaplama',
   shortDescription: 'İnç (inch) ile santimetre (cm) arasında pratik uzunluk dönüşümü yapın. 1 inch = 2.54 cm.',
   category: 'math',
@@ -53,3 +54,5 @@ export const incCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateInc(input)
 };
+
+

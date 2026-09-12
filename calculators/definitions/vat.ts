@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateVat } from '../formulas/vat';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const vatCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_vat_001',
   slug: 'kdv-hesaplama',
+  status: 'draft',
   name: 'KDV Hesaplama',
   shortDescription: 'KDV dahil ve KDV hariç tutarları hızlıca hesaplayın.',
   category: 'math',
@@ -45,3 +46,5 @@ export const vatCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

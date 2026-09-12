@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateObp, formatObpResult } from '../formulas/obp';
 
@@ -12,12 +12,13 @@ type Input = z.infer<typeof schema>;
 export const obpCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_obp_001',
   slug: 'obp-okul-puani',
+  status: 'draft',
   name: 'OBP Okul Puanı Hesaplama',
   shortDescription: 'Diploma notunuzdan OBP (Ortaöğretim Başarı Puanı) ve YKS yerleştirme puanına normal veya kırık OBP katkısını hesaplayın. (ÖSYM 2026-YKS Kılavuzu)',
   category: 'education',
   type: 'simple',
   metadata: {
-    title: 'OBP Hesaplama — Ortaöğretim Başarı Puanı | Hesapera',
+    title: 'OBP Hesaplama â€” Ortaöğretim Başarı Puanı | Hesapera',
     description: 'Diploma notunuzdan OBP ve YKS katkınızı hesaplayın. Önceki yıl yerleşme durumuna göre kırık OBP katkısı (0.06) veya normal katkı (0.12) hesaplanır.',
     keywords: ['obp hesaplama', 'ortaöğretim başarı puanı', 'diploma notu obp', 'yks obp katkısı', 'kırık obp'],
     canonical: 'https://hesapera.com/obp-okul-puani',
@@ -27,7 +28,7 @@ export const obpCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
     {
       id: 'diplomaNotu',
-      label: 'Diploma Notu (0–100)',
+      label: 'Diploma Notu (0â€“100)',
       type: 'number',
       required: true,
       min: 0,
@@ -50,3 +51,5 @@ export const obpCalculatorDef: CalculatorDefinition<Input, any> = {
     return formatObpResult(result, input.useKirik === 'kirik');
   }
 };
+
+

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCreditCardLateFee } from '../formulas/creditCardLateFee';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const creditCardLateFeeCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_creditCardLateFee_001',
   slug: 'kredi-karti-gecikme-faizi',
+  status: 'published',
   name: 'Kredi Kartı Gecikme Faizi Hesaplama',
   shortDescription: 'Kredi kartı dönem borcunuzu geciktirdiğinizde doğacak gecikme faizi ve toplam borcu parametrik olarak hesaplayın.',
   category: 'finance',
@@ -55,3 +56,5 @@ export const creditCardLateFeeCalculatorDef: CalculatorDefinition<Input, any> = 
     return calculateCreditCardLateFee(input.overdueAmount, input.monthlyDelayRate, input.delayMonths);
   }
 };
+
+

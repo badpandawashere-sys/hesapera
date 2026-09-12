@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCommercialConsumerLoan } from '../formulas/commercialConsumerLoan';
 
@@ -13,6 +13,7 @@ type Input = z.infer<typeof schema>;
 export const commercialConsumerLoanCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_commercialConsumerLoan_001',
   slug: 'ticari-ihtiyac-kredisi',
+  status: 'draft',
   name: 'Ticari İhtiyaç Kredisi Hesaplama',
   shortDescription: 'İşletmenizin kısa ve orta vadeli nakit ihtiyaçları için kullanacağınız ticari ihtiyaç kredisini parametrik olarak simüle edin.',
   category: 'finance',
@@ -35,3 +36,4 @@ export const commercialConsumerLoanCalculatorDef: CalculatorDefinition<Input, an
     return calculateCommercialConsumerLoan(input.loanAmount, input.monthlyInterestRate, input.termMonths);
   }
 };
+

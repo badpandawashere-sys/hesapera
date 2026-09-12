@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateVucutYagOrani } from '../formulas/vucutYagOrani';
 
@@ -25,6 +25,7 @@ type Input = z.infer<typeof schema>;
 export const vucutYagOraniCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_vucut_yag_orani_001',
   slug: 'vucut-yag-orani',
+  status: 'draft',
   name: 'Vücut Yağ Oranı Hesaplama',
   shortDescription: 'Mezura ölçümlerinizi kullanarak Amerikan Donanması (U.S. Navy) metodu ile tahmini vücut yağ oranınızı hesaplayın.',
   category: 'health',
@@ -56,3 +57,5 @@ export const vucutYagOraniCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateVucutYagOrani(input)
 };
+
+

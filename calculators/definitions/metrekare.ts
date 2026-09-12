@@ -19,6 +19,7 @@ type Input = z.infer<typeof schema>;
 export const metrekareCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_metrekare_028',
   slug: 'metrekare',
+  status: 'published',
   name: 'Metrekare Hesaplama',
   shortDescription: 'Bir zemin, duvar veya odanın alanını metrekare (m²) cinsinden pratik olarak hesaplayın.',
   category: 'math',
@@ -67,3 +68,4 @@ export const metrekareCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateMetrekare(input.uzunluk, input.genislik, input.birim);
   }
 };
+

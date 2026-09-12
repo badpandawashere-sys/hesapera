@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateYumurtlamaDonemi } from '../formulas/yumurtlamaDonemi';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const yumurtlamaDonemiCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_yumurtlama_donemi_001',
   slug: 'yumurtlama-donemi',
+  status: 'draft',
   name: 'Yumurtlama Dönemi (Ovülasyon) Hesaplama',
   shortDescription: 'Son adet tarihinizi ve döngü sürenizi girerek tahmini yumurtlama (ovülasyon) gününüzü ve verimli döneminizi hesaplayın.',
   category: 'health',
@@ -31,3 +32,5 @@ export const yumurtlamaDonemiCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateYumurtlamaDonemi(input)
 };
+
+

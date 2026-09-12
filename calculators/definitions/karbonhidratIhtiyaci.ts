@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKarbonhidratIhtiyaci } from '../formulas/karbonhidratIhtiyaci';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const gunlukKarbonhidratIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_gunluk_karbonhidrat_ihtiyaci_001',
   slug: 'gunluk-karbonhidrat-ihtiyaci',
+  status: 'draft',
   name: 'Günlük Karbonhidrat İhtiyacı Hesaplama',
   shortDescription: 'Fiziksel aktivite seviyenize ve kilonuza göre almanız gereken tahmini günlük karbonhidrat miktarını hesaplayın.',
   category: 'health',
@@ -43,3 +44,5 @@ export const gunlukKarbonhidratIhtiyaciCalculatorDef: CalculatorDefinition<Input
   schema,
   calculate: (input) => calculateKarbonhidratIhtiyaci(input)
 };
+
+

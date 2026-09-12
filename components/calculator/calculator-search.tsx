@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -42,7 +42,7 @@ export function CalculatorSearch() {
     }
 
     const q = query.toLocaleLowerCase('tr-TR').trim();
-    const allCalculators = CalculatorRegistry.getAll();
+    const allCalculators = CalculatorRegistry.getPublishedAll();
 
     // Prioritize name matches, then description/category matches
     const exactMatches = [];
@@ -109,7 +109,7 @@ export function CalculatorSearch() {
           onFocus={() => {
             if (results.length > 0) setIsOpen(true);
           }}
-          placeholder="Hesaplayıcı ara... (Örn: kredi, yüzde, yaş...)"
+          placeholder="HesaplayÄ±cÄ± ara... (Ã–rn: kredi, yÃ¼zde, yaÅŸ...)"
           className="w-full bg-surface-container-lowest border border-border/50 py-4 pl-12 pr-4 rounded-xl text-on-surface placeholder:text-outline font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm transition-all"
         />
         <div className="hidden sm:flex absolute right-4 items-center gap-1 px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm border border-border">

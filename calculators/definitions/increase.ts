@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateIncrease } from '../formulas/increase';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const increaseCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_increase_001',
   slug: 'zam-hesaplama',
+  status: 'draft',
   name: 'Zam Hesaplama',
   shortDescription: 'Maaş veya ürün fiyatlarına yapılan zam oranını ve yeni tutarı hesaplayın.',
   category: 'math',
@@ -45,3 +46,5 @@ export const increaseCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

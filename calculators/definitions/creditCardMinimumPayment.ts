@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateCreditCardMinimumPayment } from '../formulas/creditCardMinimumPayment';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const creditCardMinimumPaymentCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_creditCardMinimumPayment_001',
   slug: 'kredi-karti-asgari-odeme-tutari',
+  status: 'published',
   name: 'Kredi Kartı Asgari Ödeme Tutarı Hesaplama',
   shortDescription: 'Kredi kartı dönem borcunuz üzerinden ödemeniz gereken asgari tutarı matematiksel olarak hesaplayın.',
   category: 'finance',
@@ -47,3 +48,5 @@ export const creditCardMinimumPaymentCalculatorDef: CalculatorDefinition<Input, 
     return calculateCreditCardMinimumPayment(input.statementBalance, input.minimumPaymentRate);
   }
 };
+
+

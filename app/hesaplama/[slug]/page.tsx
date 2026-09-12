@@ -1,4 +1,4 @@
-import { SiteContainer } from '@/components/layout/site-container';
+﻿import { SiteContainer } from '@/components/layout/site-container';
 import { CalculatorBreadcrumb } from '@/components/calculator/calculator-breadcrumb';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -19,9 +19,9 @@ export async function generateMetadata(props: CalculatorPageProps): Promise<Meta
   const { slug } = await props.params;
   const calculator = CalculatorRegistry.getBySlug(slug);
 
-  if (!calculator) {
+  if (!calculator || calculator.status !== 'published') {
     return {
-      title: 'Sayfa Bulunamadı | Hesapera',
+      title: 'Sayfa BulunamadÄ± | Hesapera',
     };
   }
 
@@ -39,17 +39,17 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
   const { slug } = await props.params;
   const calculator = CalculatorRegistry.getBySlug(slug);
 
-  if (!calculator) {
+  if (!calculator || calculator.status !== 'published') {
     notFound();
   }
 
   const categoryMap: Record<string, string> = {
     'finance': 'Finans',
     'math': 'Matematik',
-    'health': 'Sağlık',
-    'education': 'Eğitim',
-    'conversion': 'Dönüştürücü',
-    'other': 'Diğer'
+    'health': 'SaÄŸlÄ±k',
+    'education': 'EÄŸitim',
+    'conversion': 'DÃ¶nÃ¼ÅŸtÃ¼rÃ¼cÃ¼',
+    'other': 'DiÄŸer'
   };
 
   const breadcrumbItems = [
@@ -125,7 +125,7 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
         
         {calculator.metadata.faq && calculator.metadata.faq.length > 0 && (
           <section className="mt-16 max-w-4xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-6">Sıkça Sorulan Sorular</h2>
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-6">SÄ±kÃ§a Sorulan Sorular</h2>
             <div className="grid gap-4">
               {calculator.metadata.faq.map((faq, index) => (
                 <div key={index} className="bg-card border p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow">

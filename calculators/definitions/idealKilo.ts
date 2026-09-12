@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateIdealKilo } from '../formulas/idealKilo';
 
@@ -12,6 +12,7 @@ type Input = z.infer<typeof schema>;
 export const idealKiloCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_ideal_kilo_001',
   slug: 'ideal-kilo',
+  status: 'published',
   name: 'İdeal Kilo Hesaplama',
   shortDescription: 'Cinsiyetinize ve boyunuza göre tıbbi formüllerle (Devine Formülü) hesaplanmış yaklaşık ideal vücut ağırlığınızı öğrenin.',
   category: 'health',
@@ -40,3 +41,5 @@ export const idealKiloCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateIdealKilo(input)
 };
+
+

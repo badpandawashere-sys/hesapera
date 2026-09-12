@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateTimeDeposit } from '../formulas/timeDeposit';
 
@@ -15,6 +15,7 @@ type Input = z.infer<typeof schema>;
 export const timeDepositCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_timeDeposit_001',
   slug: 'vadeli-mevduat-faizi',
+  status: 'published',
   name: 'Vadeli Mevduat Faizi Hesaplama',
   shortDescription: 'Vadeli mevduatınızın anapara, faiz oranı, vade ve stopaj oranına göre net getirisini ve vade sonu bakiyesini hesaplayın.',
   category: 'finance',
@@ -82,3 +83,4 @@ export const timeDepositCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculateTimeDeposit(input.principal, input.interestRate, input.maturityType, input.maturity, input.taxRate);
   }
 };
+

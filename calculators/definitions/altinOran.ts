@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAltinOran } from '../formulas/altinOran';
 
@@ -16,6 +16,7 @@ type Input = z.infer<typeof schema>;
 export const altinOranCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_altin_oran_001',
   slug: 'altin-oran',
+  status: 'draft',
   name: 'Altın Oran Hesaplama',
   shortDescription: 'İki uzunluk değerinizin birbirine oranının matematiksel Altın Oran (1.618) sabitine ne kadar uygun olduğunu hesaplayın.',
   category: 'math',
@@ -35,3 +36,5 @@ export const altinOranCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateAltinOran(input)
 };
+
+

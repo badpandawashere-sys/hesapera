@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateProfit } from '../formulas/profit';
 
@@ -12,14 +12,15 @@ type Input = z.infer<typeof schema>;
 export const profitCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_profit_001',
   slug: 'kar-hesaplama',
-  name: 'Kâr Hesaplama',
-  shortDescription: 'Bir satıştan elde ettiğiniz kârı ve kâr marjını hesaplayın.',
+  status: 'draft',
+  name: 'KÃ¢r Hesaplama',
+  shortDescription: 'Bir satıştan elde ettiğiniz kÃ¢rı ve kÃ¢r marjını hesaplayın.',
   category: 'math',
   type: 'simple',
   metadata: {
-    title: 'Kâr Hesaplama Aracı | Hesapera',
-    description: 'Bir satıştan elde ettiğiniz kârı ve kâr marjını hesaplayın.',
-    keywords: ["kâr hesaplama","kâr marjı","satış kârı"],
+    title: 'KÃ¢r Hesaplama Aracı | Hesapera',
+    description: 'Bir satıştan elde ettiğiniz kÃ¢rı ve kÃ¢r marjını hesaplayın.',
+    keywords: ["kÃ¢r hesaplama","kÃ¢r marjı","satış kÃ¢rı"],
     canonical: 'https://hesapera.com/kar-hesaplama',
     faq: [],
     relatedCalculators: ["zarar-hesaplama","indirim-hesaplama"]
@@ -46,3 +47,5 @@ export const profitCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+
+

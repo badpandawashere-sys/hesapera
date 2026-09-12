@@ -22,6 +22,7 @@ type Input = z.infer<typeof schema>;
 export const currencyCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_currency_001',
   slug: 'doviz',
+  status: 'published',
   name: 'Döviz Hesaplama',
   shortDescription: 'Canlı döviz kurları ile farklı para birimleri arasında değer çevrimi yapın.',
   category: 'finance',
@@ -127,3 +128,4 @@ export const currencyCalculatorDef: CalculatorDefinition<Input, any> = {
     );
   }
 };
+

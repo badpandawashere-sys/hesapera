@@ -1,4 +1,4 @@
-import { z } from 'zod';
+﻿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculatePerimeter } from '../formulas/perimeter';
 
@@ -54,6 +54,7 @@ type Input = z.infer<typeof schema>;
 export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
   id: 'calc_perimeter_001',
   slug: 'cevre',
+  status: 'published',
   name: 'Çevre Hesaplama',
   shortDescription: 'Kare, dikdörtgen, üçgen, daire, paralelkenar veya yamuğun çevre uzunluğunu hesaplayın.',
   category: 'math',
@@ -69,7 +70,7 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
     {
       id: "sekil",
-      label: "Geometrik Şekil",
+      label: "Geometrik Åekil",
       type: "select",
       required: true,
       defaultValue: "Kare",
@@ -105,3 +106,5 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
     return calculatePerimeter(input);
   }
 };
+
+
