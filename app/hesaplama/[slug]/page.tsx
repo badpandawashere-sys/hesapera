@@ -9,6 +9,8 @@ import { calculatorToViewModel } from '@/calculators/core/calculator-types';
 import '@/calculators/core/init'; // Ensure registry is initialized
 import { CalculatorForm } from '@/components/calculator/calculator-form';
 import { LoanCalculatorForm } from '@/components/calculator/loan-calculator-form';
+import { ConsumerLoanForm } from '@/components/calculator/consumer-loan-form';
+import { MortgageLoanForm } from '@/components/calculator/mortgage-loan-form';
 import { AdBanner } from '@/components/ads/ad-banner';
 import * as LucideIcons from 'lucide-react';
 
@@ -137,6 +139,10 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
       <SiteContainer>
         {slug === 'kredi' ? (
           <LoanCalculatorForm calculator={calculatorViewModel} />
+        ) : slug === 'ihtiyac-kredisi' ? (
+          <ConsumerLoanForm calculator={calculatorViewModel} />
+        ) : slug === 'konut-kredisi' ? (
+          <MortgageLoanForm calculator={calculatorViewModel} />
         ) : (
           <CalculatorForm calculator={calculatorViewModel} />
         )}
