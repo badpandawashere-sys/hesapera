@@ -12,11 +12,14 @@ export function CalculatorContentBlock({
 
   return (
     <section className="mx-auto w-full max-w-4xl space-y-10 px-4 py-10 sm:px-6">
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight">
-          {content.intro}
-        </h2>
-      </div>
+      <div className="space-y-3">
+  <h2 className="text-2xl font-bold tracking-tight">
+    Rehber
+  </h2>
+  <p className="text-base leading-7 text-muted-foreground">
+    {content.intro}
+  </p>
+</div>
 
       {content.sections.map((section) => (
         <section key={section.title} className="space-y-4">
