@@ -1,15 +1,15 @@
-import { z } from 'zod';
+ï»¿import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEbobEkok } from '../formulas/ebobEkok';
 
 const schema = z.object({
   numbers: z.array(
     z.object({
-      value: z.number({ message: "Lütfen geçerli bir sayý giriniz." })
-        .int("Lütfen tam sayý giriniz.")
-        .min(1, "1 veya daha büyük tam sayý giriniz.")
+      value: z.number({ message: "LÃ¼tfen geÃ§erli bir sayÄ± giriniz." })
+        .int("LÃ¼tfen tam sayÄ± giriniz.")
+        .min(1, "1 veya daha bÃ¼yÃ¼k tam sayÄ± giriniz.")
     })
-  ).min(2, "En az iki sayý girmelisiniz.")
+  ).min(2, "En az iki sayÄ± girmelisiniz.")
 });
 
 type Input = z.infer<typeof schema>;
@@ -19,13 +19,13 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'ebob-ekok',
   status: 'published',
   name: 'EBOB EKOK Hesaplama',
-  shortDescription: 'Ýki veya daha fazla pozitif tam sayýnýn En Büyük Ortak Bölenini (EBOB) ve En Küçük Ortak Katýný (EKOK) hesaplayýn.',
+  shortDescription: 'Ä°ki veya daha fazla pozitif tam sayÄ±nÄ±n En BÃ¼yÃ¼k Ortak BÃ¶lenini (EBOB) ve En KÃ¼Ã§Ã¼k Ortak KatÄ±nÄ± (EKOK) hesaplayÄ±n.',
   category: 'math',
   type: 'simple',
   metadata: {
     title: 'EBOB EKOK Hesaplama | Hesapera',
-    description: 'Pozitif tam sayýlar için EBOB (En Büyük Ortak Bölen) ve EKOK (En Küçük Ortak Kat) deðerlerini anýnda hesaplayýn.',
-    keywords: ['ebob hesaplama', 'ekok hesaplama', 'en büyük ortak bölen', 'en küçük ortak kat', 'gcd lcm hesaplama', 'çoklu ebob ekok'],
+    description: 'Pozitif tam sayÄ±lar iÃ§in EBOB (En BÃ¼yÃ¼k Ortak BÃ¶len) ve EKOK (En KÃ¼Ã§Ã¼k Ortak Kat) deÄŸerlerini anÄ±nda hesaplayÄ±n.',
+    keywords: ['ebob hesaplama', 'ekok hesaplama', 'en bÃ¼yÃ¼k ortak bÃ¶len', 'en kÃ¼Ã§Ã¼k ortak kat', 'gcd lcm hesaplama', 'Ã§oklu ebob ekok'],
     canonical: 'https://hesapera.com/ebob-ekok',
     faq: [],
     relatedCalculators: ['asal-carpan', 'faktoriyel']
@@ -33,12 +33,12 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
     {
       id: 'numbers',
-      label: 'Sayýlar',
+      label: 'SayÄ±lar',
       type: 'array',
       required: true,
       defaultValue: [{ value: undefined }, { value: undefined }],
       subFields: [
-        { id: 'value', label: 'Sayý', type: 'number', required: true, min: 1 }
+        { id: 'value', label: 'SayÄ±', type: 'number', required: true, min: 1 }
       ]
     }
   ],
