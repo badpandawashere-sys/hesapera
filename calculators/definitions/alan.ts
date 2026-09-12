@@ -49,7 +49,50 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
     description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk, Elips) metrekare ve santimetrekare cinsinden alanını kolayca hesaplayın.',
     keywords: ['alan hesaplama', 'üçgenin alanı', 'dairenin alanı', 'dikdörtgen alan hesabı', 'geometrik alan', 'metrekare hesaplama'],
     canonical: 'https://hesapera.com.tr/hesaplama/alan',
-    faq: [],
+    faq: [
+      {
+        question: "Alan ile Çevre arasındaki fark nedir?",
+        answer: "Çevre, bir şeklin sadece dış sınırlarının (kenarlarının) toplam uzunluğudur (örneğin bahçe çiti). Alan ise o sınırların içinde kalan tüm yüzeyin (örneğin bahçeye ekilecek çim) büyüklüğüdür."
+      },
+      {
+        question: "L şeklindeki bir odanın alanını nasıl hesaplarım?",
+        answer: "Aracımızda doğrudan 'L şekli' seçeneği yoktur. Böyle durumlarda odayı hayali bir çizgiyle iki ayrı dikdörtgene bölmeli, aracımızda ikisinin alanını ayrı ayrı hesaplayıp çıkan sonuçları kendiniz toplamalısınız."
+      }
+    ],
+    content: {
+      intro: "Kare, dikdörtgen, üçgen, daire gibi 7 farklı geometrik şeklin alan hesaplaması ve metrekare mantığı",
+
+      sections: [
+        {
+          title: "Alan Nedir?",
+          paragraphs: [
+            "Alan, iki boyutlu bir yüzeyin kapladığı düzlemsel yerin (büyüklüğün) ölçüsüdür. Odalarınızın zeminine halı döşerken, bir arsanın büyüklüğünü hesaplarken veya bir duvarı boyarken kullanacağınız malzemenin miktarını 'Alan' belirler."
+          ]
+        },
+        {
+          title: "Desteklenen Şekiller ve Formülleri",
+          paragraphs: [
+            "Hesaplayıcımız günlük hayatta ve derslerde sıkça ihtiyaç duyulan 7 şekli otomatik çözer:",
+            "- Kare ve Dikdörtgen: Uzun ve kısa kenarın çarpılmasıyla (a × b) bulunur.",
+            "- Üçgen ve Paralelkenar: Taban uzunluğu ile o tabana inen yüksekliğin hesaba katılmasıyla (Taban × Yükseklik / 2) çözülür.",
+            "- Yamuk: Alt ve üst taban toplanıp ikiye bölünerek yükseklikle çarpılır.",
+            "- Daire ve Elips: Pi sayısı (π) ve yarıçaplar kullanılarak dairesel yüzeyler hesaplanır."
+          ]
+        },
+        {
+          title: "Ölçü Birimleri (Birim Dönüşümü)",
+          paragraphs: [
+            "Hesaplamanın doğru çalışması için uzunlukları girerken aracın 'Kullanılacak Ölçü Birimi' kısmından doğru seçimi yapmalısınız (cm, m, mm).",
+            "Eğer araca verileri metre (m) olarak girerseniz, sonuç doğrudan metrekare (m²) çıkar. Ancak santimetre (cm) girerseniz sonuç santimetrekare (cm²) çıkacaktır. 1 metrekare tam olarak 10.000 santimetrekaredir."
+          ]
+        },
+      ],
+      example: {
+        title: "Üçgen Çatı Yüzeyi (Alan) Örneği",
+        text: "Evinizin çatı katındaki üçgen şeklindeki ahşap bir yüzeyi boyamak istiyorsunuz. Bu üçgenin taban uzunluğu 8 metre, en üst noktadan tabana inen yüksekliği 3 metre olsun. Araca bu değerleri (Üçgen ve m) girdiğinizde, (8 × 3) / 2 işlemi yapılır ve sonuç 12 m² çıkar. Boya kutusunun üzerindeki m² kapasitesine bakarak ne kadar boya alacağınızı kesin olarak bilebilirsiniz."
+      }
+    },
+
     relatedCalculators: ["cevre", "hacim"]
   },
   fields: [

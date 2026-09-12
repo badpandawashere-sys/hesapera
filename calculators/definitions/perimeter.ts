@@ -65,7 +65,50 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
     description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk) çevre uzunluğunu santimetre, metre veya milimetre cinsinden anında hesaplayın.',
     keywords: ['çevre hesaplama', 'üçgenin çevresi', 'dairenin çevresi', 'dikdörtgen çevre hesabı', 'geometrik çevre', 'çevre uzunluğu'],
     canonical: 'https://hesapera.com.tr/hesaplama/cevre',
-    faq: [],
+    faq: [
+      {
+        question: "Üçgen çevresi hesaplarken neden 'Geçersiz üçgen' hatası alıyorum?",
+        answer: "Matematikte 'Üçgen Eşitsizliği' kuralı vardır. Bir üçgenin herhangi iki kenarının toplam uzunluğu, mutlaka üçüncü kenardan büyük olmalıdır. Aksi halde o ölçülerle bir üçgen çizilemez (uçları birleşmez). Sistem bu hatayı yakalar."
+      },
+      {
+        question: "Alan ile Çevre arasında doğrudan bir matematiksel orantı var mıdır?",
+        answer: "Hayır. Örneğin çevresi 20 cm olan uzun ince bir dikdörtgenin alanı çok küçükken, çevresi yine 20 cm olan bir karenin alanı çok daha büyüktür. İkisi bağımsız hesaplanır."
+      }
+    ],
+    content: {
+      intro: "Kare, dikdörtgen, üçgen, daire gibi şekillerin dış sınır uzunluğunun (çevre) ölçümü ve hesaplama mantığı",
+
+      sections: [
+        {
+          title: "Çevre Nedir?",
+          paragraphs: [
+            "Çevre, iki boyutlu kapalı bir geometrik şeklin tüm dış sınırlarının (kenarlarının) toplam uzunluğudur. Alanın aksine iç kısımla ilgilenmez; sadece şeklin etrafını saran çizginin ölçüsünü verir.",
+            "Bir tarlanın etrafına çit çekmek, bir halının kenarına overlok yaptırmak veya bir odanın zeminine süpürgelik taktırmak için gereken malzeme miktarı 'Çevre' hesaplanarak bulunur."
+          ]
+        },
+        {
+          title: "Desteklenen Şekiller ve Mantığı",
+          paragraphs: [
+            "Hesaplayıcımız; Kare, Dikdörtgen, Üçgen, Paralelkenar, Yamuk ve Daire (çember) şekillerini destekler.",
+            "- Kare/Yamuk/Üçgen gibi köşeli şekillerde formül basittir: Tüm kenar uzunlukları birbiriyle toplanır.",
+            "- Dikdörtgen ve Paralelkenarda: Karşılıklı kenarlar eşit olduğundan (Kısa Kenar + Uzun Kenar) toplanıp 2 ile çarpılır.",
+            "- Daire (Çember): Yuvarlak olduğu için kenarı yoktur. Yarıçap ve Pi sayısı (π) kullanılarak (2 × π × r) formülüyle dış sınır uzunluğu bulunur."
+          ]
+        },
+        {
+          title: "Birimlendirme ve Doğruluk",
+          paragraphs: [
+            "Çevre sadece bir 'uzunluk' olduğu için sonucu kareli (Örn: m²) veya küplü (Örn: m³) DEĞİL, dümdüz metre (m) veya santimetre (cm) olarak çıkar.",
+            "Araca değerleri girerken mutlaka her kenarı aynı birime çevirdiğinizden emin olun (bir kenarı cm, diğerini m girmeyin). Seçtiğiniz 'Kullanılacak Ölçü Birimi', sonucun birimini belirleyecektir."
+          ]
+        },
+      ],
+      example: {
+        title: "Arsa Çevresi (Çit) Örneği",
+        text: "Dikdörtgen şeklinde bir arsanız var. Kısa kenarı 20 metre, uzun kenarı 50 metre. Araca bu verileri (Dikdörtgen ve m) girdiğinizde, formül (20 + 50) × 2 mantığıyla çalışarak 140 metre sonucunu verir. Arsanızı tel örgüyle çevirmek isterseniz tam 140 metre tel satın almanız gerekecektir."
+      }
+    },
+
     relatedCalculators: ["alan", "hacim"]
   },
   fields: [
