@@ -51,7 +51,58 @@ export const yksCalculatorDef: CalculatorDefinition<Input, any> = {
     description: '2026 YKS sistemi için güncel katsayılar ve OBP ile TYT, SAY (Sayısal), EA (Eşit Ağırlık), SÖZ (Sözel) ve DİL puanlarınızı hesaplayın.',
     keywords: ['yks puan hesaplama', 'ayt puan hesaplama', 'yks net hesaplama', 'sayısal eşit ağırlık sözel', 'ydt dil puan hesaplama', '2026 yks hesaplama'],
     canonical: 'https://hesapera.com.tr/hesaplama/yks-puan',
-    faq: [],
+    faq: [
+      {
+        question: "YKS yerleştirme puanına (Y-YKS) OBP dahil ediliyor mu?",
+        answer: "Evet, lise mezuniyet başarınızdan elde edilen Ortaöğretim Başarı Puanı (OBP), YKS ham puanınıza (TYT ve AYT netlerinizle oluşan puana) eklenerek Y-YKS (Yerleştirme Puanı) elde edilir."
+      },
+      {
+        question: "AYT netleri TYT puanımı etkiler mi?",
+        answer: "Hayır. AYT (Alan Yeterlilik Testleri) veya YDT (Yabancı Dil Testi) netleriniz TYT (Temel Yeterlilik Testi) puanınızı etkilemez; ancak lisans yerleştirme puanınız (SAY, EA, SÖZ, DİL) hesaplanırken her ikisi birleştirilir."
+      },
+      {
+        question: "Farklı alanın testini çözmek ana puanımı düşürür mü?",
+        answer: "Sınavda kendi alanınız dışındaki soruları (örneğin Sayısal öğrencisinin Sosyal-2 çözmesi) cevaplamanız veya orada yapacağınız yanlışlar, kendi alan puanınızı (SAY) düşürmez. Sadece o testin ait olduğu puan türünü etkiler."
+      }
+    ],
+    content: {
+      intro: "YKS (AYT ve YDT) puan türleri, katsayı hesaplamaları ve standart sapma mantığı hakkında bilinmesi gerekenler",
+
+      sections: [
+        {
+          title: "YKS Puanı Nedir?",
+          paragraphs: [
+            "Yükseköğretim Kurumları Sınavı (YKS); Sayısal (SAY), Eşit Ağırlık (EA), Sözel (SÖZ) ve Yabancı Dil (DİL) alanlarındaki lisans bölümlerine yerleşmek için gereken temel puandır.",
+            "Yerleştirme (Y-YKS) puanı hesaplanırken kural olarak ilk oturum olan TYT'nin etkisi %40, alan testlerinin (AYT veya YDT) etkisi ise %60 oranında hesaba katılır."
+          ]
+        },
+        {
+          title: "Puan Türlerine Göre Test Ağırlıkları",
+          paragraphs: [
+            "YKS'de her puan türü için değerlendirilen testler farklılık gösterir. Örneğin Sayısal puanı için AYT Matematik ve Fen Bilimleri testleri belirleyiciyken; Eşit Ağırlık için Matematik, Türk Dili ve Edebiyatı ile Sosyal Bilimler-1 testleri ağırlıklıdır.",
+            "Her bir testin içindeki standart sapma ve adayların o testteki ortalaması katsayıları doğrudan etkiler."
+          ]
+        },
+        {
+          title: "Gerçek ÖSYM Puanı ile Tahmini Puan Ayrımı",
+          paragraphs: [
+            "ÖSYM, sınav sonuçlarını değerlendirirken ilgili yıla giren tüm adayların madde (soru) bazındaki başarılarını hesaplayarak ham puanları dönüştürür.",
+            "Bu nedenle hesaplama aracı geçmiş yılın katsayılarını kullanarak 'tahmini' bir değer sunar. İki farklı yılda aynı netleri yapan adayın puanları o yılın zorluk derecesine göre farklı çıkabilir."
+          ]
+        },
+      ],
+      example: {
+        title: "Net ve YKS Puanı İlişkisi",
+        text: "Hem TYT'de hem de AYT'de standart olarak 4 yanlış 1 doğruyu siler. AYT'de sadece kendi alanınızla (Örn: Sayısal) ilgili soruları çözerek netlerinizi yükseltmeniz ilgili puan türündeki yerleştirme başarınızı doğrudan artırır. Yanlış cevaplardan kaçınmak standart sapmadan olumlu yararlanmanızı sağlayabilir."
+      },
+      sources: [
+        {
+          name: "ÖSYM - YKS Kılavuzu ve Yerleştirme Kuralları",
+          url: "https://www.osym.gov.tr/"
+        }
+      ]
+    },
+
     relatedCalculators: ['tyt-puan', 'obp-okul-puani', 'universite-yks-taban-puanlari']
   },
   fields: [

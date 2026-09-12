@@ -32,7 +32,58 @@ export const lgsCalculatorDef: CalculatorDefinition<Input, any> = {
     description: '2026 LGS Türkçe, Matematik, Fen, İnkılap, Din Kültürü ve Yabancı Dil testleri doğru/yanlış sayılarınıza göre yaklaşık LGS puanınızı hesaplayın.',
     keywords: ['lgs puan hesaplama', 'lgs 2026', 'liselere giriş sınavı puan', 'lgs net hesaplama'],
     canonical: 'https://hesapera.com.tr/hesaplama/lgs-puan',
-    faq: [],
+    faq: [
+      {
+        question: "LGS'de kaç yanlış bir doğruyu götürüyor?",
+        answer: "Yürürlükteki LGS yönergelerine göre 3 yanlış cevap 1 doğru cevabı eksiltmektedir."
+      },
+      {
+        question: "LGS Puanı (MSP) en fazla kaç olabilir?",
+        answer: "LGS'de merkezi sınav puanı (MSP) tüm soruların doğru cevaplanması halinde 500 tam puan olarak hesaplanır."
+      },
+      {
+        question: "Katsayısı düşük olan dersleri boş bıraksam olur mu?",
+        answer: "Sınavda her net değerlidir. Din, İnkılap veya Yabancı Dil derslerinin ağırlık katsayısı 1 olsa da, standart sapma ve tam puan almak için o alanlardaki soruların da doğru yanıtlanması kritik öneme sahiptir."
+      }
+    ],
+    content: {
+      intro: "LGS (Liselere Geçiş Sistemi) puan hesaplaması, netler, yüzdelik dilim ve MEB kuralları hakkında rehber",
+
+      sections: [
+        {
+          title: "LGS Puanı Nedir?",
+          paragraphs: [
+            "LGS (Liselere Geçiş Sistemi) Merkezi Sınavı, 8. sınıf öğrencilerinin sınavla öğrenci alan nitelikli liselere (Fen Liseleri, Anadolu Liseleri, vb.) yerleşebilmesi için MEB tarafından uygulanan sınavdır.",
+            "Sınav; Sözel Bölüm (Türkçe, T.C. İnkılap Tarihi ve Atatürkçülük, Din Kültürü, Yabancı Dil) ve Sayısal Bölüm (Matematik, Fen Bilimleri) olmak üzere iki oturumdan oluşur."
+          ]
+        },
+        {
+          title: "Doğru ve Yanlışların Netlere Etkisi",
+          paragraphs: [
+            "LGS sistemindeki standart değerlendirme kurallarına göre çoktan seçmeli sorularda 3 yanlış cevap 1 doğru cevabı götürmektedir. Boş bırakılan sorular puanlamayı ne olumlu ne de olumsuz etkiler.",
+            "Elde edilen netler (ham puanlar), derslerin MEB tarafından belirlenen ağırlık katsayıları (Örn: Türkçe, Mat, Fen 4 katsayılı; İnkılap, Din, Yabancı Dil 1 katsayılıdır) ile çarpılarak Merkezi Sınav Puanı (MSP) bulunur."
+          ]
+        },
+        {
+          title: "LGS Puanı ve Yüzdelik Dilim Ayrımı",
+          paragraphs: [
+            "Liseye yerleştirmede sadece LGS puanı değil, adayın o yıl sınava giren öğrenciler arasındaki başarı sırasını gösteren 'Yüzdelik Dilim' çok daha belirleyicidir.",
+            "Sınavın zor olduğu yıllarda düşük puanla yüksek bir yüzdelik dilime girilebilir. Bu nedenle hesaplama aracındaki tahmini LGS puanı tek başına yerleşme garantisi vermez."
+          ]
+        },
+      ],
+      example: {
+        title: "Tahmini Sonuçlar Hakkında Uyarı",
+        text: "Milli Eğitim Bakanlığı, gerçek LGS puanını hesaplarken testlerin ulusal ortalaması ve standart sapması üzerinden T-Skoru hesaplar. Araç üzerinden yapılan hesaplamalar geçmiş MEB verilerine dayanan yaklaşık sonuçlardır; resmi yerleştirme için mutlaka yıl sonundaki orijinal sınav karnesi esas alınmalıdır."
+      },
+      sources: [
+        {
+          name: "MEB - Millî Eğitim Bakanlığı LGS Kılavuzu",
+          url: "https://www.meb.gov.tr/"
+        }
+      ]
+    },
+
     relatedCalculators: ['dgs-puan', 'ales-puan']
   },
   fields: [
