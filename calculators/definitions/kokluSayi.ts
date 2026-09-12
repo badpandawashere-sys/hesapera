@@ -3,13 +3,16 @@ import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKokluSayi } from '../formulas/kokluSayi';
 
 const schema = z.object({
-  sayi: z.number(),
-  derece: z.number().int('Kök derecesi tam sayı olmalıdır').min(2, 'Kök derecesi en az 2 olmalıdır').default(2)
+  derece: z.number({ message: "Kök derecesi geçerli bir sayı olmalıdır" })
+    .int("Kök derecesi tam sayı olmalıdır")
+    .min(2, "Kök derecesi en az 2 olmalıdır")
+    .default(2),
+  sayi: z.number({ message: "Kökü alınacak sayıyı giriniz" })
 }).superRefine((data, ctx) => {
   if (data.derece % 2 === 0 && data.sayi < 0) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: 'Çift dereceli kökler (karekök vb.) için sayı negatif olamaz.',
+      message: "Çift dereceli kökler (karekök vb.) için sayı negatif olamaz.",
       path: ['sayi']
     });
   }
@@ -27,18 +30,29 @@ export const kokluSayiCalculatorDef: CalculatorDefinition<Input, any> = {
   type: 'simple',
   metadata: {
     title: 'Köklü Sayı Hesaplama | Hesapera',
-    description: 'Bir sayının n. dereceden kökünü (karekök, küpkök) hesaplayın. Tam kök tespiti ve negatif sayılarda tek kök desteği ile.',
+    description: 'Bir sayının n. dereceden kökünü (karekök, küpkök) anında hesaplayın. Tam kök tespiti ve negatif sayılarda tek kök desteği ile.',
     keywords: ["köklü sayı hesaplama", "karekök hesaplama", "küpkök", "karekök dışına çıkarma", "n. dereceden kök"],
-    canonical: 'https://hesapera.com/koklu-sayi',
+    canonical: 'https://hesapera.com.tr/hesaplama/koklu-sayi',
     faq: [],
     relatedCalculators: ["uslu-sayi", "ebob-ekok"]
   },
   fields: [
-    { id: 'derece', label: 'Kök Derecesi (n)', type: 'number', required: true, min: 2, defaultValue: 2, description: 'Örn: Karekök için 2, Küpkök için 3' },
-    { id: 'sayi', label: 'Sayı (x)', type: 'number', required: true }
+    {
+      id: 'derece',
+      label: 'Kök Derecesi (n)',
+      type: 'number',
+      required: true,
+      min: 2,
+      defaultValue: 2,
+      description: 'Örn: Karekök için 2, Küpkök için 3'
+    },
+    {
+      id: 'sayi',
+      label: 'Sayı (x)',
+      type: 'number',
+      required: true
+    }
   ],
   schema,
   calculate: (input) => calculateKokluSayi(input)
 };
-
-
