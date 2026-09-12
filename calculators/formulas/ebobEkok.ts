@@ -1,6 +1,5 @@
-export interface EbobEkokInput {
-  a: number;
-  b: number;
+﻿export interface EbobEkokInput {
+  numbers: Array<{ value: number }>;
 }
 
 export function gcd(a: number, b: number): number {
@@ -14,29 +13,42 @@ export function gcd(a: number, b: number): number {
   return a;
 }
 
+export function lcm(a: number, b: number): number {
+  if (a === 0 || b === 0) return 0;
+  return Math.abs((a / gcd(a, b)) * b);
+}
+
 export function calculateEbobEkok(inputs: EbobEkokInput) {
-  const { a, b } = inputs;
+  const numbers = inputs.numbers.map(n => n.value);
 
-  if (!Number.isInteger(a) || !Number.isInteger(b)) {
-    throw new Error("Lütfen tam sayı giriniz.");
-  }
-  if (a < 1 || b < 1) {
-    throw new Error("Lütfen 1 veya daha büyük pozitif tam sayı giriniz.");
+  if (numbers.length < 2) {
+    throw new Error("Lütfen en az 2 adet sayı giriniz.");
   }
 
-  const ebob = gcd(a, b);
-  const ekok = (a / ebob) * b; // = |a*b| / gcd(a,b) — safe for JS integers
+  for (const num of numbers) {
+    if (typeof num !== 'number' || !Number.isInteger(num)) {
+      throw new Error("Lütfen sadece tam sayı giriniz.");
+    }
+    if (num < 1) {
+      throw new Error("Lütfen 1 veya daha büyük pozitif tam sayılar giriniz.");
+    }
+  }
+
+  const ebobResult = numbers.reduce((acc, curr) => gcd(acc, curr));
+  const ekokResult = numbers.reduce((acc, curr) => lcm(acc, curr));
+
+  const numStrings = numbers.join(', ');
 
   return {
-    primaryResult: `EBOB: ${ebob} | EKOK: ${ekok}`,
+    primaryResult: `EBOB: ${ebobResult} | EKOK: ${ekokResult}`,
     secondaryResults: {
-      "EBOB (GCD)": String(ebob),
-      "EKOK (LCM)": String(ekok)
+      "EBOB (GCD)": String(ebobResult),
+      "EKOK (LCM)": String(ekokResult),
+      "Girilen Sayılar": numStrings
     },
     notes: [
-      `EBOB (En Büyük Ortak Bölen): ${a} ve ${b} sayılarını tam bölen en büyük pozitif tam sayıdır.`,
-      `EKOK (En Küçük Ortak Kat): ${a} ve ${b} sayılarının her ikisine de tam bölünen en küçük pozitif tam sayıdır.`,
-      "Formül: EKOK(a,b) = |a×b| / EBOB(a,b)"
+      `EBOB (En Büyük Ortak Bölen): ${numStrings} sayılarını tam bölen en büyük pozitif tam sayıdır.`,
+      `EKOK (En Küçük Ortak Kat): ${numStrings} sayılarının hepsine tam bölünen en küçük pozitif tam sayıdır.`
     ]
   };
 }
