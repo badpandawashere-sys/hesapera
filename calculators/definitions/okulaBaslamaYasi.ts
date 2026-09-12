@@ -36,7 +36,7 @@ export const okulaBaslamaYasiCalculatorDef: CalculatorDefinition<Input, any> = {
       required: true,
       options: [
         { label: 'Ocak (1)', value: '1' },
-        { label: 'Åubat (2)', value: '2' },
+        { label: 'Şubat (2)', value: '2' },
         { label: 'Mart (3)', value: '3' },
         { label: 'Nisan (4)', value: '4' },
         { label: 'Mayıs (5)', value: '5' },

@@ -14,7 +14,7 @@ export const combinationCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'kombinasyon',
   status: 'draft',
   name: 'Kombinasyon Hesaplama',
-  shortDescription: 'n elemanlı bir kümeden r eleman seçmenin kaç farklı yolu olduğunu BigInt hassasiyetiyle hesaplayın. C(n,r) = n! / (r! Ã— (n-r)!)',
+  shortDescription: 'n elemanlı bir kümeden r eleman seçmenin kaç farklı yolu olduğunu BigInt hassasiyetiyle hesaplayın. C(n,r) = n! / (r! × (n-r)!)',
   category: 'math',
   type: 'simple',
   metadata: {

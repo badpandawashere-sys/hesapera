@@ -70,7 +70,7 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
     {
       id: "sekil",
-      label: "Geometrik Åekil",
+      label: "Geometrik Şekil",
       type: "select",
       required: true,
       defaultValue: "Kare",

@@ -109,7 +109,7 @@ export function CalculatorSearch() {
           onFocus={() => {
             if (results.length > 0) setIsOpen(true);
           }}
-          placeholder="HesaplayÄ±cÄ± ara... (Ã–rn: kredi, yÃ¼zde, yaÅŸ...)"
+          placeholder="Hesaplayıcı ara... (Örn: kredi, yüzde, yaş...)"
           className="w-full bg-surface-container-lowest border border-border/50 py-4 pl-12 pr-4 rounded-xl text-on-surface placeholder:text-outline font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm transition-all"
         />
         <div className="hidden sm:flex absolute right-4 items-center gap-1 px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm border border-border">

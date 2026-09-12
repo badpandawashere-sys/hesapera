@@ -38,7 +38,7 @@ export const modulerAritmetikCalculatorDef: CalculatorDefinition<Input, any> = {
         { label: 'Mod Alma (a mod m)', value: 'mod' },
         { label: 'Toplama (a + b) mod m', value: 'toplama' },
         { label: 'Çıkarma (a - b) mod m', value: 'cikarma' },
-        { label: 'Çarpma (a Ã— b) mod m', value: 'carpma' }
+        { label: 'Çarpma (a × b) mod m', value: 'carpma' }
       ]
     },
     { id: 'm', label: 'Mod Değeri (m)', type: 'number', required: true, min: 1, description: 'Hangi moda göre işlem yapılacak?' },

@@ -10,7 +10,7 @@ const schema = z.object({
 }).superRefine((data, ctx) => {
   const total = data.proteinYuzdesi + data.karbonhidratYuzdesi + data.yagYuzdesi;
   if (Math.round(total) !== 100) {
-    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Yüzdelerin toplamı tam 100 olmalıdır. Åu anki toplam: ${Math.round(total)}`, path: ['proteinYuzdesi'] });
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Yüzdelerin toplamı tam 100 olmalıdır. Şu anki toplam: ${Math.round(total)}`, path: ['proteinYuzdesi'] });
   }
 });
 

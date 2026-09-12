@@ -44,7 +44,7 @@ export const areaGeometryCalculatorDef: CalculatorDefinition<Input, any> = {
   fields: [
   {
     "id": "shape",
-    "label": "Geometrik Åekil",
+    "label": "Geometrik Şekil",
     "type": "select",
     "required": true,
     "defaultValue": "square",

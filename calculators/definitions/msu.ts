@@ -25,7 +25,7 @@ export const msuCalculatorDef: CalculatorDefinition<Input, any> = {
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'MSÜ Puan Hesaplama â€” MillÃ® Savunma Üniversitesi Sınavı 2026 | Hesapera',
+    title: 'MSÜ Puan Hesaplama â€” Millî Savunma Üniversitesi Sınavı 2026 | Hesapera',
     description: '2026-MSÜ Türkçe (40), Sosyal (20), Matematik (40) ve Fen (20) netlerinize göre MSÜ-SAY, SÖZ, EA ve GENEL yaklaşık puanınızı hesaplayın.',
     keywords: ['msü puan hesaplama', 'msu puan 2026', 'milli savunma universitesi sinavi', 'msü say söz ea genel'],
     canonical: 'https://hesapera.com/msu-puan',

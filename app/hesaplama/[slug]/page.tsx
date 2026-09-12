@@ -21,7 +21,7 @@ export async function generateMetadata(props: CalculatorPageProps): Promise<Meta
 
   if (!calculator || calculator.status !== 'published') {
     return {
-      title: 'Sayfa BulunamadÄ± | Hesapera',
+      title: 'Sayfa Bulunamadı | Hesapera',
     };
   }
 
@@ -46,10 +46,10 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
   const categoryMap: Record<string, string> = {
     'finance': 'Finans',
     'math': 'Matematik',
-    'health': 'SaÄŸlÄ±k',
-    'education': 'EÄŸitim',
-    'conversion': 'DÃ¶nÃ¼ÅŸtÃ¼rÃ¼cÃ¼',
-    'other': 'DiÄŸer'
+    'health': 'Sağlık',
+    'education': 'Eğitim',
+    'conversion': 'Dönüştürücü',
+    'other': 'Diğer'
   };
 
   const breadcrumbItems = [
@@ -125,7 +125,7 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
         
         {calculator.metadata.faq && calculator.metadata.faq.length > 0 && (
           <section className="mt-16 max-w-4xl mx-auto">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-6">SÄ±kÃ§a Sorulan Sorular</h2>
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-6">Sıkça Sorulan Sorular</h2>
             <div className="grid gap-4">
               {calculator.metadata.faq.map((faq, index) => (
                 <div key={index} className="bg-card border p-5 rounded-2xl shadow-sm hover:shadow-md transition-shadow">

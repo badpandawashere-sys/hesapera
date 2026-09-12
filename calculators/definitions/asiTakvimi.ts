@@ -18,7 +18,7 @@ export const asiTakvimiCalculatorDef: CalculatorDefinition<Input, any> = {
   type: 'simple',
   metadata: {
     title: 'Aşı Takvimi Hesaplama (Güncel MEB/Sağlık Bakanlığı 2026) | Hesapera',
-    description: 'Doğum tarihine göre bebek ve çocukların T.C. Sağlık Bakanlığı onaylı güncel aşı takvimini öğrenin. 48. ay suçiçeği eklemesi dÃ¢hildir.',
+    description: 'Doğum tarihine göre bebek ve çocukların T.C. Sağlık Bakanlığı onaylı güncel aşı takvimini öğrenin. 48. ay suçiçeği eklemesi dâhildir.',
     keywords: ['aşı takvimi hesaplama', 'bebek aşı takvimi', 'çocuk aşı takvimi', '2026 aşı takvimi', 'suçiçeği aşısı 48 ay'],
     canonical: 'https://hesapera.com/asi-takvimi',
     faq: [],

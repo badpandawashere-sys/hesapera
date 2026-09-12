@@ -41,7 +41,7 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
       { label: 'SÖZ (Sözel)', value: 'SOZ' },
       { label: 'EA (Eşit Ağırlık)', value: 'EA' }
     ]},
-    { id: 'city', label: 'Åehir (Arama)', type: 'text', required: false, placeholder: 'ör. Ankara' },
+    { id: 'city', label: 'Şehir (Arama)', type: 'text', required: false, placeholder: 'ör. Ankara' },
     { id: 'university', label: 'Üniversite (Arama)', type: 'text', required: false, placeholder: 'ör. ODTÜ' },
     { id: 'program', label: 'Program (Arama)', type: 'text', required: false, placeholder: 'ör. Bilgisayar' },
     { id: 'sortBy', label: 'Sıralama', type: 'select', required: false, options: [
@@ -60,7 +60,7 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
       secondaryResults: {
         'Filtre: Yıl': input.year || 'Tüm Yıllar',
         'Filtre: Puan Türü': input.scoreType || 'Tümü',
-        'Filtre: Åehir': input.city || 'Hepsi',
+        'Filtre: Şehir': input.city || 'Hepsi',
         'Filtre: Üniversite': input.university || 'Hepsi',
         'Filtre: Program': input.program || 'Hepsi'
       },
