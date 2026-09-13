@@ -1,7 +1,8 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import "./globals.css";
 
 const fontHeading = Manrope({
@@ -30,6 +31,7 @@ export default function RootLayout({
       className={`${fontSans.variable} ${fontHeading.variable} h-full antialiased`}
     >
       <body className="min-h-screen flex flex-col antialiased font-sans">
+        <GoogleAnalytics />
         <Header />
         <div className="flex-1 flex flex-col">
           {children}
