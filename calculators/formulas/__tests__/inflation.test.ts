@@ -1,58 +1,48 @@
-﻿import { calculateInflation } from '../inflation';
-import { describe, it, expect } from 'vitest';
+import { calculateInflation } from '../inflation';
+import { describe, it, expect, vi } from 'vitest';
 import { inflationCalculatorDef } from '../../definitions/inflation';
+import { TUIK_CPI_2025_BASE } from '@/lib/data/sources/tuik-cpi';
 
 describe('ID25 Enflasyon Hesaplama Formülü', () => {
 
-  it('TEST 1: 1000 TL, 100 -> 120', () => {
-    const res = calculateInflation(1000, 100, 120);
-    expect(res.primaryResult.includes('1.200,00')).toBe(true);
-    expect(res.secondaryResults['Enflasyon Oranı']).toBe('%20');
-    expect(res.secondaryResults['Fiyat Artışı'].includes('200,00')).toBe(true);
+  it('TEST 1: 250.000 TL, 2018-01 -> 2026-08', () => {
+    // We expect start = 10.45, end = 134.74
+    // Result: 3,223,444.98
+    const res = calculateInflation(250000, '2018-01', '2026-08');
+    expect(res.primaryResult.includes('3.223.444,98')).toBe(true);
+    expect(res.secondaryResults['Bitiş Endeksi'].includes('134,74')).toBe(true);
   });
 
-  it('TEST 2: 5000 TL, 100 -> 150', () => {
-    const res = calculateInflation(5000, 100, 150);
-    expect(res.primaryResult.includes('7.500,00')).toBe(true);
-    expect(res.secondaryResults['Enflasyon Oranı']).toBe('%50');
-    expect(res.secondaryResults['Fiyat Artışı'].includes('2.500,00')).toBe(true);
+  it('TEST 2: Aynı tarih, tutar değişmemeli (2018-01 -> 2018-01)', () => {
+    const res = calculateInflation(250000, '2018-01', '2018-01');
+    expect(res.primaryResult.includes('250.000,00')).toBe(true);
+    expect(res.secondaryResults['TÜFE Değişimi']).toBe('%0');
+    expect(res.secondaryResults['Değer Artışı'].includes('0,00')).toBe(true);
   });
 
-  it('TEST 3: Negatif Enflasyon (1000 TL, 120 -> 100)', () => {
-    const res = calculateInflation(1000, 120, 100);
-    // 1000 * (100/120) = 833.333
-    expect(res.primaryResult.includes('833,33')).toBe(true);
-    expect(res.secondaryResults['Enflasyon Oranı'].includes('-16,67')).toBe(true);
-    expect(res.secondaryResults['Fiyat Artışı'].includes('166,67')).toBe(true);
+  it('TEST 3: Başlangıç tarihi > Bitiş tarihi olamaz', () => {
+    expect(() => calculateInflation(250000, '2026-08', '2018-01')).toThrow('Başlangıç tarihi, bitiş tarihinden ileri olamaz.');
   });
 
-  it('TEST 4: Aynı endeks, tutar değişmemeli (100 -> 100)', () => {
-    const res = calculateInflation(1000, 100, 100);
-    expect(res.primaryResult.includes('1.000,00')).toBe(true);
-    expect(res.secondaryResults['Enflasyon Oranı']).toBe('%0');
-    expect(res.secondaryResults['Fiyat Artışı'].includes('0,00')).toBe(true);
+  it('TEST 4: NaN Handling ve Negatif Tutar', () => {
+    expect(() => calculateInflation(NaN, '2018-01', '2026-08')).toThrow();
+    expect(() => calculateInflation(-100, '2018-01', '2026-08')).toThrow();
   });
 
-  it('TEST 5: NaN Handling', () => {
-    expect(() => calculateInflation(1000, NaN, 120)).toThrow();
-    expect(() => calculateInflation(NaN, 100, 120)).toThrow();
-    expect(() => calculateInflation(1000, 100, NaN)).toThrow();
+  it('TEST 5: Olmayan veri ayı hatası', () => {
+    expect(() => calculateInflation(1000, '1999-01', '2026-08')).toThrow();
+    expect(() => calculateInflation(1000, '2018-01', '2050-08')).toThrow();
   });
 
-  it('TEST 6: Infinity Handling', () => {
-    expect(() => calculateInflation(1000, Infinity, 120)).toThrow();
-    expect(() => calculateInflation(1000, 100, Infinity)).toThrow();
-  });
-
-  it('TEST 7: 0 Başlangıç Endeksi', () => {
-    expect(() => calculateInflation(1000, 0, 120)).toThrow();
-  });
-
-  it('TEST 8: Zod Schema Negatif Değer', () => {
+  it('TEST 6: Zod Schema Kontrolü', () => {
     const schema = inflationCalculatorDef.schema;
-    expect(schema.safeParse({ startAmount: -100, startIndex: 100, endIndex: 120 }).success).toBe(false);
-    expect(schema.safeParse({ startAmount: 1000, startIndex: -10, endIndex: 120 }).success).toBe(false);
-    expect(schema.safeParse({ startAmount: 1000, startIndex: 100, endIndex: -5 }).success).toBe(false);
-    expect(schema.safeParse({ startAmount: 1000, startIndex: 100, endIndex: 120 }).success).toBe(true);
+    // Geçersiz tarih formatı
+    expect(schema.safeParse({ startAmount: 1000, startDate: '01-2018', endDate: '2026-08' }).success).toBe(false);
+    // Bitiş başlangıçtan küçük
+    expect(schema.safeParse({ startAmount: 1000, startDate: '2026-08', endDate: '2018-01' }).success).toBe(false);
+    // Negatif tutar
+    expect(schema.safeParse({ startAmount: -5, startDate: '2018-01', endDate: '2026-08' }).success).toBe(false);
+    // Başarılı
+    expect(schema.safeParse({ startAmount: 1000, startDate: '2018-01', endDate: '2026-08' }).success).toBe(true);
   });
 });

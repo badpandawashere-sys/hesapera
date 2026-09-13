@@ -1,4 +1,4 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateInflation } from '../formulas/inflation';
 
@@ -7,14 +7,15 @@ const schema = z.object({
     .min(0, 'Başlangıç tutarı 0 veya daha büyük olmalıdır')
     .finite('Geçersiz değer (Infinity)')
     .refine(v => !isNaN(v), 'Geçersiz değer (NaN)'),
-  startIndex: z.number()
-    .positive('Başlangıç endeksi 0\'dan büyük olmalıdır')
-    .finite('Geçersiz değer (Infinity)')
-    .refine(v => !isNaN(v), 'Geçersiz değer (NaN)'),
-  endIndex: z.number()
-    .positive('Bitiş endeksi 0\'dan büyük olmalıdır')
-    .finite('Geçersiz değer (Infinity)')
-    .refine(v => !isNaN(v), 'Geçersiz değer (NaN)')
+  startDate: z.string()
+    .regex(/^\d{4}-\d{2}$/, 'Başlangıç tarihi YYYY-MM formatında olmalıdır'),
+  endDate: z.string()
+    .regex(/^\d{4}-\d{2}$/, 'Bitiş tarihi YYYY-MM formatında olmalıdır')
+}).refine(data => {
+  return data.startDate <= data.endDate;
+}, {
+  message: "Başlangıç tarihi bitiş tarihinden ileri olamaz",
+  path: ["startDate"]
 });
 
 type Input = z.infer<typeof schema>;
@@ -24,12 +25,12 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'enflasyon',
   status: 'published',
   name: 'Enflasyon Hesaplama',
-  shortDescription: 'Başlangıç ve bitiş endeks (TÜFE) değerlerini girerek parasal tutarın enflasyon karşısındaki değişimini hesaplayın.',
+  shortDescription: 'Başlangıç ve bitiş dönemlerini girerek parasal tutarın enflasyon karşısındaki değişimini hesaplayın.',
   category: 'finance',
   type: 'complex',
   metadata: {
     title: 'Enflasyon Hesaplama Aracı | Hesapera',
-    description: 'Başlangıç ve bitiş endeks (TÜFE) değerlerini girerek parasal tutarın enflasyon karşısındaki değişimini, enflasyon oranını ve fiyat artışını anında hesaplayın.',
+    description: 'Geçmiş bir tarihteki parasal tutarın güncel enflasyon karşısındaki satın alma gücünü (TÜİK TÜFE 2025=100) anında hesaplayın.',
     keywords: ["enflasyon hesaplama","parasal değer","tüfe hesaplama","fiyat artışı"],
     canonical: 'https://hesapera.com.tr/hesaplama/enflasyon',
     faq: [
@@ -43,7 +44,7 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     ],
     content: {
-      intro: "Enflasyon hesaplamanın mantığı, paranın zaman içindeki alım gücü değişimi ve oranların hesaplanması hakkında bilinmesi gerekenler",
+      intro: "Tutarın geçmişten seçilen bir aya kadar TÜFE değişimine göre güncel satın alma gücü karşılığını hesaplar.",
 
       sections: [
         {
@@ -57,7 +58,7 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
           title: "Tekil Oran vs. Birikimli Enflasyon",
           paragraphs: [
             "Aylık veya yıllık enflasyon oranları, sadece o döneme ait fiyat artışını yansıtır. Ancak uzun vadeli bir değerlendirme yaparken (örneğin son 5 yılın toplam enflasyonu), her yılın enflasyonu bir önceki yılın fiyatlı değeri üzerine eklenerek 'birikimli (kümülatif)' olarak hesaplanır.",
-            "Hesaplama aracımızda belirtilen bir başlangıç ve bitiş tutarı üzerinden fiyat endekslerindeki değişim dikkate alınarak oransal artış veya düşüşler tespit edilir."
+            "Hesaplama aracımızda belirtilen bir başlangıç ve bitiş tarihi üzerinden fiyat endekslerindeki değişim dikkate alınarak oransal artış veya düşüş tespit edilir."
           ]
         },
       ],
@@ -67,12 +68,8 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
       },
       sources: [
         {
-          name: "TÜİK - Tüketici Fiyat Endeksi (TÜFE)",
+          name: "TÜİK - Tüketici Fiyat Endeksi (TÜFE), 2025=100",
           url: "https://www.tuik.gov.tr/"
-        },
-        {
-          name: "TCMB - Enflasyon Verileri",
-          url: "https://www.tcmb.gov.tr/"
         }
       ]
     },
@@ -89,27 +86,22 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
       placeholder: "1000"
     },
     {
-      id: "startIndex",
-      label: "Başlangıç Dönemi Endeksi",
-      type: "number",
+      id: "startDate",
+      label: "Başlangıç Tarihi",
+      type: "date",
       required: true,
-      min: 0.01,
-      step: 0.01,
-      placeholder: "100"
+      placeholder: "2018-01"
     },
     {
-      id: "endIndex",
-      label: "Bitiş Dönemi Endeksi",
-      type: "number",
+      id: "endDate",
+      label: "Bitiş Tarihi",
+      type: "date",
       required: true,
-      min: 0.01,
-      step: 0.01,
-      placeholder: "120"
+      placeholder: "2026-08"
     }
   ],
   schema,
   calculate: (input) => {
-    return calculateInflation(input.startAmount, input.startIndex, input.endIndex);
+    return calculateInflation(input.startAmount, input.startDate, input.endDate);
   }
 };
-

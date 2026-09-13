@@ -11,6 +11,43 @@ import { CalculatorForm } from '@/components/calculator/calculator-form';
 import { LoanCalculatorForm } from '@/components/calculator/loan-calculator-form';
 import { ConsumerLoanForm } from '@/components/calculator/consumer-loan-form';
 import { MortgageLoanForm } from '@/components/calculator/mortgage-loan-form';
+import { VehicleLoanForm } from '@/components/calculator/vehicle-loan-form';
+import { CreditCardMinimumPaymentForm } from '@/components/calculator/credit-card-minimum-payment-form';
+import { LoanRestructuringForm } from '@/components/calculator/loan-restructuring-form';
+import { GoldForm } from '@/components/calculator/gold-form';
+import { CurrencyForm } from '@/components/calculator/currency-form';
+import { InflationForm } from '@/components/calculator/inflation-form';
+import { InterestForm } from '@/components/calculator/interest-form';
+import { RentIncreaseForm } from '@/components/calculator/rent-increase-form';
+import { TimeDepositForm } from '@/components/calculator/time-deposit-form';
+import { KpssForm } from '@/components/calculator/kpss-form';
+import { TytForm } from '@/components/calculator/tyt-form';
+import { YksForm } from '@/components/calculator/yks-form';
+import { LgsForm } from '@/components/calculator/lgs-form';
+import { DersNotuForm } from '@/components/calculator/ders-notu-form';
+import { TakdirTesekkurForm } from '@/components/calculator/takdir-tesekkur-form';
+import { SavingsForm } from '@/components/calculator/savings-form';
+import { CompoundGrowthForm } from '@/components/calculator/compound-growth-form';
+import { SimpleInterestForm } from '@/components/calculator/simple-interest-form';
+import { AgeForm } from '@/components/calculator/age-form';
+import { FactorialForm } from '@/components/calculator/factorial-form';
+import { HistoricalGoldForm } from '@/components/calculator/historical-gold-form';
+import { PerimeterForm } from '@/components/calculator/perimeter-form';
+import { AlanForm } from '@/components/calculator/alan-form';
+import { KokluSayiForm } from '@/components/calculator/koklu-sayi-form';
+import { EbobEkokForm } from '@/components/calculator/ebob-ekok-form';
+import { HistoricalCurrencyForm } from '@/components/calculator/historical-currency-form';
+import { IbanValidationForm } from '@/components/calculator/iban-validation-form';
+import { CreditCardLateFeeForm } from '@/components/calculator/credit-card-late-fee-form';
+import { MaxLoanAmountForm } from '@/components/calculator/max-loan-amount-form';
+import { LoanAnnualCostRateForm } from '@/components/calculator/loan-annual-cost-rate-form';
+import { VolumeForm } from '@/components/calculator/volume-form';
+import { MetrekareForm } from '@/components/calculator/metrekare-form';
+import { OranForm } from '@/components/calculator/oran-form';
+import { PercentageForm } from '@/components/calculator/percentage-form';
+import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
+import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
+import { VkiForm } from '@/components/calculator/vki-form';
 import { AdBanner } from '@/components/ads/ad-banner';
 import * as LucideIcons from 'lucide-react';
 
@@ -143,6 +180,80 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <ConsumerLoanForm calculator={calculatorViewModel} />
         ) : slug === 'konut-kredisi' ? (
           <MortgageLoanForm calculator={calculatorViewModel} />
+        ) : slug === 'tasit-kredisi' ? (
+          <VehicleLoanForm calculator={calculatorViewModel} />
+        ) : slug === 'kredi-karti-asgari-odeme-tutari' ? (
+          <CreditCardMinimumPaymentForm calculator={calculatorViewModel} />
+        ) : slug === 'kredi-yapilandirma' ? (
+          <LoanRestructuringForm calculator={calculatorViewModel} />
+        ) : slug === 'altin' ? (
+          <GoldForm calculator={calculatorViewModel} />
+        ) : slug === 'doviz' ? (
+          <CurrencyForm calculator={calculatorViewModel} />
+        ) : slug === 'enflasyon' ? (
+          <InflationForm calculator={calculatorViewModel} />
+        ) : slug === 'faiz' ? (
+          <InterestForm calculator={calculatorViewModel} />
+        ) : slug === 'kira-artis-orani' ? (
+          <RentIncreaseForm calculator={calculatorViewModel} />
+        ) : slug === 'vadeli-mevduat-faizi' ? (
+          <TimeDepositForm calculator={calculatorViewModel} />
+        ) : slug === 'kpss-puan' ? (
+          <KpssForm calculator={calculatorViewModel} />
+        ) : slug === 'tyt-puan' ? (
+          <TytForm calculator={calculatorViewModel} />
+        ) : slug === 'yks-puan' ? (
+          <YksForm calculator={calculatorViewModel} />
+        ) : slug === 'lgs-puan' ? (
+          <LgsForm calculator={calculatorViewModel} />
+        ) : slug === 'ders-notu' ? (
+          <DersNotuForm calculator={calculatorViewModel} />
+        ) : slug === 'takdir-tesekkur' ? (
+          <TakdirTesekkurForm calculator={calculatorViewModel} />
+        ) : slug === 'birikim' ? (
+          <SavingsForm calculator={calculatorViewModel} />
+        ) : slug === 'bilesik-buyume' ? (
+          <CompoundGrowthForm calculator={calculatorViewModel} />
+        ) : slug === 'basit-faiz' ? (
+          <SimpleInterestForm calculator={calculatorViewModel} />
+        ) : slug === 'vucut-kitle-endeksi' ? (
+          <VkiForm calculator={calculatorViewModel} />
+        ) : slug === 'gunluk-kalori-ihtiyaci' ? (
+          <KaloriIhtiyaciForm calculator={calculatorViewModel} />
+        ) : slug === 'ideal-kilo' ? (
+          <IdealKiloForm calculator={calculatorViewModel} />
+        ) : slug === 'yas' ? (
+          <AgeForm calculator={calculatorViewModel} />
+        ) : slug === 'yuzde' ? (
+          <PercentageForm calculator={calculatorViewModel} />
+        ) : slug === 'oran' ? (
+          <OranForm calculator={calculatorViewModel} />
+        ) : slug === 'metrekare' ? (
+          <MetrekareForm calculator={calculatorViewModel} />
+        ) : slug === 'hacim' ? (
+          <VolumeForm calculator={calculatorViewModel} />
+        ) : slug === 'faktoriyel' ? (
+          <FactorialForm calculator={calculatorViewModel} />
+        ) : slug === 'kredi-yillik-maliyet-orani' ? (
+          <LoanAnnualCostRateForm calculator={calculatorViewModel} />
+        ) : slug === 'ne-kadar-kredi-alabilirim' ? (
+          <MaxLoanAmountForm calculator={calculatorViewModel} />
+        ) : slug === 'kredi-karti-gecikme-faizi' ? (
+          <CreditCardLateFeeForm calculator={calculatorViewModel} />
+        ) : slug === 'iban-dogrulama' ? (
+          <IbanValidationForm calculator={calculatorViewModel} />
+        ) : slug === 'gecmis-altin-fiyatlari' ? (
+          <HistoricalGoldForm calculator={calculatorViewModel} />
+        ) : slug === 'gecmis-doviz-kurlari' ? (
+          <HistoricalCurrencyForm calculator={calculatorViewModel} />
+        ) : slug === 'ebob-ekok' ? (
+          <EbobEkokForm calculator={calculatorViewModel} />
+        ) : slug === 'koklu-sayi' ? (
+          <KokluSayiForm calculator={calculatorViewModel} />
+        ) : slug === 'alan' ? (
+          <AlanForm calculator={calculatorViewModel} />
+        ) : slug === 'cevre' ? (
+          <PerimeterForm calculator={calculatorViewModel} />
         ) : (
           <CalculatorForm calculator={calculatorViewModel} />
         )}

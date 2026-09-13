@@ -1,6 +1,27 @@
-﻿export function calculateInflation(startAmount: number, startIndex: number, endIndex: number) {
-  if (startIndex <= 0 || isNaN(startIndex) || isNaN(endIndex) || isNaN(startAmount) || !isFinite(startIndex) || !isFinite(endIndex) || !isFinite(startAmount)) {
-    throw new Error('Geçersiz değerler (Sıfır, NaN veya Infinity)');
+import { TUIK_CPI_2025_BASE } from '@/lib/data/sources/tuik-cpi';
+
+export function calculateInflation(startAmount: number, startDate: string, endDate: string) {
+  if (isNaN(startAmount) || !isFinite(startAmount) || startAmount < 0) {
+    throw new Error('Geçersiz tutar girildi.');
+  }
+  
+  if (startDate > endDate) {
+    throw new Error('Başlangıç tarihi, bitiş tarihinden ileri olamaz.');
+  }
+
+  const startIndex = TUIK_CPI_2025_BASE[startDate];
+  const endIndex = TUIK_CPI_2025_BASE[endDate];
+
+  if (startIndex === undefined) {
+    throw new Error(`Başlangıç tarihi (${startDate}) için TÜİK verisi bulunamadı.`);
+  }
+
+  if (endIndex === undefined) {
+    throw new Error(`Bitiş tarihi (${endDate}) için TÜİK verisi bulunamadı.`);
+  }
+
+  if (startIndex <= 0 || endIndex <= 0) {
+    throw new Error('Endeks değerleri sıfır veya negatif olamaz.');
   }
 
   // Enflasyon Oranı = (Bitiş Endeksi / Başlangıç Endeksi - 1) * 100
@@ -17,18 +38,22 @@
     primaryResult: new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(finalAmount),
     secondaryResults: {
       'Başlangıç Tutarı': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(startAmount),
-      'Enflasyon Oranı': '%' + new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(inflationRate),
-      'Fiyat Artışı': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(priceIncrease)
+      'Başlangıç Tarihi': startDate,
+      'Bitiş Tarihi': endDate,
+      'Başlangıç Endeksi': new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(startIndex),
+      'Bitiş Endeksi': new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(endIndex),
+      'TÜFE Değişimi': '%' + new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(inflationRate),
+      'Değer Artışı': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(priceIncrease)
     },
     breakdown: [
-      { label: 'Başlangıç Endeksi', value: new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(startIndex) },
-      { label: 'Bitiş Endeksi', value: new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(endIndex) },
+      { label: 'Başlangıç Endeksi (' + startDate + ')', value: new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(startIndex) },
+      { label: 'Bitiş Endeksi (' + endDate + ')', value: new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(endIndex) },
       { label: 'Uygulanan Formül', value: '(Bitiş Endeksi / Başlangıç Endeksi) formülü ile hesaplanmıştır.' },
       { label: 'Hesaplanan Sonuç', value: new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(finalAmount) }
     ],
     infoReference: {
       title: "Veri Kaynağı ve Hesaplama Yöntemi",
-      description: "Hesaplama, girdiğiniz başlangıç ve bitiş endeks değerlerine dayanarak doğrudan matematiksel oranlama ile yapılmaktadır. Doğrulanmış resmi tarihsel TÜİK veri seti (TÜFE/ÜFE) projeye entegre edilmediği için, hesaplama tamamen girdiğiniz referans indeks değerlerini kullanır. Bu nedenle geçmişe dönük resmi TÜİK enflasyon rakamları yerine, belirttiğiniz indeksler baz alınarak pure bir matematiksel hesaplama uygulanmaktadır."
+      description: "Hesaplama, TÜİK tarafından yayımlanan Tüketici Fiyat Endeksi (TÜFE) 2025=100 resmi tarihsel serisine dayanmaktadır. Belirtilen tarihler arasındaki endeks değişimine göre doğrudan alım gücü (satın alma gücü) karşılığı matematiksel oranlama ile hesaplanmıştır."
     }
   };
 }

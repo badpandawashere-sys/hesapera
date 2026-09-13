@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { CalculatorResult } from '@/calculators/core/calculator-result';
 import { calculateAction } from '@/app/actions/calculate';
+import { CalculatorSubmitButton } from './calculator-submit-button';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
@@ -251,14 +252,15 @@ export function LoanCalculatorForm({ calculator }: LoanCalculatorFormProps) {
               </div>
             </div>
 
-            <button 
-              onClick={handleCalculate}
-              disabled={isLoading}
-              className="w-full md:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-semibold hover:bg-slate-800 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 self-start"
-            >
-              {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
-              Hesaplamayı Güncelle
-            </button>
+            <div className="w-full flex justify-center mt-6">
+              <div className="w-full max-w-[280px]">
+                <CalculatorSubmitButton 
+                  onClick={handleCalculate} 
+                  isLoading={isLoading} 
+                  className="!h-[64px] !text-[24px] [&>img]:!h-[42px] shadow-xl hover:shadow-2xl" 
+                />
+              </div>
+            </div>
           </div>
 
           {/* RIGHT: Result & Chart */}
@@ -393,3 +395,4 @@ export function LoanCalculatorForm({ calculator }: LoanCalculatorFormProps) {
     </div>
   );
 }
+

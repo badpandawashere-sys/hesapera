@@ -9,6 +9,8 @@ export interface PreciousMetalInstrument {
 export interface MarketPrice {
   buy: number;
   sell: number;
+  low?: number;
+  high?: number;
   fetchedAt: string;
   effectiveAt: string;
   source: string;
