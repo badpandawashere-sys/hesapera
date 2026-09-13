@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { CalculatorSubmitButton } from './calculator-submit-button';
@@ -503,6 +504,8 @@ export function TimeDepositForm({ calculator }: TimeDepositFormProps) {
           </div>
         </div>
       </div>
+    
+      {result?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={result.data} />}
     </div>
   );
 }

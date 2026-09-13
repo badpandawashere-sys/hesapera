@@ -1,6 +1,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
+import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { BookMarked, Plus, Trash2, Loader2 } from 'lucide-react';
@@ -86,6 +87,8 @@ export function DersNotuForm({ calculator }: { calculator: CalculatorViewModel }
            {mounted ? <NumberFlow value={primary} format={{minimumFractionDigits:2}} /> : primary.toFixed(2)}
         </div>
       </div>
+    
+      {res?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={res.data} />}
     </div>
   );
 }

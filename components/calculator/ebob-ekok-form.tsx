@@ -1,6 +1,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
+import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Link, Plus, Trash2 } from 'lucide-react';
@@ -96,6 +97,8 @@ export function EbobEkokForm({ calculator }: { calculator: CalculatorViewModel }
         )}
 
       </div>
+    
+      {res?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={res.data} />}
     </div>
   );
 }

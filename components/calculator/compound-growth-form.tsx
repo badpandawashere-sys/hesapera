@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Zap, Rocket, ChevronDown, List } from 'lucide-react';
@@ -201,6 +202,8 @@ export function CompoundGrowthForm({ calculator }: { calculator: CalculatorViewM
         </div>
 
       </div>
+    
+      {res?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={res.data} />}
     </div>
   );
 }

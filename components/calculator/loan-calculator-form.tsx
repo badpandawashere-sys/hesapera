@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from './share-result';
 
 import { useState, useEffect, useRef } from 'react';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
@@ -392,6 +393,8 @@ export function LoanCalculatorForm({ calculator }: LoanCalculatorFormProps) {
           )}
         </div>
       )}
+    
+      {result?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={result.data} />}
     </div>
   );
 }

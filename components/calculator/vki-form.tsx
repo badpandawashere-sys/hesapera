@@ -1,6 +1,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
+import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Ruler, Weight, Activity } from 'lucide-react';
@@ -111,6 +112,8 @@ export function VkiForm({ calculator }: { calculator: CalculatorViewModel }) {
         </div>
 
       </div>
+    
+      {res?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={res.data} />}
     </div>
   );
 }

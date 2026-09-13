@@ -2,6 +2,7 @@
 
 import { CalculatorSubmitButton } from './calculator-submit-button';
 import { useState, useEffect } from 'react';
+import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { CalculatorResult } from '@/calculators/core/calculator-result';
 import { calculateAction } from '@/app/actions/calculate';
@@ -401,6 +402,8 @@ export function LoanRestructuringForm({ calculator }: LoanRestructuringFormProps
           )}
         </div>
       )}
+    
+      {result?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={result.data} />}
     </div>
   );
 }
