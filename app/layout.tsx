@@ -19,6 +19,15 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.hesapera.com.tr"),
   title: "Hesapera | Modern Hesaplama Platformu",
   description: "Türkiye'nin en gelişmiş, ücretsiz ve modern hesaplama platformu.",
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    siteName: "Hesapera",
+    url: "https://www.hesapera.com.tr/",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

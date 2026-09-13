@@ -1,9 +1,23 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
+const title = "Hesapera | Modern Hesaplama Platformu";
+const description = "Türkiye'nin en gelişmiş, ücretsiz ve modern hesaplama platformu.";
+
 export const metadata: Metadata = {
+  title,
+  description,
   alternates: {
     canonical: 'https://www.hesapera.com.tr/',
+  },
+  openGraph: {
+    title,
+    description,
+    url: 'https://www.hesapera.com.tr/',
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 import { Search, ArrowRight, Shield, Building, Wallet, Receipt, Car, CreditCard, WalletCards, Percent, CalendarDays, HeartPulse, Banknote } from 'lucide-react';

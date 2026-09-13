@@ -6,11 +6,23 @@ import '@/calculators/core/init';
 import Link from 'next/link';
 import { ArrowRight, BookOpen } from 'lucide-react';
 
+const title = 'Hesaplama Rehberleri | Hesapera';
+const description = 'Hesapera üzerinde bulunan tüm hesaplama araçlarının detaylı çalışma mantıklarını, formüllerini ve sonuçların nasıl yorumlanacağını anlatan rehber merkezimiz.';
+
 export const metadata: Metadata = {
-  title: 'Hesaplama Rehberleri | Hesapera',
-  description: 'Hesapera üzerinde bulunan tüm hesaplama araçlarının detaylı çalışma mantıklarını, formüllerini ve sonuçların nasıl yorumlanacağını anlatan rehber merkezimiz.',
+  title,
+  description,
   alternates: {
     canonical: 'https://www.hesapera.com.tr/rehber',
+  },
+  openGraph: {
+    title,
+    description,
+    url: 'https://www.hesapera.com.tr/rehber',
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 

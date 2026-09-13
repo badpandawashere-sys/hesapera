@@ -5,11 +5,23 @@ import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
 import '@/calculators/core/init';
 import Link from 'next/link';
 
+const title = 'Kategoriler | Hesapera';
+const description = 'Tüm hesaplama kategorilerimizi inceleyin.';
+
 export const metadata: Metadata = {
-  title: 'Kategoriler | Hesapera',
-  description: 'Tüm hesaplama kategorilerimizi inceleyin.',
+  title,
+  description,
   alternates: {
     canonical: 'https://www.hesapera.com.tr/kategoriler',
+  },
+  openGraph: {
+    title,
+    description,
+    url: 'https://www.hesapera.com.tr/kategoriler',
+  },
+  twitter: {
+    title,
+    description,
   },
 };
 

@@ -72,6 +72,10 @@ export async function generateMetadata(props: CalculatorPageProps): Promise<Meta
     return {
       title: `Yakında: ${calculator.name} | Hesapera`,
       description: calculator.shortDescription,
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -81,7 +85,16 @@ export async function generateMetadata(props: CalculatorPageProps): Promise<Meta
     keywords: calculator.metadata.keywords?.join(', '),
     alternates: {
       canonical: calculator.metadata.canonical,
-    }
+    },
+    openGraph: {
+      title: calculator.metadata.title,
+      description: calculator.metadata.description,
+      url: calculator.metadata.canonical,
+    },
+    twitter: {
+      title: calculator.metadata.title,
+      description: calculator.metadata.description,
+    },
   };
 }
 

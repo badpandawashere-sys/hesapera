@@ -18,10 +18,24 @@ export async function generateMetadata(props: CategoryPageProps): Promise<Metada
   const category = categories.find(c => c.id === id);
   if (!category) return { title: 'Kategori Bulunamadı' };
   
+  const title = `${category.name} Hesaplamaları | Hesapera`;
+  const canonical = `https://www.hesapera.com.tr/kategoriler/${category.id}`;
+  const description = `${category.name} kategorisindeki hesaplama araçları.`;
+  
   return {
-    title: `${category.name} Hesaplamaları | Hesapera`,
+    title,
+    description,
     alternates: {
-      canonical: `https://www.hesapera.com.tr/kategoriler/${category.id}`,
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+    },
+    twitter: {
+      title,
+      description,
     },
   };
 }
