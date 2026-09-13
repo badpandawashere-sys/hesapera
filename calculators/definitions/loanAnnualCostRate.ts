@@ -29,7 +29,7 @@ export const loanAnnualCostRateCalculatorDef: CalculatorDefinition<Input, any> =
     title: 'Kredi Yıllık Maliyet Oranı Hesaplama Aracı | Hesapera',
     description: 'Bireysel, taşıt ve konut kredilerinizin yönetmeliğe uygun yıllık efektif maliyet oranını hesaplayın.',
     keywords: ["yıllık maliyet oranı","efektif faiz","kredi maliyeti","IRR hesaplama"],
-    canonical: 'https://hesapera.com.tr/hesaplama/kredi-yillik-maliyet-orani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-yillik-maliyet-orani',
     faq: [
       {
         question: "Hesaplanan maliyet oranı neden aylık faizimin 12 katından çok daha büyük çıkıyor?",

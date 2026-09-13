@@ -33,7 +33,7 @@ export const financialDiscountCalculatorDef: CalculatorDefinition<Input, any> = 
     title: 'İç ve Dış İskonto Hesaplama Aracı | Hesapera',
     description: 'İç (gerçek) iskonto ve dış (ticari) iskonto hesaplama formülleriyle senedin veya finansal varlığın peşin değerini (net bugünkü değerini) hesaplayın.',
     keywords: ["iskonto hesaplama","iç iskonto","dış iskonto","net bugünkü değer", "ticari iskonto", "peşin değer hesaplama"],
-    canonical: 'https://hesapera.com.tr/hesaplama/ic-ve-dis-iskonto',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ic-ve-dis-iskonto',
     faq: [],
     relatedCalculators: ["faiz", "bono", "eurobond"]
   },

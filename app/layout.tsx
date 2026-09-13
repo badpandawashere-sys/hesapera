@@ -16,8 +16,9 @@ const fontSans = Manrope({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.hesapera.com.tr"),
   title: "Hesapera | Modern Hesaplama Platformu",
-  description: "TÃ¼rkiye'nin en geliÅŸmiÅŸ, Ã¼cretsiz ve modern hesaplama platformu.",
+  description: "Türkiye'nin en gelişmiş, ücretsiz ve modern hesaplama platformu.",
 };
 
 export default function RootLayout({

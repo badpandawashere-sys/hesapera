@@ -51,7 +51,7 @@ export const volumeCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Hacim Hesaplama Aracı | Hesapera',
     description: 'Farklı geometrik cisimlerin (Küp, Dikdörtgenler Prizması, Küre, Silindir, Koni) hacmini matematiksel formüllerle kolayca hesaplayın.',
     keywords: ["hacim hesaplama", "küp hacmi", "silindir hacmi", "küre hacmi", "koni hacmi", "prizma hacmi"],
-    canonical: 'https://hesapera.com.tr/hesaplama/hacim',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/hacim',
     faq: [
       {
         question: "Metreküp ile metrekare arasındaki fark nedir?",

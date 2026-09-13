@@ -31,7 +31,7 @@ export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Canlı Altın Hesaplama | Hesapera',
     description: 'Güncel altın alış ve satış kurları üzerinden elinizdeki altının toplam değerini ya da paranızla ne kadar altın alabileceğinizi anında hesaplayın.',
     keywords: ["altın hesaplama", "çeyrek altın", "gram altın hesapla", "canlı altın"],
-    canonical: 'https://hesapera.com.tr/hesaplama/altin',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/altin',
     icon: 'Coins',
     faq: [
       {

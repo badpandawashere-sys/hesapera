@@ -22,7 +22,7 @@ export const vehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Taşıt Kredisi Hesaplama Aracı | Hesapera',
     description: 'Otomobil veya diğer taşıt alımlarınız için kullanacağınız kredinin taksit ve ödeme planını anında hesaplayın.',
     keywords: ["taşıt kredisi","araç kredisi","araba kredisi hesaplama","kredi taksiti"],
-    canonical: 'https://hesapera.com.tr/hesaplama/tasit-kredisi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/tasit-kredisi',
     faq: [
       {
         question: "Taşıt kredisi taksiti nasıl hesaplanır?",

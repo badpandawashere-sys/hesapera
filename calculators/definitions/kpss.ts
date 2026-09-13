@@ -25,7 +25,7 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'KPSS Puan Hesaplama â€” GY ve GK Bazlı | Hesapera',
     description: 'KPSS 2026 Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre KPSSP1 ve KPSSP3 yaklaşık puanınızı hesaplayın.',
     keywords: ['kpss puan hesaplama', 'kpss 2026', 'kpssp3 hesaplama', 'kpss gk gy net'],
-    canonical: 'https://hesapera.com.tr/hesaplama/kpss-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kpss-puan',
     faq: [
       {
         question: "Hesaplanan KPSS puanı kesin midir?",

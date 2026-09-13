@@ -23,7 +23,7 @@ export const historicalCurrencyCalculatorDef: CalculatorDefinition<Input, any> =
     title: 'Geçmiş Döviz Kurları Hesaplama Aracı | Hesapera',
     description: 'Belirli bir tarihteki döviz kurlarını kullanarak geçmiş tutarların TL karşılığını hesaplayın.',
     keywords: ["geçmiş döviz kurları","tarihsel kur çeviri","eski dolar kuru","eski euro kuru"],
-    canonical: 'https://hesapera.com.tr/hesaplama/gecmis-doviz-kurlari',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gecmis-doviz-kurlari',
     faq: [
       {
         question: "Kur Tipi seçeneklerinden hangisini seçmeliyim?",

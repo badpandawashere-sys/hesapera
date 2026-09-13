@@ -22,7 +22,7 @@ export const loanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Kredi Hesaplama Aracı | Hesapera',
     description: 'Bireysel veya ticari kredilerinizin taksitlerini, faiz oranlarını ve geri ödeme planını anında hesaplayın.',
     keywords: ["kredi hesaplama","kredi taksiti","amortisman planı","kredi faizi"],
-    canonical: 'https://hesapera.com.tr/hesaplama/kredi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi',
     icon: 'WalletCards',
     faq: [
       {

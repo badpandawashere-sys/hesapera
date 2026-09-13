@@ -24,7 +24,7 @@ export const timeDepositCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Vadeli Mevduat Faizi Hesaplama Aracı | Hesapera',
     description: 'Vadeli mevduatınızın anapara, faiz oranı, vade ve stopaj oranına göre net getirisini ve vade sonu bakiyesini hesaplayın.',
     keywords: ["mevduat faizi","vadeli hesap","net faiz","stopajlı mevduat","vade sonu bakiye"],
-    canonical: 'https://hesapera.com.tr/hesaplama/vadeli-mevduat-faizi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/vadeli-mevduat-faizi',
     faq: [
       {
         question: "Mevduat hesabı faizi yıllık mıdır?",

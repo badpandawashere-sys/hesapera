@@ -24,7 +24,7 @@ export const dersNotuCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Ders Notu ve Ortalama Hesaplama | Hesapera',
     description: 'Vize, final, proje veya performans notlarınızı kullanarak ders başarı durumunuzu ve genel ortalamanızı hesaplayın. Ağırlıklı hesaplama seçeneği mevcuttur.',
     keywords: ['ders notu hesaplama', 'ağırlıklı ortalama hesaplama', 'vize final hesaplama', 'ders ortalaması'],
-    canonical: 'https://hesapera.com.tr/hesaplama/ders-notu',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ders-notu',
     faq: [
       {
         question: "Projeler ders notuna nasıl etki eder?",

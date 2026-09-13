@@ -4,7 +4,7 @@ import '@/calculators/core/init';
 import { categories } from '@/lib/data/categories';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://hesapera.com.tr';
+  const baseUrl = 'https://www.hesapera.com.tr';
 
   // Base routes
   const routes: MetadataRoute.Sitemap = [

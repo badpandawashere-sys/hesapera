@@ -48,7 +48,7 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Geometrik Alan Hesaplama (Kare, Üçgen, Daire, Yamuk) | Hesapera',
     description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk, Elips) metrekare ve santimetrekare cinsinden alanını kolayca hesaplayın.',
     keywords: ['alan hesaplama', 'üçgenin alanı', 'dairenin alanı', 'dikdörtgen alan hesabı', 'geometrik alan', 'metrekare hesaplama'],
-    canonical: 'https://hesapera.com.tr/hesaplama/alan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/alan',
     faq: [
       {
         question: "Alan ile Çevre arasındaki fark nedir?",

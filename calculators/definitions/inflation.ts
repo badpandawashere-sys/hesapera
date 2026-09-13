@@ -32,7 +32,7 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Enflasyon Hesaplama Aracı | Hesapera',
     description: 'Geçmiş bir tarihteki parasal tutarın güncel enflasyon karşısındaki satın alma gücünü (TÜİK TÜFE 2025=100) anında hesaplayın.',
     keywords: ["enflasyon hesaplama","parasal değer","tüfe hesaplama","fiyat artışı"],
-    canonical: 'https://hesapera.com.tr/hesaplama/enflasyon',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/enflasyon',
     faq: [
       {
         question: "Enflasyon oranı nasıl belirlenir?",

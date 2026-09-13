@@ -25,7 +25,7 @@ export const factorialCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Faktöriyel Hesaplama Aracı (n!) | Hesapera',
     description: 'Verilen n sayısının faktöriyelini (n!) doğru bir şekilde hesaplayın. Büyük faktöriyeller (BigInt) için kesin değer sonucu veren hesaplayıcı.',
     keywords: ["faktöriyel hesaplama", "n! hesaplama", "faktöriyel formülü", "matematik faktöriyel", "0 faktöriyel"],
-    canonical: 'https://hesapera.com.tr/hesaplama/faktoriyel',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/faktoriyel',
     faq: [
       {
         question: "Negatif sayıların (Örn: -5!) faktöriyeli neden hesaplanamaz?",

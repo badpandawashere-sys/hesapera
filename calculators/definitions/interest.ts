@@ -53,7 +53,7 @@ export const interestCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Faiz Hesaplama Aracı | Hesapera',
     description: 'Basit faiz ve bileşik faiz hesaplama aracı ile anapara, faiz oranı ve süreye göre getirinizi anında hesaplayın.',
     keywords: ["faiz hesaplama","basit faiz","bileşik faiz","ana para","faiz oranı","süre"],
-    canonical: 'https://hesapera.com.tr/hesaplama/faiz',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/faiz',
     faq: [
       {
         question: "Aylık faiz ile yıllık faiz aynı mıdır?",

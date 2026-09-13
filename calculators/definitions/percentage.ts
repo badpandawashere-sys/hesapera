@@ -21,7 +21,7 @@ export const percentageCalculatorDef: CalculatorDefinition<PercentageInput, numb
     title: 'Yüzde Hesaplama Aracı | Hesapera',
     description: 'En kolay ve hızlı yüzde hesaplama aracı. Bir sayının yüzdesini bulmak, indirim hesaplamak veya artış oranını görmek için hemen kullanın.',
     keywords: ['yüzde hesaplama', 'yüzde hesaplama aracı', 'indirim hesaplama', 'matematik'],
-    canonical: 'https://hesapera.com.tr/hesaplama/yuzde',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/yuzde',
     icon: 'Percent',
     content: {
       intro: "Bir sayının belirli bir yüzdesini hızlıca bulmanın matematiksel yöntemi",

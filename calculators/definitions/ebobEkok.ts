@@ -26,7 +26,7 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'EBOB EKOK Hesaplama | Hesapera',
     description: 'Pozitif tam sayılar için EBOB (En Büyük Ortak Bölen) ve EKOK (En Küçük Ortak Kat) değerlerini anında hesaplayın.',
     keywords: ['ebob hesaplama', 'ekok hesaplama', 'en büyük ortak bölen', 'en küçük ortak kat', 'gcd lcm hesaplama', 'çoklu ebob ekok'],
-    canonical: 'https://hesapera.com.tr/hesaplama/ebob-ekok',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ebob-ekok',
     faq: [
       {
         question: "Negatif sayıların EBOB/EKOK'u olur mu?",

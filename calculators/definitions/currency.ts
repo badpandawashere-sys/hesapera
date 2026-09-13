@@ -31,7 +31,7 @@ export const currencyCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Canlı Döviz Kuru Hesaplama ve Çevirici | Hesapera',
     description: 'Güncel Amerikan Doları, Euro, Sterlin ve diğer para birimlerinin kurlarını takip ederek anında TL çevrimi yapın.',
     keywords: ["döviz hesaplama", "dolar hesapla", "euro hesapla", "kur çevirici", "canlı döviz"],
-    canonical: 'https://hesapera.com.tr/hesaplama/doviz',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/doviz',
     icon: 'Banknote',
     faq: [
       {

@@ -32,7 +32,7 @@ export const kokluSayiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Köklü Sayı Hesaplama | Hesapera',
     description: 'Bir sayının n. dereceden kökünü (karekök, küpkök) anında hesaplayın. Tam kök tespiti ve negatif sayılarda tek kök desteği ile.',
     keywords: ["köklü sayı hesaplama", "karekök hesaplama", "küpkök", "karekök dışına çıkarma", "n. dereceden kök"],
-    canonical: 'https://hesapera.com.tr/hesaplama/koklu-sayi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/koklu-sayi',
     faq: [
       {
         question: "Hesaplama 'Tam Kök mü: Hayır' diyor, ne anlama geliyor?",

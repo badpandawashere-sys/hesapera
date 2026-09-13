@@ -1,4 +1,4 @@
-﻿import { Metadata } from 'next';
+import { Metadata } from 'next';
 import { SiteContainer } from '@/components/layout/site-container';
 import { categories } from '@/lib/data/categories';
 import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
@@ -9,6 +9,9 @@ import { ArrowRight, BookOpen } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'Hesaplama Rehberleri | Hesapera',
   description: 'Hesapera üzerinde bulunan tüm hesaplama araçlarının detaylı çalışma mantıklarını, formüllerini ve sonuçların nasıl yorumlanacağını anlatan rehber merkezimiz.',
+  alternates: {
+    canonical: 'https://www.hesapera.com.tr/rehber',
+  },
 };
 
 export default function RehberIndexPage() {

@@ -22,7 +22,7 @@ export const consumerLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'İhtiyaç Kredisi Hesaplama Aracı | Hesapera',
     description: 'Bireysel ihtiyaç kredisi faiz oranlarını karşılaştırın, aylık taksit tutarını, toplam geri ödemeyi ve kredi ödeme planınızı detaylıca hesaplayın.',
     keywords: ["ihtiyaç kredisi","bireysel kredi","kredi hesaplama","ödeme planı"],
-    canonical: 'https://hesapera.com.tr/hesaplama/ihtiyac-kredisi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ihtiyac-kredisi',
     faq: [
       {
         question: "İhtiyaç kredisi taksiti nasıl hesaplanır?",

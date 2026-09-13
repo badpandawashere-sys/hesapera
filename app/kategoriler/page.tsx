@@ -1,4 +1,4 @@
-﻿import { Metadata } from 'next';
+import { Metadata } from 'next';
 import { SiteContainer } from '@/components/layout/site-container';
 import { categories } from '@/lib/data/categories';
 import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
@@ -8,6 +8,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Kategoriler | Hesapera',
   description: 'Tüm hesaplama kategorilerimizi inceleyin.',
+  alternates: {
+    canonical: 'https://www.hesapera.com.tr/kategoriler',
+  },
 };
 
 export default function KategorilerIndexPage() {

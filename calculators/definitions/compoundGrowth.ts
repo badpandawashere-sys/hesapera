@@ -22,7 +22,7 @@ export const compoundGrowthCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Bileşik Büyüme Hesaplama Aracı | Hesapera',
     description: 'Bir değerin belirli dönemlerde ortalama büyüme oranıyla gelecekteki değerini (Compound Growth) hesaplayın.',
     keywords: ["bileşik büyüme","büyüme hesaplama","compound growth","ortalama büyüme"],
-    canonical: 'https://hesapera.com.tr/hesaplama/bilesik-buyume',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bilesik-buyume',
     faq: [
       {
         question: "Bileşik büyüme sadece finansal hesaplamalarda mı kullanılır?",

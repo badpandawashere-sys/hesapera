@@ -22,7 +22,7 @@ export const simpleInterestCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Basit Faiz Hesaplama Aracı | Hesapera',
     description: 'Anapara, faiz oranı ve vade ile basit faiz getirisini hesaplayın.',
     keywords: ["basit faiz","faiz getirisi","kredi faizi"],
-    canonical: 'https://hesapera.com.tr/hesaplama/basit-faiz',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/basit-faiz',
     faq: [
       {
         question: "Araçtaki sonuçtan vergi düşülmüş müdür?",

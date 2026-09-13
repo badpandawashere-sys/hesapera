@@ -20,7 +20,7 @@ describe('ShareResult Component', () => {
     }
   };
 
-  const expectedText = `Hesapera - Kredi Hesaplama\n\nAylık Taksit: 10.000 TL\n\nVade: 36 Ay\nToplam: 360.000 TL\n\nhttps://hesapera.com.tr/hesaplama/kredi`;
+  const expectedText = `Hesapera - Kredi Hesaplama\n\nAylık Taksit: 10.000 TL\n\nVade: 36 Ay\nToplam: 360.000 TL\n\nhttps://www.hesapera.com.tr/hesaplama/kredi`;
 
   beforeEach(() => {
     vi.clearAllMocks();

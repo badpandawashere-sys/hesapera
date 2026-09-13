@@ -22,7 +22,7 @@ export const loanRestructuringCalculatorDef: CalculatorDefinition<Input, any> = 
     title: 'Kredi Yapılandırma Hesaplama',
     description: 'Mevcut kredi bakiyenizi yeni faiz oranı ve vade ile yapılandırdığınızda aylık taksit, toplam ödeme ve toplam faiz tutarını hesaplayın.',
     keywords: ["kredi yapılandırma", "borç transferi", "kredi yenileme", "yapılandırma faizi"],
-    canonical: 'https://hesapera.com.tr/hesaplama/kredi-yapilandirma',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-yapilandirma',
     icon: 'RefreshCw',
     faq: [
       {

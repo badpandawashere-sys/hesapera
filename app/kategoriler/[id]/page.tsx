@@ -1,4 +1,4 @@
-﻿import { Metadata } from 'next';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { SiteContainer } from '@/components/layout/site-container';
 import { categories } from '@/lib/data/categories';
@@ -20,6 +20,9 @@ export async function generateMetadata(props: CategoryPageProps): Promise<Metada
   
   return {
     title: `${category.name} Hesaplamaları | Hesapera`,
+    alternates: {
+      canonical: `https://www.hesapera.com.tr/kategoriler/${category.id}`,
+    },
   };
 }
 

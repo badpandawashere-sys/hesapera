@@ -22,7 +22,7 @@ export const creditCardLateFeeCalculatorDef: CalculatorDefinition<Input, any> = 
     title: 'Kredi Kartı Gecikme Faizi Hesaplama Aracı | Hesapera',
     description: 'Bankanızın uyguladığı aylık faiz oranı üzerinden kredi kartı gecikme faizini ve toplam borcunuzu hesaplayın.',
     keywords: ["kredi kartı gecikme faizi","gecikme zammı","temerrüt","kredi kartı borcu","TCMB azami oran"],
-    canonical: 'https://hesapera.com.tr/hesaplama/kredi-karti-gecikme-faizi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-karti-gecikme-faizi',
     faq: [
       {
         question: "Hesaplayıcının bulduğu miktar neden ekstremdekiyle tam uyuşmuyor?",

@@ -25,7 +25,7 @@ export const takdirTesekkurCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Takdir Teşekkür Hesaplama (Ortaokul & Lise 2026) | Hesapera',
     description: 'Güncel MEB yönetmeliğiyle ortaokul veya lisede takdir, teşekkür belgesi alıp alamayacağınızı devamsızlık ve zayıf kontrolüyle öğrenin.',
     keywords: ['takdir teşekkür hesaplama', 'takdir hesaplama', 'teşekkür hesaplama', 'belge hesaplama meb', 'lise takdir teşekkür', 'ortaokul takdir teşekkür'],
-    canonical: 'https://hesapera.com.tr/hesaplama/takdir-tesekkur',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/takdir-tesekkur',
     faq: [
       {
         question: "Ortalamam 84.9 olursa Takdir alabilir miyim?",

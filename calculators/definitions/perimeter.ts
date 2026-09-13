@@ -64,7 +64,7 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Çevre Hesaplama (Kare, Üçgen, Daire, Dikdörtgen) | Hesapera',
     description: 'Farklı geometrik şekillerin (Kare, Dikdörtgen, Üçgen, Daire, Paralelkenar, Yamuk) çevre uzunluğunu santimetre, metre veya milimetre cinsinden anında hesaplayın.',
     keywords: ['çevre hesaplama', 'üçgenin çevresi', 'dairenin çevresi', 'dikdörtgen çevre hesabı', 'geometrik çevre', 'çevre uzunluğu'],
-    canonical: 'https://hesapera.com.tr/hesaplama/cevre',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/cevre',
     faq: [
       {
         question: "Üçgen çevresi hesaplarken neden 'Geçersiz üçgen' hatası alıyorum?",

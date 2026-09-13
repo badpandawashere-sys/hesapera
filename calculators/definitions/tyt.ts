@@ -27,7 +27,7 @@ export const tytCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'TYT Puan Hesaplama 2026 | Hesapera',
     description: '2026-YKS Temel Yeterlilik Testi (TYT) netlerinize göre standart sapma tahmini ile yaklaşık TYT sınav puanınızı hesaplayın.',
     keywords: ['tyt puan hesaplama', 'tyt net hesaplama', '2026 tyt', 'yks tyt puan'],
-    canonical: 'https://hesapera.com.tr/hesaplama/tyt-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/tyt-puan',
     faq: [
       {
         question: "TYT puanı hesaplarken standart sapma dikkate alınıyor mu?",

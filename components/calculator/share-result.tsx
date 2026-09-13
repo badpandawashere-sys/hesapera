@@ -15,7 +15,7 @@ export function ShareResult({ calculatorName, slug, data, className = '' }: Shar
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(false);
 
-  const url = `https://hesapera.com.tr/hesaplama/${slug}`;
+  const url = `https://www.hesapera.com.tr/hesaplama/${slug}`;
 
   const handleShare = async () => {
     let text = `Hesapera - ${calculatorName}\n\n`;

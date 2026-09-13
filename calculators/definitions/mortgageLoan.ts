@@ -22,7 +22,7 @@ export const mortgageLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Konut Kredisi Hesaplama Aracı | Hesapera',
     description: 'Konut kredisi tutarı, faiz oranı ve vade bilgilerinizi girerek aylık taksit tutarını, toplam geri ödemeyi ve toplam faiz maliyetini hesaplayın.',
     keywords: ["konut kredisi","ev kredisi","kredi hesaplama","mortgage"],
-    canonical: 'https://hesapera.com.tr/hesaplama/konut-kredisi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/konut-kredisi',
     faq: [
       {
         question: "Konut kredisi taksiti nasıl hesaplanır?",

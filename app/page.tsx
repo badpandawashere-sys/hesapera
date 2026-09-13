@@ -1,4 +1,11 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://www.hesapera.com.tr/',
+  },
+};
 import { Search, ArrowRight, Shield, Building, Wallet, Receipt, Car, CreditCard, WalletCards, Percent, CalendarDays, HeartPulse, Banknote } from 'lucide-react';
 import { SiteContainer } from '@/components/layout/site-container';
 import { FeaturedCalculatorCard } from '@/components/cards/featured-calculator-card';

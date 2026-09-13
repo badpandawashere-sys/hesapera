@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/api/',
     },
-    sitemap: 'https://hesapera.com.tr/sitemap.xml',
+    sitemap: 'https://www.hesapera.com.tr/sitemap.xml',
   };
 }

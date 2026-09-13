@@ -21,7 +21,7 @@ export const creditCardMinimumPaymentCalculatorDef: CalculatorDefinition<Input, 
     title: 'Kredi Kartı Asgari Ödeme Tutarı Hesaplama Aracı | Hesapera',
     description: 'Kredi kartı dönem borcunuz üzerinden ödemeniz gereken asgari tutarı matematiksel olarak hesaplayın.',
     keywords: ["kredi kartı asgari ödeme","kredi kartı borcu","minimum ödeme","dönem borcu"],
-    canonical: 'https://hesapera.com.tr/hesaplama/kredi-karti-asgari-odeme-tutari',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-karti-asgari-odeme-tutari',
     faq: [
       {
         question: "Kredi kartı asgari ödeme tutarı nedir?",

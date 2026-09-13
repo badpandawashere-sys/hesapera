@@ -20,7 +20,7 @@ export const ibanValidationCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'IBAN Doğrulama ve IBAN Kontrolü | Hesapera',
     description: 'IBAN numaranızın formatını, uzunluğunu ve MOD-97 kontrolünü hızlıca doğrulayın. Türkiye ve desteklenen ülkeler için IBAN kontrolü.',
     keywords: ["iban doğrulama","iban kontrol","iban sorgulama","mod-97","iban numarası kontrolü"],
-    canonical: 'https://hesapera.com.tr/hesaplama/iban-dogrulama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/iban-dogrulama',
     faq: [
       {
         question: "IBAN doğru çıktı, hesaba para gönderirsem kesin ulaşır mı?",
