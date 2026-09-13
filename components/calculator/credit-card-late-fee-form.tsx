@@ -89,9 +89,21 @@ export function CreditCardLateFeeForm({ calculator }: { calculator: CalculatorVi
                    <span className="text-sm font-bold text-slate-500">Asıl Borç</span>
                    <span className="font-black text-slate-800">{sr['Gecikmeye Giren Tutar']}</span>
                  </div>
-                 <div className="flex justify-between items-center bg-orange-50 p-4 rounded-xl border border-orange-100">
-                   <span className="text-sm font-bold text-orange-900">Ödenecek Toplam</span>
-                   <span className="text-xl font-black text-orange-700">{sr['Toplam Tutar']}</span>
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm font-bold text-slate-500">Saf Gecikme Faizi</span>
+                   <span className="font-black text-slate-800">{sr['Saf Gecikme Faizi']}</span>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm font-bold text-slate-500">KKDF (%15)</span>
+                   <span className="font-black text-slate-800">{sr['KKDF (%15)']}</span>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm font-bold text-slate-500">BSMV (%15)</span>
+                   <span className="font-black text-slate-800">{sr['BSMV (%15)']}</span>
+                 </div>
+                 <div className="flex justify-between items-center bg-orange-50 p-4 rounded-xl border border-orange-100 mt-4">
+                   <span className="text-sm font-bold text-orange-900">Ödenecek Toplam Tutar</span>
+                   <span className="text-xl font-black text-orange-700">{sr['Toplam Ödenecek Tutar']}</span>
                  </div>
                </div>
             </div>
