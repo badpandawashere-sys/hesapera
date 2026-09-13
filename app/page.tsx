@@ -14,6 +14,7 @@ import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
 import '@/calculators/core/init';
 import { CalculatorSearch } from '@/components/calculator/calculator-search';
 import { AdBanner } from '@/components/ads/ad-banner';
+import { JsonLd, getHomepageJsonLd } from '@/components/seo/json-ld';
 
 export default function HomePage() {
   const popularConfig = [
@@ -44,6 +45,7 @@ export default function HomePage() {
 
   return (
     <main className="w-full flex-grow relative overflow-hidden">
+      <JsonLd data={getHomepageJsonLd()} />
       <div className="absolute inset-x-0 top-0 h-[1000px] pointer-events-none -z-10 overflow-hidden">
         {/* Top Center: Soft Violet (More prominent brand color) */}
         <div className="absolute top-[-10%] left-[15%] w-[60%] h-[500px] rounded-full bg-violet-600 opacity-[0.15] blur-[100px] animate-ambient-drift"></div>

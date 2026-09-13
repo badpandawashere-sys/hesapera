@@ -1,4 +1,5 @@
 import { SiteContainer } from '@/components/layout/site-container';
+import { JsonLd, getCalculatorJsonLd } from '@/components/seo/json-ld';
 import { CalculatorContentBlock } from '@/components/calculator/calculator-content-block';
 import { ComingSoon } from '@/components/calculator/coming-soon';
 import { CalculatorBreadcrumb } from '@/components/calculator/calculator-breadcrumb';
@@ -117,6 +118,7 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
 
   return (
     <main className="flex-1 pb-16 bg-[#F8FAFC]">
+      <JsonLd data={getCalculatorJsonLd(calculator)} />
       <SiteContainer className="pt-4 md:pt-6">
         <CalculatorBreadcrumb items={breadcrumbItems} />
         
