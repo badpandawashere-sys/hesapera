@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { Search, ArrowRight, Shield, Building, Wallet, Receipt, Car, CreditCard, WalletCards, Percent, CalendarDays, HeartPulse, Banknote } from 'lucide-react';
 import { SiteContainer } from '@/components/layout/site-container';
 import { FeaturedCalculatorCard } from '@/components/cards/featured-calculator-card';
@@ -87,12 +87,29 @@ export default function HomePage() {
           
           <div className="flex flex-wrap items-center justify-center gap-space-xs max-w-3xl">
             <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-space-2xs">Sık Arananlar:</span>
-            {['Kredi hesaplama', 'Kıdem tazminatı', 'MTV hesaplama', 'Yüzde hesaplama', 'Yakıt tüketimi', 'KDV hesaplama', 'Mevduat getirisi'].map((item) => (
-              <button key={item} className="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors" type="button">
-                {item}
-              </button>
-            ))}
-          </div>
+              {[
+                { label: 'Kredi hesaplama', slug: '/hesaplama/kredi' },
+                { label: 'Kıdem tazminatı', isComingSoon: true },
+                { label: 'MTV hesaplama', isComingSoon: true },
+                { label: 'Yüzde hesaplama', slug: '/hesaplama/yuzde' },
+                { label: 'Yakıt tüketimi', isComingSoon: true },
+                { label: 'KDV hesaplama', isComingSoon: true },
+                { label: 'Mevduat getirisi', slug: '/hesaplama/vadeli-mevduat-faizi' },
+              ].map((item) => {
+                if (item.slug) {
+                  return (
+                    <Link key={item.label} href={item.slug} className="px-space-sm py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-label-sm shadow-sm transition-colors block text-center">
+                      {item.label}
+                    </Link>
+                  );
+                }
+                return (
+                  <button key={item.label} className="px-space-sm py-1 rounded-full bg-surface-container-low/50 text-on-surface/50 font-label-sm text-label-sm border border-transparent hover:border-surface-container-high cursor-not-allowed transition-colors block text-center" type="button" title="Çok Yakında">
+                    {item.label} <span className="ml-1 text-[9px] font-bold text-orange-500 uppercase">Yakında</span>
+                  </button>
+                );
+              })}
+            </div>
         </SiteContainer>
       </section>
 
