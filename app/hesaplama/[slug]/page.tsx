@@ -50,6 +50,7 @@ import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
 import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
 import { VkiForm } from '@/components/calculator/vki-form';
 import { AdBanner } from '@/components/ads/ad-banner';
+import { RelatedCalculators } from '@/components/calculator/related-calculators';
 import * as LucideIcons from 'lucide-react';
 
 interface CalculatorPageProps {
@@ -288,6 +289,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
         )}
 
         <CalculatorContentBlock content={calculator.metadata.content} />
+
+        <RelatedCalculators category={calculator.category} currentSlug={calculator.slug} />
 
         <AdBanner placement="calculator-after-content" />
       </SiteContainer>
