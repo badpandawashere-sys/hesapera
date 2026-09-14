@@ -1,5 +1,6 @@
 import React from 'react';
 import { CalculatorDefinition } from '@/calculators/core/calculator-types';
+import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
 
 export function JsonLd({ data }: { data: any }) {
   return (
@@ -42,6 +43,16 @@ export function getHomepageJsonLd() {
 export function getCalculatorJsonLd(calculator: CalculatorDefinition) {
   const url = `https://www.hesapera.com.tr/hesaplama/${calculator.slug}`;
   
+  // Resolve category info for BreadcrumbList
+  const uiCategoryId = CalculatorRegistry.getUiCategory(calculator.slug, calculator.category);
+  const categoryName = uiCategoryId === 'matematik' ? 'Matematik' 
+                     : uiCategoryId === 'kredi' ? 'Kredi'
+                     : uiCategoryId === 'finans' ? 'Finans'
+                     : uiCategoryId === 'saglik' ? 'Sağlık'
+                     : uiCategoryId === 'egitim-sinav' ? 'Eğitim & Sınav'
+                     : uiCategoryId === 'emlak' ? 'Emlak'
+                     : 'Hesaplama'; // fallback (We can hardcode or just do simple lookup)
+  
   const graph: any[] = [
     {
       '@type': 'WebApplication',
@@ -51,6 +62,30 @@ export function getCalculatorJsonLd(calculator: CalculatorDefinition) {
       description: calculator.shortDescription,
       applicationCategory: 'UtilityApplication',
       operatingSystem: 'All',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Ana Sayfa',
+          item: 'https://www.hesapera.com.tr/'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: categoryName,
+          item: `https://www.hesapera.com.tr/kategoriler/${uiCategoryId}`
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: calculator.name,
+          item: url
+        }
+      ]
     }
   ];
 

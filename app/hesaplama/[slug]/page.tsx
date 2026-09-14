@@ -2,7 +2,7 @@ import { SiteContainer } from '@/components/layout/site-container';
 import { JsonLd, getCalculatorJsonLd } from '@/components/seo/json-ld';
 import { CalculatorContentBlock } from '@/components/calculator/calculator-content-block';
 import { ComingSoon } from '@/components/calculator/coming-soon';
-import { CalculatorBreadcrumb } from '@/components/calculator/calculator-breadcrumb';
+import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
@@ -111,21 +111,6 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
     return <ComingSoon name={calculator.name} description={calculator.shortDescription} category={calculator.category} />;
   }
 
-  const categoryMap: Record<string, string> = {
-    'finance': 'Finans',
-    'math': 'Matematik',
-    'health': 'Sağlık',
-    'education': 'Eğitim',
-    'conversion': 'Dönüştürücü',
-    'other': 'Diğer'
-  };
-
-  const breadcrumbItems = [
-    { label: 'Hesapera', href: '/' },
-    { label: categoryMap[calculator.category] || 'Hesaplama', href: '/hesaplama' },
-    { label: calculator.name }
-  ];
-
   const calculatorViewModel = calculatorToViewModel(calculator);
 
   const CalcIcon = calculator.metadata.icon ? (LucideIcons as any)[calculator.metadata.icon] || LucideIcons.Calculator : LucideIcons.Calculator;
@@ -134,7 +119,7 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
     <main className="flex-1 pb-16 bg-[#F8FAFC]">
       <JsonLd data={getCalculatorJsonLd(calculator)} />
       <SiteContainer className="pt-4 md:pt-6">
-        <CalculatorBreadcrumb items={breadcrumbItems} />
+        <Breadcrumbs category={calculator.category} calculatorName={calculator.name} calculatorSlug={calculator.slug} />
         
         <div className="mt-7 md:mt-9 flex flex-col lg:flex-row lg:items-start justify-between gap-6 md:gap-8">
           
