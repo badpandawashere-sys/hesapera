@@ -10,7 +10,7 @@ import { Trash2, Plus } from 'lucide-react';
 // Türkçe lokale: binlik ayırıcı = nokta (.), ondalık ayırıcı = virgül (,)
 // Örnek: 1.000.000,50
 
-function FormattedNumberInput({ id, value, onChange, placeholder, className, error }: any) {
+function FormattedNumberInput({ id, value, onChange, placeholder, className, error, isInteger }: any) {
   const [displayValue, setDisplayValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -120,7 +120,7 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       ref={inputRef}
       id={id}
       type="text"
-      inputMode="decimal"
+      inputMode={isInteger ? "numeric" : "decimal"}
       value={displayValue}
       onChange={handleChange}
       placeholder={placeholder}
@@ -159,6 +159,10 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
 
   const isNumericField = field.type === 'number' || field.type === 'currency' || field.type === 'percentage';
 
+  // Sınıflandırma Mantığı (Tam sayı mı?)
+  // Yalnızca kesin olan (step bilgisi 1 olan type='number') alanları tam sayı (numeric klavye) kabul et.
+  const isInteger = field.type === 'number' && field.step === 1;
+
   return (
     <div className="space-y-2">
       <Label htmlFor={id} className={`text-sm font-semibold ${error ? "text-destructive" : "text-foreground"}`}>
@@ -186,6 +190,7 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
               placeholder={field.placeholder}
               className={`border-0 focus-visible:ring-0 shadow-none h-12 text-base rounded-none ${error ? 'text-destructive' : ''}`}
               error={error}
+              isInteger={isInteger}
             />
           ) : (
             <Input

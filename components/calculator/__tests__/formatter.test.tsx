@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { CalculatorFieldComponent } from '../calculator-field';
@@ -9,11 +9,50 @@ const TestCurrency = () => {
   return (
     <div>
       <CalculatorFieldComponent
-        field={{id: "loanAmount", label: "Kredi Tutarı", type: "currency"} as any}
+        field={{id: "loanAmount", label: "Kredi Tutar", type: "currency"} as any}
         value={val}
         onChange={setVal}
       />
       <div data-testid="num">{String(val)}</div>
+    </div>
+  );
+};
+
+const TestNumericInteger = () => {
+  const [val, setVal] = useState<any>('');
+  return (
+    <div>
+      <CalculatorFieldComponent
+        field={{id: "vade", label: "Vade", type: "number", step: 1} as any}
+        value={val}
+        onChange={setVal}
+      />
+    </div>
+  );
+};
+
+const TestText = () => {
+  const [val, setVal] = useState<any>('');
+  return (
+    <div>
+      <CalculatorFieldComponent
+        field={{id: "iban", label: "IBAN", type: "text"} as any}
+        value={val}
+        onChange={setVal}
+      />
+    </div>
+  );
+};
+
+const TestDate = () => {
+  const [val, setVal] = useState<any>('');
+  return (
+    <div>
+      <CalculatorFieldComponent
+        field={{id: "birthDate", label: "Dogum Tarihi", type: "date"} as any}
+        value={val}
+        onChange={setVal}
+      />
     </div>
   );
 };
@@ -87,5 +126,28 @@ describe('FormattedNumberInput - kritik senaryo testi', () => {
     await user.clear(input);
     expect(input.value).toBe('');
     expect(screen.getByTestId('num').textContent).toBe('');
+  });
+});
+
+describe('InputMode Klavye Davranislari', () => {
+  it('A) numeric field (step:1) -> inputMode="numeric"', async () => {
+    render(<TestNumericInteger />);
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+    expect(input.type).toBe('text');
+    expect(input.getAttribute('inputMode')).toBe('numeric');
+  });
+
+  it('C1) text alani -> mevcut davranis korunuyor (inputMode yok)', async () => {
+    render(<TestText />);
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+    expect(input.type).toBe('text');
+    expect(input.getAttribute('inputMode')).toBeNull();
+  });
+
+  it('C2) date alani -> type="date" ve inputMode yok', async () => {
+    render(<TestDate />);
+    const input = document.getElementById('field-birthDate') as HTMLInputElement;
+    expect(input.type).toBe('date');
+    expect(input.getAttribute('inputMode')).toBeNull();
   });
 });
