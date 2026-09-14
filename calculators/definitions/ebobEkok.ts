@@ -1,4 +1,4 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateEbobEkok } from '../formulas/ebobEkok';
 
@@ -35,6 +35,14 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
       {
         question: "12 ve 18 sayılarının çarpımı neden EBOB ve EKOK çarpımına eşit?",
         answer: "Sadece 'iki sayı' için temel bir matematik kuralı vardır: İki sayının çarpımı (12×18=216), bu sayıların EBOB'u ile EKOK'unun çarpımına (6×36=216) her zaman eşittir. Üç ve daha fazla sayı girdiğinizde ise bu kural bozulur."
+      },
+      {
+        question: "Kesirli veya ondalık sayıların EBOB/EKOK'u bulunur mu?",
+        answer: "Hayır. EBOB ve EKOK kavramları yalnızca tam sayılar için geçerlidir. Kesirli (rasyonel) veya ondalıklı sayılarda ortak bölen ya da ortak kat aranmaz."
+      },
+      {
+        question: "Üç farklı sayı girdiğimde ortak bölen (EBOB) nasıl hesaplanır?",
+        answer: "Önce ilk iki sayının EBOB'u bulunur, daha sonra çıkan bu sonuç ile üçüncü sayının EBOB'u hesaplanır. Bu zincirleme (Euclidean) işlem tüm sayılar için tekrarlanarak en büyük ortak bölen bulunur."
       }
     ],
     content: {
@@ -54,12 +62,24 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
           ]
         },
         {
-          title: "Matematiksel Formül Mantığı",
+          title: "Asal Çarpanlara Ayırma Yöntemi",
           paragraphs: [
-            "Araç, EBOB hesabı için matematiksel Öklid (Euclidean) algoritmasını, ardından 'EKOK = (A × B) / EBOB(A, B)' formülünü kullanarak EKOK değerini aynı anda bulur.",
-            "Eğer araca ikiden fazla sayı (örneğin 12, 18 ve 24) girerseniz, formül bu sayıları zincirleme olarak (reduce fonksiyonuyla) algoritmadan geçirir ve ortak kesişimlerini devasa hızda tespit eder."
+            "EBOB ve EKOK değerlerini manuel olarak bulmanın en yaygın yolu sayıları asal çarpanlarına ayırmaktır. Tüm sayıları ortak bölen asal çarpanların çarpımı EBOB'u, tüm asal çarpanların en yüksek üslü hallerinin çarpımı ise EKOK'u verir."
           ]
         },
+        {
+          title: "Üç veya Daha Fazla Sayının Hesaplanması",
+          paragraphs: [
+            "Matematiksel formüller elle yapılırken uzun sürse de, sistemimiz ardışık hesaplama (reduce) mantığıyla çalışır. Sisteme üç veya daha fazla sayı girdiğinizde (örneğin 12, 18 ve 24), algoritma ilk iki sayının sonucunu alıp üçüncüyle, çıkanı dördüncüyle eşleştirerek devasa hızda ortak kesişimi tespit eder."
+          ]
+        },
+        {
+          title: "Gündelik Hayattan EBOB-EKOK Problemleri",
+          paragraphs: [
+            "İki sayının ortak bölenlerini (EBOB) bulduktan sonra birbirlerine göre durumlarını oransal olarak görmek isterseniz [oran hesaplama](/hesaplama/oran) aracını kullanabilirsiniz.",
+            "Ayrıca, verilen sayılardan birinin diğerinin ne kadarlık bir yüzdesine denk geldiğini ölçmek için [yüzde hesaplama](/hesaplama/yuzde) aracımızdan da faydalanabilirsiniz. Bu bağlantılar, problem çözümlerinizde çok yönlü analiz yapmanızı sağlar."
+          ]
+        }
       ],
       example: {
         title: "Periyodik Zil (EKOK) Örneği",
@@ -67,7 +87,7 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ['asal-carpan', 'faktoriyel']
+    relatedCalculators: ['oran', 'yuzde']
   },
   fields: [
     {

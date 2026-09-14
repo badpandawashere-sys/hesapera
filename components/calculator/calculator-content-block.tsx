@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CalculatorContent } from "@/calculators/core/calculator-types";
+import { ContextualText } from "./contextual-link-parser";
 
 interface CalculatorContentBlockProps {
   content?: CalculatorContent;
@@ -17,26 +18,26 @@ export function CalculatorContentBlock({
     Rehber
   </h2>
   <p className="text-base leading-7 text-muted-foreground">
-    {content.intro}
+    <ContextualText text={content.intro} />
   </p>
 </div>
 
       {content.sections.map((section) => (
         <section key={section.title} className="space-y-4">
           <h2 className="text-xl font-bold tracking-tight">
-            {section.title}
+            <ContextualText text={section.title} />
           </h2>
 
           <div className="space-y-3 text-base leading-7 text-muted-foreground">
-            {section.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+            {section.paragraphs.map((paragraph, idx) => (
+              <p key={idx}><ContextualText text={paragraph} /></p>
             ))}
           </div>
 
           {section.bullets?.length ? (
             <ul className="list-disc space-y-2 pl-6 text-base leading-7 text-muted-foreground">
-              {section.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
+              {section.bullets.map((bullet, idx) => (
+                <li key={idx}><ContextualText text={bullet} /></li>
               ))}
             </ul>
           ) : null}
@@ -46,11 +47,11 @@ export function CalculatorContentBlock({
       {content.example ? (
         <section className="rounded-2xl border bg-muted/30 p-6">
           <h2 className="text-xl font-bold tracking-tight">
-            {content.example.title}
+            <ContextualText text={content.example.title} />
           </h2>
 
           <p className="mt-3 text-base leading-7 text-muted-foreground">
-            {content.example.text}
+            <ContextualText text={content.example.text} />
           </p>
         </section>
       ) : null}

@@ -32,10 +32,50 @@ export const historicalGoldCalculatorDef: CalculatorDefinition<Input, any> = {
     description: 'Belirli bir tarihteki altın fiyatı verisini kullanarak tarihsel bir altın değer veya miktar hesabı yapın.',
     keywords: ["geçmiş altın fiyatları","tarihsel altın hesaplama","eski altın fiyatı"],
     canonical: 'https://www.hesapera.com.tr/hesaplama/gecmis-altin-fiyatlari',
-    faq: [],
+    faq: [
+      {
+        question: "Hesaplanan geçmiş altın fiyatları resmi kurumlarda geçerli midir?",
+        answer: "Bu sayfada hesaplanan tutarlar tamamen bilgi ve referans amaçlıdır. Gösterge niteliğindeki serbest piyasa kapanışları veya ortalamalarını temel aldığından resmi kurumlarda hukuki veya finansal belge olarak kullanılamaz."
+      },
+      {
+        question: "Hafta sonu veya resmi tatil tarihi girersem ne olur?",
+        answer: "Altın piyasaları hafta sonları ve resmi tatillerde kapalıdır. Hafta sonu veya tatil gününe ait bir tarih seçerseniz, sistem o günden önceki en son mesai gününe ait (örneğin Cuma günkü) kapanış değerlerini baz alır."
+      },
+      {
+        question: "Eski tarihli işlemde alış fiyatına mı, satış fiyatına mı bakmalıyım?",
+        answer: "Eğer elinizdeki altını bozdurduğunuz (nakde çevirdiğiniz) durumu hesaplıyorsanız 'Alış' fiyatına, eğer o tarihte yeni bir altın aldığınızı hesaplıyorsanız 'Satış' fiyatına bakmalısınız."
+      }
+    ],
     content: {
       intro: "Belirli bir geçmiş tarihteki altın kurları üzerinden alım/satım işlemlerinin referans hesaplaması",
-      sections: [],
+      sections: [
+        {
+          title: "Geçmiş Altın Fiyatları Hesaplama Nedir?",
+          paragraphs: [
+            "Bu araç, seçtiğiniz spesifik bir geçmiş tarihte altının gram veya ons değerinin Türk Lirası karşılığını bulmanızı sağlar. Geçmişte yaptığınız bir yatırımın maliyetini hesaplamak veya bozdurduğunuz altının o günkü karşılığını teyit etmek için kullanılır.",
+            "Bugünkü anlık piyasa fiyatlarını öğrenmek ve güncel hesaplama yapmak isterseniz doğrudan [altın hesaplama](/hesaplama/altin) aracımızı kullanabilirsiniz."
+          ]
+        },
+        {
+          title: "Alış ve Satış Fiyatları Arasındaki Fark",
+          paragraphs: [
+            "Altın işlemlerinde her zaman iki farklı kur uygulanır. Hesabınızı yaparken; eğer cebinizdeki parayla altın alımını hesaplıyorsanız kuyumcunun veya bankanın size uygulayacağı 'Satış' kuru üzerinden işlem yapılır. Tam tersine yastık altındaki altınınızı TL'ye çevirdiğiniz senaryoda ise 'Alış' kuru geçerlidir."
+          ]
+        },
+        {
+          title: "Hafta Sonu ve Resmi Tatil Verileri",
+          paragraphs: [
+            "Piyasaların işlem görmediği hafta sonları ve resmi tatil günlerinde yeni bir fiyat oluşmaz. Aracımız, kapalı günlerde yapılan tarih sorgularında algoritma gereği en yakın geçmiş iş gününün (genellikle Cuma günü) kapanış fiyatını yansıtır."
+          ]
+        },
+        {
+          title: "Geçmiş ile Bugünün Karşılaştırılması",
+          paragraphs: [
+            "Tarihsel altın verileri yatırımlarınızın getiri oranını hesaplamada büyük önem taşır. Ancak elde edilen sonuçlar o günün koşullarındaki alım gücünü ifade eder.",
+            "Sadece altın değil, aynı tarihteki eski dolar veya euro değerleri için [geçmiş döviz kurları hesaplama](/hesaplama/gecmis-doviz-kurlari) sayfasına da göz atabilirsiniz."
+          ]
+        }
+      ],
       example: {
         title: "Tarihsel Bozdurma/Alım Örneği",
         text: "Eğer sisteme belirli bir tarih ve miktar (örneğin 100 Gram Altın) girerseniz, araç o günün tahmini alış ve satış fiyatını çeker. Çıkan değer, o dönem elinizdeki altını bozdurduğunuzda (Alışa Göre Değer) veya yeni altın aldığınızda (Satışa Göre Değer) oluşacak tahmini Türk Lirası veya altın miktarını ifade eder."

@@ -1,4 +1,4 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateAge } from '../formulas/age';
 
@@ -40,6 +40,14 @@ export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
       {
         question: "Geçmiş bir tarihe göre yaşımı hesaplayabilir miyim?",
         answer: "Evet, 'Bugün' yerine özel bir tarih girerseniz, o tarihteki yaşınızı ve gün farkını rahatlıkla bulabilirsiniz."
+      },
+      {
+        question: "Yaşımı doldurdum mu yoksa o yaşın içinde miyim?",
+        answer: "Günlük hayatta 'kaçıncı yaşın içinde olduğunuz' sorusu sıkça kafa karıştırır. Örneğin 20 tam yılını dolduran biri, 21. yaşından gün almaya başlar. Hukuki ve resmi evraklarda her zaman sadece tamamladığınız tam yıllar geçerlidir."
+      },
+      {
+        question: "Hastane ve vize işlemlerinde yaş hesaplaması nasıl yapılır?",
+        answer: "Resmi vize başvuruları ve sağlık sistemi kayıtlarında, takvim yılı üzerinden direkt çıkarma (2024-1990) yapılmaz. Doğduğunuz ay ve günün tam olarak geçip geçmediğine, artık yıl hesaplamalarına ve sistemin takvim algoritmalarına bakılarak (aracımızdaki gibi) milimetrik yaş tespiti yapılır."
       }
     ],
     content: {
@@ -53,6 +61,18 @@ export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
           ]
         },
         {
+          title: "Yıl, Ay ve Gün Hassasiyetinde Hesaplama Nasıl Çalışır?",
+          paragraphs: [
+            "Tam yaşınız basit bir çıkarma işlemi değildir. Seçilen hedefe göre, doğum tarihiniz baz alınarak üzerinden kaç tam yıl geçtiği, artan ayların takvimdeki sıralaması ve son olarak kaç günlük bir zaman dilimi kaldığı (artık yıllardaki şubat ayları dahil edilerek) adım adım hesaplanır."
+          ]
+        },
+        {
+          title: "Doğum Gününe Kalan Süre",
+          paragraphs: [
+            "Yaşınızı bulmanın yanı sıra, bir sonraki yaşınıza ne kadar süre kaldığı da algoritmamız tarafından hesaplanır. Bu özellik sayesinde organizasyon ve kutlamalarınızı kaç gün kaldığını bilerek çok daha rahat planlayabilirsiniz."
+          ]
+        },
+        {
           title: "Tam Yaş ile Takvim Yaşı Farkı",
           paragraphs: [
             "Günlük hayatta 'kaçıncı yaşın içinde olduğunuz' (takvim yılı eksi doğum yılı) söylense de, resmi (hukuki) işlemlerde 'doldurulan' veya 'tamamlanan' yaş esas alınır.",
@@ -60,11 +80,18 @@ export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
           ]
         },
         {
+          title: "Yaş Hesabının Günlük Hayattaki Kullanımı",
+          paragraphs: [
+            "Sağlık alanında yaşınız metabolizmanızı direkt etkileyen faktörlerden biridir. Yaşınız ilerledikçe bazal metabolizma hızınız değişeceği için belirli aralıklarla [günlük kalori ihtiyacı hesaplama](/hesaplama/gunluk-kalori-ihtiyaci) değerlerinizi güncellemeniz sağlığınız açısından önemlidir.",
+            "Bunun yanında yaşınıza ve boyunuza en uygun sağlıklı kilo limitini öğrenmek için [ideal kilo hesaplama](/hesaplama/ideal-kilo) aracından da faydalanabilirsiniz."
+          ]
+        },
+        {
           title: "Artık Yıllar ve Ay Uzunlukları",
           paragraphs: [
             "Şubat ayının 28 veya 29 çekmesi ve ayların 30-31 günden oluşması gün farklarını etkiler. Formül, seçtiğiniz tarihten geriye doğru takvim algoritmasını (artık yılları gözeterek) çalıştırır ve eksi gün farkı çıkması durumunda bir önceki ayın toplam gün sayısını devreye sokar."
           ]
-        },
+        }
       ],
       example: {
         title: "Tarih Farkı Örneği",
