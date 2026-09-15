@@ -1,4 +1,4 @@
-﻿import { CalculatorDefinition } from './calculator-types';
+import { CalculatorDefinition } from './calculator-types';
 
 const CATEGORY_MAP: Record<string, string> = {
   'yuzde': 'matematik',
@@ -45,7 +45,8 @@ const CATEGORY_MAP: Record<string, string> = {
   'ideal-kilo': 'saglik',
   'yas': 'saglik',
 
-  'kira-artis-orani': 'emlak'
+  'kira-artis-orani': 'emlak',
+  'yakit-maliyeti': 'otomotiv'
 };
 
 class Registry {

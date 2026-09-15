@@ -131,6 +131,7 @@ import { yasamSuresiCalculatorDef } from '../definitions/yasamSuresi';
 import { yumurtlamaDonemiCalculatorDef } from '../definitions/yumurtlamaDonemi';
 import { alanCalculatorDef } from '../definitions/alan';
 import { altinOranCalculatorDef } from '../definitions/altinOran';
+import { yakitMaliyetiCalculatorDef } from '../definitions/yakitMaliyeti';
 
 /**
  * Bootstraps the Calculator Registry by loading all available calculators.
@@ -273,6 +274,7 @@ export function initializeCalculators() {
   CalculatorRegistry.register(yumurtlamaDonemiCalculatorDef);
   CalculatorRegistry.register(alanCalculatorDef);
   CalculatorRegistry.register(altinOranCalculatorDef);
+  CalculatorRegistry.register(yakitMaliyetiCalculatorDef);
   initialized = true;
 }
 

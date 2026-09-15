@@ -55,12 +55,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   ];
 
-  // Categories routes
-  const categoryRoutes: MetadataRoute.Sitemap = categories.map((cat) => ({
-    url: `${baseUrl}/kategoriler/${cat.id}`,
-    changeFrequency: 'weekly',
-    priority: 0.6,
-  }));
+  // Categories routes (only categories with at least 1 published calculator)
+  const categoryRoutes: MetadataRoute.Sitemap = categories
+    .filter((cat) => CalculatorRegistry.getPublishedByCategory(cat.id).length > 0)
+    .map((cat) => ({
+      url: `${baseUrl}/kategoriler/${cat.id}`,
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    }));
 
   // Calculators routes (only published)
   const publishedCalculators = CalculatorRegistry.getPublishedAll();

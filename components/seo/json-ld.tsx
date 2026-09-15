@@ -51,6 +51,7 @@ export function getCalculatorJsonLd(calculator: CalculatorDefinition) {
                      : uiCategoryId === 'saglik' ? 'Sağlık'
                      : uiCategoryId === 'egitim-sinav' ? 'Eğitim & Sınav'
                      : uiCategoryId === 'emlak' ? 'Emlak'
+                     : uiCategoryId === 'otomotiv' ? 'Otomotiv'
                      : 'Hesaplama'; // fallback (We can hardcode or just do simple lookup)
   
   const graph: any[] = [

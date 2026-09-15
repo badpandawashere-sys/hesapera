@@ -53,6 +53,7 @@ const SEMANTIC_RELATIONS: Record<string, string[]> = {
   'kpss-puan': ['ders-notu', 'takdir-tesekkur'],
 
   'kira-artis-orani': ['enflasyon', 'konut-kredisi'],
+  'yakit-maliyeti': ['tasit-kredisi', 'yuzde', 'oran'],
 };
 
 export function RelatedCalculators({ category, currentSlug }: RelatedCalculatorsProps) {
