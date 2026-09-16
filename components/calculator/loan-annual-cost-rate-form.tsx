@@ -6,7 +6,6 @@ import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Landmark, PieChart, Banknote } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function LoanAnnualCostRateForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ 
@@ -63,27 +62,27 @@ export function LoanAnnualCostRateForm({ calculator }: { calculator: CalculatorV
             
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Tutar (TL)</label>
-              <NumericInput   value={inputs.principal||''} onChange={e=>update('principal', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="number" value={inputs.principal||''} onChange={e=>update('principal', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Vade (Ay)</label>
-              <NumericInput   value={inputs.termMonths||''} onChange={e=>update('termMonths', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="number" value={inputs.termMonths||''} onChange={e=>update('termMonths', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Aylık Faiz (%)</label>
-              <NumericInput   step="0.01" value={inputs.monthlyInterestRate||''} onChange={e=>update('monthlyInterestRate', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="number" step="0.01" value={inputs.monthlyInterestRate||''} onChange={e=>update('monthlyInterestRate', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Tahsis Ücreti</label>
-              <NumericInput   value={inputs.allocationFee||''} onChange={e=>update('allocationFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="number" value={inputs.allocationFee||''} onChange={e=>update('allocationFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Sigorta</label>
-              <NumericInput   value={inputs.insuranceFee||''} onChange={e=>update('insuranceFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="number" value={inputs.insuranceFee||''} onChange={e=>update('insuranceFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Diğer Masraflar</label>
-              <NumericInput   value={inputs.otherFees||''} onChange={e=>update('otherFees', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="number" value={inputs.otherFees||''} onChange={e=>update('otherFees', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
           </div>
         </div>

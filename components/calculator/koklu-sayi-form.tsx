@@ -5,7 +5,6 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Radical } from 'lucide-react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function KokluSayiForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ derece: 2, sayi: 144 });
@@ -46,12 +45,12 @@ export function KokluSayiForm({ calculator }: { calculator: CalculatorViewModel 
           <div className="flex items-center gap-4 bg-slate-900/80 p-6 rounded-3xl border border-slate-800">
              <div className="w-16 space-y-2">
                <label className="text-[10px] font-bold text-slate-500 uppercase">Derece(n)</label>
-               <NumericInput   min="2" value={inputs.derece} onChange={e=>setInputs(p=>({...p, derece: parseInt(e.target.value)||2}))} className="w-full p-2 text-center bg-slate-950 border-b-2 border-emerald-500 font-bold outline-none text-emerald-400 text-xl" />
+               <input type="number" min="2" value={inputs.derece} onChange={e=>setInputs(p=>({...p, derece: parseInt(e.target.value)||2}))} className="w-full p-2 text-center bg-slate-950 border-b-2 border-emerald-500 font-bold outline-none text-emerald-400 text-xl" />
              </div>
              <div className="text-4xl font-light text-slate-700">√</div>
              <div className="flex-1 space-y-2">
                <label className="text-[10px] font-bold text-slate-500 uppercase">Sayı(x)</label>
-               <NumericInput   value={inputs.sayi||''} onChange={e=>setInputs(p=>({...p, sayi: parseFloat(e.target.value)||0}))} className="w-full p-4 text-center bg-slate-950 border-b-2 border-emerald-500 font-black outline-none text-white text-3xl" />
+               <input type="number" value={inputs.sayi||''} onChange={e=>setInputs(p=>({...p, sayi: parseFloat(e.target.value)||0}))} className="w-full p-4 text-center bg-slate-950 border-b-2 border-emerald-500 font-black outline-none text-white text-3xl" />
              </div>
           </div>
         </div>

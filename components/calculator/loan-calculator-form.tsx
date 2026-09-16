@@ -10,8 +10,6 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 
-import { NumericInput } from '@/components/calculator/numeric-input';
-
 interface LoanCalculatorFormProps {
   calculator: CalculatorViewModel;
 }
@@ -158,7 +156,9 @@ export function LoanCalculatorForm({ calculator }: LoanCalculatorFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Kredi Tutarı</label>
                   <div className="relative">
-                    <NumericInput isInteger={numeric === "numeric"}
+                    <input 
+                      type="text"
+                      inputMode="numeric"
                       value={loanAmountStr}
                       onChange={handleLoanAmountInputChange}
                       onBlur={handleCalculate}

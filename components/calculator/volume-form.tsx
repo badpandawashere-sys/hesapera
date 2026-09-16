@@ -5,7 +5,6 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Box } from 'lucide-react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function VolumeForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ sekil: 'Dikdörtgenler Prizması', birim: 'm', kenarA: 5, kenarB: 4, kenarC: 3, yaricap: 2, yukseklik: 5 });
@@ -62,31 +61,31 @@ export function VolumeForm({ calculator }: { calculator: CalculatorViewModel }) 
               {(inputs.sekil === 'Küp' || inputs.sekil === 'Dikdörtgenler Prizması') && (
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Kenar A</label>
-                  <NumericInput   value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="number" value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
               )}
               {inputs.sekil === 'Dikdörtgenler Prizması' && (
                 <>
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Kenar B</label>
-                  <NumericInput   value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="number" value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Kenar C</label>
-                  <NumericInput   value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="number" value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
                 </>
               )}
               {(inputs.sekil === 'Küre' || inputs.sekil === 'Silindir' || inputs.sekil === 'Koni') && (
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Yarıçap</label>
-                  <NumericInput   value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="number" value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
               )}
               {(inputs.sekil === 'Silindir' || inputs.sekil === 'Koni') && (
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Yükseklik</label>
-                  <NumericInput   value={inputs.yukseklik||''} onChange={e=>update('yukseklik', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="number" value={inputs.yukseklik||''} onChange={e=>update('yukseklik', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
               )}
             </div>

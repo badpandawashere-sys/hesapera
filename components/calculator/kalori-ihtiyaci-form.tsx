@@ -6,7 +6,6 @@ import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Flame, User, Ruler, Weight } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function KaloriIhtiyaciForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ cinsiyet: 'Erkek', yas: 30, boy: 175, kilo: 70, aktiviteFaktoru: 1.55 });
@@ -65,15 +64,15 @@ export function KaloriIhtiyaciForm({ calculator }: { calculator: CalculatorViewM
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Yaş</label>
-                <NumericInput   value={inputs.yas||''} onChange={e=>update('yas', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
+                <input type="number" value={inputs.yas||''} onChange={e=>update('yas', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Boy (cm)</label>
-                <NumericInput   value={inputs.boy||''} onChange={e=>update('boy', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
+                <input type="number" value={inputs.boy||''} onChange={e=>update('boy', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Kilo (kg)</label>
-                <NumericInput   value={inputs.kilo||''} onChange={e=>update('kilo', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
+                <input type="number" value={inputs.kilo||''} onChange={e=>update('kilo', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
               </div>
             </div>
 

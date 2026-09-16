@@ -5,7 +5,6 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Route } from 'lucide-react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function PerimeterForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ 
@@ -73,31 +72,31 @@ export function PerimeterForm({ calculator }: { calculator: CalculatorViewModel 
                 {(inputs.sekil!=='Daire') && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">1. Kenar / Alt Taban</label>
-                    <NumericInput   value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {(['Dikdörtgen', 'Üçgen', 'Paralelkenar', 'Yamuk'].includes(inputs.sekil)) && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">2. Kenar / Üst Taban</label>
-                    <NumericInput   value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {(['Üçgen', 'Yamuk'].includes(inputs.sekil)) && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">3. Kenar</label>
-                    <NumericInput   value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {inputs.sekil==='Yamuk' && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">4. Kenar</label>
-                    <NumericInput   value={inputs.kenarD||''} onChange={e=>update('kenarD', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarD||''} onChange={e=>update('kenarD', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {inputs.sekil==='Daire' && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">Yarıçap (r)</label>
-                    <NumericInput   value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
              </div>

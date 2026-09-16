@@ -5,7 +5,6 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Award, Loader2 } from 'lucide-react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function TakdirTesekkurForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [level, setLevel] = useState<'Ortaokul'|'Lise'>('Lise');
@@ -65,13 +64,13 @@ export function TakdirTesekkurForm({ calculator }: { calculator: CalculatorViewM
             {level === 'Ortaokul' && (
               <div>
                 <label className="text-sm font-bold text-slate-700 block mb-1">Türkçe Dersi Notu (Min 70 şartı)</label>
-                <NumericInput   min="0" max="100" value={turkce} onChange={e=>setTurkce(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
+                <input type="number" min="0" max="100" value={turkce} onChange={e=>setTurkce(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
               </div>
             )}
 
             <div>
               <label className="text-sm font-bold text-slate-700 block mb-1">Özürsüz Devamsızlık (Gün)</label>
-              <NumericInput   min="0" value={devamsizlik} onChange={e=>setDevamsizlik(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
+              <input type="number" min="0" value={devamsizlik} onChange={e=>setDevamsizlik(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
             </div>
 
             <label className="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all">

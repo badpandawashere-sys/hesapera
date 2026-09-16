@@ -9,8 +9,6 @@ import { CalculatorSubmitButton } from './calculator-submit-button';
 import { ArrowRightLeft, Loader2, Info, Coins, Activity, TrendingUp, TrendingDown } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 
-import { NumericInput } from '@/components/calculator/numeric-input';
-
 interface GoldFormProps {
   calculator: CalculatorViewModel;
 }
@@ -240,7 +238,9 @@ export function GoldForm({ calculator }: GoldFormProps) {
               {!isToCash ? (
                 <div>
                   <label className="text-sm font-semibold text-slate-700 mb-2 block">Tutar (₺)</label>
-                  <NumericInput isInteger={true}
+                  <input
+                    type="text"
+                    inputMode="numeric"
                     value={cashAmountStr}
                     onChange={handleCashInputChange}
                     onBlur={handleCalculate}
@@ -252,7 +252,9 @@ export function GoldForm({ calculator }: GoldFormProps) {
               ) : (
                 <div>
                   <label className="text-sm font-semibold text-slate-700 mb-2 block">Miktar (Adet/Gram)</label>
-                  <NumericInput isInteger={true}
+                  <input
+                    type="text"
+                    inputMode="numeric"
                     value={quantityStr}
                     onChange={handleQuantityInputChange}
                     onBlur={handleCalculate}

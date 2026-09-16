@@ -9,7 +9,6 @@ import { CalculatorSubmitButton } from './calculator-submit-button';
 import { ChevronDown, Loader2, Info, Home } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip, XAxis } from 'recharts';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 interface MortgageLoanFormProps {
   calculator: CalculatorViewModel;
@@ -149,7 +148,9 @@ export function MortgageLoanForm({ calculator }: MortgageLoanFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Kredi Tutarı</label>
                   <div className="relative">
-                    <NumericInput isInteger={true}
+                    <input 
+                      type="text"
+                      inputMode="numeric"
                       value={loanAmountStr}
                       onChange={handleLoanAmountInputChange}
                       onBlur={handleCalculate}
@@ -181,7 +182,8 @@ export function MortgageLoanForm({ calculator }: MortgageLoanFormProps) {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Aylık Faiz Oranı (%)</label>
-                  <NumericInput  
+                  <input 
+                    type="number"
                     value={interestRate}
                     onChange={(e) => setInterestRate(Number(e.target.value))}
                     onBlur={handleCalculate}
@@ -212,7 +214,8 @@ export function MortgageLoanForm({ calculator }: MortgageLoanFormProps) {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Vade (Ay)</label>
-                  <NumericInput  
+                  <input 
+                    type="number"
                     value={term}
                     onChange={(e) => setTerm(Number(e.target.value))}
                     onBlur={handleCalculate}

@@ -7,7 +7,6 @@ import { calculateAction } from '@/app/actions/calculate';
 import { CalculatorSubmitButton } from './calculator-submit-button';
 import { Loader2, CheckCircle2, XCircle, LayoutDashboard } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
-import { NumericInput } from '@/components/calculator/numeric-input';
 
 const subjs: any = {
   TYT: [
@@ -137,7 +136,7 @@ export function YksForm({ calculator }: { calculator: CalculatorViewModel }) {
           <div className="bg-slate-50 p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1 space-y-2">
               <label className="text-sm font-bold text-slate-700 block">Diploma Notu (50-100)</label>
-              <NumericInput   min="50" max="100" value={inputs.diplomaNotu||''} onChange={e=>setInputs(p=>({...p, diplomaNotu: Number(e.target.value)}))} className="w-full px-4 py-2 border rounded-xl font-bold" />
+              <input type="number" min="50" max="100" value={inputs.diplomaNotu||''} onChange={e=>setInputs(p=>({...p, diplomaNotu: Number(e.target.value)}))} className="w-full px-4 py-2 border rounded-xl font-bold" />
             </div>
             <div className="flex-1 flex items-center gap-2 pt-4 sm:pt-6">
               <input type="checkbox" id="obp" checked={isKirikObp} onChange={e=>setIsKirikObp(e.target.checked)} className="w-5 h-5 accent-indigo-600" />
