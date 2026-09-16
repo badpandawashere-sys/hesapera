@@ -14,7 +14,6 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
   const [displayValue, setDisplayValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // "1.234,56" → 1234.56
   const parseDisplay = (str: string): number | null => {
     if (!str || str === '-') return null;
     const normalized = str.replace(/\./g, '').replace(/,/g, '.');
@@ -22,56 +21,67 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
     return isNaN(n) ? null : n;
   };
 
-  // "1234.56" veya "1234" → "1.234,56" veya "1.234"
   const formatNumber = (numericStr: string): string => {
     if (!numericStr) return '';
     const isNeg = numericStr.startsWith('-');
     const abs = numericStr.replace(/^-/, '');
     const [intPart, decPart] = abs.split(',');
-    const formattedInt = (intPart || '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    
+    // Strip leading zeros from integer part, except if it's exactly "0"
+    let cleanInt = intPart || '';
+    cleanInt = cleanInt.replace(/^0+(?=\d)/, '');
+    
+    // If it's empty but there's a decimal part, it should be "0"
+    if (cleanInt === '' && decPart !== undefined) {
+      cleanInt = '0';
+    }
+    
+    const formattedInt = cleanInt.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     const full = isNeg ? '-' + formattedInt : formattedInt;
     return decPart !== undefined ? full + ',' + decPart : full;
   };
 
-  // Dışarıdan gelen numeric value değişince displayValue'yu güncelle
   useEffect(() => {
     if (value === '' || value === undefined || value === null) {
-      // Kullanıcı '-' yazıp daha devam ediyorsa silme
       if (displayValue !== '-') {
         setDisplayValue('');
       }
       return;
     }
-    // Şu anda gösterilen numeric değer ile dışarıdan gelen aynıysa dokunma
     const current = parseDisplay(displayValue);
     if (current === value) return;
-    // Farklıysa (örn. programatic reset), yeniden formatla
     const s = (value as number).toString().replace('.', ',');
     setDisplayValue(formatNumber(s));
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
-    const cursor = input.selectionStart ?? 0;
-    const raw = input.value;
+    let cursor = input.selectionStart ?? 0;
+    let raw = input.value;
 
-    // Sadece '-' girilmişse bekle
     if (raw === '-') {
       setDisplayValue('-');
       onChange('');
       return;
     }
 
-    // 1) Binlik ayırıcı noktaları sil (Türkçe formatta '.' her zaman binlik)
-    //    İmleç konumunu da düzelt
+    if (raw.length === displayValue.length + 1 && raw[cursor - 1] === '.') {
+      raw = raw.substring(0, cursor - 1) + ',' + raw.substring(cursor);
+    } 
+    else if (raw.length > displayValue.length + 1) {
+      const commaCount = (raw.match(/,/g) || []).length;
+      const dotCount = (raw.match(/\./g) || []).length;
+      if (commaCount === 0 && dotCount === 1) {
+        raw = raw.replace('.', ',');
+      }
+    }
+
     const dotsBeforeCursor = (raw.substring(0, cursor).match(/\./g) || []).length;
     const stripped = raw.replace(/\./g, '');
     const cursorInStripped = Math.max(0, cursor - dotsBeforeCursor);
 
-    // 2) İzin verilen karakterler: rakam, eksi, virgül
     let cleaned = stripped.replace(/[^0-9,-]/g, '');
 
-    // 3) Birden fazla virgülü temizle (ilk virgül = ondalık ayırıcı)
     const firstComma = cleaned.indexOf(',');
     if (firstComma !== -1) {
       const before = cleaned.substring(0, firstComma + 1);
@@ -79,13 +89,23 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       cleaned = before + after;
     }
 
-    // 4) Formatla
+    // Leading comma fix
+    if (cleaned.startsWith(',')) {
+      cleaned = '0' + cleaned;
+    } else if (cleaned.startsWith('-,')) {
+      cleaned = '-0,' + cleaned.substring(2);
+    }
+
     const formatted = formatNumber(cleaned);
     setDisplayValue(formatted);
 
-    // 5) İmleç pozisyonunu yeni formatlı string'de bul
-    //    Temizlenmiş string'deki sol karakter sayısını hesapla
-    const cleanLeft = stripped.substring(0, cursorInStripped).replace(/[^0-9,-]/g, '');
+    let cleanLeft = stripped.substring(0, cursorInStripped).replace(/[^0-9,-]/g, '');
+    if (cleanLeft.startsWith(',')) {
+      cleanLeft = '0' + cleanLeft;
+    } else if (cleanLeft.startsWith('-,')) {
+      cleanLeft = '-0,' + cleanLeft.substring(2);
+    }
+
     let newCursor = 0;
     let counted = 0;
     for (let i = 0; i < formatted.length; i++) {
@@ -104,7 +124,6 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       }
     });
 
-    // 6) Motora numeric value gönder
     if (!formatted || formatted === '-') {
       onChange('');
     } else {
@@ -112,6 +131,15 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       if (parsed !== null) {
         onChange(parsed);
       }
+    }
+  };
+
+  const handleBlur = () => {
+    if (!displayValue || displayValue === '-') return;
+    const parsed = parseDisplay(displayValue);
+    if (parsed !== null) {
+      const s = parsed.toString().replace('.', ',');
+      setDisplayValue(formatNumber(s));
     }
   };
 
@@ -123,6 +151,7 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       inputMode={isInteger ? "numeric" : "decimal"}
       value={displayValue}
       onChange={handleChange}
+      onBlur={handleBlur}
       placeholder={placeholder}
       className={className}
       aria-invalid={!!error}
