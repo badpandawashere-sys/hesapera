@@ -158,7 +158,7 @@ export function LoanCalculatorForm({ calculator }: LoanCalculatorFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Kredi Tutarı</label>
                   <div className="relative">
-                    <NumericInput isInteger={numeric === "numeric"}
+                    <NumericInput isInteger={true}
                       value={loanAmountStr}
                       onChange={handleLoanAmountInputChange}
                       onBlur={handleCalculate}
