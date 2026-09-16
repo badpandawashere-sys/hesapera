@@ -43,6 +43,7 @@ import { CreditCardLateFeeForm } from '@/components/calculator/credit-card-late-
 import { MaxLoanAmountForm } from '@/components/calculator/max-loan-amount-form';
 import { LoanAnnualCostRateForm } from '@/components/calculator/loan-annual-cost-rate-form';
 import { VolumeForm } from '@/components/calculator/volume-form';
+import { YakitTuketimiForm } from '@/components/calculator/yakit-tuketimi-form';
 import { MetrekareForm } from '@/components/calculator/metrekare-form';
 import { OranForm } from '@/components/calculator/oran-form';
 import { PercentageForm } from '@/components/calculator/percentage-form';
@@ -51,6 +52,7 @@ import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form
 import { VkiForm } from '@/components/calculator/vki-form';
 import { AdBanner } from '@/components/ads/ad-banner';
 import { RelatedCalculators } from '@/components/calculator/related-calculators';
+import { generatedPremiumForms } from '@/components/calculator/generated-premium-forms';
 import * as LucideIcons from 'lucide-react';
 
 interface CalculatorPageProps {
@@ -112,6 +114,7 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
   }
 
   const calculatorViewModel = calculatorToViewModel(calculator);
+  const GeneratedPremiumForm = generatedPremiumForms[slug];
 
   const CalcIcon = calculator.metadata.icon ? (LucideIcons as any)[calculator.metadata.icon] || LucideIcons.Calculator : LucideIcons.Calculator;
 
@@ -255,6 +258,10 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <AlanForm calculator={calculatorViewModel} />
         ) : slug === 'cevre' ? (
           <PerimeterForm calculator={calculatorViewModel} />
+        ) : slug === 'yakit-tuketimi' ? (
+          <YakitTuketimiForm calculator={calculatorViewModel} />
+        ) : GeneratedPremiumForm ? (
+          <GeneratedPremiumForm calculator={calculatorViewModel} />
         ) : (
           <CalculatorForm calculator={calculatorViewModel} />
         )}

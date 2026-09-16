@@ -19,7 +19,7 @@ export const yakitMaliyetiCalculatorDef: CalculatorDefinition<Input, any> = {
   category: 'other',
   type: 'simple',
   metadata: {
-    title: 'Yakıt Maliyeti Hesaplama - Kilometre Başına Yakıt Tüketimi | Hesapera',
+    title: 'Yakıt Maliyeti Hesaplama: Yolculuk Ne Kadar Tutar? | Hesapera',
     description: 'Gideceğiniz mesafe, aracınızın 100 km ortalama yakıt tüketimi ve pompa litre fiyatına göre toplam yol masrafınızı ve kilometre başına yakıt maliyetinizi anında hesaplayın.',
     keywords: [
       'yakıt maliyeti hesaplama',
@@ -43,12 +43,12 @@ export const yakitMaliyetiCalculatorDef: CalculatorDefinition<Input, any> = {
     },
     faq: [
       {
-        question: '100 kilometrede tüketilen yakıt nasıl hesaplanır?',
-        answer: 'Aracınızın deposunu tam doldurup kilometreyi sıfırlayın. Belirli bir mesafe (örneğin 300-400 km) yol yaptıktan sonra depoyu tekrar tam doldurun. Alınan yakıt litresini kat edilen toplam kilometreye bölüp 100 ile çarparak 100 km\'deki gerçek tüketiminizi bulabilirsiniz.'
+        question: 'Yolculuk maliyeti hesabında L/100 km değeri nasıl kullanılır?',
+        answer: 'Aracınızın L/100 km değerini planlanan mesafeyle çarpıp 100\'e bölerek yolculukta tüketilecek litreyi tahmin edebilirsiniz. Bu litreyi güncel pompa fiyatıyla çarparak tahmini toplam maliyeti bulabilirsiniz.'
       },
       {
-        question: 'Kilometre başına yakıt maliyeti nasıl bulunur?',
-        answer: 'Toplam harcanan yakıt masrafının kat edilen toplam mesafeye (km) bölünmesiyle elde edilir. Örneğin 500 km yolda 1.500 TL yakıt tüketildiyse, kilometre başı maliyet 1.500 / 500 = 3,00 TL olur.'
+        question: 'Planlanan yolculukta kilometre başına maliyet nasıl bulunur?',
+        answer: 'Tahmini toplam yakıt maliyetinin planlanan mesafeye bölünmesiyle bulunur. Örneğin 500 km yol için tahmini maliyet 1.500 TL ise kilometre başına planlanan maliyet 1.500 / 500 = 3,00 TL olur.'
       },
       {
         question: 'Klima yakıt tüketimini ne kadar artırır?',

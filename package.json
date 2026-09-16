@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "calculator:new": "node scripts/create-calculator/index.mjs",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma skills sync || exit 0",

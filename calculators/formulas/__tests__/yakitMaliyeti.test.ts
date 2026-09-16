@@ -80,7 +80,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(otomotivCalcs.map(c => c.slug)).toContain('yakit-maliyeti');
 
     const publishedAll = CalculatorRegistry.getPublishedAll();
-    expect(publishedAll.length).toBe(41);
+    expect(publishedAll.length).toBe(42);
   });
 
   it('should include yakit-maliyeti and otomotiv in sitemap while excluding empty categories', async () => {
@@ -128,8 +128,8 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     const faqPage = graph.find((item: any) => item['@type'] === 'FAQPage');
     expect(faqPage).toBeDefined();
     expect(faqPage.mainEntity).toHaveLength(3);
-    expect(faqPage.mainEntity[0].name).toBe('100 kilometrede tüketilen yakıt nasıl hesaplanır?');
-    expect(faqPage.mainEntity[1].name).toBe('Kilometre başına yakıt maliyeti nasıl bulunur?');
+    expect(faqPage.mainEntity[0].name).toBe('Yolculuk maliyeti hesabında L/100 km değeri nasıl kullanılır?');
+    expect(faqPage.mainEntity[1].name).toBe('Planlanan yolculukta kilometre başına maliyet nasıl bulunur?');
     expect(faqPage.mainEntity[2].name).toBe('Klima yakıt tüketimini ne kadar artırır?');
   });
 
@@ -139,11 +139,11 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
       params: Promise.resolve({ slug: 'yakit-maliyeti' })
     });
 
-    expect(metadata.title).toBe('Yakıt Maliyeti Hesaplama - Kilometre Başına Yakıt Tüketimi | Hesapera');
+    expect(metadata.title).toBe('Yakıt Maliyeti Hesaplama: Yolculuk Ne Kadar Tutar? | Hesapera');
     expect(metadata.description).toContain('Gideceğiniz mesafe');
     expect(metadata.alternates?.canonical).toBe('https://www.hesapera.com.tr/hesaplama/yakit-maliyeti');
-    expect(metadata.openGraph?.title).toBe('Yakıt Maliyeti Hesaplama - Kilometre Başına Yakıt Tüketimi | Hesapera');
-    expect(metadata.twitter?.title).toBe('Yakıt Maliyeti Hesaplama - Kilometre Başına Yakıt Tüketimi | Hesapera');
+    expect(metadata.openGraph?.title).toBe('Yakıt Maliyeti Hesaplama: Yolculuk Ne Kadar Tutar? | Hesapera');
+    expect(metadata.twitter?.title).toBe('Yakıt Maliyeti Hesaplama: Yolculuk Ne Kadar Tutar? | Hesapera');
   });
 
   it('should generate correct category metadata and find published calculators for otomotiv', async () => {
