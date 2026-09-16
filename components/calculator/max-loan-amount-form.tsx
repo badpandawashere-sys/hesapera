@@ -5,6 +5,7 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, BatteryCharging, DollarSign } from 'lucide-react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function MaxLoanAmountForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ maxMonthlyPayment: 15000, monthlyInterestRate: 3.5, termMonths: 36, existingMonthlyDebt: 5000 });
@@ -51,25 +52,25 @@ export function MaxLoanAmountForm({ calculator }: { calculator: CalculatorViewMo
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Aylık Ödeyebileceğiniz Maks Tutar</label>
               <div className="relative">
                 <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
-                <input type="number" value={inputs.maxMonthlyPayment||''} onChange={e=>update('maxMonthlyPayment', e.target.value)} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-xl outline-none focus:border-indigo-500 transition-colors" />
+                <NumericInput   value={inputs.maxMonthlyPayment||''} onChange={e=>update('maxMonthlyPayment', e.target.value)} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-xl outline-none focus:border-indigo-500 transition-colors" />
               </div>
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Mevcut Aylık Kredi/Kart Taksitleriniz</label>
               <div className="relative">
                 <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"/>
-                <input type="number" value={inputs.existingMonthlyDebt||''} onChange={e=>update('existingMonthlyDebt', e.target.value)} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-xl outline-none focus:border-indigo-500 transition-colors" />
+                <NumericInput   value={inputs.existingMonthlyDebt||''} onChange={e=>update('existingMonthlyDebt', e.target.value)} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-xl outline-none focus:border-indigo-500 transition-colors" />
               </div>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Aylık Faiz (%)</label>
-                <input type="number" step="0.01" value={inputs.monthlyInterestRate||''} onChange={e=>update('monthlyInterestRate', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-lg outline-none focus:border-indigo-500 transition-colors text-center" />
+                <NumericInput   step="0.01" value={inputs.monthlyInterestRate||''} onChange={e=>update('monthlyInterestRate', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-lg outline-none focus:border-indigo-500 transition-colors text-center" />
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Vade (Ay)</label>
-                <input type="number" value={inputs.termMonths||''} onChange={e=>update('termMonths', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-lg outline-none focus:border-indigo-500 transition-colors text-center" />
+                <NumericInput   value={inputs.termMonths||''} onChange={e=>update('termMonths', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-lg outline-none focus:border-indigo-500 transition-colors text-center" />
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Divide, Scale } from 'lucide-react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function OranForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ a: 120, b: 80 });
@@ -39,14 +40,14 @@ export function OranForm({ calculator }: { calculator: CalculatorViewModel }) {
         <div className="flex items-center gap-6 w-full max-w-2xl">
           <div className="flex-1 bg-slate-50 p-6 rounded-3xl border-2 border-slate-100 focus-within:border-rose-400 transition-colors">
             <label className="block text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">A Değeri</label>
-            <input type="number" value={inputs.a||''} onChange={e=>setInputs(p=>({...p, a: parseInt(e.target.value)}))} className="w-full text-center text-4xl font-black text-slate-800 bg-transparent outline-none" />
+            <NumericInput   value={inputs.a||''} onChange={e=>setInputs(p=>({...p, a: parseInt(e.target.value)}))} className="w-full text-center text-4xl font-black text-slate-800 bg-transparent outline-none" />
           </div>
           <div className="w-12 flex justify-center text-slate-300">
              <Divide className="w-8 h-8" />
           </div>
           <div className="flex-1 bg-slate-50 p-6 rounded-3xl border-2 border-slate-100 focus-within:border-rose-400 transition-colors">
             <label className="block text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">B Değeri</label>
-            <input type="number" value={inputs.b||''} onChange={e=>setInputs(p=>({...p, b: parseInt(e.target.value)}))} className="w-full text-center text-4xl font-black text-slate-800 bg-transparent outline-none" />
+            <NumericInput   value={inputs.b||''} onChange={e=>setInputs(p=>({...p, b: parseInt(e.target.value)}))} className="w-full text-center text-4xl font-black text-slate-800 bg-transparent outline-none" />
           </div>
         </div>
 

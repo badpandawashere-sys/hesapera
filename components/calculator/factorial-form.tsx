@@ -5,6 +5,7 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Calculator } from 'lucide-react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function FactorialForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ n: 5 });
@@ -45,7 +46,7 @@ export function FactorialForm({ calculator }: { calculator: CalculatorViewModel 
         <div className="flex flex-col items-center">
           <label className="text-xs font-bold text-sky-400 uppercase tracking-widest mb-4">n Değeri Girin</label>
           <div className="flex items-center gap-4">
-             <input type="number" min="0" max="2000" value={inputs.n||''} onChange={e=>setInputs({n: parseInt(e.target.value)})} className="w-32 bg-slate-800 border-2 border-slate-700 rounded-2xl p-4 text-center text-4xl font-black text-white outline-none focus:border-sky-500 transition-colors" />
+             <NumericInput   min="0" max="2000" value={inputs.n||''} onChange={e=>setInputs({n: parseInt(e.target.value)})} className="w-32 bg-slate-800 border-2 border-slate-700 rounded-2xl p-4 text-center text-4xl font-black text-white outline-none focus:border-sky-500 transition-colors" />
              <span className="text-4xl font-black text-slate-600">!</span>
           </div>
         </div>

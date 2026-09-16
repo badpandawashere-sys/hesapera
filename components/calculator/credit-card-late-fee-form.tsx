@@ -6,6 +6,7 @@ import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, AlertTriangle, Clock } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function CreditCardLateFeeForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ overdueAmount: 10000, monthlyDelayRate: 4.25, delayDays: 15 });
@@ -49,7 +50,7 @@ export function CreditCardLateFeeForm({ calculator }: { calculator: CalculatorVi
           <div className="bg-white p-6 rounded-3xl border border-orange-100 shadow-sm space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Geciken Tutar (TL)</label>
-              <input type="number" value={inputs.overdueAmount||''} onChange={e=>update('overdueAmount', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-xl outline-none focus:border-orange-400" />
+              <NumericInput   value={inputs.overdueAmount||''} onChange={e=>update('overdueAmount', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 text-xl outline-none focus:border-orange-400" />
             </div>
             
             <div className="grid grid-cols-2 gap-4">
@@ -57,12 +58,12 @@ export function CreditCardLateFeeForm({ calculator }: { calculator: CalculatorVi
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Gecikme (Gün)</label>
                 <div className="relative">
                   <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"/>
-                  <input type="number" value={inputs.delayDays||''} onChange={e=>update('delayDays', e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 outline-none focus:border-orange-400" />
+                  <NumericInput   value={inputs.delayDays||''} onChange={e=>update('delayDays', e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 outline-none focus:border-orange-400" />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Aylık Faiz (%)</label>
-                <input type="number" step="0.01" value={inputs.monthlyDelayRate||''} onChange={e=>update('monthlyDelayRate', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 outline-none focus:border-orange-400 text-center" />
+                <NumericInput   step="0.01" value={inputs.monthlyDelayRate||''} onChange={e=>update('monthlyDelayRate', e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-black text-slate-800 outline-none focus:border-orange-400 text-center" />
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Square, RectangleHorizontal, Triangle, Circle, Hexagon, Maximize } from 'lucide-react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function AlanForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ 
@@ -81,48 +82,48 @@ export function AlanForm({ calculator }: { calculator: CalculatorViewModel }) {
                 {(inputs.sekil==='Kare' || inputs.sekil==='Dikdörtgen') && (
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Kenar A (Kısa/Tüm)</label>
-                    <input type="number" value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                    <NumericInput   value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                   </div>
                 )}
                 {inputs.sekil==='Dikdörtgen' && (
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Kenar B (Uzun)</label>
-                    <input type="number" value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                    <NumericInput   value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                   </div>
                 )}
                 {(inputs.sekil==='Üçgen' || inputs.sekil==='Paralelkenar' || inputs.sekil==='Yamuk') && (
                   <>
                     <div className="space-y-1">
                       <label className="text-xs font-bold text-slate-600">Taban</label>
-                      <input type="number" value={inputs.taban||''} onChange={e=>update('taban', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                      <NumericInput   value={inputs.taban||''} onChange={e=>update('taban', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                     </div>
                     <div className="space-y-1">
                       <label className="text-xs font-bold text-slate-600">Yükseklik</label>
-                      <input type="number" value={inputs.yukseklik||''} onChange={e=>update('yukseklik', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                      <NumericInput   value={inputs.yukseklik||''} onChange={e=>update('yukseklik', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                     </div>
                   </>
                 )}
                 {inputs.sekil==='Yamuk' && (
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Üst Taban</label>
-                    <input type="number" value={inputs.ustTaban||''} onChange={e=>update('ustTaban', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                    <NumericInput   value={inputs.ustTaban||''} onChange={e=>update('ustTaban', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                   </div>
                 )}
                 {inputs.sekil==='Daire' && (
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-600">Yarıçap (r)</label>
-                    <input type="number" value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                    <NumericInput   value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                   </div>
                 )}
                 {inputs.sekil==='Elips' && (
                   <>
                     <div className="space-y-1">
                       <label className="text-xs font-bold text-slate-600">Büyük Yarıçap (a)</label>
-                      <input type="number" value={inputs.buyukYaricap||''} onChange={e=>update('buyukYaricap', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                      <NumericInput   value={inputs.buyukYaricap||''} onChange={e=>update('buyukYaricap', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                     </div>
                     <div className="space-y-1">
                       <label className="text-xs font-bold text-slate-600">Küçük Yarıçap (b)</label>
-                      <input type="number" value={inputs.kucukYaricap||''} onChange={e=>update('kucukYaricap', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
+                      <NumericInput   value={inputs.kucukYaricap||''} onChange={e=>update('kucukYaricap', e.target.value)} className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none" />
                     </div>
                   </>
                 )}

@@ -8,6 +8,8 @@ import { CalculatorSubmitButton } from './calculator-submit-button';
 import { Lock, Loader2, Info, ArrowDown, Landmark } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 
+import { NumericInput } from '@/components/calculator/numeric-input';
+
 interface TimeDepositFormProps {
   calculator: CalculatorViewModel;
 }
@@ -214,9 +216,7 @@ export function TimeDepositForm({ calculator }: TimeDepositFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-bold text-slate-700">Anapara (Yatırılan Tutar)</label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="numeric"
+                    <NumericInput isInteger={true}
                       value={principalStr}
                       onChange={handlePrincipalInputChange}
                       onBlur={handleCalculate}
@@ -246,9 +246,7 @@ export function TimeDepositForm({ calculator }: TimeDepositFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-bold text-slate-700">Yıllık Faiz Oranı</label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="decimal"
+                    <NumericInput isInteger={false}
                       value={interestRateStr}
                       onChange={handleRateInputChange}
                       onBlur={handleCalculate}
@@ -278,9 +276,7 @@ export function TimeDepositForm({ calculator }: TimeDepositFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-bold text-slate-700">Vade Kilit Süresi</label>
                   <div className="flex items-center gap-2">
-                    <input 
-                      type="text"
-                      inputMode="numeric"
+                    <NumericInput isInteger={true}
                       value={maturityStr}
                       onChange={handleMaturityInputChange}
                       onBlur={handleCalculate}
@@ -325,9 +321,7 @@ export function TimeDepositForm({ calculator }: TimeDepositFormProps) {
                     Stopaj Oranı
                   </label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="decimal"
+                    <NumericInput isInteger={false}
                       value={taxRateStr}
                       onChange={handleTaxInputChange}
                       onBlur={handleCalculate}

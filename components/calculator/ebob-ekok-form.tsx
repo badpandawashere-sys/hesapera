@@ -5,6 +5,7 @@ import { ShareResult } from './share-result';
 import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Link, Plus, Trash2 } from 'lucide-react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function EbobEkokForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ numbers: [{value: 12}, {value: 18}] });
@@ -57,8 +58,7 @@ export function EbobEkokForm({ calculator }: { calculator: CalculatorViewModel }
         <div className="w-full max-w-lg space-y-4 mb-10">
           {inputs.numbers.map((num, i) => (
              <div key={i} className="relative flex items-center">
-               <input 
-                 type="number" 
+               <NumericInput   
                  value={num.value || ''} 
                  onChange={e=>update(i, e.target.value)} 
                  className="w-full p-6 text-2xl font-black text-center bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-fuchsia-300 transition-colors"

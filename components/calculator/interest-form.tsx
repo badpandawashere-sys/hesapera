@@ -9,6 +9,8 @@ import { CalculatorSubmitButton } from './calculator-submit-button';
 import { PiggyBank, Loader2, Info } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 
+import { NumericInput } from '@/components/calculator/numeric-input';
+
 interface InterestFormProps {
   calculator: CalculatorViewModel;
 }
@@ -222,9 +224,7 @@ export function InterestForm({ calculator }: InterestFormProps) {
               {/* ANA PARA */}
               <div>
                 <label className="text-sm font-semibold text-slate-700 mb-2 block">Ana Para (₺)</label>
-                <input
-                  type="text"
-                  inputMode="numeric"
+                <NumericInput isInteger={true}
                   value={principalStr}
                   onChange={handlePrincipalInputChange}
                   onBlur={handleCalculate}
@@ -237,9 +237,7 @@ export function InterestForm({ calculator }: InterestFormProps) {
               {/* FAİZ ORANI */}
               <div>
                 <label className="text-sm font-semibold text-slate-700 mb-2 block">Yıllık Faiz Oranı (%)</label>
-                <input
-                  type="text"
-                  inputMode="decimal"
+                <NumericInput isInteger={false}
                   value={annualRateStr}
                   onChange={handleRateInputChange}
                   onBlur={handleCalculate}
@@ -258,9 +256,7 @@ export function InterestForm({ calculator }: InterestFormProps) {
                     <button onClick={() => setTermUnit('year')} className={`text-xs px-3 py-1.5 rounded-md font-semibold transition-all ${termUnit === 'year' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500'}`}>Yıl</button>
                   </div>
                 </div>
-                <input
-                  type="text"
-                  inputMode="numeric"
+                <NumericInput isInteger={true}
                   value={termStr}
                   onChange={handleTermInputChange}
                   onBlur={handleCalculate}

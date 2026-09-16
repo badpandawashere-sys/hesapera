@@ -9,6 +9,8 @@ import { calculateAction } from '@/app/actions/calculate';
 import { Home, Loader2, Info, ReceiptText } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 
+import { NumericInput } from '@/components/calculator/numeric-input';
+
 interface RentIncreaseFormProps {
   calculator: CalculatorViewModel;
 }
@@ -184,9 +186,7 @@ export function RentIncreaseForm({ calculator }: RentIncreaseFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-bold text-slate-700">Mevcut Kira Bedeli</label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="numeric"
+                    <NumericInput isInteger={true}
                       value={currentRentStr}
                       onChange={handleRentInputChange}
                       onBlur={handleCalculate}
@@ -220,9 +220,7 @@ export function RentIncreaseForm({ calculator }: RentIncreaseFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-bold text-slate-700">Artış Oranı</label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="decimal"
+                    <NumericInput isInteger={false}
                       value={increaseRateStr}
                       onChange={handleRateInputChange}
                       onBlur={handleCalculate}

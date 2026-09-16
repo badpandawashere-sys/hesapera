@@ -7,6 +7,7 @@ import { calculateAction } from '@/app/actions/calculate';
 import { CalculatorSubmitButton } from './calculator-submit-button';
 import { Loader2, LayoutGrid, Check, X } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 const t = [
   { id: 'turkce', name: 'Türkçe', max: 20 },
@@ -61,11 +62,11 @@ export function LgsForm({ calculator }: { calculator: CalculatorViewModel }) {
               <div className="flex gap-2">
                 <div className="flex-1 bg-white border rounded-xl px-3 py-2 flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500"/>
-                  <input type="number" min="0" max={x.max} value={inputs[x.id+'C']||''} onChange={e=>update(x.id,'C',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="D" />
+                  <NumericInput   min="0" max={x.max} value={inputs[x.id+'C']||''} onChange={e=>update(x.id,'C',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="D" />
                 </div>
                 <div className="flex-1 bg-white border rounded-xl px-3 py-2 flex items-center gap-2">
                   <X className="w-4 h-4 text-red-500"/>
-                  <input type="number" min="0" max={x.max} value={inputs[x.id+'W']||''} onChange={e=>update(x.id,'W',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="Y" />
+                  <NumericInput   min="0" max={x.max} value={inputs[x.id+'W']||''} onChange={e=>update(x.id,'W',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="Y" />
                 </div>
               </div>
             </div>

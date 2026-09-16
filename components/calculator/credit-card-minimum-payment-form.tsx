@@ -9,6 +9,7 @@ import { CalculatorSubmitButton } from './calculator-submit-button';
 import { Loader2, Info, CreditCard } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 interface CreditCardMinimumPaymentFormProps {
   calculator: CalculatorViewModel;
@@ -145,9 +146,7 @@ export function CreditCardMinimumPaymentForm({ calculator }: CreditCardMinimumPa
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Dönem Borcu</label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="numeric"
+                    <NumericInput isInteger={true}
                       value={statementBalanceStr}
                       onChange={handleStatementBalanceInputChange}
                       onBlur={handleCalculate}
@@ -179,8 +178,7 @@ export function CreditCardMinimumPaymentForm({ calculator }: CreditCardMinimumPa
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Asgari Ödeme Oranı (%)</label>
-                  <input 
-                    type="number"
+                  <NumericInput  
                     value={minimumPaymentRate}
                     onChange={(e) => setMinimumPaymentRate(Number(e.target.value))}
                     onBlur={handleCalculate}

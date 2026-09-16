@@ -6,6 +6,7 @@ import { CalculatorViewModel } from '@/calculators/core/calculator-types';
 import { calculateAction } from '@/app/actions/calculate';
 import { Loader2, Percent, ArrowRight } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 export function PercentageForm({ calculator }: { calculator: CalculatorViewModel }) {
   const [inputs, setInputs] = useState({ baseValue: 1000, percentage: 20 });
@@ -40,11 +41,11 @@ export function PercentageForm({ calculator }: { calculator: CalculatorViewModel
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-6 rounded-2xl border-2 border-slate-200 focus-within:border-indigo-500 transition-colors">
              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Ana Sayı (Değer)</label>
-             <input type="number" value={inputs.baseValue||''} onChange={e=>setInputs(p=>({...p, baseValue: parseFloat(e.target.value)}))} className="w-full text-3xl font-black text-slate-900 bg-transparent outline-none" />
+             <NumericInput   value={inputs.baseValue||''} onChange={e=>setInputs(p=>({...p, baseValue: parseFloat(e.target.value)}))} className="w-full text-3xl font-black text-slate-900 bg-transparent outline-none" />
           </div>
           <div className="bg-white p-6 rounded-2xl border-2 border-slate-200 focus-within:border-indigo-500 transition-colors">
              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Yüzde Oranı (%)</label>
-             <input type="number" value={inputs.percentage||''} onChange={e=>setInputs(p=>({...p, percentage: parseFloat(e.target.value)}))} className="w-full text-3xl font-black text-slate-900 bg-transparent outline-none" />
+             <NumericInput   value={inputs.percentage||''} onChange={e=>setInputs(p=>({...p, percentage: parseFloat(e.target.value)}))} className="w-full text-3xl font-black text-slate-900 bg-transparent outline-none" />
           </div>
         </div>
 

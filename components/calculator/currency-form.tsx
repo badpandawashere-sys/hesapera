@@ -9,6 +9,8 @@ import { CalculatorSubmitButton } from './calculator-submit-button';
 import { ArrowLeftRight, Loader2, Info, ArrowDown, Banknote } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 
+import { NumericInput } from '@/components/calculator/numeric-input';
+
 interface CurrencyFormProps {
   calculator: CalculatorViewModel;
 }
@@ -216,9 +218,7 @@ export function CurrencyForm({ calculator }: CurrencyFormProps) {
                   <div className="flex justify-between items-center">
                     <label className="text-sm font-semibold text-slate-700">TL Tutarı</label>
                     <div className="relative">
-                      <input 
-                        type="text"
-                        inputMode="numeric"
+                      <NumericInput isInteger={true}
                         value={cashAmountStr}
                         onChange={handleCashInputChange}
                         onBlur={handleCalculate}
@@ -251,9 +251,7 @@ export function CurrencyForm({ calculator }: CurrencyFormProps) {
                   <div className="flex justify-between items-center">
                     <label className="text-sm font-semibold text-slate-700">Döviz Miktarı</label>
                     <div className="relative">
-                      <input 
-                        type="text"
-                        inputMode="numeric"
+                      <NumericInput isInteger={true}
                         value={quantityStr}
                         onChange={handleQuantityInputChange}
                         onBlur={handleCalculate}

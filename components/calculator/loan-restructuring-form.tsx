@@ -9,6 +9,7 @@ import { calculateAction } from '@/app/actions/calculate';
 import { ChevronDown, Loader2, Info, RefreshCw } from 'lucide-react';
 import NumberFlow from '@number-flow/react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, CartesianGrid } from 'recharts';
+import { NumericInput } from '@/components/calculator/numeric-input';
 
 interface LoanRestructuringFormProps {
   calculator: CalculatorViewModel;
@@ -151,9 +152,7 @@ export function LoanRestructuringForm({ calculator }: LoanRestructuringFormProps
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Mevcut Bakiye</label>
                   <div className="relative">
-                    <input 
-                      type="text"
-                      inputMode="numeric"
+                    <NumericInput isInteger={true}
                       value={remainingPrincipalStr}
                       onChange={handlePrincipalInputChange}
                       onBlur={handleCalculate}
@@ -185,8 +184,7 @@ export function LoanRestructuringForm({ calculator }: LoanRestructuringFormProps
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Yeni Aylık Faiz Oranı (%)</label>
-                  <input 
-                    type="number"
+                  <NumericInput  
                     value={newMonthlyInterestRate}
                     onChange={(e) => setNewMonthlyInterestRate(Number(e.target.value))}
                     onBlur={handleCalculate}
@@ -217,8 +215,7 @@ export function LoanRestructuringForm({ calculator }: LoanRestructuringFormProps
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Yeni Vade (Ay)</label>
-                  <input 
-                    type="number"
+                  <NumericInput  
                     value={newTermMonths}
                     onChange={(e) => setNewTermMonths(Number(e.target.value))}
                     onBlur={handleCalculate}
