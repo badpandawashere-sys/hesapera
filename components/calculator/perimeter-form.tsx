@@ -28,7 +28,12 @@ export function PerimeterForm({ calculator }: { calculator: CalculatorViewModel 
 
   const update = (k: keyof typeof inputs, val: any) => {
     if(k === 'sekil' || k === 'birim') setInputs(p => ({ ...p, [k]: val }));
-    else setInputs(p => ({ ...p, [k]: parseFloat(val) || 0 }));
+    else {
+      let parsed: number | string = 0;
+      if (val === '') parsed = '';
+      else if (!isNaN(parseFloat(val))) parsed = parseFloat(val);
+      setInputs(p => ({ ...p, [k]: parsed }));
+    }
   };
 
   const isErr = res?.success === false;
@@ -72,31 +77,31 @@ export function PerimeterForm({ calculator }: { calculator: CalculatorViewModel 
                 {(inputs.sekil!=='Daire') && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">1. Kenar / Alt Taban</label>
-                    <input type="number" value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarA} onChange={e=>update('kenarA', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {(['Dikdörtgen', 'Üçgen', 'Paralelkenar', 'Yamuk'].includes(inputs.sekil)) && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">2. Kenar / Üst Taban</label>
-                    <input type="number" value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarB} onChange={e=>update('kenarB', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {(['Üçgen', 'Yamuk'].includes(inputs.sekil)) && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">3. Kenar</label>
-                    <input type="number" value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarC} onChange={e=>update('kenarC', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {inputs.sekil==='Yamuk' && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">4. Kenar</label>
-                    <input type="number" value={inputs.kenarD||''} onChange={e=>update('kenarD', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.kenarD} onChange={e=>update('kenarD', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
                 {inputs.sekil==='Daire' && (
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-indigo-400">Yarıçap (r)</label>
-                    <input type="number" value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
+                    <input type="number" value={inputs.yaricap} onChange={e=>update('yaricap', e.target.value)} className="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl outline-none text-white focus:border-indigo-500" />
                   </div>
                 )}
              </div>
