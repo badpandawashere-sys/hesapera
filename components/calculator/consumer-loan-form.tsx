@@ -190,7 +190,8 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Aylık Faiz Oranı (%)</label>
                   <input 
-                    type="number"
+                    type="text"
+                    inputMode="decimal"
                     value={interestRate}
                     onChange={(e) => setInterestRate(Number(e.target.value))}
                     onBlur={handleCalculate}
@@ -223,7 +224,8 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Vade (Ay)</label>
                   <input 
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     value={term}
                     onChange={(e) => setTerm(Number(e.target.value))}
                     onBlur={handleCalculate}
