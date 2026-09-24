@@ -81,7 +81,7 @@ export function LastikEbatForm({ calculator }: { calculator: CalculatorViewModel
   const doCalculate = async () => {
     setLoading(true);
     try {
-      const response = await calculateAction(calculator.id, {
+      const response = await calculateAction(calculator.slug, {
         oldTire: { width: oldWidth, aspectRatio: oldAspect, rimInch: oldRim },
         newTire: { width: newWidth, aspectRatio: newAspect, rimInch: newRim },
         indicatedSpeed: speed
