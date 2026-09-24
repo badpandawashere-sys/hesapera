@@ -17,7 +17,7 @@ export const increaseCalculatorDef: CalculatorDefinition<Input, any> = {
   status: 'published',
   name: 'Zam Hesaplama',
   shortDescription: 'Eski fiyat, yeni fiyat veya zam oranını kullanarak zam tutarını, zam oranını ve zamlı fiyatı hızlıca hesaplayın.',
-  category: 'other',
+  category: 'finance',
   type: 'simple',
   metadata: {
     title: 'Zam Hesaplama – Yüzde Zam ve Zamlı Fiyat Hesapla',

@@ -18,7 +18,7 @@ export const discountCalculatorDef: CalculatorDefinition<Input, any> = {
   status: 'published',
   name: 'İndirim Hesaplama',
   shortDescription: 'Bir ürünün indirimli fiyatını, indirim tutarını veya ardışık çoklu indirimleri hızlıca hesaplayın.',
-  category: 'other',
+  category: 'finance',
   type: 'simple',
   metadata: {
     title: 'İndirim Hesaplama – Yüzde İndirim ve İndirimli Fiyat Hesapla',
