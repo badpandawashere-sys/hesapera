@@ -232,17 +232,17 @@ export function KomisyonForm({ calculator }: { calculator: CalculatorViewModel }
                         <Wallet className="w-4 h-4" /> Satıcıya Kalan Net Tutar {loading && <Loader2 className="w-3 h-3 animate-spin"/>}
                       </p>
                       <div className="text-5xl lg:text-6xl font-black drop-shadow-md mb-8 flex items-baseline justify-center gap-1">
-                        {mounted ? <NumberFlow value={res?.data?.raw?.netAmount || 0} format={{maximumFractionDigits:2}} /> : '0'} <span className="text-2xl font-bold text-indigo-200">TL</span>
+                        {mounted ? <NumberFlow value={res?.data?.primaryResult?.netAmount || 0} format={{maximumFractionDigits:2}} /> : '0'} <span className="text-2xl font-bold text-indigo-200">TL</span>
                       </div>
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 text-left">
                           <p className="text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-1">Komisyon Tutarı</p>
-                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.raw?.commissionAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
+                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.primaryResult?.commissionAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
                         </div>
                         <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 text-left">
                           <p className="text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-1">Komisyon Oranı</p>
-                          <p className="text-xl font-black"><span className="text-sm font-bold opacity-75">%</span>{mounted ? formatThousands(res?.data?.raw?.commissionRate || 0) : '0'}</p>
+                          <p className="text-xl font-black"><span className="text-sm font-bold opacity-75">%</span>{mounted ? formatThousands(res?.data?.primaryResult?.commissionRate || 0) : '0'}</p>
                         </div>
                       </div>
                     </div>
@@ -254,17 +254,17 @@ export function KomisyonForm({ calculator }: { calculator: CalculatorViewModel }
                         <ArrowRight className="w-4 h-4" /> Gerekli Satış Fiyatı {loading && <Loader2 className="w-3 h-3 animate-spin"/>}
                       </p>
                       <div className="text-5xl lg:text-6xl font-black drop-shadow-md mb-8 flex items-baseline justify-center gap-1">
-                        {mounted ? <NumberFlow value={res?.data?.raw?.grossAmount || 0} format={{maximumFractionDigits:2}} /> : '0'} <span className="text-2xl font-bold text-indigo-200">TL</span>
+                        {mounted ? <NumberFlow value={res?.data?.primaryResult?.grossAmount || 0} format={{maximumFractionDigits:2}} /> : '0'} <span className="text-2xl font-bold text-indigo-200">TL</span>
                       </div>
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 text-left">
                           <p className="text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-1">Komisyon Tutarı</p>
-                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.raw?.commissionAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
+                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.primaryResult?.commissionAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
                         </div>
                         <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 text-left">
                           <p className="text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-1">Hedef Net Tutar</p>
-                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.raw?.netAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
+                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.primaryResult?.netAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
                         </div>
                       </div>
                     </div>
@@ -276,17 +276,17 @@ export function KomisyonForm({ calculator }: { calculator: CalculatorViewModel }
                         <Percent className="w-4 h-4" /> Komisyon Oranı {loading && <Loader2 className="w-3 h-3 animate-spin"/>}
                       </p>
                       <div className="text-5xl lg:text-6xl font-black drop-shadow-md mb-8 flex items-baseline justify-center gap-1">
-                         <span className="text-2xl font-bold text-indigo-200">%</span>{mounted ? <NumberFlow value={res?.data?.raw?.commissionRate || 0} format={{maximumFractionDigits:2}} /> : '0'}
+                         <span className="text-2xl font-bold text-indigo-200">%</span>{mounted ? <NumberFlow value={res?.data?.primaryResult?.commissionRate || 0} format={{maximumFractionDigits:2}} /> : '0'}
                       </div>
                       
                       <div className="grid grid-cols-2 gap-4">
                         <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 text-left">
                           <p className="text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-1">Komisyon Tutarı</p>
-                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.raw?.commissionAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
+                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.primaryResult?.commissionAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
                         </div>
                         <div className="bg-black/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10 text-left">
                           <p className="text-[10px] text-indigo-200 font-bold uppercase tracking-wider mb-1">Net Tutar</p>
-                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.raw?.netAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
+                          <p className="text-xl font-black">{mounted ? formatThousands(res?.data?.primaryResult?.netAmount || 0) : '0'} <span className="text-sm font-bold opacity-75">TL</span></p>
                         </div>
                       </div>
                     </div>

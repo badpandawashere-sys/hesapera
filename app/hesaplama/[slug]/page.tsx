@@ -241,6 +241,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <IndirimHesaplamaForm calculator={calculatorViewModel} />
         ) : slug === 'kdv-hesaplama' ? (
           <KdvHesaplamaForm calculator={calculatorViewModel} />
+        ) : slug === 'komisyon-hesaplama' ? (
+          <KomisyonForm calculator={calculatorViewModel} />
         ) : slug === 'yuzde' ? (
           <PercentageForm calculator={calculatorViewModel} />
         ) : slug === 'oran' ? (
