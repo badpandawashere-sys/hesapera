@@ -50,6 +50,7 @@ import { PercentageForm } from '@/components/calculator/percentage-form';
 import { KdvHesaplamaForm } from '@/components/calculator/kdv-hesaplama-form';
 import { IndirimHesaplamaForm } from '@/components/calculator/indirim-hesaplama-form';
 import { KarMarjiForm } from '@/components/calculator/kar-marji-form';
+import { KomisyonForm } from '@/components/calculator/komisyon-form';
 import { ZamHesaplamaForm } from '@/components/calculator/zam-hesaplama-form';
 import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
 import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
