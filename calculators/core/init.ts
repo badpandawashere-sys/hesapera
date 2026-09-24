@@ -14,7 +14,7 @@ import { metrekareCalculatorDef } from '../definitions/metrekare';
 import { milCalculatorDef } from '../definitions/mil';
 import { modulerAritmetikCalculatorDef } from '../definitions/modulerAritmetik';
 import { oranCalculatorDef } from '../definitions/oran';
-import { profitCalculatorDef } from '../definitions/profit';
+import { karMarjiCalculatorDef } from '../definitions/karMarji';
 import { lossCalculatorDef } from '../definitions/loss';
 import { areaCalculatorDef } from '../definitions/area';
 import { averageCostCalculatorDef } from '../definitions/averageCost';
@@ -158,7 +158,7 @@ export function initializeCalculators() {
   CalculatorRegistry.register(milCalculatorDef);
   CalculatorRegistry.register(modulerAritmetikCalculatorDef);
   CalculatorRegistry.register(oranCalculatorDef);
-  CalculatorRegistry.register(profitCalculatorDef);
+  CalculatorRegistry.register(karMarjiCalculatorDef);
   CalculatorRegistry.register(lossCalculatorDef);
   CalculatorRegistry.register(areaCalculatorDef);
   CalculatorRegistry.register(averageCostCalculatorDef);
