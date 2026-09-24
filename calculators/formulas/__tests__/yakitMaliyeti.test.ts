@@ -80,7 +80,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(otomotivCalcs.map(c => c.slug)).toContain('yakit-maliyeti');
 
     const publishedAll = CalculatorRegistry.getPublishedAll();
-    expect(publishedAll.length).toBe(42);
+    expect(publishedAll.length).toBe(43);
   }, 30000);
 
   it('should include yakit-maliyeti and otomotiv in sitemap while excluding empty categories', async () => {
