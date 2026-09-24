@@ -57,12 +57,12 @@ export function MetrekareForm({ calculator }: { calculator: CalculatorViewModel 
 
             <div className="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-100 focus-within:border-teal-400 transition-colors">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1"><MoveHorizontal className="w-3 h-3"/> Uzunluk</label>
-              <input type="number" value={inputs.uzunluk||''} onChange={e=>setInputs(p=>({...p, uzunluk: parseFloat(e.target.value)}))} className="w-full text-2xl font-black text-slate-800 bg-transparent outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.uzunluk||''} onChange={e=>setInputs(p=>({...p, uzunluk: parseFloat(e.target.value)}))} className="w-full text-2xl font-black text-slate-800 bg-transparent outline-none" />
             </div>
 
             <div className="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-100 focus-within:border-teal-400 transition-colors">
               <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1"><MoveVertical className="w-3 h-3"/> Genişlik</label>
-              <input type="number" value={inputs.genislik||''} onChange={e=>setInputs(p=>({...p, genislik: parseFloat(e.target.value)}))} className="w-full text-2xl font-black text-slate-800 bg-transparent outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.genislik||''} onChange={e=>setInputs(p=>({...p, genislik: parseFloat(e.target.value)}))} className="w-full text-2xl font-black text-slate-800 bg-transparent outline-none" />
             </div>
           </div>
         </div>

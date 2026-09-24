@@ -71,12 +71,12 @@ export function HistoricalGoldForm({ calculator }: { calculator: CalculatorViewM
                {inputs.transactionType === 'to_cash' ? (
                  <div className="space-y-2">
                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Miktar (Gram/Adet)</label>
-                   <input type="number" step="1" min="0" value={inputs.quantity||''} onChange={e=>update('quantity', e.target.value)} className="w-full p-4 rounded-xl bg-white border border-amber-100 font-bold outline-none focus:border-amber-400" />
+                   <input type="text" inputMode="numeric" pattern="[0-9]*" min="0" value={inputs.quantity||''} onChange={e=>update('quantity', e.target.value)} className="w-full p-4 rounded-xl bg-white border border-amber-100 font-bold outline-none focus:border-amber-400" />
                  </div>
                ) : (
                  <div className="space-y-2">
                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Para (TL)</label>
-                   <input type="number" step="1000" min="0" value={inputs.cashAmount||''} onChange={e=>update('cashAmount', e.target.value)} className="w-full p-4 rounded-xl bg-white border border-amber-100 font-bold outline-none focus:border-amber-400" />
+                   <input type="text" inputMode="decimal" min="0" value={inputs.cashAmount||''} onChange={e=>update('cashAmount', e.target.value)} className="w-full p-4 rounded-xl bg-white border border-amber-100 font-bold outline-none focus:border-amber-400" />
                  </div>
                )}
             </div>

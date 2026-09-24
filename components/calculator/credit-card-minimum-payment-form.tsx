@@ -180,11 +180,10 @@ export function CreditCardMinimumPaymentForm({ calculator }: CreditCardMinimumPa
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Asgari Ödeme Oranı (%)</label>
                   <input 
-                    type="number"
+                    type="text" inputMode="decimal"
                     value={minimumPaymentRate}
                     onChange={(e) => setMinimumPaymentRate(Number(e.target.value))}
                     onBlur={handleCalculate}
-                    step={1}
                     className="w-32 px-4 py-2 text-right bg-[#F8FAFC] border border-slate-200 rounded-xl font-bold text-slate-800 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition-all"
                   />
                 </div>

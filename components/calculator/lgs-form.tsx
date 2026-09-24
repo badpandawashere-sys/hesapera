@@ -61,11 +61,11 @@ export function LgsForm({ calculator }: { calculator: CalculatorViewModel }) {
               <div className="flex gap-2">
                 <div className="flex-1 bg-white border rounded-xl px-3 py-2 flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500"/>
-                  <input type="number" min="0" max={x.max} value={inputs[x.id+'C']||''} onChange={e=>update(x.id,'C',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="D" />
+                  <input type="text" inputMode="numeric" pattern="[0-9]*" min="0" max={x.max} value={inputs[x.id+'C']||''} onChange={e=>update(x.id,'C',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="D" />
                 </div>
                 <div className="flex-1 bg-white border rounded-xl px-3 py-2 flex items-center gap-2">
                   <X className="w-4 h-4 text-red-500"/>
-                  <input type="number" min="0" max={x.max} value={inputs[x.id+'W']||''} onChange={e=>update(x.id,'W',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="Y" />
+                  <input type="text" inputMode="numeric" pattern="[0-9]*" min="0" max={x.max} value={inputs[x.id+'W']||''} onChange={e=>update(x.id,'W',x.max,e.target.value)} className="w-full font-bold outline-none text-center" placeholder="Y" />
                 </div>
               </div>
             </div>

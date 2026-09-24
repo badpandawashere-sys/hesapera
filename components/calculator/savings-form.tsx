@@ -80,24 +80,24 @@ export function SavingsForm({ calculator }: { calculator: CalculatorViewModel })
           <div className="space-y-6">
             <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2"><Wallet className="w-4 h-4"/> Başlangıç Tutarı (₺)</label>
-              <input type="number" value={inputs.initialDeposit||''} onChange={e=>updateInput('initialDeposit', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-teal-500 outline-none transition-all" />
+              <input type="text" inputMode="decimal" value={inputs.initialDeposit||''} onChange={e=>updateInput('initialDeposit', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-teal-500 outline-none transition-all" />
               <input type="range" min="0" max="500000" step="1000" value={inputs.initialDeposit} onChange={e=>updateInput('initialDeposit', e.target.value)} className="w-full accent-teal-500" />
             </div>
 
             <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2"><TrendingUp className="w-4 h-4"/> Aylık Katkı (₺)</label>
-              <input type="number" value={inputs.periodicContribution||''} onChange={e=>updateInput('periodicContribution', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-teal-500 outline-none transition-all" />
+              <input type="text" inputMode="decimal" value={inputs.periodicContribution||''} onChange={e=>updateInput('periodicContribution', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-teal-500 outline-none transition-all" />
               <input type="range" min="0" max="50000" step="500" value={inputs.periodicContribution} onChange={e=>updateInput('periodicContribution', e.target.value)} className="w-full accent-teal-500" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Yıllık Getiri (%)</label>
-                <input type="number" value={inputs.annualInterestRate||''} onChange={e=>updateInput('annualInterestRate', e.target.value)} className="w-full text-lg font-bold bg-white border border-slate-200 p-3 rounded-xl outline-none" />
+                <input type="text" inputMode="decimal" value={inputs.annualInterestRate||''} onChange={e=>updateInput('annualInterestRate', e.target.value)} className="w-full text-lg font-bold bg-white border border-slate-200 p-3 rounded-xl outline-none" />
               </div>
               <div className="space-y-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Süre (Ay)</label>
-                <input type="number" value={inputs.termMonths||''} onChange={e=>updateInput('termMonths', e.target.value)} className="w-full text-lg font-bold bg-white border border-slate-200 p-3 rounded-xl outline-none" />
+                <input type="text" inputMode="numeric" pattern="[0-9]*" value={inputs.termMonths||''} onChange={e=>updateInput('termMonths', e.target.value)} className="w-full text-lg font-bold bg-white border border-slate-200 p-3 rounded-xl outline-none" />
               </div>
             </div>
           </div>

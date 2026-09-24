@@ -87,7 +87,7 @@ export function CompoundGrowthForm({ calculator }: { calculator: CalculatorViewM
             <div className="space-y-6">
               <div className="space-y-3 p-5 bg-slate-50 rounded-2xl border border-slate-100">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Başlangıç Değeri</label>
-                <input type="number" value={inputs.initialValue||''} onChange={e=>updateInput('initialValue', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-fuchsia-500 outline-none transition-all" />
+                <input type="text" inputMode="decimal" value={inputs.initialValue||''} onChange={e=>updateInput('initialValue', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-fuchsia-500 outline-none transition-all" />
               </div>
 
               <div className="space-y-3 p-5 bg-slate-50 rounded-2xl border border-slate-100">
@@ -103,7 +103,7 @@ export function CompoundGrowthForm({ calculator }: { calculator: CalculatorViewM
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Büyüme Oranı (%)</label>
                   <span className={`text-sm font-bold ${isPositive ? 'text-fuchsia-600' : 'text-red-500'}`}>{inputs.growthRate}%</span>
                 </div>
-                <input type="number" value={inputs.growthRate||''} onChange={e=>updateInput('growthRate', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-fuchsia-500 outline-none transition-all" />
+                <input type="text" inputMode="decimal" value={inputs.growthRate||''} onChange={e=>updateInput('growthRate', e.target.value)} className="w-full text-xl font-bold bg-white border border-slate-200 p-3 rounded-xl focus:ring-2 ring-fuchsia-500 outline-none transition-all" />
               </div>
             </div>
           </div>

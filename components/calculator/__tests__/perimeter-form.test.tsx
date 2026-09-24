@@ -8,7 +8,7 @@ describe('Perimeter Form Integration Test', () => {
     const { container } = render(<PerimeterForm calculator={{ slug: 'cevre', name: 'Çevre Hesaplama' } as any} />);
     
     // Default shape is "Dikdörtgen". It has 2 inputs: kenarA and kenarB
-    const inputs = container.querySelectorAll('input[type="number"]');
+    const inputs = container.querySelectorAll('input[type="text"]');
     expect(inputs.length).toBe(2);
 
     const inputA = inputs[0] as HTMLInputElement;
@@ -35,7 +35,7 @@ describe('Perimeter Form Integration Test', () => {
     fireEvent.change(shapeSelect, { target: { value: 'Daire' } });
 
     // Daire has 1 input: yaricap
-    const daireInputs = container.querySelectorAll('input[type="number"]');
+    const daireInputs = container.querySelectorAll('input[type="text"]');
     expect(daireInputs.length).toBe(1);
     
     const yaricapInput = daireInputs[0] as HTMLInputElement;

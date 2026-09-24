@@ -64,15 +64,15 @@ export function KaloriIhtiyaciForm({ calculator }: { calculator: CalculatorViewM
             <div className="grid grid-cols-3 gap-4">
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Yaş</label>
-                <input type="number" value={inputs.yas||''} onChange={e=>update('yas', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
+                <input type="text" inputMode="numeric" pattern="[0-9]*" value={inputs.yas||''} onChange={e=>update('yas', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Boy (cm)</label>
-                <input type="number" value={inputs.boy||''} onChange={e=>update('boy', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
+                <input type="text" inputMode="decimal" value={inputs.boy||''} onChange={e=>update('boy', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-400 uppercase">Kilo (kg)</label>
-                <input type="number" value={inputs.kilo||''} onChange={e=>update('kilo', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
+                <input type="text" inputMode="decimal" value={inputs.kilo||''} onChange={e=>update('kilo', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-center font-bold outline-none focus:border-orange-400" />
               </div>
             </div>
 

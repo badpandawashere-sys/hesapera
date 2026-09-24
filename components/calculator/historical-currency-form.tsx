@@ -73,7 +73,7 @@ export function HistoricalCurrencyForm({ calculator }: { calculator: CalculatorV
 
             <div className="space-y-2 pt-2">
                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Banknote className="w-4 h-4 text-blue-500"/> Döviz Tutarı</label>
-               <input type="number" step="0.01" value={inputs.amount||''} onChange={e=>update('amount', e.target.value)} className="w-full p-4 rounded-xl bg-white border border-blue-100 font-black text-xl text-slate-800 outline-none focus:border-blue-400" />
+               <input type="text" inputMode="decimal" value={inputs.amount||''} onChange={e=>update('amount', e.target.value)} className="w-full p-4 rounded-xl bg-white border border-blue-100 font-black text-xl text-slate-800 outline-none focus:border-blue-400" />
             </div>
           </div>
         </div>

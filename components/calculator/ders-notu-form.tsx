@@ -58,12 +58,12 @@ export function DersNotuForm({ calculator }: { calculator: CalculatorViewModel }
             <div className="flex-1 flex gap-3">
               <div className="flex-1">
                 <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Not (0-100)</label>
-                <input type="number" min="0" max="100" value={n.not||''} onChange={e=>update(n.id, 'not', e.target.value)} className="w-full px-4 py-2 border rounded-xl font-bold" />
+                <input type="text" inputMode="decimal" min="0" max="100" value={n.not||''} onChange={e=>update(n.id, 'not', e.target.value)} className="w-full px-4 py-2 border rounded-xl font-bold" />
               </div>
               {type === 'agirlikli' && (
                 <div className="flex-1">
                   <label className="text-[10px] font-bold text-slate-500 uppercase ml-1">Ağırlık/Kredi</label>
-                  <input type="number" min="0" value={n.agirlik||''} onChange={e=>update(n.id, 'agirlik', e.target.value)} className="w-full px-4 py-2 border rounded-xl font-bold" />
+                  <input type="text" inputMode="decimal" min="0" value={n.agirlik||''} onChange={e=>update(n.id, 'agirlik', e.target.value)} className="w-full px-4 py-2 border rounded-xl font-bold" />
                 </div>
               )}
             </div>

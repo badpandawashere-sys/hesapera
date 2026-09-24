@@ -187,11 +187,10 @@ export function VehicleLoanForm({ calculator }: VehicleLoanFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Aylık Faiz Oranı (%)</label>
                   <input 
-                    type="number"
+                    type="text" inputMode="decimal"
                     value={interestRate}
                     onChange={(e) => setInterestRate(Number(e.target.value))}
                     onBlur={handleCalculate}
-                    step={0.01}
                     className="w-32 px-4 py-2 text-right bg-[#F8FAFC] border border-slate-200 rounded-xl font-bold text-slate-800 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition-all"
                   />
                 </div>
@@ -219,7 +218,7 @@ export function VehicleLoanForm({ calculator }: VehicleLoanFormProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-semibold text-slate-700">Vade (Ay)</label>
                   <input 
-                    type="number"
+                    type="text" inputMode="numeric" pattern="[0-9]*"
                     value={term}
                     onChange={(e) => setTerm(Number(e.target.value))}
                     onBlur={handleCalculate}

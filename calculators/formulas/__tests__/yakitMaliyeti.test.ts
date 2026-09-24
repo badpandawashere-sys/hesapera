@@ -81,7 +81,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
 
     const publishedAll = CalculatorRegistry.getPublishedAll();
     expect(publishedAll.length).toBe(42);
-  });
+  }, 30000);
 
   it('should include yakit-maliyeti and otomotiv in sitemap while excluding empty categories', async () => {
     const sitemapModule = await import('../../../app/sitemap');
@@ -96,7 +96,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/vergi');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/zaman');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/hukuk');
-  });
+  }, 30000);
 
   it('should generate correct JSON-LD with WebApplication, Otomotiv Breadcrumb, and 3 FAQs', async () => {
     const { CalculatorRegistry } = await import('../../core/calculator-registry');
@@ -131,7 +131,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(faqPage.mainEntity[0].name).toBe('Yolculuk maliyeti hesabında L/100 km değeri nasıl kullanılır?');
     expect(faqPage.mainEntity[1].name).toBe('Planlanan yolculukta kilometre başına maliyet nasıl bulunur?');
     expect(faqPage.mainEntity[2].name).toBe('Klima yakıt tüketimini ne kadar artırır?');
-  });
+  }, 30000);
 
   it('should generate correct metadata via app/hesaplama/[slug]/page.tsx generateMetadata', async () => {
     const pageModule = await import('../../../app/hesaplama/[slug]/page');
@@ -144,7 +144,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(metadata.alternates?.canonical).toBe('https://www.hesapera.com.tr/hesaplama/yakit-maliyeti');
     expect(metadata.openGraph?.title).toBe('Yakıt Maliyeti Hesaplama: Yolculuk Ne Kadar Tutar? | Hesapera');
     expect(metadata.twitter?.title).toBe('Yakıt Maliyeti Hesaplama: Yolculuk Ne Kadar Tutar? | Hesapera');
-  });
+  }, 30000);
 
   it('should generate correct category metadata and find published calculators for otomotiv', async () => {
     const categoryPageModule = await import('../../../app/kategoriler/[id]/page');

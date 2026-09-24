@@ -61,31 +61,31 @@ export function VolumeForm({ calculator }: { calculator: CalculatorViewModel }) 
               {(inputs.sekil === 'Küp' || inputs.sekil === 'Dikdörtgenler Prizması') && (
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Kenar A</label>
-                  <input type="number" value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="text" inputMode="decimal" value={inputs.kenarA||''} onChange={e=>update('kenarA', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
               )}
               {inputs.sekil === 'Dikdörtgenler Prizması' && (
                 <>
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Kenar B</label>
-                  <input type="number" value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="text" inputMode="decimal" value={inputs.kenarB||''} onChange={e=>update('kenarB', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Kenar C</label>
-                  <input type="number" value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="text" inputMode="decimal" value={inputs.kenarC||''} onChange={e=>update('kenarC', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
                 </>
               )}
               {(inputs.sekil === 'Küre' || inputs.sekil === 'Silindir' || inputs.sekil === 'Koni') && (
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Yarıçap</label>
-                  <input type="number" value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="text" inputMode="decimal" value={inputs.yaricap||''} onChange={e=>update('yaricap', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
               )}
               {(inputs.sekil === 'Silindir' || inputs.sekil === 'Koni') && (
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase">Yükseklik</label>
-                  <input type="number" value={inputs.yukseklik||''} onChange={e=>update('yukseklik', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
+                  <input type="text" inputMode="decimal" value={inputs.yukseklik||''} onChange={e=>update('yukseklik', e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 font-bold text-slate-800 outline-none" />
                 </div>
               )}
             </div>

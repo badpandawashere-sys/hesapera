@@ -64,13 +64,13 @@ export function TakdirTesekkurForm({ calculator }: { calculator: CalculatorViewM
             {level === 'Ortaokul' && (
               <div>
                 <label className="text-sm font-bold text-slate-700 block mb-1">Türkçe Dersi Notu (Min 70 şartı)</label>
-                <input type="number" min="0" max="100" value={turkce} onChange={e=>setTurkce(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
+                <input type="text" inputMode="numeric" pattern="[0-9]*" min="0" max="100" value={turkce} onChange={e=>setTurkce(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
               </div>
             )}
 
             <div>
               <label className="text-sm font-bold text-slate-700 block mb-1">Özürsüz Devamsızlık (Gün)</label>
-              <input type="number" min="0" value={devamsizlik} onChange={e=>setDevamsizlik(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
+              <input type="text" inputMode="numeric" pattern="[0-9]*" min="0" value={devamsizlik} onChange={e=>setDevamsizlik(Number(e.target.value))} className="w-full px-4 py-2 border rounded-xl font-bold" />
             </div>
 
             <label className="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-slate-50 transition-all">

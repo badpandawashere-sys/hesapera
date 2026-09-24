@@ -45,7 +45,7 @@ export function FactorialForm({ calculator }: { calculator: CalculatorViewModel 
         <div className="flex flex-col items-center">
           <label className="text-xs font-bold text-sky-400 uppercase tracking-widest mb-4">n Değeri Girin</label>
           <div className="flex items-center gap-4">
-             <input type="number" min="0" max="2000" value={inputs.n||''} onChange={e=>setInputs({n: parseInt(e.target.value)})} className="w-32 bg-slate-800 border-2 border-slate-700 rounded-2xl p-4 text-center text-4xl font-black text-white outline-none focus:border-sky-500 transition-colors" />
+             <input type="text" inputMode="numeric" pattern="[0-9]*" min="0" max="2000" value={inputs.n||''} onChange={e=>setInputs({n: parseInt(e.target.value)})} className="w-32 bg-slate-800 border-2 border-slate-700 rounded-2xl p-4 text-center text-4xl font-black text-white outline-none focus:border-sky-500 transition-colors" />
              <span className="text-4xl font-black text-slate-600">!</span>
           </div>
         </div>

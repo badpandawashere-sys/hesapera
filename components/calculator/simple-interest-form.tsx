@@ -73,17 +73,17 @@ export function SimpleInterestForm({ calculator }: { calculator: CalculatorViewM
           <div className="space-y-6">
             <div className="space-y-3 bg-white p-5 border-2 border-slate-200 rounded-2xl focus-within:border-indigo-600 transition-colors">
               <label className="text-sm font-bold text-slate-700 flex items-center gap-2"><Coins className="w-5 h-5 text-indigo-600"/> Anapara (₺)</label>
-              <input type="number" value={inputs.principal||''} onChange={e=>updateInput('principal', e.target.value)} className="w-full text-2xl font-black bg-transparent outline-none text-slate-900" />
+              <input type="text" inputMode="decimal" value={inputs.principal||''} onChange={e=>updateInput('principal', e.target.value)} className="w-full text-2xl font-black bg-transparent outline-none text-slate-900" />
             </div>
 
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-3 bg-white p-5 border-2 border-slate-200 rounded-2xl focus-within:border-indigo-600 transition-colors">
                 <label className="text-sm font-bold text-slate-700 flex items-center gap-2"><Percent className="w-5 h-5 text-indigo-600"/> Yıllık Oran</label>
-                <input type="number" value={inputs.annualRate||''} onChange={e=>updateInput('annualRate', e.target.value)} className="w-full text-2xl font-black bg-transparent outline-none text-slate-900" />
+                <input type="text" inputMode="decimal" value={inputs.annualRate||''} onChange={e=>updateInput('annualRate', e.target.value)} className="w-full text-2xl font-black bg-transparent outline-none text-slate-900" />
               </div>
               <div className="space-y-3 bg-white p-5 border-2 border-slate-200 rounded-2xl focus-within:border-indigo-600 transition-colors">
                 <label className="text-sm font-bold text-slate-700 flex items-center gap-2"><CalendarDays className="w-5 h-5 text-indigo-600"/> Vade (Yıl)</label>
-                <input type="number" value={inputs.termYears||''} onChange={e=>updateInput('termYears', e.target.value)} className="w-full text-2xl font-black bg-transparent outline-none text-slate-900" />
+                <input type="text" inputMode="numeric" pattern="[0-9]*" value={inputs.termYears||''} onChange={e=>updateInput('termYears', e.target.value)} className="w-full text-2xl font-black bg-transparent outline-none text-slate-900" />
               </div>
             </div>
           </div>

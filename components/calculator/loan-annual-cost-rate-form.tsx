@@ -62,27 +62,27 @@ export function LoanAnnualCostRateForm({ calculator }: { calculator: CalculatorV
             
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Tutar (TL)</label>
-              <input type="number" value={inputs.principal||''} onChange={e=>update('principal', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.principal||''} onChange={e=>update('principal', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Vade (Ay)</label>
-              <input type="number" value={inputs.termMonths||''} onChange={e=>update('termMonths', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="text" inputMode="numeric" pattern="[0-9]*" value={inputs.termMonths||''} onChange={e=>update('termMonths', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Aylık Faiz (%)</label>
-              <input type="number" step="0.01" value={inputs.monthlyInterestRate||''} onChange={e=>update('monthlyInterestRate', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.monthlyInterestRate||''} onChange={e=>update('monthlyInterestRate', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Tahsis Ücreti</label>
-              <input type="number" value={inputs.allocationFee||''} onChange={e=>update('allocationFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.allocationFee||''} onChange={e=>update('allocationFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Sigorta</label>
-              <input type="number" value={inputs.insuranceFee||''} onChange={e=>update('insuranceFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.insuranceFee||''} onChange={e=>update('insuranceFee', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400 uppercase">Diğer Masraflar</label>
-              <input type="number" value={inputs.otherFees||''} onChange={e=>update('otherFees', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
+              <input type="text" inputMode="decimal" value={inputs.otherFees||''} onChange={e=>update('otherFees', e.target.value)} className="w-full p-3 rounded-xl bg-white border border-slate-200 font-bold outline-none" />
             </div>
           </div>
         </div>
