@@ -51,6 +51,7 @@ import { KdvHesaplamaForm } from '@/components/calculator/kdv-hesaplama-form';
 import { IndirimHesaplamaForm } from '@/components/calculator/indirim-hesaplama-form';
 import { KarMarjiForm } from '@/components/calculator/kar-marji-form';
 import { KomisyonForm } from '@/components/calculator/komisyon-form';
+import { LastikEbatForm } from '@/components/calculator/lastik-ebat-form';
 import { ZamHesaplamaForm } from '@/components/calculator/zam-hesaplama-form';
 import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
 import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
@@ -243,6 +244,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <KdvHesaplamaForm calculator={calculatorViewModel} />
         ) : slug === 'komisyon-hesaplama' ? (
           <KomisyonForm calculator={calculatorViewModel} />
+        ) : slug === 'lastik-ebat-hesaplama' ? (
+          <LastikEbatForm calculator={calculatorViewModel} />
         ) : slug === 'yuzde' ? (
           <PercentageForm calculator={calculatorViewModel} />
         ) : slug === 'oran' ? (

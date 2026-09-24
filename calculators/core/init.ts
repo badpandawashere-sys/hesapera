@@ -16,6 +16,7 @@ import { modulerAritmetikCalculatorDef } from '../definitions/modulerAritmetik';
 import { oranCalculatorDef } from '../definitions/oran';
 import { karMarjiCalculatorDef } from '../definitions/karMarji';
 import { komisyonCalculatorDef } from '../definitions/komisyon';
+import { lastikEbatCalculatorDef } from '../definitions/lastikEbat';
 import { lossCalculatorDef } from '../definitions/loss';
 import { areaCalculatorDef } from '../definitions/area';
 import { averageCostCalculatorDef } from '../definitions/averageCost';
@@ -161,6 +162,7 @@ export function initializeCalculators() {
   CalculatorRegistry.register(oranCalculatorDef);
   CalculatorRegistry.register(karMarjiCalculatorDef);
   CalculatorRegistry.register(komisyonCalculatorDef);
+  CalculatorRegistry.register(lastikEbatCalculatorDef);
   CalculatorRegistry.register(lossCalculatorDef);
   CalculatorRegistry.register(areaCalculatorDef);
   CalculatorRegistry.register(averageCostCalculatorDef);
