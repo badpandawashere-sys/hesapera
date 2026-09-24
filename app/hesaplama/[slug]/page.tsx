@@ -49,6 +49,7 @@ import { OranForm } from '@/components/calculator/oran-form';
 import { PercentageForm } from '@/components/calculator/percentage-form';
 import { KdvHesaplamaForm } from '@/components/calculator/kdv-hesaplama-form';
 import { IndirimHesaplamaForm } from '@/components/calculator/indirim-hesaplama-form';
+import { ZamHesaplamaForm } from '@/components/calculator/zam-hesaplama-form';
 import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
 import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
 import { VkiForm } from '@/components/calculator/vki-form';
@@ -230,6 +231,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <IdealKiloForm calculator={calculatorViewModel} />
         ) : slug === 'yas' ? (
           <AgeForm calculator={calculatorViewModel} />
+        ) : slug === 'zam-hesaplama' ? (
+          <ZamHesaplamaForm calculator={calculatorViewModel} />
         ) : slug === 'indirim-hesaplama' ? (
           <IndirimHesaplamaForm calculator={calculatorViewModel} />
         ) : slug === 'kdv-hesaplama' ? (
