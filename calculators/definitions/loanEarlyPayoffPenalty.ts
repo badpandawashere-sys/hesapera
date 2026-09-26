@@ -214,7 +214,7 @@ export const loanEarlyPayoffPenaltyCalculatorDef: CalculatorDefinition<Input, an
         { "value": "false", "label": "Hayır" }
       ],
       "defaultValue": "true",
-      "conditions": [{ "fieldId": "interestType", "operator": "equals", "value": "fixed" }]
+      "conditions": [{ "fieldId": "loanType", "operator": "equals", "value": "housing" }, { "fieldId": "interestType", "operator": "equals", "value": "fixed" }]
     }
   ],
   schema,

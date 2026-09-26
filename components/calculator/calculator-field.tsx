@@ -246,7 +246,7 @@ export function CalculatorFieldComponent({ field, value, onChange, error }: Calc
       {field.type === 'select' && (
         <Select value={value?.toString() || ''} onValueChange={onChange}>
           <SelectTrigger id={id} className={error ? 'border-destructive focus:ring-destructive' : ''} aria-invalid={!!error}>
-            <SelectValue placeholder={field.placeholder || 'Seçiniz'} />
+            <SelectValue placeholder={field.placeholder || 'Seçiniz'}>{field.options?.find(opt => opt.value.toString() === value?.toString())?.label}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {field.options?.map((opt) => (
