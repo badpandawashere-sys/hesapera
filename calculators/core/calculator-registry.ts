@@ -48,6 +48,7 @@ const CATEGORY_MAP: Record<string, string> = {
   'kira-artis-orani': 'emlak',
   'yakit-maliyeti': 'otomotiv',
   'yakit-tuketimi': 'otomotiv',
+  'maas': 'maas-calisma',
 };
 
 class Registry {

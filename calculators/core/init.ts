@@ -1,3 +1,4 @@
+import { maasCalculatorDef } from '../definitions/maas';
 import { CalculatorRegistry } from './calculator-registry';
 import { percentageCalculatorDef } from '../definitions/percentage';
 import { discountCalculatorDef } from '../definitions/discount';
@@ -287,3 +288,5 @@ export function initializeCalculators() {
 // Auto-initialize for seamless usage
 initializeCalculators();
 
+
+CalculatorRegistry.register(maasCalculatorDef);

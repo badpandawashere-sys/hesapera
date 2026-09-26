@@ -80,7 +80,7 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(otomotivCalcs.map(c => c.slug)).toContain('yakit-maliyeti');
 
     const publishedAll = CalculatorRegistry.getPublishedAll();
-    expect(publishedAll.length).toBe(48);
+    expect(publishedAll.length).toBe(49);
   }, 30000);
 
   it('should include yakit-maliyeti and otomotiv in sitemap while excluding empty categories', async () => {
@@ -91,8 +91,10 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
     expect(urls).toContain('https://www.hesapera.com.tr/hesaplama/yakit-maliyeti');
     expect(urls).toContain('https://www.hesapera.com.tr/kategoriler/otomotiv');
 
+    // Published calculator iceren kategoriler sitemapte bulunmalidir.
+    expect(urls).toContain('https://www.hesapera.com.tr/kategoriler/maas-calisma');
+
     // Empty categories should NOT be in the sitemap
-    expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/maas-calisma');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/vergi');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/zaman');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/hukuk');
