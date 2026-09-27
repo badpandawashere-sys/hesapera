@@ -1,43 +1,51 @@
-import { calculateNet, validateExamInputs } from './exams/core';
+import { validateExamInputs } from './exams/core';
 
-// 2026-EKPSS (19 Nisan 2026, ÖSYM)
-// Resmi yapı: Genel Yetenek 40 soru + Genel Kültür 40 soru = 80 soru toplam.
-// Her 4 yanlış 1 doğruyu götürür.
-// Standart puan eğitim düzeyine göre ÖSYM tablosuyla hesaplanır.
-// Aday grubu istatistiği olmadan kesin standart puan hesaplanamaz.
+export const EKPSS_GY_QUESTION_COUNT = 30;
+export const EKPSS_GK_QUESTION_COUNT = 30;
+export const EKPSS_WRONG_ANSWER_PENALTY = 4;
+
+function calculateEkpssNet(correct: number, wrong: number): number {
+  return correct - (wrong / EKPSS_WRONG_ANSWER_PENALTY);
+}
+
 export function calculateEkpss(
-  educationLevel: 'ortaogretim' | 'onlisans' | 'lisans',
+  educationLevel: 'secondary' | 'associate' | 'bachelor',
   gyC: number, gyW: number,
   gkC: number, gkW: number
 ) {
-  const MAX = 40;
-  validateExamInputs(gyC, gyW, MAX - gyC - gyW, MAX);
-  validateExamInputs(gkC, gkW, MAX - gkC - gkW, MAX);
+  validateExamInputs(gyC, gyW, EKPSS_GY_QUESTION_COUNT - gyC - gyW, EKPSS_GY_QUESTION_COUNT);
+  validateExamInputs(gkC, gkW, EKPSS_GK_QUESTION_COUNT - gkC - gkW, EKPSS_GK_QUESTION_COUNT);
 
-  const gyNet = calculateNet(gyC, gyW, 0.25);
-  const gkNet = calculateNet(gkC, gkW, 0.25);
+  const gyNet = calculateEkpssNet(gyC, gyW);
+  const gkNet = calculateEkpssNet(gkC, gkW);
   const totalNet = gyNet + gkNet;
 
-  // ÖSYM ham puan: toplam net üzerinden 80 soruda normalize, base 50
-  const rawScore = 50 + (totalNet / 80) * 50;
-
   const educationLabels: Record<string, string> = {
-    ortaogretim: 'Ortaöğretim',
-    onlisans: 'Önlisans',
-    lisans: 'Lisans'
+    secondary: 'Ortaöğretim',
+    associate: 'Ön Lisans',
+    bachelor: 'Lisans'
   };
 
+  const scoreTypeMapping: Record<string, string> = {
+    secondary: 'EKPSSP1',
+    associate: 'EKPSSP2',
+    bachelor: 'EKPSSP3'
+  };
+
+  const formatter = new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
   return {
-    primaryResult: rawScore.toFixed(3),
+    primaryResult: formatter.format(totalNet) + ' Net',
+    primaryLabel: 'Toplam Net',
     secondaryResults: {
-      'Genel Yetenek Net': gyNet.toFixed(2),
-      'Genel Kültür Net': gkNet.toFixed(2),
-      'Toplam Net': totalNet.toFixed(2),
-      'Eğitim Düzeyi': educationLabels[educationLevel]
+      'Genel Yetenek Neti': formatter.format(gyNet),
+      'Genel Kültür Neti': formatter.format(gkNet),
+      'Puan Türü': scoreTypeMapping[educationLevel],
+      'Öğrenim Düzeyi': educationLabels[educationLevel]
     },
     notes: [
-      '2026-EKPSS, ÖSYM tarafından 19 Nisan 2026 tarihinde uygulanmıştır. (Genel Yetenek: 40 soru + Genel Kültür: 40 soru, 4 yanlış 1 doğruyu götürür.)',
-      'Gösterilen puan yaklaşık ham puan değeridir. Gerçek EKPSS puanı ÖSYM istatistiksel standartlaştırması ile hesaplanır ve eğitim düzeyine göre farklılaşır.'
+      'EKPSS değerlendirmesi 60 soru (30 Genel Yetenek, 30 Genel Kültür) üzerinden yapılır. Her test için 4 yanlış 1 doğruyu götürür.',
+      'ÖNEMLİ BİLGİLENDİRME: Kesin EKPSS puanı, o yıl sınava giren tüm adayların net ortalamaları ve standart sapmaları kullanılarak bağıl değerlendirme sistemiyle hesaplanır. İlgili istatistikler açıklanmadan salt doğrular ve yanlışlarla kesin puan matematiksel olarak hesaplanamaz.'
     ]
   };
 }
