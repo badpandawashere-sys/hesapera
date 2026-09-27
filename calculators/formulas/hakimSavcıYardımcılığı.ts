@@ -1,39 +1,83 @@
-import { calculateNet, validateExamInputs } from './exams/core';
+interface HakimTestInput {
+  correct?: number;
+  wrong?: number;
+}
 
-// Hâkim ve Savcı Yardımcılığı Yazılı Sınavı (Adalet Bakanlığı)
-// Kaynak: Adalet Bakanlığı sınav ilanları / ÖSYM kılavuzu
-// Resmi yapı: Genel Yetenek (40 soru) + Hukuk Testi (60 soru) = 100 soru.
-// Her 4 yanlış 1 doğruyu götürür.
-// Hukuk testi: Anayasa Hukuku, Medenî Hukuk, Borçlar Hukuku, Ticaret Hukuku,
-//              Ceza Hukuku, İdare Hukuku, Usul Hukuku konularını kapsar.
-// ÖNEMLİ: Test ağırlıkları (GY vs Hukuk) resmi kılavuzda net olarak açıklanmamıştır.
-// Bu hesaplamada test ağırlıkları kullanılmadan toplam ham net üzerinden yaklaşık
-// bir değerlendirme yapılmaktadır. Resmi puan tablosu için Adalet Bakanlığı kılavuzuna bakın.
-export function calculateHakimSavciYardimciligi(
-  gyC: number, gyW: number,
-  hukukC: number, hukukW: number
-) {
-  validateExamInputs(gyC, gyW, 40 - gyC - gyW, 40);
-  validateExamInputs(hukukC, hukukW, 60 - hukukC - hukukW, 60);
+interface HakimSavciInput {
+  gygk: HakimTestInput;
+  ortak: HakimTestInput;
+  adli?: HakimTestInput;
+  idari?: HakimTestInput;
+  avukat?: HakimTestInput;
+}
 
-  const gyNet = calculateNet(gyC, gyW, 0.25);
-  const hukukNet = calculateNet(hukukC, hukukW, 0.25);
+export function calculateHakimSavci(input: HakimSavciInput) {
+  const calcNet = (test?: HakimTestInput) => {
+    if (!test) return null;
+    if (test.correct === undefined && test.wrong === undefined) return null;
+    const c = test.correct || 0;
+    const w = test.wrong || 0;
+    return c - (w / 4);
+  };
 
-  // Toplam ham net üzerinden yaklaşık puan (ağırlık uygulanmamıştır — resmi kaynak doğrulanamadı)
-  const totalNet = gyNet + hukukNet;
-  const rawScore = 50 + (totalNet / 100) * 50;
+  const gygkNet = calcNet(input.gygk) || 0;
+  const ortakNet = calcNet(input.ortak) || 0;
+
+  const adliNet = calcNet(input.adli);
+  const idariNet = calcNet(input.idari);
+  const avukatNet = calcNet(input.avukat);
+
+  const hasOptional = adliNet !== null || idariNet !== null || avukatNet !== null;
+
+  const secondaryResults: Record<string, string | number> = {
+    'Genel Yetenek ve Genel Kültür Neti': gygkNet.toFixed(2),
+    'Ortak Alan Bilgisi Neti': ortakNet.toFixed(2)
+  };
+
+  const formatNet = (n: number) => n.toFixed(2).replace('.', ',');
+  const formatPuan = (p: number) => p.toFixed(3).replace('.', ',');
+
+  let primaryText = '';
+
+  const notes: string[] = [
+    'Bu sonuç tahminidir. ÖSYM\'nin resmî puanı, sınava katılan adayların alt testlerdeki ham puan ortalamaları ve standart sapmaları kullanılarak hesaplanan standart puanlara göre belirlenir.'
+  ];
+
+  const processOzelAlan = (name: string, ozelNet: number | null) => {
+    if (ozelNet === null) return;
+
+    secondaryResults[`${name} Neti`] = formatNet(ozelNet);
+
+    const toplamNet = gygkNet + ortakNet + ozelNet;
+    secondaryResults[`${name} Toplam Net`] = formatNet(toplamNet);
+
+    const gygkKatkisi = (gygkNet / 30) * 20;
+    const alanKatkisi = ((ortakNet + ozelNet) / 70) * 80;
+    const tahminiPuan = gygkKatkisi + alanKatkisi;
+
+    secondaryResults[`${name} Tahmini Genel Başarı Puanı`] = formatPuan(tahminiPuan);
+
+    const status = tahminiPuan >= 70 ? '70 puanlık temel başarı eşiğinin üzerinde' : '70 puanlık temel başarı eşiğinin altında';
+    notes.push(`${name}: ${status}`);
+
+    if (!primaryText) {
+      primaryText = `${name}: ${formatPuan(tahminiPuan)}`;
+    } else {
+      primaryText += ` | ${name}: ${formatPuan(tahminiPuan)}`;
+    }
+  };
+
+  processOzelAlan('Adli Yargı', adliNet);
+  processOzelAlan('İdari Yargı', idariNet);
+  processOzelAlan('Adli Yargı-Avukat', avukatNet);
+
+  if (!hasOptional) {
+    primaryText = 'Lütfen en az bir özel alan (Adli, İdari veya Avukat) giriniz.';
+  }
 
   return {
-    primaryResult: rawScore.toFixed(3),
-    secondaryResults: {
-      'Genel Yetenek Net': gyNet.toFixed(2),
-      'Hukuk Net': hukukNet.toFixed(2),
-      'Toplam Net': totalNet.toFixed(2)
-    },
-    notes: [
-      'Hâkim ve Savcı Yardımcılığı Yazılı Sınavı Adalet Bakanlığı tarafından düzenlenmektedir. Genel Yetenek (40 soru) + Hukuk (60 soru) = 100 soru formatında uygulanmakta; 4 yanlış 1 doğruyu götürmektedir.',
-      'Test bazlı resmi ağırlık katsayıları Adalet Bakanlığı kılavuzundan doğrulanamadığından bu hesaplamada ağırlık uygulanmamıştır. Puan yaklaşık ham değerdir.',
-      'Nihai yerleştirme ve mülakata çağırma sıralaması Adalet Bakanlığı kılavuzunda belirlenen koşullara bağlıdır. Kesin bilgi için resmi kılavuzu inceleyiniz.'
-    ]
+    primaryResult: primaryText,
+    secondaryResults,
+    notes
   };
 }
