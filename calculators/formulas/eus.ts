@@ -1,36 +1,46 @@
-import { calculateNet, validateExamInputs } from './exams/core';
+export function calculateEusNet(correct: number, wrong: number): number {
+  return correct - (wrong / 4);
+}
 
-// 2026-EUS — Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı (ÖSYM tarafından uygulanmaktadır)
-// Resmi: 2026-EUS → 7 Kasım 2026 tarihinde uygulanacaktır
-// Kaynak: ÖSYM 2026-EUS Kılavuzu (osym.gov.tr)
-// Resmi yapı: Temel Eczacılık (60 soru) + Klinik/Uygulamalı Eczacılık (60 soru) = 120 soru
-// Her 4 yanlış 1 doğruyu götürür. Standart puan ÖSYM istatistiksel standartlaştırmasına dayanır.
 export function calculateEus(
-  temelC: number, temelW: number,
-  klinikC: number, klinikW: number
+  katsayi: string,
+  durum: string,
+  dogru: number,
+  yanlis: number | undefined
 ) {
-  const TEMEL_MAX = 60;
-  const KLINIK_MAX = 60;
-  validateExamInputs(temelC, temelW, TEMEL_MAX - temelC - temelW, TEMEL_MAX);
-  validateExamInputs(klinikC, klinikW, KLINIK_MAX - klinikC - klinikW, KLINIK_MAX);
+  let net = 0;
+  let hasWrong = yanlis !== undefined;
 
-  const temelNet = calculateNet(temelC, temelW, 0.25);
-  const klinikNet = calculateNet(klinikC, klinikW, 0.25);
-  
-  // Ağırlıklı ham puan (Temel:%50, Klinik:%50 — eşit ağırlık)
-  const weightedNet = (temelNet + klinikNet);
-  const rawScore = 50 + (weightedNet / 120) * 50;
+  if (hasWrong) {
+    net = calculateEusNet(dogru, yanlis!);
+  } else {
+    net = dogru; // directly treated as net
+  }
+
+  const EUS_KATSAYI = 0.8921402666666667;
+  const EUS_TABAN = 26.08172;
+
+  let rawScore = EUS_TABAN + (net * EUS_KATSAYI);
+
+  const isPenalty = durum === '1' || durum === '2' || durum === '3';
+  if (isPenalty) {
+    rawScore = parseFloat(rawScore.toFixed(5)) * 0.98;
+  }
+
+  const resultNotes = [
+    '2026-EUS (Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı), ÖSYM tarafından uygulanmaktadır. Sınav 75 sorudan oluşmakta olup her 4 yanlış 1 doğruyu götürmektedir.',
+    'Gösterilen puan seçilen yılın istatistiklerine göre hesaplanmış tahmini bir değerdir. Kesin EUS puanı, sınava giren tüm adayların istatistiksel parametreleri (ortalama ve standart sapma) ile belirleneceğinden resmi sonucunuz farklılık gösterebilir.'
+  ];
+
+  if (isPenalty) {
+    resultNotes.unshift('Bilgi: Uzmanlık eğitimine devam etmekte iken sınava girdiğiniz veya diğer kesinti durumlarına dâhil olduğunuz için puanınız %2 oranında düşürülmüştür.');
+  }
 
   return {
-    primaryResult: rawScore.toFixed(3),
+    primaryResult: rawScore.toFixed(5).replace('.', ','),
     secondaryResults: {
-      'Temel Eczacılık Net': temelNet.toFixed(2),
-      'Klinik/Uygulamalı Net': klinikNet.toFixed(2),
-      'Toplam Net': weightedNet.toFixed(2)
+      'Net': net.toFixed(2).replace('.', ',') + ' net'
     },
-    notes: [
-      '2026-EUS (Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı), ÖSYM tarafından 7 Kasım 2026 tarihinde uygulanacaktır. Temel Eczacılık (60 soru) + Klinik/Uygulamalı Eczacılık (60 soru) = 120 soru formatındadır. Her 4 yanlış 1 doğruyu götürmektedir.',
-      'Gösterilen puan yaklaşık değerdir. Gerçek EUS puanı ÖSYM istatistiksel standartlaştırması ile belirlenmekte olup resmi sonuç farklılık gösterebilir.'
-    ]
+    notes: resultNotes
   };
 }
