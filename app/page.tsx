@@ -26,11 +26,20 @@ import { FeaturedCalculatorCard } from '@/components/cards/featured-calculator-c
 import { categories } from '@/lib/data/categories';
 import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
 import '@/calculators/core/init';
-import { CalculatorSearch } from '@/components/calculator/calculator-search';
+import { CalculatorSearch, CalculatorSearchItem } from '@/components/calculator/calculator-search';
 import { AdBanner } from '@/components/ads/ad-banner';
 import { JsonLd, getHomepageJsonLd } from '@/components/seo/json-ld';
 
 export default function HomePage() {
+  const allCalculators = CalculatorRegistry.getPublishedAll();
+  const searchItems: CalculatorSearchItem[] = allCalculators.map(c => ({
+    id: c.id,
+    name: c.name,
+    shortDescription: c.shortDescription || '',
+    category: c.category || '',
+    slug: c.slug
+  }));
+
   const popularConfig = [
     { slug: 'kredi', icon: CreditCard },
     { slug: 'ihtiyac-kredisi', icon: WalletCards },
@@ -105,7 +114,7 @@ export default function HomePage() {
           </p>
           
           <div className="w-full max-w-[720px] mb-space-md">
-            <CalculatorSearch />
+            <CalculatorSearch items={searchItems} />
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-space-xs max-w-3xl">

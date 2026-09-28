@@ -1,10 +1,18 @@
 'use client';
 
+export interface CalculatorSearchItem {
+  id: string;
+  name: string;
+  shortDescription: string;
+  category: string;
+  slug: string;
+}
+
+
+
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Calculator } from 'lucide-react';
-import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
-import '@/calculators/core/init'; // populate registry on client side
 
 // A simple hook for clicking outside to close
 function useOnClickOutside(ref: React.RefObject<any>, handler: () => void) {
@@ -24,7 +32,7 @@ function useOnClickOutside(ref: React.RefObject<any>, handler: () => void) {
   }, [ref, handler]);
 }
 
-export function CalculatorSearch() {
+export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +50,7 @@ export function CalculatorSearch() {
     }
 
     const q = query.toLocaleLowerCase('tr-TR').trim();
-    const allCalculators = CalculatorRegistry.getPublishedAll();
+    const allCalculators = items;
 
     // Prioritize name matches, then description/category matches
     const exactMatches = [];
@@ -64,7 +72,7 @@ export function CalculatorSearch() {
     setResults(combined);
     setIsOpen(combined.length > 0);
     setSelectedIndex(-1);
-  }, [query]);
+  }, [query, items]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) return;
