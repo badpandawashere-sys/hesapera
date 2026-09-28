@@ -49,13 +49,13 @@ export const hakimSavcıYardımcılığıCalculatorDef: CalculatorDefinition<Inp
   type: 'complex',
   metadata: {
     title: 'Hâkim ve Savcı Yardımcılığı Sınavı Puan Hesaplama | Hesapera',
-    description: 'Hâkim ve savcı yardımcılığı sınavında Genel Yetenek ve Genel Kültür, Ortak Alan, Adli Yargı, İdari Yargı ve Adli Yargı-Avukat doğru ve yanlış sayılarına göre netlerinizi ve tahmini başarı puanınızı hesaplayın.',
+    description: 'Hâkim ve savcı yardımcılığı sınavında GYGK, Ortak Alan, Adli Yargı, İdari Yargı ve Adli Yargı-Avukat doğru ve yanlış sayılarına göre netlerinizi hesaplayın ve resmî puanlama yöntemini inceleyin.',
     keywords: ["hâkim ve savcı yardımcılığı puan hesaplama","adli yargı puan hesaplama","idari yargı puan hesaplama","avukat adli yargı puan","hmgs puan hesaplama"],
     canonical: 'https://www.hesapera.com.tr/hesaplama/h-kim-ve-savci-yardimciligi-sinavi-puan',
     relatedCalculators: ["kpss-puan"]
 ,
     content: {
-    intro: 'Bu araç, Hâkim ve Savcı Yardımcılığı Sınavı netlerinizi ve mülakatlar için önemli olan tahmini genel başarı puanınızı hesaplar.',
+    intro: 'Bu araç, Hâkim ve Savcı Yardımcılığı Sınavı netlerinizi hesaplar ve puanlama yöntemini inceler.',
     sections: [
       {
         title: 'Hâkim ve Savcı Yardımcılığı Sınavı Nedir?',
@@ -84,21 +84,22 @@ export const hakimSavcıYardımcılığıCalculatorDef: CalculatorDefinition<Inp
       {
         title: 'Puan Ağırlıkları ve Resmî Standartlaştırma',
         paragraphs: [
-          'Genel başarı puanı oluşturulurken Genel Yetenek ve Genel Kültür testinin ağırlığı %20 (20 puan), Alan Bilgisi testlerinin (Ortak Alan + Özel Alan) ağırlığı ise %80 (80 puan) olarak belirlenmiştir.',
-          'ÖSYM\'nin resmî değerlendirme sisteminde, adayların netleri doğrudan toplandıktan sonra sınava giren tüm adayların istatistiksel sonuçları (ortalama ve standart sapma) kullanılarak standart puanlara dönüştürülür. Bu nedenle aracımızın ürettiği sonuç tahminidir.'
+          'ÖSYM\'nin resmî değerlendirme sisteminde, adayların netleri doğrudan toplandıktan sonra sınava giren tüm adayların istatistiksel sonuçları (ortalama ve standart sapma) kullanılarak standart puanlara dönüştürülür.',
+          'Resmî Genel Başarı Puanı 17 alt testin standartlaştırılması ile belirlenir.',
+          'Alt-test dağılımları ve aday istatistikleri bilinmeden exact resmî puan hesaplanamaz.'
         ]
       },
       {
         title: '70 Puan Temel Başarı Şartı ve Sıralama',
         paragraphs: [
-          'Adayların mülakata çağrılabilmesi için öncelikle Genel Başarı Puanlarının 70 ve üzeri olması gerekmektedir (temel başarı şartı). Ancak 70 puanı geçmek mülakata çağrılmak için tek başına yeterli değildir; adayların aynı zamanda Adalet Bakanlığı tarafından ilan edilen kadro sayısına bağlı olarak mülakata çağrılacak aday sıralamasına girmeleri de zorunludur.',
-          'İptal edilen sorular olması durumunda, ÖSYM iptal edilen soruyu herkes için doğru kabul ederek değerlendirme yapmakta veya iptal edilen soruyu hesaptan çıkararak yeniden ağırlıklandırma yapabilmektedir.'
+          'Adayların mülakata çağrılabilmesi için öncelikle Genel Başarı Puanlarının 70 ve üzeri olması gerekmektedir (temel başarı şartı). 70 puan resmî Genel Başarı Puanı için temel şarttır; NET için 70 barajı şeklinde yorumlanmaz.',
+          'Adayların aynı zamanda Adalet Bakanlığı tarafından ilan edilen kadro sayısına bağlı olarak mülakata çağrılacak aday sıralamasına girmeleri de zorunludur.'
         ]
       }
     ],
     example: {
       title: 'Örnek Hesaplama',
-      text: 'Genel Yetenek ve Genel Kültür testinden 30 doğru 0 yanlış, Ortak Alan testinden 35 doğru 0 yanlış ve Adli Yargı testinden 35 doğru 0 yanlış yapan bir adayın tahmini genel başarı puanı 100 tam puan olarak hesaplanır.'
+      text: 'Genel Yetenek ve Genel Kültür testinden 30 doğru 0 yanlış, Ortak Alan testinden 35 doğru 0 yanlış ve Adli Yargı testinden 35 doğru 0 yanlış yapan bir adayın toplam neti 100 net olarak hesaplanır.'
     },
     sources: [
       {

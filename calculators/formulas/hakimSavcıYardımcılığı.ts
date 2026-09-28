@@ -1,83 +1,65 @@
-interface HakimTestInput {
-  correct?: number;
-  wrong?: number;
-}
-
-interface HakimSavciInput {
-  gygk: HakimTestInput;
-  ortak: HakimTestInput;
-  adli?: HakimTestInput;
-  idari?: HakimTestInput;
-  avukat?: HakimTestInput;
+export interface HakimSavciInput {
+  gygk: { correct?: number; wrong?: number };
+  ortak: { correct?: number; wrong?: number };
+  adli: { correct?: number; wrong?: number };
+  idari: { correct?: number; wrong?: number };
+  avukat: { correct?: number; wrong?: number };
 }
 
 export function calculateHakimSavci(input: HakimSavciInput) {
-  const calcNet = (test?: HakimTestInput) => {
-    if (!test) return null;
-    if (test.correct === undefined && test.wrong === undefined) return null;
-    const c = test.correct || 0;
-    const w = test.wrong || 0;
-    return c - (w / 4);
-  };
+  const gygkC = input.gygk.correct || 0;
+  const gygkW = input.gygk.wrong || 0;
+  const ortakC = input.ortak.correct || 0;
+  const ortakW = input.ortak.wrong || 0;
 
-  const gygkNet = calcNet(input.gygk) || 0;
-  const ortakNet = calcNet(input.ortak) || 0;
+  const gygkNet = gygkC - (gygkW / 4);
+  const ortakNet = ortakC - (ortakW / 4);
 
-  const adliNet = calcNet(input.adli);
-  const idariNet = calcNet(input.idari);
-  const avukatNet = calcNet(input.avukat);
+  const results: any[] = [];
+  const notes: string[] = [];
 
-  const hasOptional = adliNet !== null || idariNet !== null || avukatNet !== null;
+  results.push(
+    { label: 'Genel Yetenek ve Genel Kültür Neti', value: gygkNet.toFixed(2) },
+    { label: 'Ortak Alan Bilgisi Neti', value: ortakNet.toFixed(2) }
+  );
 
-  const secondaryResults: Record<string, string | number> = {
-    'Genel Yetenek ve Genel Kültür Neti': gygkNet.toFixed(2),
-    'Ortak Alan Bilgisi Neti': ortakNet.toFixed(2)
-  };
+  let hasSpecial = false;
 
-  const formatNet = (n: number) => n.toFixed(2).replace('.', ',');
-  const formatPuan = (p: number) => p.toFixed(3).replace('.', ',');
-
-  let primaryText = '';
-
-  const notes: string[] = [
-    'Bu sonuç tahminidir. ÖSYM\'nin resmî puanı, sınava katılan adayların alt testlerdeki ham puan ortalamaları ve standart sapmaları kullanılarak hesaplanan standart puanlara göre belirlenir.'
-  ];
-
-  const processOzelAlan = (name: string, ozelNet: number | null) => {
-    if (ozelNet === null) return;
-
-    secondaryResults[`${name} Neti`] = formatNet(ozelNet);
-
-    const toplamNet = gygkNet + ortakNet + ozelNet;
-    secondaryResults[`${name} Toplam Net`] = formatNet(toplamNet);
-
-    const gygkKatkisi = (gygkNet / 30) * 20;
-    const alanKatkisi = ((ortakNet + ozelNet) / 70) * 80;
-    const tahminiPuan = gygkKatkisi + alanKatkisi;
-
-    secondaryResults[`${name} Tahmini Genel Başarı Puanı`] = formatPuan(tahminiPuan);
-
-    const status = tahminiPuan >= 70 ? '70 puanlık temel başarı eşiğinin üzerinde' : '70 puanlık temel başarı eşiğinin altında';
-    notes.push(`${name}: ${status}`);
-
-    if (!primaryText) {
-      primaryText = `${name}: ${formatPuan(tahminiPuan)}`;
-    } else {
-      primaryText += ` | ${name}: ${formatPuan(tahminiPuan)}`;
-    }
-  };
-
-  processOzelAlan('Adli Yargı', adliNet);
-  processOzelAlan('İdari Yargı', idariNet);
-  processOzelAlan('Adli Yargı-Avukat', avukatNet);
-
-  if (!hasOptional) {
-    primaryText = 'Lütfen en az bir özel alan (Adli, İdari veya Avukat) giriniz.';
+  if (input.adli.correct !== undefined || input.adli.wrong !== undefined) {
+    hasSpecial = true;
+    const adliC = input.adli.correct || 0;
+    const adliW = input.adli.wrong || 0;
+    const adliNet = adliC - (adliW / 4);
+    results.push({ label: 'Adli Yargı Neti', value: adliNet.toFixed(2) });
+    const totalNet = gygkNet + ortakNet + adliNet;
+    results.push({ label: 'Adli Yargı Toplam Net', value: totalNet.toFixed(2) });
   }
 
+  if (input.idari.correct !== undefined || input.idari.wrong !== undefined) {
+    hasSpecial = true;
+    const idariC = input.idari.correct || 0;
+    const idariW = input.idari.wrong || 0;
+    const idariNet = idariC - (idariW / 4);
+    results.push({ label: 'İdari Yargı Neti', value: idariNet.toFixed(2) });
+    const totalNet = gygkNet + ortakNet + idariNet;
+    results.push({ label: 'İdari Yargı Toplam Net', value: totalNet.toFixed(2) });
+  }
+
+  if (input.avukat.correct !== undefined || input.avukat.wrong !== undefined) {
+    hasSpecial = true;
+    const avukatC = input.avukat.correct || 0;
+    const avukatW = input.avukat.wrong || 0;
+    const avukatNet = avukatC - (avukatW / 4);
+    results.push({ label: 'Adli Yargı-Avukat Neti', value: avukatNet.toFixed(2) });
+    const totalNet = gygkNet + ortakNet + avukatNet;
+    results.push({ label: 'Adli Yargı-Avukat Toplam Net', value: totalNet.toFixed(2) });
+  }
+
+  notes.push("ÖSYM'nin resmî Genel Başarı Puanı, Genel Yetenek ve Genel Kültür testindeki 5 alt test ile Alan Bilgisi testindeki 12 alt testin ayrı ayrı standartlaştırılmasıyla hesaplanır. Sınava giren adayların ortalama ve standart sapma değerleri de hesaplamaya dahil edildiğinden yalnızca toplam doğru ve yanlış sayılarıyla kesin Genel Başarı Puanı hesaplanamaz.");
+
   return {
-    primaryResult: primaryText,
-    secondaryResults,
+    primaryResult: hasSpecial ? 'Hesaplama Tamamlandı' : 'En az bir özel alan testi (Adli Yargı, İdari Yargı veya Adli Yargı-Avukat) seçmelisiniz.',
+    results,
     notes
   };
 }
