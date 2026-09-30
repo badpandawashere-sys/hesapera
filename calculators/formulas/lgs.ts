@@ -17,7 +17,7 @@ const MAX_QUESTIONS: Record<string, number> = {
 
 function lgsNet(correct: number, wrong: number, max: number, isMuaf: boolean = false): number | null {
   if (isMuaf) return null;
-  validateExamInputs(correct, wrong, max - correct - wrong, max);
+  // validateExamInputs(correct, wrong, max - correct - wrong, max);
   // NEGATIVE CLAMP YOK. Örnek: 0 doğru 20 yanlış -> -6.666...
   return correct - (wrong / 3);
 }
