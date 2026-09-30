@@ -1,43 +1,112 @@
-import { calculateNet, validateExamInputs } from './exams/core';
-
-// 2026-HMGS — Hukuk Mesleklerine Giriş Sınavı (ÖSYM tarafından uygulanmaktadır)
-// Resmi: 2026-HMGS/1 → 26 Nisan 2026; 2026-HMGS/2 → 27 Eylül 2026
-// Kaynak: ÖSYM 2026-HMGS Kılavuzu (osym.gov.tr)
-//
-// Resmi sınav yapısı (ÖSYM kılavuzu esas alınmıştır):
-//   Medeni Hukuk ve Borçlar Hukuku  : 40 soru
-//   Ticaret Hukuku ve Usul Hukuku   : 40 soru
-//   Toplam                          : 80 soru
-// Her 4 yanlış 1 doğruyu götürür.
-// Nihai HMGS puanı ÖSYM istatistiksel standartlaştırması ile belirlenir;
-// aday grubu verileri olmadan kesin standart puan üretilemez.
 export function calculateHmgs(
-  medeniBorclarC: number, medeniBorclarW: number,
-  ticaretUsulC: number, ticaretUsulW: number
+  system: 'current' | 'legacy',
+  hp: number,
+  x?: number,
+  s?: number,
+  b?: number,
+  cancelled: number = 0
 ) {
-  const MEDENI_MAX = 40;
-  const TICARET_MAX = 40;
-  validateExamInputs(medeniBorclarC, medeniBorclarW, MEDENI_MAX - medeniBorclarC - medeniBorclarW, MEDENI_MAX);
-  validateExamInputs(ticaretUsulC, ticaretUsulW, TICARET_MAX - ticaretUsulC - ticaretUsulW, TICARET_MAX);
 
-  const medeniBorclarNet = calculateNet(medeniBorclarC, medeniBorclarW, 0.25);
-  const ticaretUsulNet = calculateNet(ticaretUsulC, ticaretUsulW, 0.25);
-  const totalNet = medeniBorclarNet + ticaretUsulNet;
+  if (!Number.isInteger(hp)) {
+    return { success: false, errors: { hp: ['Doğru sayısı tam sayı olmalıdır.'] } };
+  }
+  if (hp < 0 || hp > 120) {
+    return { success: false, errors: { hp: ['Doğru sayısı 0-120 arasında olmalıdır.'] } };
+  }
 
-  // Ham puan: toplam net 80 soruda normalize, base 50
-  const rawScore = 50 + (totalNet / 80) * 50;
+  if (system === 'current') {
+    const hasX = x !== undefined && x !== null && !Number.isNaN(x);
+    const hasS = s !== undefined && s !== null && !Number.isNaN(s);
+    const hasB = b !== undefined && b !== null && !Number.isNaN(b);
+    const allStatsProvided = hasX && hasS && hasB;
+    const partialStats = (hasX || hasS || hasB) && !allStatsProvided;
+
+    if (partialStats) {
+      return { success: false, errors: { base: ['Puan hesaplamak için Ortalama Ham Puan, Standart Sapma ve En Yüksek Ham Puan değerlerinin üçünü de giriniz.'] } };
+    }
+
+    if (!allStatsProvided) {
+      return {
+        success: true,
+        primaryResult: hp.toString(),
+        primaryLabel: 'HMGS Ham Puanı',
+        secondaryResults: {
+          'Ham Puan': hp.toString(),
+        },
+        notes: [
+          '2026-HMGS/2 ve sonrasında HMGS puanı; adayların ham puan ortalaması, standart sapması ve sınavdaki en yüksek ham puan kullanılarak hesaplanır. Bu istatistikler olmadan kesin HMGS puanı hesaplanamaz.',
+        ]
+      };
+    }
+
+    if (x! < 0 || x! > 120 || !Number.isFinite(x)) {
+      return { success: false, errors: { x: ['Geçersiz Ortalama Ham Puan (X).'] } };
+    }
+    if (s! <= 0 || s! > 120 || !Number.isFinite(s)) {
+      return { success: false, errors: { s: ['Geçersiz Standart Sapma (S). S > 0 olmalıdır.'] } };
+    }
+    if (b! < 0 || b! > 120 || !Number.isFinite(b)) {
+      return { success: false, errors: { b: ['Geçersiz En Yüksek Ham Puan (B).'] } };
+    }
+    if (b! < hp) {
+      return { success: false, errors: { b: ['En Yüksek Ham Puan (B), kendi ham puanınızdan küçük olamaz.'] } };
+    }
+    if (b! <= x!) {
+      return { success: false, errors: { b: ['En Yüksek Ham Puan (B), Ortalamadan (X) büyük olmalıdır.'] } };
+    }
+
+    const den = 7 * (b! - x!) - s!;
+    if (den <= 0) {
+      return { success: false, errors: { base: ['Geçersiz istatistikler. 7 × (B - X) - S > 0 olmalıdır.'] } };
+    }
+
+    const num = 7 * (hp - x!) - s!;
+    const score = 70 + 30 * (num / den);
+
+    const formatScore = (val: number) => {
+      return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 5 }).format(val);
+    };
+
+    return {
+      success: true,
+      primaryResult: formatScore(score),
+      primaryLabel: 'HMGS Puanı',
+      secondaryResults: {
+        'Ham Puan': hp.toString(),
+        'Başarı Durumu': score >= 70 ? '70 puanlık başarı eşiğinin üzerinde' : '70 puanlık başarı eşiğinin altında'
+      },
+      notes: [
+        'Formül: HMGS Puanı = 70 + 30 × [7 × (HP - X) - S] / [7 × (B - X) - S]',
+      ]
+    };
+  }
+
+  // Legacy
+  if (!Number.isInteger(cancelled) || cancelled < 0 || cancelled >= 120) {
+    return { success: false, errors: { cancelled: ['İptal edilen soru sayısı geçerli değil.'] } };
+  }
+
+  const validQuestions = 120 - cancelled;
+  if (hp > validQuestions) {
+    return { success: false, errors: { hp: ['İptal edilen sorular çıkarıldığında maksimum doğru sayısı ' + validQuestions + ' olabilir.'] } };
+  }
+
+  const score = (hp * 100) / validQuestions;
+
+  const formatScore = (val: number) => {
+    return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 5 }).format(val);
+  };
 
   return {
-    primaryResult: rawScore.toFixed(3),
+    success: true,
+    primaryResult: formatScore(score),
+    primaryLabel: 'HMGS Puanı',
     secondaryResults: {
-      'Medeni Hukuk ve Borçlar Net': medeniBorclarNet.toFixed(2),
-      'Ticaret Hukuku ve Usul Net': ticaretUsulNet.toFixed(2),
-      'Toplam Net': totalNet.toFixed(2)
+      'Geçerli Soru Sayısı': validQuestions.toString(),
+      'Doğru Sayısı': hp.toString(),
     },
     notes: [
-      '2026-HMGS (Hukuk Mesleklerine Giriş Sınavı), ÖSYM tarafından uygulanmaktadır. 2026-HMGS/1: 26 Nisan 2026, 2026-HMGS/2: 27 Eylül 2026 tarihlerinde gerçekleştirilmiştir.',
-      'Sınav Medeni Hukuk ve Borçlar Hukuku (40 soru) ile Ticaret Hukuku ve Usul Hukuku (40 soru) olmak üzere toplam 80 sorudan oluşmaktadır. Her 4 yanlış 1 doğruyu götürmektedir.',
-      'Gösterilen sonuç yaklaşık ham puan değeridir. Gerçek HMGS puanı ÖSYM istatistiksel standartlaştırmasıyla belirlenir ve resmi sınav sonucundan farklılık gösterebilir.'
+      '2026-HMGS/1 ve öncesi oransal sisteme göre hesaplanmıştır. İptal edilen sorular geçerli soru sayısından düşülerek 100 üzerinden orantılanır.'
     ]
   };
 }
