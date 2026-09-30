@@ -1,45 +1,58 @@
-import { calculateNet, validateExamInputs } from './exams/core';
+type CertificateOption = 'workplacePhysician' | 'cClass' | 'bClass' | 'aClass' | 'otherHealthPersonnel';
 
-// İSG Uzmanlık Sınavı — Çalışma ve Sosyal Güvenlik Bakanlığı (ÇSGB)
-// Kaynak: 6331 sayılı İş Sağlığı ve Güvenliği Kanunu ve
-//         İSG Uzman ve İşyeri Hekimlerinin Görev, Yetki, Sorumluluk ve Eğitimleri
-//         Hakkında Yönetmelik (Resmi Gazete: 29.12.2012 / 28512)
-// Sınav yapısı: 100 soru, her 3 yanlış 1 doğruyu götürür.
-// Geçme notu: C ve B sınıfı için 70, A sınıfı için 75.
-// Sınıf A: En yüksek tehlikeli işyeri (min 75 puan geçer)
-// Sınıf B: Tehlikeli işyeri (min 70 puan)
-// Sınıf C: Az tehlikeli işyeri (min 70 puan)
 export function calculateIsg(
+  certificate: CertificateOption,
   correct: number,
-  wrong: number,
-  examClass: 'A' | 'B' | 'C'
+  cancelled: number = 0
 ) {
-  const MAX_QUESTIONS = 100;
-  validateExamInputs(correct, wrong, MAX_QUESTIONS - correct - wrong, MAX_QUESTIONS);
+  if (!['workplacePhysician', 'cClass', 'bClass', 'aClass', 'otherHealthPersonnel'].includes(certificate)) {
+    return { success: false, errors: { certificate: ['Geçerli bir sertifika alanı seçiniz.'] } };
+  }
 
-  // İSG: 3 yanlış 1 doğruyu götürür
-  const net = Math.max(0, correct - wrong / 3);
-  const score = parseFloat(net.toFixed(3));
+  if (!Number.isInteger(correct) || correct < 0 || correct > 50) {
+    return { success: false, errors: { correct: ['Doğru sayısı 0 ile 50 arasında bir tam sayı olmalıdır.'] } };
+  }
 
-  const passingScores: Record<string, number> = { A: 75, B: 70, C: 70 };
-  const passing = passingScores[examClass];
-  const status = score >= passing ? 'Başarılı ✓' : 'Başarısız ✗';
+  if (!Number.isInteger(cancelled) || cancelled < 0 || cancelled >= 50) {
+    return { success: false, errors: { cancelled: ['İptal edilen soru sayısı 0 ile 49 arasında bir tam sayı olmalıdır.'] } };
+  }
+
+  const validQuestions = 50 - cancelled;
+
+  if (correct > validQuestions) {
+    return { success: false, errors: { correct: ['Doğru sayısı geçerli soru sayısından (' + validQuestions + ') büyük olamaz.'] } };
+  }
+
+  const threshold = certificate === 'otherHealthPersonnel' ? 60 : 70;
+  const score = (correct * 100) / validQuestions;
+
+  const formatScore = (val: number) => {
+    return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 5 }).format(val);
+  };
+
+  const isSuccessful = score >= threshold;
+
+  const getCertificateLabel = (val: CertificateOption) => {
+    switch (val) {
+      case 'workplacePhysician': return 'İş Yeri Hekimliği';
+      case 'aClass': return 'A Sınıfı İş Güvenliği Uzmanlığı';
+      case 'bClass': return 'B Sınıfı İş Güvenliği Uzmanlığı';
+      case 'cClass': return 'C Sınıfı İş Güvenliği Uzmanlığı';
+      case 'otherHealthPersonnel': return 'Diğer Sağlık Personeli';
+    }
+  };
 
   return {
-    primaryResult: score.toFixed(3),
+    success: true,
+    primaryResult: formatScore(score),
+    primaryLabel: 'İSG Puanı',
     secondaryResults: {
-      'Net Puan': score.toFixed(3),
+      'Sertifika Alanı': getCertificateLabel(certificate),
       'Doğru Sayısı': correct.toString(),
-      'Yanlış Sayısı': wrong.toString(),
-      'Boş Sayısı': (MAX_QUESTIONS - correct - wrong).toString(),
-      'Sınıf': 'Sınıf ' + examClass,
-      'Başarı Eşiği': passing + ' / 100',
-      'Değerlendirme': status
-    },
-    notes: [
-      'İSG Uzmanlık Sınavı ÇSGB tarafından düzenlenmektedir. 100 soruluk sınavda her 3 yanlış 1 doğruyu götürmektedir.',
-      'Başarı eşiği: Sınıf A için 75, Sınıf B ve C için 70 puandır.',
-      'Kaynak: 6331 sayılı İSG Kanunu ve ilgili Yönetmelik (Resmi Gazete 29.12.2012/28512)'
-    ]
+      'Geçerli Soru Sayısı': validQuestions.toString(),
+      'İptal Edilen Soru Sayısı': cancelled.toString(),
+      'Başarı İçin Gerekli Puan': threshold.toString(),
+      'Başarı Durumu': isSuccessful ? 'Başarılı' : 'Başarısız'
+    }
   };
 }
