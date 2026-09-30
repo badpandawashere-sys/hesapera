@@ -61,4 +61,11 @@ describe('KPSS Calculator', () => {
     expect(() => calculateKpss('lisans', 'KPSSP3', 41, 20, 0, 0)).toThrow(); // 61
     expect(() => calculateKpss('onlisans', 'KPSSP93', 0, 0, 50, 20)).toThrow();
   });
+
+  it('GOLDEN 16: content does not contain 70 ile 100 arasi', async () => {
+    const { kpssCalculatorDef } = await import('../../definitions/kpss');
+    const content = JSON.stringify(kpssCalculatorDef.metadata.content);
+    expect(content.includes('70 ile 100 arası')).toBe(false);
+    expect(content.includes('Nihai KPSS puanı, ASP dağılımının ortalama, standart sapma ve en yüksek değerleri')).toBe(true);
+  });
 });

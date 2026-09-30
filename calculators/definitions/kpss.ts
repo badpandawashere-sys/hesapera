@@ -98,7 +98,7 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
           title: "Ağırlıklı Standart Puan (ASP) ve Standart Sapma",
           paragraphs: [
             "ÖSYM, adayların puanlarını hesaplarken sınavın genel zorluk derecesini ve katılımcıların başarı ortalamasını dikkate alan standart sapma yöntemini kullanır.",
-            "Öncelikle her testin ortalama (X) ve standart sapma (S) değerleri ile standart puanlar elde edilir. Daha sonra ilgili puan türüne ait ağırlıklar (örneğin KPSSP3 için GY %50, GK %50) kullanılarak ASP oluşturulur. Nihai KPSS puanı (70 ile 100 arası taban formülüne göre) bu ASP dağılımının parametreleri kullanılarak hesaplanır."
+            "Öncelikle her testin ortalama (X) ve standart sapma (S) değerleri ile standart puanlar elde edilir. Daha sonra ilgili puan türüne ait ağırlıklar (örneğin KPSSP3 için GY %50, GK %50) kullanılarak ASP oluşturulur. Nihai KPSS puanı, ASP dağılımının ortalama, standart sapma ve en yüksek değerleri kullanılarak ÖSYM'nin resmî değerlendirme formülüyle hesaplanır."
           ]
         },
         {
