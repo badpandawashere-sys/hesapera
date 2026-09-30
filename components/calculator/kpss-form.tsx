@@ -46,10 +46,10 @@ const stepperStyles = `
 export function KpssForm({ calculator }: KpssFormProps) {
   const [level, setLevel] = useState<'lisans' | 'onlisans' | 'ortaogretim'>('lisans');
   const [scoreType, setScoreType] = useState<'KPSSP3' | 'KPSSP1'>('KPSSP3');
-  
+
   const [gyCorrect, setGyCorrect] = useState(0);
   const [gyWrong, setGyWrong] = useState(0);
-  
+
   const [gkCorrect, setGkCorrect] = useState(0);
   const [gkWrong, setGkWrong] = useState(0);
 
@@ -62,7 +62,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
 
   useEffect(() => {
     setIsMounted(true);
-    handleCalculate();
+    setResult(null);
   }, [level, scoreType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // auto-clamp when level changes max limit
@@ -78,6 +78,10 @@ export function KpssForm({ calculator }: KpssFormProps) {
   }, [maxQ]);
 
   const handleCalculate = async () => {
+    if (gyCorrect + gyWrong + gkCorrect + gkWrong === 0) {
+      setResult(null);
+      return;
+    }
     setIsLoading(true);
     try {
       const res = await calculateAction(calculator.slug, {
@@ -114,18 +118,18 @@ export function KpssForm({ calculator }: KpssFormProps) {
 
   // --- Data Extraction ---
   const data = result?.data || {};
-  const primaryStr = data.primaryResult || '0.000';
-  const primaryVal = parseFloat(primaryStr.replace(',', '.')) || 0;
-  
+  const primaryStr = result ? (data.primaryResult || '0.000') : null;
+  const primaryVal = primaryStr ? parseFloat(primaryStr.replace(',', '.')) || 0 : null;
+
   const secondary = data.secondaryResults || {};
-  
+
   // Safe extraction to avoid encoding bugs in keys
   const gyNetKey = Object.keys(secondary).find(k => k.includes('Yetenek') && k.includes('Net'));
   const gkNetKey = Object.keys(secondary).find(k => k.includes('Net') && !k.includes('Yetenek'));
-  
+
   const gyNetStr = gyNetKey ? secondary[gyNetKey] : '0.00 / ' + maxQ;
   const gkNetStr = gkNetKey ? secondary[gkNetKey] : '0.00 / ' + maxQ;
-  
+
   const notes = data.notes || [];
 
   const parseNetVal = (str: string) => {
@@ -143,10 +147,10 @@ export function KpssForm({ calculator }: KpssFormProps) {
   return (
     <div className="w-full max-w-6xl mx-auto space-y-8 font-sans">
       <style dangerouslySetInnerHTML={{ __html: stepperStyles }} />
-      
+
       <div className="bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-6 md:p-10 lg:p-12">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
+
           {/* LEFT COLUMN - GİRDİLER */}
           <div className="lg:col-span-6 flex flex-col space-y-8">
             <div>
@@ -162,7 +166,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
             </div>
 
             <div className="space-y-8">
-              
+
               {/* LEVEL & SCORE TYPE */}
               <div className="space-y-5">
                 <div className="space-y-3">
@@ -211,7 +215,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
                     Kullanılan: {gyTotal} / {maxQ}
                   </span>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   {/* Correct */}
                   <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
@@ -229,7 +233,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Wrong */}
                   <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
                     <div className="flex items-center gap-1 text-red-500 mb-2">
@@ -257,7 +261,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
                     Kullanılan: {gkTotal} / {maxQ}
                   </span>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   {/* Correct */}
                   <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
@@ -275,7 +279,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
                       </button>
                     </div>
                   </div>
-                  
+
                   {/* Wrong */}
                   <div className="bg-white border border-slate-100 rounded-xl p-3 shadow-sm">
                     <div className="flex items-center gap-1 text-red-500 mb-2">
@@ -299,10 +303,10 @@ export function KpssForm({ calculator }: KpssFormProps) {
 
             <div className="w-full flex justify-center mt-6">
               <div className="w-full max-w-[280px]">
-                <CalculatorSubmitButton 
-                  onClick={handleCalculate} 
-                  isLoading={isLoading} 
-                  className="!h-[64px] !text-[24px] [&>img]:!h-[42px] shadow-xl hover:shadow-2xl" 
+                <CalculatorSubmitButton
+                  onClick={handleCalculate}
+                  isLoading={isLoading}
+                  className="!h-[64px] !text-[24px] [&>img]:!h-[42px] shadow-xl hover:shadow-2xl"
                 />
               </div>
             </div>
@@ -310,37 +314,47 @@ export function KpssForm({ calculator }: KpssFormProps) {
 
           {/* RIGHT COLUMN - SCORECARD */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center h-full">
-            
+
             <div className="w-full max-w-md bg-white border border-slate-200 rounded-[2rem] shadow-xl overflow-hidden relative flex flex-col">
-              
+
               {/* Score Header (Academic Theme) */}
               <div className="bg-indigo-950 px-6 py-10 relative overflow-hidden flex flex-col items-center text-center">
                 <div className="exam-pattern absolute inset-0 opacity-40 pointer-events-none"></div>
-                
+
                 <h3 className="relative z-10 text-indigo-300 font-semibold text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
                   Tahmini KPSS Puanı
                 </h3>
-                
+
                 <div className="relative z-10 text-6xl sm:text-7xl font-black text-white drop-shadow-md mb-6">
-                  {isMounted ? (
-                    <NumberFlow 
-                      value={primaryVal}
-                      format={{ style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 }}
-                    />
+                  {primaryVal !== null ? (
+                    isMounted ? (
+                      <NumberFlow
+                        value={primaryVal}
+                        format={{ style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 }}
+                      />
+                    ) : (
+                      <span>{primaryVal.toFixed(3)}</span>
+                    )
                   ) : (
-                    <span>{primaryVal.toFixed(3)}</span>
+                    <span>—</span>
                   )}
                 </div>
-                
-                <div className="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-900/80 border border-indigo-700/50 rounded-full">
-                  <span className="text-xs font-bold text-indigo-100">{scoreType} &bull; {level === 'lisans' ? 'Lisans' : level === 'onlisans' ? 'Önlisans' : 'Ortaöğretim'}</span>
-                </div>
+
+                {primaryVal === null ? (
+                  <p className="relative z-10 text-indigo-200 text-sm font-medium mt-[-0.5rem] px-4 text-center">
+                    Doğru ve yanlış sayılarını girerek tahmini puanınızı hesaplayın.
+                  </p>
+                ) : (
+                  <div className="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-900/80 border border-indigo-700/50 rounded-full">
+                    <span className="text-xs font-bold text-indigo-100">{scoreType} &bull; {level === 'lisans' ? 'Lisans' : level === 'onlisans' ? 'Önlisans' : 'Ortaöğretim'}</span>
+                  </div>
+                )}
               </div>
 
               {/* Performance Modules */}
-              <div className="px-6 py-8 bg-slate-50 space-y-6">
-                
+              <div className="px-6 py-8 bg-slate-50 space-y-6" style={{ opacity: result ? 1 : 0.5, pointerEvents: result ? 'auto' : 'none' }}>
+
                 {/* GY */}
                 <div className="space-y-2">
                   <div className="flex justify-between items-end">
@@ -351,7 +365,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
                     <div className="font-black text-lg text-slate-900">{gyNetStr}</div>
                   </div>
                   <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden flex">
-                    <div 
+                    <div
                       className="h-full bg-indigo-500 transition-all duration-1000 ease-out rounded-full"
                       style={{ width: `${gyProgress}%` }}
                     ></div>
@@ -368,7 +382,7 @@ export function KpssForm({ calculator }: KpssFormProps) {
                     <div className="font-black text-lg text-slate-900">{gkNetStr}</div>
                   </div>
                   <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden flex">
-                    <div 
+                    <div
                       className="h-full bg-purple-500 transition-all duration-1000 ease-out rounded-full"
                       style={{ width: `${gkProgress}%` }}
                     ></div>
@@ -395,9 +409,10 @@ export function KpssForm({ calculator }: KpssFormProps) {
           </div>
         </div>
       </div>
-    
+
       {result?.data && <ShareResult calculatorName={calculator.name} slug={calculator.slug} data={result.data} />}
     </div>
   );
 }
+
 
