@@ -1,10 +1,10 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateKpss } from '../formulas/kpss';
 
 const schema = z.object({
   level: z.enum(['lisans', 'onlisans', 'ortaogretim']),
-  scoreType: z.enum(['KPSSP1', 'KPSSP3']),
+  scoreType: z.enum(['KPSSP1', 'KPSSP3', 'KPSSP93', 'KPSSP94']).optional(),
   gyCorrect: z.number().int().min(0).max(60),
   gyWrong: z.number().int().min(0).max(60),
   gkCorrect: z.number().int().min(0).max(60),
@@ -18,66 +18,110 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'kpss-puan',
   status: 'published',
   name: 'KPSS Puan Hesaplama',
-  shortDescription: 'KPSS Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre KPSSP1 veya KPSSP3 yaklaşık puanınızı hesaplayın.',
+  shortDescription: '2026 KPSS Genel Yetenek ve Genel Kültür doğru/yanlış sayılarınıza göre netlerinizi hesaplayın; P1, P3, P93 ve P94 puan türlerini inceleyin.',
   category: 'education',
   type: 'complex',
   metadata: {
-    title: 'KPSS Puan Hesaplama â€” GY ve GK Bazlı | Hesapera',
-    description: 'KPSS 2026 Genel Yetenek ve Genel Kültür testleri doğru/yanlış sayılarınıza göre KPSSP1 ve KPSSP3 yaklaşık puanınızı hesaplayın.',
-    keywords: ['kpss puan hesaplama', 'kpss 2026', 'kpssp3 hesaplama', 'kpss gk gy net'],
+    title: 'KPSS Puan ve Net Hesaplama 2026 | Hesapera',
+    description: '2026 KPSS Genel Yetenek ve Genel Kültür doğru/yanlış sayılarınıza göre netlerinizi hesaplayın; KPSSP1, KPSSP3, KPSSP93 ve KPSSP94 puan türlerinin resmî değerlendirme yöntemini inceleyin.',
+    keywords: ['kpss puan hesaplama', 'kpss 2026', 'kpssp3 hesaplama', 'kpss gk gy net', 'kpssp93 hesaplama', 'kpssp94 hesaplama', 'kpssp1'],
     canonical: 'https://www.hesapera.com.tr/hesaplama/kpss-puan',
     faq: [
       {
-        question: "Hesaplanan KPSS puanı kesin midir?",
-        answer: "Hayır. Hesaplama araçları, geçmiş yıllardaki puan oluşumlarına göre katsayı tahmini yaparak yaklaşık bir sonuç verir. Gerçek puan, sınavın yapıldığı senenin Türkiye ortalaması ve standart sapmasına göre ÖSYM tarafından açıklanan puandır."
-      },
-      {
-        question: "4 yanlış 1 doğruyu götürür mü?",
+        question: "KPSS'de 4 yanlış 1 doğruyu götürür mü?",
         answer: "Evet, KPSS lisans, önlisans ve ortaöğretim sınavlarında Genel Yetenek ve Genel Kültür testlerindeki her 4 yanlış cevap, 1 doğru cevabı eksiltmektedir."
       },
       {
-        question: "KPSSP3 nedir ve kimler kullanır?",
-        answer: "KPSSP3 puan türü, üniversitelerin lisans (4 yıllık) bölümlerinden mezun olan adayların memur (B Grubu kadro) atamalarında kullanılan temel puan türüdür."
+        question: "Genel Yetenek (GY) testi kaç sorudur?",
+        answer: "Lisans, Önlisans ve Ortaöğretim düzeylerinin tamamında Genel Yetenek testinde 60 soru sorulmaktadır."
+      },
+      {
+        question: "Genel Kültür (GK) testi kaç sorudur?",
+        answer: "Lisans, Önlisans ve Ortaöğretim düzeylerinin tamamında Genel Kültür testinde 60 soru sorulmaktadır."
+      },
+      {
+        question: "Önlisans sınavı kaç sorudur?",
+        answer: "Önlisans KPSS'de 60 Genel Yetenek ve 60 Genel Kültür olmak üzere toplam 120 soru yer almaktadır. Sınav süresi 130 dakikadır."
+      },
+      {
+        question: "Lisans KPSSP3 nedir?",
+        answer: "KPSSP3, üniversitelerin lisans (4 yıllık) bölümlerinden mezun olan adayların B Grubu memur kadrolarına atanmalarında kullanılan temel puan türüdür."
+      },
+      {
+        question: "KPSSP1 nedir?",
+        answer: "KPSSP1, genellikle Merkez Bankası, bazı bakanlıklar ve uzmanlık kadroları gibi A Grubu kariyer meslekleri için GY ağırlıklı değerlendirme yapan bir lisans puan türüdür."
+      },
+      {
+        question: "KPSSP93 nedir?",
+        answer: "KPSSP93, Meslek Yüksekokulları (2 yıllık önlisans) mezunlarının B Grubu memuriyet atamaları için kullanılan resmi KPSS puan türüdür."
+      },
+      {
+        question: "KPSSP94 nedir?",
+        answer: "KPSSP94, lise ve dengi okullardan (ortaöğretim) mezun olan adayların memur atamaları için kullanılan resmi KPSS puan türüdür."
+      },
+      {
+        question: "KPSSP1 ağırlıkları nedir?",
+        answer: "KPSSP1 puanı hesaplanırken Genel Yetenek (GY) standart puanı %70, Genel Kültür (GK) standart puanı %30 oranında ağırlıklandırılır."
+      },
+      {
+        question: "KPSSP3 ağırlıkları nedir?",
+        answer: "KPSSP3 puanı hesaplanırken GY ve GK testlerinin standart puanlarına eşit ağırlık (%50 GY, %50 GK) verilir. Aynı oranlar P93 ve P94 için de geçerlidir."
+      },
+      {
+        question: "Kesin KPSS puanı neden yalnız netten hesaplanamaz?",
+        answer: "Çünkü ÖSYM, puanlamada sabit bir katsayı kullanmaz. Adayların netleri (ham puanları) öncelikle Türkiye ortalaması ve standart sapmasıyla standart puanlara dönüştürülür. Bu istatistikler her yıl değiştiğinden, sınav sonrası veriler oluşmadan net bir KPSS puanı hesaplamak matematiksel olarak mümkün değildir."
+      },
+      {
+        question: "Standart puan nedir?",
+        answer: "Standart puan, adayın net sayısının, o teste giren tüm adayların net ortalamasından ne kadar farklı olduğunu standart sapma değeri ile orantılayarak gösteren istatistiksel bir ölçüdür."
+      },
+      {
+        question: "Ağırlıklı Standart Puan (ASP) nedir?",
+        answer: "Her test için hesaplanan standart puanların, ilgili puan türünün katsayılarıyla (örn. GY %50, GK %50) çarpılıp toplanmasıyla elde edilen puandır. Nihai 100 üzerinden KPSS puanı bu ASP değerleri kullanılarak üretilir."
+      },
+      {
+        question: "Her testte en az 1 net şartı nedir?",
+        answer: "ÖSYM kurallarına göre, KPSS puanının hesaplanabilmesi için adayın hem Genel Yetenek hem de Genel Kültür testlerinin her ikisinden de en az 1 ham puanı (1 net) bulunması zorunludur. Aksi halde adayın KPSS puanı hesaplanmaz."
       }
     ],
     content: {
-      intro: "KPSS puan türleri (KPSSP1, KPSSP3), net hesaplaması ve ÖSYM puanlama mantığı hakkında rehber",
-
+      intro: "KPSS test netlerinin hesaplanması ve ÖSYM resmî değerlendirme süreci rehberi.",
       sections: [
-        {
-          title: "KPSS Puanı Nasıl Hesaplanır?",
-          paragraphs: [
-            "Kamu Personel Seçme Sınavı (KPSS) puanları doğrudan 'Net Sayısı x Sabit Bir Katsayı' formülüyle hesaplanmaz. ÖSYM, adayların puanlarını hesaplarken sınavın genel zorluk derecesini ve katılımcıların başarı ortalamasını dikkate alan standart sapma yöntemini kullanır.",
-            "Hesaplama araçları ise geçmiş yılların ÖSYM verilerinden yola çıkarak ortalama bir katsayı üzerinden 'tahmini' puanlar üretir."
-          ]
-        },
         {
           title: "Doğru ve Yanlışların Netlere Etkisi",
           paragraphs: [
-            "KPSS Genel Yetenek (GY) ve Genel Kültür (GK) testlerinde standart olarak 4 yanlış 1 doğruyu götürmektedir. Yani adayların testlerden elde ettiği 'Ham Puan' (Net Sayısı) hesaplanırken, doğru sayısından yanlış sayısının dörtte biri çıkarılır.",
-            "Elde edilen net sayıları daha sonra standart sapma hesaplamalarına dahil edilerek adayın ilgili puan türündeki skoru oluşturulur."
+            "KPSS Genel Yetenek (GY) ve Genel Kültür (GK) testlerinde standart olarak 4 yanlış 1 doğruyu götürmektedir. Adayların 'Ham Puan'ı (Net Sayısı) hesaplanırken, doğru sayısından yanlış sayısının dörtte biri çıkarılır. Düşük performans gösteren testlerde negatif nete düşülebilir.",
+            "2026 KPSS oturumlarında Lisans, Önlisans ve Ortaöğretim düzeylerinin tamamı 60 GY ve 60 GK olmak üzere toplam 120 sorudan oluşur ve sınav süresi 130 dakikadır."
           ]
         },
         {
-          title: "Puan Türlerinin Katsayı Farklılıkları",
+          title: "Ağırlıklı Standart Puan (ASP) ve Standart Sapma",
           paragraphs: [
-            "KPSSP3 (Lisans B Grubu) gibi en yaygın kullanılan puan türlerinde genellikle Genel Yetenek testinin ağırlığı %50, Genel Kültür testinin ağırlığı %50'dir.",
-            "Farklı memuriyet kadroları veya kurum sınavları (örneğin Merkez Bankası veya bazı uzmanlık kadroları) için kullanılan KPSSP1 gibi farklı puan türlerinde ise GY ve GK katsayı ağırlıkları değişebilmektedir (Örn: GY %70, GK %30 ağırlığında olabilir)."
+            "ÖSYM, adayların puanlarını hesaplarken sınavın genel zorluk derecesini ve katılımcıların başarı ortalamasını dikkate alan standart sapma yöntemini kullanır.",
+            "Öncelikle her testin ortalama (X) ve standart sapma (S) değerleri ile standart puanlar elde edilir. Daha sonra ilgili puan türüne ait ağırlıklar (örneğin KPSSP3 için GY %50, GK %50) kullanılarak ASP oluşturulur. Nihai KPSS puanı (70 ile 100 arası taban formülüne göre) bu ASP dağılımının parametreleri kullanılarak hesaplanır."
           ]
         },
+        {
+          title: "Puan Türleri ve Katsayı Ağırlıkları",
+          paragraphs: [
+            "Lisans mezunlarının genel B Grubu atamalarında KPSSP3 kullanılır (GY %50, GK %50). A Grubu bazı kadrolar için ise KPSSP1 gibi farklı test ağırlıklarına sahip (GY %70, GK %30) puan türleri değerlendirilir.",
+            "Önlisans mezunları için KPSSP93 ve Ortaöğretim mezunları için KPSSP94 puan türleri hesaplanır. Bu puan türlerinde de test ağırlıkları %50 Genel Yetenek ve %50 Genel Kültür olarak uygulanır."
+          ]
+        },
+        {
+          title: "En Az 1 Net Kuralı",
+          paragraphs: [
+            "KPSS değerlendirme kılavuzuna göre; adayın KPSSP1, KPSSP3, KPSSP93 veya KPSSP94 gibi puanlarının hesaplanabilmesi için ilgili oturumdaki her iki testten (GY ve GK) ayrı ayrı en az 1 ham puanının (1 net) bulunması zorunludur. Eğer aday herhangi bir testten 1 netin altında kalırsa, ilgili KPSS puanı sistem tarafından hesaplanmaz."
+          ]
+        }
       ],
-      example: {
-        title: "Tahmini Net ve Puan Örneği",
-        text: "Lisans düzeyinde sınava giren bir adayın Genel Yetenek testinde 45 doğru, 12 yanlış yaptığını varsayalım. 12 yanlış 3 doğruyu götüreceği için adayın GY neti 42 olacaktır. Genel Kültür testinde ise 50 doğru, 4 yanlış yaptığında neti 49 olur. Toplamda 91 net üzerinden o yılın sınav zorluğuna ve ortalamasına bağlı olarak tahmini bir KPSSP3 puanı üretilir."
-      },
       sources: [
         {
-          name: "ÖSYM - Sınav ve Değerlendirme Yönergeleri",
+          name: "ÖSYM - KPSS Sınav ve Değerlendirme Yönergeleri",
           url: "https://www.osym.gov.tr/"
         }
       ]
     },
-
     relatedCalculators: ['ekpss-puan', 'ales-puan', 'ags-puan']
   },
   fields: [
@@ -87,19 +131,21 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
       type: 'select',
       required: true,
       options: [
-        { label: 'Lisans (GY: 60 soru, GK: 60 soru)', value: 'lisans' },
-        { label: 'Önlisans (GY: 40 soru, GK: 40 soru)', value: 'onlisans' },
-        { label: 'Ortaöğretim (GY: 40 soru, GK: 40 soru)', value: 'ortaogretim' }
+        { label: 'Lisans', value: 'lisans' },
+        { label: 'Önlisans', value: 'onlisans' },
+        { label: 'Ortaöğretim', value: 'ortaogretim' }
       ]
     },
     {
       id: 'scoreType',
       label: 'Puan Türü',
       type: 'select',
-      required: true,
+      required: false,
       options: [
-        { label: 'KPSSP3 â€” GY %50 + GK %50', value: 'KPSSP3' },
-        { label: 'KPSSP1 â€” GY %30 + GK %70', value: 'KPSSP1' }
+        { label: 'KPSSP3 – GY %50 + GK %50', value: 'KPSSP3' },
+        { label: 'KPSSP1 – GY %70 + GK %30', value: 'KPSSP1' },
+        { label: 'KPSSP93', value: 'KPSSP93' },
+        { label: 'KPSSP94', value: 'KPSSP94' }
       ]
     },
     { id: 'gyCorrect', label: 'Genel Yetenek Doğru', type: 'number', required: true, min: 0, max: 60 },
@@ -110,9 +156,8 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
   schema,
   calculate: (input) => calculateKpss(
     input.level,
-    input.scoreType,
+    input.scoreType || 'KPSSP3',
     input.gyCorrect, input.gyWrong,
     input.gkCorrect, input.gkWrong
   )
 };
-

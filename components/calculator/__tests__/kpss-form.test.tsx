@@ -8,10 +8,6 @@ vi.mock('@/app/actions/calculate', () => ({
   calculateAction: vi.fn()
 }));
 
-vi.mock('@number-flow/react', () => ({
-  default: ({ value }: { value: number }) => <span data-testid="number-flow">{value}</span>
-}));
-
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -19,12 +15,10 @@ beforeEach(() => {
 test('KPSS Form - Initial Render Empty Guard', async () => {
   render(<KpssForm calculator={kpssCalculatorDef} />);
   
-  // Guard should prevent auto-calculation
   expect(calculateAction).not.toHaveBeenCalled();
   
-  // Empty state should be visible
   expect(screen.getByText('—')).toBeDefined();
-  expect(screen.getByText('Doğru ve yanlış sayılarını girerek tahmini puanınızı hesaplayın.')).toBeDefined();
+  expect(screen.getByText('Doğru ve yanlış sayılarını girerek netlerinizi hesaplayın.')).toBeDefined();
 });
 
 test('KPSS Form - Click Hesapla with all 0s', async () => {
@@ -35,7 +29,6 @@ test('KPSS Form - Click Hesapla with all 0s', async () => {
     fireEvent.click(btn);
   });
   
-  // Still 0s, should not call calculateAction
   expect(calculateAction).not.toHaveBeenCalled();
   expect(screen.getByText('—')).toBeDefined();
 });
@@ -45,23 +38,20 @@ test('KPSS Form - Valid input triggers calculate', async () => {
   calculateAction.mockResolvedValueOnce({
     success: true,
     data: {
-      primaryResult: '85,420',
+      primaryResult: '51.25',
       secondaryResults: {
-        'Genel Yetenek Neti': '25.00',
-        'Genel Kültür Neti': '20.00'
-      }
+        'Genel Yetenek Neti': '27.50',
+        'Genel Kültür Neti': '23.75',
+        'Puan Türü': 'KPSSP3'
+      },
+      isEligible: true
     }
   });
 
   render(<KpssForm calculator={kpssCalculatorDef} />);
   
-  // Fill inputs by clicking + button or just testing the action
-  // The structure uses Plus/Minus buttons in a custom stepper
-  // Let's just find the first input and change it if we can.
-  // Actually, we can click the "+" button for GY Doğru
   const plusBtns = screen.getAllByRole('button').filter(b => b.innerHTML.includes('lucide-plus'));
   
-  // Click first Plus (GY correct)
   await act(async () => {
     fireEvent.click(plusBtns[0]);
   });
@@ -73,8 +63,8 @@ test('KPSS Form - Valid input triggers calculate', async () => {
   
   expect(calculateAction).toHaveBeenCalledTimes(1);
   
-  // Result should be rendered
-  expect(screen.getByTestId('number-flow').textContent).toBe('85.42');
+  const resStr = screen.getByTestId('total-net-display');
+  expect(resStr.textContent).toContain('51.25 Net');
 });
 
 test('KPSS Form - Clears result on level/type change', async () => {
@@ -82,7 +72,11 @@ test('KPSS Form - Clears result on level/type change', async () => {
   calculateAction.mockResolvedValue({
     success: true,
     data: {
-      primaryResult: '85,420'
+      primaryResult: '51.25',
+      secondaryResults: {
+        'Puan Türü': 'KPSSP3'
+      },
+      isEligible: true
     }
   });
 
@@ -98,15 +92,13 @@ test('KPSS Form - Clears result on level/type change', async () => {
     fireEvent.click(calcBtn);
   });
   
-  expect(screen.getByTestId('number-flow').textContent).toBe('85.42');
+  expect(screen.getByTestId('total-net-display').textContent).toContain('51.25 Net');
   
-  // Now change level
   const btn = screen.getByRole('button', { name: /Önlisans/i });
   await act(async () => {
     fireEvent.click(btn);
   });
   
-  // Result should be cleared
-  expect(screen.queryByTestId('number-flow')).toBeNull();
+  expect(screen.queryByTestId('total-net-display')).toBeNull();
   expect(screen.getByText('—')).toBeDefined();
 });
