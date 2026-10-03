@@ -39,6 +39,7 @@ export function calculateMsu(
       fen: fenNet,
       total: totalNet
     },
-    isEligible
+    isEligible,
+    weightsInfo: WEIGHTS
   };
 }
