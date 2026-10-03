@@ -31,6 +31,25 @@ export function calculateMsu(
   // Eligibility
   const isEligible = turkceNet >= 0.5 || matematikNet >= 0.5;
 
+  let estimatedScores = null;
+
+  if (isEligible) {
+    const clamp = (val: number) => Math.max(100, Math.min(500, val));
+
+    // 2026 Calibrated Linear Models derived from exact reference test cases
+    const sa = 138.062496 + (turkceNet * 2.845468) + (sosyalNet * 2.204565) + (matematikNet * 3.048055) + (fenNet * 4.283107);
+    const so = 145.555593 + (turkceNet * 3.470015) + (sosyalNet * 6.721105) + (matematikNet * 1.517172) + (fenNet * 1.243619);
+    const ea = 137.919972 + (turkceNet * 3.669996) + (sosyalNet * 4.061971) + (matematikNet * 2.808062) + (fenNet * 1.315290);
+    const gn = 136.996709 + (turkceNet * 3.550661) + (sosyalNet * 3.542856) + (matematikNet * 2.716754) + (fenNet * 2.294395);
+
+    estimatedScores = {
+      SAY: clamp(sa),
+      SOZ: clamp(so),
+      EA: clamp(ea),
+      GENEL: clamp(gn),
+    };
+  }
+
   return {
     nets: {
       turkce: turkceNet,
@@ -40,6 +59,7 @@ export function calculateMsu(
       total: totalNet
     },
     isEligible,
+    estimatedScores,
     weightsInfo: WEIGHTS
   };
 }

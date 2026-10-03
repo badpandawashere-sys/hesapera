@@ -185,6 +185,51 @@ export default function MsuForm({ calculator }: { calculator: any }) {
                 </div>
               )}
               
+              {result.estimatedScores && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <Info className="h-5 w-5 text-blue-500" /> Tahmini Puanlar
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div className="p-4 bg-muted/30 rounded-lg border flex flex-col justify-between">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-semibold">MSÜ-SAYISAL (SA)</span>
+                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium">Tahmini Puan</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary">{result.estimatedScores.SAY.toFixed(5)}</div>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg border flex flex-col justify-between">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-semibold">MSÜ-SÖZEL (SÖ)</span>
+                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium">Tahmini Puan</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary">{result.estimatedScores.SOZ.toFixed(5)}</div>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg border flex flex-col justify-between">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-semibold">MSÜ-EŞİT AĞIRLIK (EA)</span>
+                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium">Tahmini Puan</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary">{result.estimatedScores.EA.toFixed(5)}</div>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg border flex flex-col justify-between">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-semibold">MSÜ-GENEL (GN)</span>
+                        <span className="text-xs px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full font-medium">Tahmini Puan</span>
+                      </div>
+                      <div className="text-3xl font-bold text-primary">{result.estimatedScores.GENEL.toFixed(5)}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-amber-50 border border-amber-200 text-amber-800 rounded-md text-sm mt-4 mb-8">
+                    <p className="font-semibold mb-1">Önemli Uyarı:</p>
+                    <p>
+                      Netleriniz doğru ve yanlış sayılarına göre kesin olarak hesaplanır. MSÜ puanları ise ÖSYM'nin aday kitlesine bağlı standartlaştırma verileri kamuya tam olarak açıklanmadığı için geçmiş sınav sonuçlarıyla kalibre edilmiş tahmini değerlerdir. Kesin puan ÖSYM sonuç belgesidir.
+                    </p>
+                  </div>
+                </div>
+              )}
+              
               <div className="mt-8">
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <Info className="h-5 w-5 text-blue-500" /> ÖSYM Puan Türü Ağırlıkları
