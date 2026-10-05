@@ -69,4 +69,64 @@ describe('MSU Calculator', () => {
   it('12. Ondalikli input deger firlatir', () => {
     expect(() => calculateMsu(10.5, 0, 0, 0, 0, 0, 0, 0)).toThrow();
   });
+
+  // 2026 CALIBRATED SCORE REGRESSION TESTS
+  it('13. Golden 2026 Case A (10 net each)', () => {
+    const res = calculateMsu(10, 0, 10, 0, 10, 0, 10, 0);
+    expect(res.isEligible).toBe(true);
+    expect(res.estimatedScores).toBeDefined();
+    expect(res.estimatedScores!.SAY).toBeCloseTo(261.87444, 2);
+    expect(res.estimatedScores!.EA).toBeCloseTo(256.47316, 2);
+    expect(res.estimatedScores!.SOZ).toBeCloseTo(275.07469, 2);
+    expect(res.estimatedScores!.GENEL).toBeCloseTo(258.04337, 2);
+  });
+
+  it('14. Golden 2026 Case F (76 net)', () => {
+    const res = calculateMsu(30, 8, 15, 4, 25, 8, 12, 4);
+    expect(res.estimatedScores!.SAY).toBeCloseTo(365.81894, 2);
+    expect(res.estimatedScores!.EA).toBeCloseTo(376.60105, 2);
+    expect(res.estimatedScores!.SOZ).toBeCloseTo(385.38623, 2);
+    expect(res.estimatedScores!.GENEL).toBeCloseTo(373.73889, 2);
+  });
+
+  it('15. Golden 2026 Case G', () => {
+    const res = calculateMsu(30, 0, 5, 0, 20, 0, 10, 0);
+    expect(res.estimatedScores!.SAY).toBeCloseTo(338.24151, 2);
+  });
+
+  it('16. Golden 2026 Case H', () => {
+    const res = calculateMsu(5, 0, 15, 0, 30, 0, 5, 0);
+    expect(res.estimatedScores!.SAY).toBeCloseTo(298.2155, 2);
+  });
+
+  it('17. Golden 2026 Case I', () => {
+    const res = calculateMsu(20, 0, 10, 0, 5, 0, 15, 0);
+    expect(res.estimatedScores!.SAY).toBeCloseTo(296.50437, 2);
+  });
+
+  it('18. Golden 2026 Case J (Perfect Clamp 500)', () => {
+    const res = calculateMsu(40, 0, 20, 0, 40, 0, 20, 0);
+    expect(res.estimatedScores!.SAY).toBe(500);
+    expect(res.estimatedScores!.EA).toBe(500);
+    expect(res.estimatedScores!.SOZ).toBe(500);
+    expect(res.estimatedScores!.GENEL).toBe(500);
+  });
+
+  it('19. Golden 2026 Case K (0 eligibility -> null)', () => {
+    const res = calculateMsu(0, 0, 0, 0, 0, 0, 0, 0);
+    expect(res.isEligible).toBe(false);
+    expect(res.estimatedScores).toBeNull();
+  });
+
+  it('20. Golden 2026 Case L (0.5 eligibility)', () => {
+    const res = calculateMsu(1, 2, 0, 0, 0, 0, 0, 0);
+    expect(res.isEligible).toBe(true);
+    expect(res.estimatedScores!.SAY).toBeCloseTo(139.48523, 2);
+  });
+
+  it('21. WeightsInfo returned on successful calc', () => {
+    const res = calculateMsu(10, 0, 10, 0, 10, 0, 10, 0);
+    expect(res.weightsInfo).toBeDefined();
+    expect(res.weightsInfo.SAY.turkce).toBe(25);
+  });
 });
