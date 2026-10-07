@@ -51,53 +51,54 @@ describe("Gün Hesaplama - Date Math", () => {
 describe("Gün Hesaplama - Modes", () => {
   it("Kaç Gün Kaldı - Future", () => {
     const res = calculateGunHesaplama({ mode: "kaldi", referenceDate: "2026-10-06", targetDate: "2026-10-20" });
-    expect(res.mainResult.value).toBe("14");
-    expect(res.mainResult.subLabel).toBe("GÜN KALDI");
+    expect(res.primaryResult).toBe("14");
+    expect(res.secondaryResults.subLabel).toBe("GÜN KALDI");
   });
 
   it("Kaç Gün Kaldı - Today", () => {
     const res = calculateGunHesaplama({ mode: "kaldi", referenceDate: "2026-10-06", targetDate: "2026-10-06" });
-    expect(res.mainResult.value).toBe("0");
-    expect(res.mainResult.subLabel).toBe("BUGÜN");
+    expect(res.primaryResult).toBe("0");
+    expect(res.secondaryResults.subLabel).toBe("BUGÜN");
   });
 
   it("Kaç Gün Kaldı - Past (should shift to GÜN GEÇTİ)", () => {
     const res = calculateGunHesaplama({ mode: "kaldi", referenceDate: "2026-10-06", targetDate: "2026-10-01" });
-    expect(res.mainResult.value).toBe("5");
-    expect(res.mainResult.subLabel).toBe("GÜN GEÇTİ");
+    expect(res.primaryResult).toBe("5");
+    expect(res.secondaryResults.subLabel).toBe("GÜN GEÇTİ");
   });
 
   it("Kaç Gün Geçti - Past", () => {
     const res = calculateGunHesaplama({ mode: "gecti", referenceDate: "2026-10-06", startDate: "2026-09-01" });
-    expect(res.mainResult.value).toBe("35");
-    expect(res.mainResult.subLabel).toBe("GÜN GEÇTİ");
+    expect(res.primaryResult).toBe("35");
+    expect(res.secondaryResults.subLabel).toBe("GÜN GEÇTİ");
   });
 
   it("Kaç Gün Geçti - Future (should shift to GÜN KALDI)", () => {
     const res = calculateGunHesaplama({ mode: "gecti", referenceDate: "2026-10-06", startDate: "2026-10-10" });
-    expect(res.mainResult.value).toBe("4");
-    expect(res.mainResult.subLabel).toBe("GÜN KALDI");
+    expect(res.primaryResult).toBe("4");
+    expect(res.secondaryResults.subLabel).toBe("GÜN KALDI");
   });
   
   it("İki Tarih Arası - Standard & Inclusive", () => {
     const res = calculateGunHesaplama({ mode: "arasi", startDate: "2026-10-06", endDate: "2026-10-07" });
-    expect(res.mainResult.value).toBe("1");
-    expect(res.mainResult.subLabel).toBe("GÜN");
+    expect(res.primaryResult).toBe("1");
+    expect(res.secondaryResults.subLabel).toBe("GÜN");
     expect(res.breakdown.find(b => b.label === "Her iki tarih dahil edilirse")?.value).toBe("2 gün");
   });
 
   it("İki Tarih Arası - Reverse (10.10.2026 -> 06.10.2026)", () => {
     const res = calculateGunHesaplama({ mode: "arasi", startDate: "2026-10-10", endDate: "2026-10-06" });
-    expect(res.mainResult.value).toBe("4");
-    expect(res.mainResult.subLabel).toBe("GÜN");
+    expect(res.primaryResult).toBe("4");
+    expect(res.secondaryResults.subLabel).toBe("GÜN");
     expect(res.breakdown.find(b => b.label === "Her iki tarih dahil edilirse")?.value).toBe("5 gün");
   });
 
   it("İki Tarih Arası - Same Date", () => {
     const res = calculateGunHesaplama({ mode: "arasi", startDate: "2026-10-06", endDate: "2026-10-06" });
-    expect(res.mainResult.value).toBe("0");
-    expect(res.mainResult.subLabel).toBe("GÜN");
+    expect(res.primaryResult).toBe("0");
+    expect(res.secondaryResults.subLabel).toBe("GÜN");
     expect(res.breakdown.find(b => b.label === "Her iki tarih dahil edilirse")?.value).toBe("1 gün");
   });
 });
+
 

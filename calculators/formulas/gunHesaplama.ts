@@ -126,6 +126,7 @@ export function calculateGunHesaplama(input: {
     breakDown.push({ label: "Bitiş", value: formatDateToTurkish(input.endDate) });
   }
 
-  return { mainResult: { value: mainResult, subLabel: subResult }, breakdown: breakDown };
+  return { primaryResult: mainResult, secondaryResults: { subLabel: subResult }, breakdown: breakDown };
 }
+
 

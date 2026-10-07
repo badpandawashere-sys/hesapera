@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { CalculatorViewModel } from "@/calculators/core/calculator-types";
 import { calculateAction } from "@/app/actions/calculate";
 import { CalculatorSubmitButton } from "./calculator-submit-button";
-import { CalculatorMainResultCard, CalculatorBreakdownCard } from "./calculator-result";
+import { CalculatorBreakdownCard } from "./calculator-result";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowUpDown, Calculator } from "lucide-react";
+import { ArrowUpDown, Calculator, CheckCircle2 } from "lucide-react";
 import { ShareResult } from "./share-result";
 import { AdBanner } from "@/components/ads/ad-banner";
 
@@ -164,7 +164,32 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
       <div className="lg:col-span-5 space-y-6">
         {result && result.success ? (
           <div id="calculator-result" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <CalculatorMainResultCard result={result} />
+            
+            <div className="rounded-[24px] bg-[var(--color-glass-bg-strong)] backdrop-blur-[24px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-elevated)] overflow-hidden flex flex-col">
+              <div className="border-b border-border bg-white/40 px-5 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Calculator className="w-5 h-5 text-[#7C3AED]" />
+                  <h3 className="font-semibold text-slate-800">Hesaplama Sonucu</h3>
+                </div>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-medium">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Hesaplama tamamlandı</span>
+                  <span className="sm:hidden">Tamamlandı</span>
+                </div>
+              </div>
+
+              <div className="p-5 md:p-6 space-y-5">
+                <div className="bg-gradient-to-br from-[#F5F3FF]/80 to-[#EFF6FF]/80 border border-white/60 rounded-[20px] p-5 md:p-6 shadow-sm relative overflow-hidden flex flex-col items-center justify-center text-center">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#7C3AED]/5 blur-3xl rounded-full -mr-10 -mt-10 pointer-events-none"></div>
+                  
+                  <div className="text-5xl md:text-6xl font-extrabold text-violet-700 tracking-tight relative z-10">
+                    {result.data.primaryResult}
+                  </div>
+                  <p className="text-lg font-bold text-slate-700 mt-2 relative z-10">{result.data.secondaryResults?.subLabel}</p>
+                </div>
+              </div>
+            </div>
+
             {result.data.breakdown && result.data.breakdown.length > 0 && (
               <CalculatorBreakdownCard result={result} />
             )}
@@ -186,4 +211,3 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
     </div>
   );
 }
-
