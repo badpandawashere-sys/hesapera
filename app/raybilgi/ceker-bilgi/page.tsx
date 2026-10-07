@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Çeker Bilgi – Lokomotif Kanca Çekeri | RayBilgi | Hesapera',
-  description: 'Başlangıç ve varış istasyonu ile lokomotif tipini seçerek güzergâha göre azami kanca çekeri bilgisini görüntüleyin.',
+  description: 'Başlangıç ve varış istasyonunu seçerek güzergâhtaki tüm lokomotifler için azami kanca çekeri bilgilerini karşılaştırın.',
   alternates: {
     canonical: 'https://www.hesapera.com.tr/raybilgi/ceker-bilgi',
   },
@@ -36,7 +36,7 @@ export default function CekerBilgiPage() {
             </h1>
           </div>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
-            Güzergâh ve lokomotif tipine göre azami kanca çekeri bilgisini görüntüleyin.
+            Başlangıç ve varış istasyonunu seçerek güzergâhtaki tüm lokomotifler için azami kanca çekeri bilgilerini karşılaştırın.
           </p>
         </div>
 

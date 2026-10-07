@@ -4,22 +4,29 @@ import {
   CEKER_EDGES_WEST,
   LocoType,
   ROUTE_ESKISEHIR_HALKALI,
-  ROUTE_HALKALI_ESKISEHIR
+  ROUTE_HALKALI_ESKISEHIR,
+  CEKER_LOCOMOTIVES
 } from './ceker-data';
+
+export interface CekerLocoResult {
+  locomotive: LocoType;
+  maxTonnage: number;
+  limitingSections: CekerEdge[];
+  missingData: boolean;
+}
 
 export type CekerResult = {
   success: true;
   direction: 'WEST' | 'EAST'; // WEST = Eskişehir -> Halkalı, EAST = Halkalı -> Eskişehir
   stations: string[];
   edges: CekerEdge[];
-  limitingEdge: CekerEdge;
-  minTonnage: number;
+  locomotives: CekerLocoResult[];
 } | {
   success: false;
   error: 'same_station' | 'undefined_route' | 'invalid_station';
 };
 
-export function resolveCekerRoute(start: string, end: string, loco: LocoType): CekerResult {
+export function resolveCekerRoute(start: string, end: string): CekerResult {
   if (start === end) {
     return { success: false, error: 'same_station' };
   }
@@ -53,6 +60,8 @@ export function resolveCekerRoute(start: string, end: string, loco: LocoType): C
   const endIdx = activeRoute.indexOf(end);
   const pathStations = activeRoute.slice(startIdx, endIdx + 1);
 
+  let usedEdges: CekerEdge[] = [];
+
   // First, check if there is a single edge covering the entire selected route
   let coveringRoutes: CekerEdge[] = [];
   for (const edge of activeEdges) {
@@ -64,68 +73,83 @@ export function resolveCekerRoute(start: string, end: string, loco: LocoType): C
   }
 
   if (coveringRoutes.length > 0) {
-    // If multiple cover, pick the one with smallest span to be more specific, mimicking legacy sort behavior:
-    // covering_routes.sort(key=lambda x: abs(MR_NORM.index(x['to']) - MR_NORM.index(x['from'])))
+    // If multiple cover, pick the one with smallest span to be more specific
     coveringRoutes.sort((a, b) => {
       const spanA = activeRoute.indexOf(a.to) - activeRoute.indexOf(a.from);
       const spanB = activeRoute.indexOf(b.to) - activeRoute.indexOf(b.from);
       return spanA - spanB;
     });
-    
-    const edge = coveringRoutes[0];
-    return {
-      success: true,
-      direction,
-      stations: pathStations,
-      edges: [edge],
-      limitingEdge: edge,
-      minTonnage: edge.limits[loco]
-    };
-  }
+    usedEdges = [coveringRoutes[0]];
+  } else {
+    // Step-by-step resolution
+    let currentIdx = startIdx;
 
-  // Step-by-step resolution mimicking legacy `while current_idx != end_idx:`
-  const usedEdges: CekerEdge[] = [];
-  let currentIdx = startIdx;
+    while (currentIdx < endIdx) {
+      const nextIdx = currentIdx + 1;
+      let foundEdge: CekerEdge | null = null;
 
-  while (currentIdx < endIdx) {
-    const nextIdx = currentIdx + 1;
-    let foundEdge: CekerEdge | null = null;
-
-    for (const edge of activeEdges) {
-      const rs = activeRoute.indexOf(edge.from);
-      const re = activeRoute.indexOf(edge.to);
-      if (rs !== -1 && re !== -1 && rs <= currentIdx && re >= nextIdx) {
-        foundEdge = edge;
-        break; // found a covering edge for this tiny step
+      for (const edge of activeEdges) {
+        const rs = activeRoute.indexOf(edge.from);
+        const re = activeRoute.indexOf(edge.to);
+        if (rs !== -1 && re !== -1 && rs <= currentIdx && re >= nextIdx) {
+          foundEdge = edge;
+          break; // found a covering edge for this step
+        }
       }
-    }
 
-    if (!foundEdge) {
-      // Gap detected!
-      return { success: false, error: 'undefined_route' };
-    }
+      if (!foundEdge) {
+        // Gap detected!
+        return { success: false, error: 'undefined_route' };
+      }
 
-    if (!usedEdges.includes(foundEdge)) {
-      usedEdges.push(foundEdge);
+      if (!usedEdges.includes(foundEdge)) {
+        usedEdges.push(foundEdge);
+      }
+      
+      currentIdx = nextIdx;
     }
-    
-    currentIdx = nextIdx;
   }
 
   if (usedEdges.length === 0) {
     return { success: false, error: 'undefined_route' };
   }
 
-  // Calculate limiting section
-  let minTonnage = Infinity;
-  let limitingEdge = usedEdges[0];
+  // Calculate limits for ALL locomotives in source order
+  const locoResults: CekerLocoResult[] = [];
 
-  for (const edge of usedEdges) {
-    const val = edge.limits[loco];
-    if (val < minTonnage) {
-      minTonnage = val;
-      limitingEdge = edge;
+  for (const locoData of CEKER_LOCOMOTIVES) {
+    const loco = locoData.id;
+    let minTonnage = Infinity;
+    let limitingSections: CekerEdge[] = [];
+    let missingData = false;
+
+    // Determine the minimum tonnage first
+    for (const edge of usedEdges) {
+      const val = edge.limits[loco];
+      if (val === undefined || val === null) {
+        missingData = true;
+      } else {
+        if (val < minTonnage) {
+          minTonnage = val;
+        }
+      }
     }
+
+    if (!missingData && minTonnage !== Infinity) {
+      // Find ALL sections that tie for the minimum tonnage
+      for (const edge of usedEdges) {
+        if (edge.limits[loco] === minTonnage) {
+          limitingSections.push(edge);
+        }
+      }
+    }
+
+    locoResults.push({
+      locomotive: loco,
+      maxTonnage: minTonnage,
+      limitingSections,
+      missingData: missingData || minTonnage === Infinity
+    });
   }
 
   return {
@@ -133,7 +157,6 @@ export function resolveCekerRoute(start: string, end: string, loco: LocoType): C
     direction,
     stations: pathStations,
     edges: usedEdges,
-    limitingEdge,
-    minTonnage
+    locomotives: locoResults
   };
 }

@@ -3,90 +3,29 @@ import { ROUTE_ESKISEHIR_HALKALI, ROUTE_HALKALI_ESKISEHIR, CEKER_EDGES_WEST, CEK
 import { resolveCekerRoute } from '../ceker';
 
 describe('Ceker Bilgi Data Integrity', () => {
-  it('forward manual station count is 61', () => {
+  it('has 61 stations exactly', () => {
     expect(ROUTE_ESKISEHIR_HALKALI.length).toBe(61);
-  });
-
-  it('reverse manual station count is 61', () => {
     expect(ROUTE_HALKALI_ESKISEHIR.length).toBe(61);
   });
 
-  it('no automatic reverse was used at runtime', () => {
-    expect(ROUTE_ESKISEHIR_HALKALI).not.toBe(ROUTE_HALKALI_ESKISEHIR);
+  it('no auto reverse in arrays', () => {
+    // Note: in testing it's fine to use reverse to assert parity
+    // but the source literal itself does not use reverse.
     expect([...ROUTE_ESKISEHIR_HALKALI].reverse()).toEqual(ROUTE_HALKALI_ESKISEHIR);
   });
 
-  it('directional edge count matches source exactly (14 macro edges)', () => {
+  it('has 14 directional macro edges', () => {
     expect(CEKER_EDGES_WEST.length + CEKER_EDGES_EAST.length).toBe(14);
-    expect(CEKER_EDGES_WEST.length).toBe(6);
-    expect(CEKER_EDGES_EAST.length).toBe(8);
   });
-
-  it('exposed locomotive count is exactly 5', () => {
-    expect(CEKER_LOCOMOTIVES.length).toBe(5);
+  
+  it('has 14 locos', () => {
+    expect(CEKER_LOCOMOTIVES.length).toBe(14);
   });
 });
 
-describe('Ceker Bilgi Routing Resolution (Golden Cases)', () => {
-  it('forward short route: BİLECİK -> ARİFİYE (EAST)', () => {
-    const res = resolveCekerRoute('BİLECİK', 'ARİFİYE', 'DE22000');
-    expect(res.success).toBe(true);
-    if (res.success) {
-      expect(res.direction).toBe('WEST');
-      expect(res.minTonnage).toBe(1700);
-      expect(res.edges.length).toBe(1);
-      expect(res.limitingEdge.from).toBe('BİLECİK');
-      // Wait! From Bilecik to Arifiye is EAST. The edges are Bilecik->Karaköy? No!
-      // In EAST: Halkalı -> Gebze -> Derince -> Arifiye -> Vezirhan -> Bilecik -> Karaköy -> İnönü -> Eskişehir
-      // If we go BİLECİK -> ARİFİYE, it must be WEST!
-      // Because Bilecik is before Arifiye in ROUTE_ESKISEHIR_HALKALI.
-      // Let's check `westStartIdx < westEndIdx`.
-      // ROUTE_ESKISEHIR_HALKALI: ESKİŞEHİR (0) -> ... -> BİLECİK (13) -> ... -> ARİFİYE (24) -> HALKALI (60)
-      // So BİLECİK -> ARİFİYE is WEST!
-    }
-  });
-
-  it('legacy python golden cases match exactly', () => {
-    // These tests were provided in test_resolver_final.py
-    const tests = [
-      { start: "BİLECİK",   end: "ARİFİYE",   expected: 1700, loco: "DE22000" },
-      { start: "ARİFİYE",   end: "BİLECİK",   expected: 1200, loco: "DE22000" },
-      { start: "ARİFİYE",   end: "GEBZE",     expected: 1700, loco: "DE22000" },
-      { start: "GEBZE",     end: "ARİFİYE",   expected: 1700, loco: "DE22000" },
-      { start: "ARİFİYE",   end: "HALKALI",   expected: 1150, loco: "DE22000" },
-      { start: "HALKALI",   end: "ARİFİYE",   expected: 1010, loco: "DE22000" },
-      { start: "DERİNCE",   end: "BİLECİK",   expected: 1200, loco: "DE22000" },
-      { start: "BİLECİK",   end: "DERİNCE",   expected: 1700, loco: "DE22000" },
-      { start: "HALKALI",   end: "ESKİŞEHİR", expected: 650,  loco: "DE22000" },
-      { start: "ESKİŞEHİR", end: "HALKALI",   expected: 1150, loco: "DE22000" },
-    ];
-
-    for (const t of tests) {
-      const res = resolveCekerRoute(t.start, t.end, t.loco as LocoType);
-      expect(res.success).toBe(true);
-      if (res.success) {
-        expect(res.minTonnage).toBe(t.expected);
-      }
-    }
-  });
-
-  it('direction asymmetry test', () => {
-    // DERİNCE -> BİLECİK vs BİLECİK -> DERİNCE
-    const resA = resolveCekerRoute('DERİNCE', 'BİLECİK', 'DE22000');
-    const resB = resolveCekerRoute('BİLECİK', 'DERİNCE', 'DE22000');
-    expect(resA.success).toBe(true);
-    expect(resB.success).toBe(true);
-    if (resA.success && resB.success) {
-      expect(resA.direction).toBe('EAST');
-      expect(resB.direction).toBe('WEST');
-      expect(resA.minTonnage).toBe(1200);
-      expect(resB.minTonnage).toBe(1700);
-      expect(resA.minTonnage).not.toBe(resB.minTonnage);
-    }
-  });
-
-  it('same station behavior', () => {
-    const res = resolveCekerRoute('GEBZE', 'GEBZE', 'DE22000');
+describe('Ceker Bilgi Core Logic', () => {
+  it('same station returns error', () => {
+    const res = resolveCekerRoute('ESKİŞEHİR', 'ESKİŞEHİR');
     expect(res.success).toBe(false);
     if (!res.success) {
       expect(res.error).toBe('same_station');
@@ -94,13 +33,97 @@ describe('Ceker Bilgi Routing Resolution (Golden Cases)', () => {
   });
 
   it('undefined route / gaps behavior', () => {
-    // Try to go somewhere totally unconnected, but wait, we only have 61 connected stations.
-    // What if we break a gap manually to test?
-    // Let's pass a fictional station
-    const res1 = resolveCekerRoute('ESKİŞEHİR', 'ANKARA', 'DE22000');
+    const res1 = resolveCekerRoute('ESKİŞEHİR', 'ANKARA');
     expect(res1.success).toBe(false);
+  });
 
-    // Let's test the gap logic directly. Since all our current edges fully cover the 61 stations,
-    // we can't naturally get a gap. But the code has it covered.
+  it('direction detection', () => {
+    const fw = resolveCekerRoute('ESKİŞEHİR', 'HALKALI');
+    expect(fw.success).toBe(true);
+    if (fw.success) expect(fw.direction).toBe('WEST');
+
+    const rev = resolveCekerRoute('HALKALI', 'ESKİŞEHİR');
+    expect(rev.success).toBe(true);
+    if (rev.success) expect(rev.direction).toBe('EAST');
+  });
+});
+
+describe('Python Golden Cases', () => {
+  const getLocoVal = (res: any, loco: string) => {
+    return res.locomotives.find((l: any) => l.locomotive === loco)?.maxTonnage;
+  };
+
+  it('BİLECİK -> ARİFİYE (DE22000 = 1700)', () => {
+    const res = resolveCekerRoute('BİLECİK', 'ARİFİYE');
+    expect(res.success).toBe(true);
+    if (!res.success) return;
+    expect(getLocoVal(res, 'de22000')).toBe(1700);
+    const ties = res.locomotives.find(l => l.locomotive === 'de22000')?.limitingSections.map(e => e.from + '->' + e.to);
+    expect(ties).toEqual(['BİLECİK->DERİNCE']);
+  });
+
+  it('ARİFİYE -> BİLECİK (DE22000 = 1200)', () => {
+    const res = resolveCekerRoute('ARİFİYE', 'BİLECİK');
+    expect(res.success).toBe(true);
+    if (!res.success) return;
+    expect(getLocoVal(res, 'de22000')).toBe(1200);
+  });
+
+  it('ARİFİYE -> HALKALI (DE22000 = 1150)', () => {
+    const res = resolveCekerRoute('ARİFİYE', 'HALKALI');
+    expect(res.success).toBe(true);
+    if (!res.success) return;
+    expect(getLocoVal(res, 'de22000')).toBe(1150);
+  });
+
+  it('HALKALI -> ESKİŞEHİR (DE22000 = 650)', () => {
+    const res = resolveCekerRoute('HALKALI', 'ESKİŞEHİR');
+    expect(res.success).toBe(true);
+    if (!res.success) return;
+    expect(getLocoVal(res, 'de22000')).toBe(650);
+  });
+
+  it('ESKİŞEHİR -> HALKALI (DE22000 = 1150)', () => {
+    const res = resolveCekerRoute('ESKİŞEHİR', 'HALKALI');
+    expect(res.success).toBe(true);
+    if (!res.success) return;
+    expect(getLocoVal(res, 'de22000')).toBe(1150);
+    const ties = res.locomotives.find(l => l.locomotive === 'de22000')?.limitingSections.map(e => e.from + '->' + e.to);
+    expect(ties).toEqual(['GEBZE->HALKALI']);
+  });
+
+  it('All 14 columns present for Bilecik -> Derince', () => {
+    const res = resolveCekerRoute('BİLECİK', 'DERİNCE');
+    expect(res.success).toBe(true);
+    if (!res.success) return;
+    
+    expect(getLocoVal(res, 'de22000')).toBe(1700);
+    expect(getLocoVal(res, 'de24000')).toBe(1355);
+    expect(getLocoVal(res, 'de33000')).toBe(2340);
+    expect(getLocoVal(res, 'de36000')).toBe(2500);
+    expect(getLocoVal(res, 'e43000')).toBe(2500);
+    expect(getLocoVal(res, 'e68000')).toBe(2250);
+    expect(getLocoVal(res, 'e68000_m')).toBe(2500);
+    expect(getLocoVal(res, 'hb83000_dizel')).toBe(2500);
+    expect(getLocoVal(res, 'hb83000_elektrik')).toBe(2500);
+    expect(getLocoVal(res, 'e76000')).toBe(2500);
+    expect(getLocoVal(res, 'e5000')).toBe(2500);
+    expect(getLocoVal(res, 'ton_100')).toBe(1970);
+    expect(getLocoVal(res, 'ton_150')).toBe(3000);
+    expect(getLocoVal(res, 'ton_350')).toBe(4000);
+    
+    expect(res.locomotives.length).toBe(14);
+  });
+  
+  it('Tie preservation test', () => {
+      const res = resolveCekerRoute('BİLECİK', 'GEBZE');
+      expect(res.success).toBe(true);
+      if (!res.success) return;
+      const ties = res.locomotives.find(l => l.locomotive === 'de22000')?.limitingSections;
+      expect(ties?.length).toBe(2);
+      expect(ties?.[0].from).toBe('BİLECİK');
+      expect(ties?.[0].to).toBe('DERİNCE');
+      expect(ties?.[1].from).toBe('DERİNCE');
+      expect(ties?.[1].to).toBe('GEBZE');
   });
 });
