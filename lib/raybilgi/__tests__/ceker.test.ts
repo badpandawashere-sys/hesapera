@@ -126,4 +126,22 @@ describe('Python Golden Cases', () => {
       expect(ties?.[1].from).toBe('DERİNCE');
       expect(ties?.[1].to).toBe('GEBZE');
   });
+
+  it('Missing data test', () => {
+      const originalVal = CEKER_EDGES_WEST[0].limits['de22000'];
+      (CEKER_EDGES_WEST[0].limits as any)['de22000'] = null;
+
+      const res = resolveCekerRoute('ESKİŞEHİR', 'HALKALI');
+
+      (CEKER_EDGES_WEST[0].limits as any)['de22000'] = originalVal;
+
+      expect(res.success).toBe(true);
+      if (!res.success) return;
+
+      const de22000 = res.locomotives.find(l => l.locomotive === 'de22000');
+      expect(de22000?.missingData).toBe(true);
+
+      const de24000 = res.locomotives.find(l => l.locomotive === 'de24000');
+      expect(de24000?.missingData).toBe(false); // Others are untouched
+  });
 });
