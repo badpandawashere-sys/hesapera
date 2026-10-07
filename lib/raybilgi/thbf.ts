@@ -211,15 +211,16 @@ export const DEFAULT_SAHA_LAYOUT: SahaLayout = '4-4-4';
 
 /** Kanonik 12 haneli numarayı seçilen düzene göre hücrelere böler. */
 export function splitWagonNo(canon: string, layout: SahaLayout): string[] {
+  const dashed = canon.length === 12 ? canon.slice(0, 11) + '-' + canon.slice(11) : canon;
   switch (layout) {
     case '4-4-4':
-      return [canon.slice(0, 4), canon.slice(4, 8), canon.slice(8, 12)];
+      return [dashed.slice(0, 4), dashed.slice(4, 8), dashed.slice(8)];
     case '8-4':
-      return [canon.slice(0, 8), canon.slice(8, 12)];
+      return [dashed.slice(0, 8), dashed.slice(8)];
     case '11-1':
-      return [canon.slice(0, 11), canon.slice(11, 12)];
+      return [dashed.slice(0, 11), dashed.slice(11)];
     case '12 Direkt':
-      return [canon];
+      return [dashed];
   }
 }
 

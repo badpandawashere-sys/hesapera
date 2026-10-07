@@ -80,14 +80,14 @@ describe('THBF parser', () => {
   it('C/D/E/F) layouts split correctly, including leading zeros', () => {
     expect(SAHA_LAYOUTS).toEqual(['4-4-4', '8-4', '11-1', '12 Direkt']);
     expect(DEFAULT_SAHA_LAYOUT).toBe('4-4-4');
-    expect(splitWagonNo('335379123456', '4-4-4')).toEqual(['3353', '7912', '3456']);
-    expect(splitWagonNo('335379123456', '8-4')).toEqual(['33537912', '3456']);
-    expect(splitWagonNo('335379123456', '11-1')).toEqual(['33537912345', '6']);
-    expect(splitWagonNo('335379123456', '12 Direkt')).toEqual(['335379123456']);
-    expect(splitWagonNo('001234567890', '4-4-4')).toEqual(['0012', '3456', '7890']);
-    expect(splitWagonNo('001234567890', '8-4')).toEqual(['00123456', '7890']);
-    expect(splitWagonNo('001234567890', '11-1')).toEqual(['00123456789', '0']);
-    expect(splitWagonNo('001234567890', '12 Direkt')).toEqual(['001234567890']);
+    expect(splitWagonNo('335379123456', '4-4-4')).toEqual(['3353', '7912', '345-6']);
+    expect(splitWagonNo('335379123456', '8-4')).toEqual(['33537912', '345-6']);
+    expect(splitWagonNo('335379123456', '11-1')).toEqual(['33537912345', '-6']);
+    expect(splitWagonNo('335379123456', '12 Direkt')).toEqual(['33537912345-6']);
+    expect(splitWagonNo('001234567890', '4-4-4')).toEqual(['0012', '3456', '789-0']);
+    expect(splitWagonNo('001234567890', '8-4')).toEqual(['00123456', '789-0']);
+    expect(splitWagonNo('001234567890', '11-1')).toEqual(['00123456789', '-0']);
+    expect(splitWagonNo('001234567890', '12 Direkt')).toEqual(['00123456789-0']);
   });
 
   it('G) reverse ordering', () => {
@@ -156,10 +156,10 @@ describe('THBF parser', () => {
       row({ id: 'a', regime: '3353', seri: '7912', vagon_no: '345-6', gidecegi: 'ARIFIYE' }),
       row({ id: 'b', regime: '0012', seri: '3456', vagon_no: '789-0', gidecegi: 'KÖRFEZ' }),
     ];
-    expect(buildCopyPayload(rows, '4-4-4').text).toBe('3353\t7912\t3456\tARIFIYE\n0012\t3456\t7890\tKÖRFEZ');
-    expect(buildCopyPayload(rows, '8-4').text).toBe('33537912\t3456\tARIFIYE\n00123456\t7890\tKÖRFEZ');
-    expect(buildCopyPayload(rows, '11-1').text).toBe('33537912345\t6\tARIFIYE\n00123456789\t0\tKÖRFEZ');
-    expect(buildCopyPayload(rows, '12 Direkt').text).toBe('335379123456\tARIFIYE\n001234567890\tKÖRFEZ');
+    expect(buildCopyPayload(rows, '4-4-4').text).toBe('3353\t7912\t345-6\tARIFIYE\n0012\t3456\t789-0\tKÖRFEZ');
+    expect(buildCopyPayload(rows, '8-4').text).toBe('33537912\t345-6\tARIFIYE\n00123456\t789-0\tKÖRFEZ');
+    expect(buildCopyPayload(rows, '11-1').text).toBe('33537912345\t-6\tARIFIYE\n00123456789\t-0\tKÖRFEZ');
+    expect(buildCopyPayload(rows, '12 Direkt').text).toBe('33537912345-6\tARIFIYE\n00123456789-0\tKÖRFEZ');
   });
 
   it('HTML clipboard variant marks cells as text without visible prefixes', () => {
@@ -178,7 +178,7 @@ describe('THBF parser', () => {
     const p = buildCopyPayload([bad, good], '4-4-4');
     expect(p.copiedCount).toBe(1);
     expect(p.skippedCount).toBe(1);
-    expect(p.text).toBe('3353\t7912\t3456\tARIFIYE');
+    expect(p.text).toBe('3353\t7912\t345-6\tARIFIYE');
   });
 
   it('builds PyMuPDF-like words from split PDF.js fragments', () => {

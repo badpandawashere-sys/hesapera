@@ -310,7 +310,11 @@ export function ThbfParser() {
                       <td className="px-3 py-1.5">{row.tip}</td>
                       <td className="px-3 py-1.5 font-mono">{row.regime}</td>
                       <td className="px-3 py-1.5 font-mono">{row.seri}</td>
-                      <td className="px-3 py-1.5 font-mono">{row.vagon_no}</td>
+                      <td className="px-3 py-1.5 font-mono">
+                        {row.vagon_no.includes('-')
+                          ? row.vagon_no
+                          : row.vagon_no.slice(0, -1) + '-' + row.vagon_no.slice(-1)}
+                      </td>
                       <td className="px-3 py-1.5">{row.gidecegi}</td>
                     </tr>
                   );
