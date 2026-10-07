@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, Search, X, Calculator, Grid2X2, BookOpen, ChevronDown } from 'lucide-react';
+import { TrainFront } from 'lucide-react';
 import { useState } from 'react';
 import { SiteContainer } from './site-container';
 import { Button } from '@/components/ui/button';
@@ -12,9 +13,10 @@ export function Header() {
   const pathname = usePathname();
 
   const navLinks = [
-    { label: 'Hesaplayıcılar', href: '/hesaplama', icon: Calculator },
+    { label: 'HesaplayÄ±cÄ±lar', href: '/hesaplama', icon: Calculator },
     { label: 'Kategoriler', href: '/kategoriler', icon: Grid2X2, chevron: true },
     { label: 'Rehber', href: '/rehber', icon: BookOpen },
+    { label: 'RayBilgi', href: '/raybilgi', icon: TrainFront },
   ];
 
   return (
@@ -57,14 +59,14 @@ export function Header() {
 
           <div className="hidden md:flex items-center space-x-4">
             <Link href="/hesaplama" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2">
-              Tüm Hesaplayıcılar
+              TÃ¼m HesaplayÄ±cÄ±lar
             </Link>
           </div>
 
           <button
             className="md:hidden p-2 text-foreground"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Menüyü aç/kapat"
+            aria-label="MenÃ¼yÃ¼ aÃ§/kapat"
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>

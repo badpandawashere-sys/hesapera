@@ -56,6 +56,18 @@ export function Footer() {
             </ul>
           </div>
 
+                    {/* RayBilgi */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold tracking-wider uppercase text-foreground">RayBilgi</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/raybilgi" className="text-muted-foreground hover:text-primary transition-colors">
+                  RayBilgi Araçları
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Corporate */}
           <div className="space-y-4">
             <h4 className="text-xs font-semibold tracking-wider uppercase text-foreground">Kurumsal</h4>
