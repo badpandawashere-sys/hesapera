@@ -53,7 +53,20 @@ function StationCombobox({
   const filtered = useMemo(() => {
     if (!search) return options;
     const s = normalizeForSearch(search);
-    return options.filter(opt => normalizeForSearch(opt).includes(s));
+    
+    const isSubsequence = (searchStr: string, textStr: string) => {
+      let i = 0, j = 0;
+      while (i < searchStr.length && j < textStr.length) {
+        if (searchStr[i] === textStr[j]) i++;
+        j++;
+      }
+      return i === searchStr.length;
+    };
+
+    return options.filter(opt => {
+      const normalizedOpt = normalizeForSearch(opt);
+      return normalizedOpt.includes(s) || isSubsequence(s, normalizedOpt);
+    });
   }, [search, options]);
 
   return (
