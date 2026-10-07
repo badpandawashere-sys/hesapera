@@ -141,7 +141,7 @@ function StationCombobox({
       </div>
 
       {open && (
-        <div className="absolute z-50 w-full mt-1 bg-popover text-popover-foreground border rounded-md shadow-md max-h-60 overflow-y-auto" ref={listRef}>
+        <div className="w-full mt-2 bg-popover text-popover-foreground border rounded-md shadow-md max-h-60 overflow-y-auto" ref={listRef}>
           {filtered.length === 0 ? (
             <div className="px-3 py-2 text-sm text-muted-foreground text-center">İstasyon bulunamadı</div>
           ) : (
