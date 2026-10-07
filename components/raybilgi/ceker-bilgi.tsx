@@ -32,7 +32,9 @@ function StationCombobox({
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -47,6 +49,7 @@ function StationCombobox({
   useEffect(() => {
     if (!open) {
       setSearch('');
+      setHighlightedIndex(-1);
     }
   }, [open]);
 
@@ -69,8 +72,51 @@ function StationCombobox({
     });
   }, [search, options]);
 
+  useEffect(() => {
+    setHighlightedIndex(filtered.length > 0 ? 0 : -1);
+  }, [search, filtered.length]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!open) {
+      if (e.key === 'ArrowDown' || e.key === 'Enter') {
+        e.preventDefault();
+        setOpen(true);
+      }
+      return;
+    }
+    
+    if (e.key === 'Escape') {
+      setOpen(false);
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex(prev => (prev < filtered.length - 1 ? prev + 1 : prev));
+      scrollToIndex(highlightedIndex + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex(prev => (prev > 0 ? prev - 1 : prev));
+      scrollToIndex(highlightedIndex - 1);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+        onChange(filtered[highlightedIndex]);
+        setOpen(false);
+      }
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!listRef.current) return;
+    const item = listRef.current.children[index] as HTMLElement;
+    if (item) {
+      item.scrollIntoView({ block: 'nearest' });
+    }
+  };
+
   return (
-    <div className="relative w-full" ref={wrapperRef}>
+    <div className={cn("relative w-full", open && "z-50")} ref={wrapperRef} onKeyDown={handleKeyDown}>
       <div 
         className={cn(
           "flex items-center justify-between w-full h-11 px-3 rounded-lg border bg-background text-sm cursor-text transition-colors",
@@ -95,18 +141,21 @@ function StationCombobox({
       </div>
 
       {open && (
-        <div className="absolute z-50 w-full mt-1 bg-popover text-popover-foreground border rounded-md shadow-md max-h-60 overflow-auto">
+        <div className="absolute z-50 w-full mt-1 bg-popover text-popover-foreground border rounded-md shadow-md max-h-60 overflow-y-auto" ref={listRef}>
           {filtered.length === 0 ? (
             <div className="px-3 py-2 text-sm text-muted-foreground text-center">İstasyon bulunamadı</div>
           ) : (
-            filtered.map((opt) => (
+            filtered.map((opt, i) => (
               <div
                 key={opt}
                 className={cn(
                   "px-3 py-2 text-sm cursor-pointer hover:bg-violet-50 hover:text-violet-900 transition-colors flex items-center justify-between",
-                  value === opt && "bg-violet-50/50 text-violet-900 font-medium"
+                  (value === opt || highlightedIndex === i) && "bg-violet-50/50 text-violet-900 font-medium",
+                  highlightedIndex === i && "bg-violet-100"
                 )}
-                onClick={() => {
+                onMouseEnter={() => setHighlightedIndex(i)}
+                onClick={(e) => {
+                  e.stopPropagation();
                   onChange(opt);
                   setOpen(false);
                 }}

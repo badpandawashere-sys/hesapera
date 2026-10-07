@@ -92,27 +92,19 @@ describe('Python Golden Cases', () => {
     expect(ties).toEqual(['GEBZE->HALKALI']);
   });
 
-  it('All 14 columns present for Bilecik -> Derince', () => {
+  it('All 6 visible columns present for Bilecik -> Derince', () => {
     const res = resolveCekerRoute('BİLECİK', 'DERİNCE');
     expect(res.success).toBe(true);
     if (!res.success) return;
     
+    expect(getLocoVal(res, 'e5000')).toBe(2500);
+    expect(getLocoVal(res, 'e68000')).toBe(2250);
     expect(getLocoVal(res, 'de22000')).toBe(1700);
     expect(getLocoVal(res, 'de24000')).toBe(1355);
     expect(getLocoVal(res, 'de33000')).toBe(2340);
     expect(getLocoVal(res, 'de36000')).toBe(2500);
-    expect(getLocoVal(res, 'e43000')).toBe(2500);
-    expect(getLocoVal(res, 'e68000')).toBe(2250);
-    expect(getLocoVal(res, 'e68000_m')).toBe(2500);
-    expect(getLocoVal(res, 'hb83000_dizel')).toBe(2500);
-    expect(getLocoVal(res, 'hb83000_elektrik')).toBe(2500);
-    expect(getLocoVal(res, 'e76000')).toBe(2500);
-    expect(getLocoVal(res, 'e5000')).toBe(2500);
-    expect(getLocoVal(res, 'ton_100')).toBe(1970);
-    expect(getLocoVal(res, 'ton_150')).toBe(3000);
-    expect(getLocoVal(res, 'ton_350')).toBe(4000);
     
-    expect(res.locomotives.length).toBe(14);
+    expect(res.locomotives.length).toBe(6);
   });
   
   it('Tie preservation test', () => {

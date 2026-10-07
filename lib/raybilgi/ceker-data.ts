@@ -443,3 +443,13 @@ export const CEKER_LOCOMOTIVES: { id: LocoType; label: string }[] = [
   { id: 'ton_150', label: '150 Ton' },
   { id: 'ton_350', label: '350 Ton' }
 ];
+
+export const VISIBLE_CEKER_LOCOMOTIVES: { id: LocoType; label: string }[] = [
+  { id: 'e5000', label: 'E 5000' },
+  { id: 'e68000', label: 'E 68000' },
+  { id: 'de22000', label: 'DE 22000' },
+  { id: 'de24000', label: 'DE 24000' },
+  { id: 'de33000', label: 'DE 33000' },
+  { id: 'de36000', label: 'DE 36000' }
+];
+

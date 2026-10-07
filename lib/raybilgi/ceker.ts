@@ -5,7 +5,8 @@ import {
   LocoType,
   ROUTE_ESKISEHIR_HALKALI,
   ROUTE_HALKALI_ESKISEHIR,
-  CEKER_LOCOMOTIVES
+  CEKER_LOCOMOTIVES,
+  VISIBLE_CEKER_LOCOMOTIVES
 } from './ceker-data';
 
 export interface CekerLocoResult {
@@ -114,10 +115,10 @@ export function resolveCekerRoute(start: string, end: string): CekerResult {
     return { success: false, error: 'undefined_route' };
   }
 
-  // Calculate limits for ALL locomotives in source order
+  // Calculate limits for ALL visible locomotives in source order
   const locoResults: CekerLocoResult[] = [];
 
-  for (const locoData of CEKER_LOCOMOTIVES) {
+  for (const locoData of VISIBLE_CEKER_LOCOMOTIVES) {
     const loco = locoData.id;
     let minTonnage = Infinity;
     let limitingSections: CekerEdge[] = [];
