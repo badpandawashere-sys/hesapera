@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Manrope } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -49,6 +50,14 @@ export default function RootLayout({
       lang="tr"
       className={`${fontSans.variable} ${fontHeading.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6226482996926045"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="min-h-screen flex flex-col antialiased font-sans">
         <GoogleAnalytics />
         <Header />
