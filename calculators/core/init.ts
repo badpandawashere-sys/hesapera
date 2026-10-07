@@ -28,6 +28,7 @@ import { factorialCalculatorDef } from '../definitions/factorial';
 import { permutationCalculatorDef } from '../definitions/permutation';
 import { combinationCalculatorDef } from '../definitions/combination';
 import { ageCalculatorDef } from '../definitions/age';
+import { gunHesaplamaDef } from '../definitions/gunHesaplama';
 import { consumerLoanCalculatorDef } from '../definitions/consumerLoan';
 import { workplaceLoanCalculatorDef } from '../definitions/workplaceLoan';
 import { mortgageLoanCalculatorDef } from '../definitions/mortgageLoan';
@@ -174,6 +175,7 @@ export function initializeCalculators() {
   CalculatorRegistry.register(permutationCalculatorDef);
   CalculatorRegistry.register(combinationCalculatorDef);
   CalculatorRegistry.register(ageCalculatorDef);
+  CalculatorRegistry.register(gunHesaplamaDef);
   CalculatorRegistry.register(consumerLoanCalculatorDef);
   CalculatorRegistry.register(workplaceLoanCalculatorDef);
   CalculatorRegistry.register(mortgageLoanCalculatorDef);

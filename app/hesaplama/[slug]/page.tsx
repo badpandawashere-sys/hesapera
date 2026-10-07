@@ -57,6 +57,7 @@ import { ZamHesaplamaForm } from '@/components/calculator/zam-hesaplama-form';
 import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
 import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
 import { VkiForm } from '@/components/calculator/vki-form';
+import { GunHesaplamaForm } from '@/components/calculator/gun-hesaplama-form';
 import { AdBanner } from '@/components/ads/ad-banner';
 import { RelatedCalculators } from '@/components/calculator/related-calculators';
 import { generatedPremiumForms } from '@/components/calculator/generated-premium-forms';
@@ -281,6 +282,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <PerimeterForm calculator={calculatorViewModel} />
         ) : slug === 'yakit-tuketimi' ? (
           <YakitTuketimiForm calculator={calculatorViewModel} />
+          ) : slug === 'gun-hesaplama' ? (
+            <GunHesaplamaForm calculator={calculatorViewModel} />
         ) : GeneratedPremiumForm ? (
           <GeneratedPremiumForm calculator={calculatorViewModel} />
         ) : (
@@ -310,3 +313,4 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
     </main>
   );
 }
+

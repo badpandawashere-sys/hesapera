@@ -10,6 +10,7 @@ const CATEGORY_MAP: Record<string, string> = {
   'koklu-sayi': 'matematik',
   'alan': 'matematik',
   'cevre': 'matematik',
+  'gun-hesaplama': 'matematik',
 
   'ihtiyac-kredisi': 'kredi',
   'konut-kredisi': 'kredi',
