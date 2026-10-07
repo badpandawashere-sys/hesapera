@@ -102,6 +102,34 @@ export default function RayBilgiPage() {
                 </Link>
               );
             }
+              if (item.id === 'ceker') {
+                return (
+                  <Link
+                    key={item.id}
+                    href="/raybilgi/ceker-bilgi"
+                    data-testid="raybilgi-card-ceker"
+                    className="group p-5 rounded-2xl bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] flex flex-col justify-between transition-colors hover:border-violet-300"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="p-2.5 bg-violet-100 rounded-lg text-violet-700">
+                          <Icon className="w-5 h-5" strokeWidth={1.8} />
+                        </div>
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold uppercase tracking-wider">
+                          Kullanıma açık
+                          <ArrowRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                      <h3 className="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-2">
+                        {item.name}
+                      </h3>
+                      <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-4">
+                        {item.description}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              }
             return (
               <div key={item.id} className="group p-5 rounded-2xl bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] flex flex-col justify-between opacity-80 cursor-not-allowed">
                 <div>
