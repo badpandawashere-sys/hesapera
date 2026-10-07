@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 import { CalculatorViewModel } from "@/calculators/core/calculator-types";
 import { calculateAction } from "@/app/actions/calculate";
@@ -56,7 +56,16 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
       if (res.success && res.data) {
         setResult(res);
       } else if (res.errors) {
-        setFieldErrors({ _form: res.errors.join(", ") });
+        const newErrors: Record<string, string> = {};
+        res.errors.forEach((err: string) => {
+          const parts = err.split(": ");
+          if (parts.length > 1 && ["targetDate", "startDate", "endDate"].includes(parts[0])) {
+            newErrors[parts[0]] = parts.slice(1).join(": ");
+          } else {
+            newErrors["_form"] = (newErrors["_form"] ? newErrors["_form"] + ", " : "") + err;
+          }
+        });
+        setFieldErrors(newErrors);
       }
     } catch (err) {
       console.error(err);
@@ -95,6 +104,7 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
                   onChange={(e) => setTargetDate(e.target.value)}
                   className={`h-12 ${fieldErrors["targetDate"] ? "border-destructive" : ""}`}
                 />
+                {fieldErrors["targetDate"] && <p className="text-sm font-medium text-destructive mt-1.5">{fieldErrors["targetDate"]}</p>}
               </div>
             )}
 
@@ -108,6 +118,7 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
                   onChange={(e) => setStartDate(e.target.value)}
                   className={`h-12 ${fieldErrors["startDate"] ? "border-destructive" : ""}`}
                 />
+                {fieldErrors["startDate"] && <p className="text-sm font-medium text-destructive mt-1.5">{fieldErrors["startDate"]}</p>}
               </div>
             )}
 
@@ -122,6 +133,7 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
                     onChange={(e) => setStartDate(e.target.value)}
                     className={`h-12 ${fieldErrors["startDate"] ? "border-destructive" : ""}`}
                   />
+                  {fieldErrors["startDate"] && <p className="text-sm font-medium text-destructive mt-1.5">{fieldErrors["startDate"]}</p>}
                 </div>
                 
                 <div className="flex justify-center -my-2 relative z-10">
@@ -144,6 +156,7 @@ export function GunHesaplamaForm({ calculator }: GunHesaplamaFormProps) {
                     onChange={(e) => setEndDate(e.target.value)}
                     className={`h-12 ${fieldErrors["endDate"] ? "border-destructive" : ""}`}
                   />
+                  {fieldErrors["endDate"] && <p className="text-sm font-medium text-destructive mt-1.5">{fieldErrors["endDate"]}</p>}
                 </div>
               </div>
             )}
