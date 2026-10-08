@@ -1,8 +1,16 @@
+import 'server-only';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
-const secretKey = process.env.RAYBILGI_SESSION_SECRET || 'fallback_secret_only_for_local_dev';
+const secretStr = process.env.RAYBILGI_SESSION_SECRET;
+const secretKey = secretStr || 'fallback_secret_only_for_local_dev_1234567890';
 const encodedKey = new TextEncoder().encode(secretKey);
+
+function ensureProductionSecret() {
+  if (!secretStr && process.env.NODE_ENV === 'production') {
+    throw new Error('RAYBILGI_SESSION_SECRET environment variable is missing.');
+  }
+}
 
 export type SessionPayload = {
   stationCode: string;
@@ -11,6 +19,7 @@ export type SessionPayload = {
 };
 
 export async function encrypt(payload: SessionPayload) {
+  ensureProductionSecret();
   return new SignJWT({ ...payload, expiresAt: payload.expiresAt.toISOString() })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -19,6 +28,7 @@ export async function encrypt(payload: SessionPayload) {
 }
 
 export async function decrypt(session: string | undefined = '') {
+  ensureProductionSecret();
   try {
     if (!session) return null;
     const { payload } = await jwtVerify(session, encodedKey, {

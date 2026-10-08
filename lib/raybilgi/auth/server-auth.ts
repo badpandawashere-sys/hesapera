@@ -1,3 +1,4 @@
+import 'server-only';
 import stationCodes from '../station_codes.json';
 
 // Normalize Turkish to lowercase ascii roughly, just for matching
