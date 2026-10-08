@@ -74,6 +74,35 @@ export default function RayBilgiPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {modules.map((item) => {
             const Icon = item.icon;
+            
+            if (item.id === 'gvd') {
+              return (
+                <Link
+                  key={item.id}
+                  href="/raybilgi/giris?next=/raybilgi/gvd"
+                  data-testid="raybilgi-card-gvd"
+                  className="group p-5 rounded-2xl bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] flex flex-col justify-between transition-colors hover:border-violet-300"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-2.5 bg-violet-100 rounded-lg text-violet-700">
+                        <Icon className="w-5 h-5" strokeWidth={1.8} />
+                      </div>
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold uppercase tracking-wider">
+                        Kullanıma açık
+                        <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-2">
+                      {item.name}
+                    </h3>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-4">
+                      {item.description}
+                    </p>
+                  </div>
+                </Link>
+              );
+            }
             if (item.id === 'thbf') {
               return (
                 <Link
