@@ -259,7 +259,7 @@ export function CekerBilgi() {
               <div className="space-y-4">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Lokomotif Kanca Çekeri Limitleri</h3>
                 <div className="overflow-x-auto pb-4">
-                  <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-y-2.5">
+                  <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-y-4">
                     <thead>
                       <tr>
                         <th className="pb-1 pl-4 pr-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Lokomotif</th>
@@ -273,9 +273,9 @@ export function CekerBilgi() {
                         return (
                           <tr 
                             key={locoRes.locomotive} 
-                            className="group transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass-subtle)] bg-[var(--color-glass-bg)] backdrop-blur-[6px] shadow-sm"
+                            className="group transition-all duration-300 hover:-translate-y-1 hover:shadow-md bg-white/70 dark:bg-black/30 backdrop-blur-md shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)]"
                           >
-                            <td className="py-4 pl-4 pr-4 font-medium text-foreground border-y border-l border-[var(--color-glass-border)] rounded-l-xl">
+                            <td className="py-5 pl-5 pr-4 font-medium text-foreground border-y border-l border-border/50 rounded-l-2xl">
                               <div className="flex items-center gap-3">
                                 <div className="p-2 rounded-xl bg-violet-100/50 group-hover:bg-violet-100 transition-colors">
                                   <Train className="w-4 h-4 text-violet-600" />
@@ -283,23 +283,23 @@ export function CekerBilgi() {
                                 <span className="font-semibold text-[15px]">{label}</span>
                               </div>
                             </td>
-                            <td className="py-4 px-4 text-center border-y border-[var(--color-glass-border)]">
+                            <td className="py-5 px-4 text-center border-y border-border/50">
                               {locoRes.missingData ? (
                                 <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-md">Veri bulunamadı</span>
                               ) : (
-                                <span className="inline-flex items-baseline gap-1 font-bold text-foreground text-[22px] tabular-nums tracking-tight">
+                                <span className="inline-flex items-baseline gap-1 font-extrabold text-foreground text-[24px] tabular-nums tracking-tight">
                                   {locoRes.maxTonnage} <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">ton</span>
                                 </span>
                               )}
                             </td>
-                            <td className="py-4 pr-4 pl-4 font-medium text-muted-foreground border-y border-r border-[var(--color-glass-border)] rounded-r-xl">
+                            <td className="py-5 pr-5 pl-4 font-medium text-muted-foreground border-y border-r border-border/50 rounded-r-2xl">
                               {!locoRes.missingData && locoRes.limitingSections.length > 0 && (
                                 <div className="flex flex-col gap-1.5">
                                   {locoRes.limitingSections.map((sec, idx) => (
-                                    <div key={idx} className="flex items-center gap-1.5 text-[13px] bg-background/50 border border-border/30 rounded-lg px-2.5 py-1 w-max group-hover:bg-background transition-colors">
-                                      <span className="text-foreground font-medium">{sec.from}</span>
+                                    <div key={idx} className="flex items-center gap-1.5 text-[13px] bg-muted/50 border border-border/40 rounded-lg px-2.5 py-1.5 w-max group-hover:bg-background group-hover:border-border/60 transition-colors">
+                                      <span className="text-foreground font-semibold">{sec.from}</span>
                                       <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40" />
-                                      <span className="text-foreground font-medium">{sec.to}</span>
+                                      <span className="text-foreground font-semibold">{sec.to}</span>
                                     </div>
                                   ))}
                                 </div>
