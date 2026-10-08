@@ -14,22 +14,18 @@ export async function loginAction(formData: FormData) {
     return { error: 'Kullanıcı ID veya şifre hatalı.' }; // Generic
   }
 
-  try {
-    const validStation = await validateStationLogin(username, password);
+  // Rate limiting stub: Add real implementation here if infrastructure allows
+  // await checkRateLimit(username);
 
-    if (!validStation) {
-      return { error: 'Kullanıcı ID veya şifre hatalı.' };
-    }
+  const validStation = await validateStationLogin(username, password);
 
-    await createSession(validStation.stationCode, validStation.stationName, remember);
-  } catch (err: any) {
-    // DIAGNOSTIC ONLY: return the exact error message
-    // Also include the length of the secret if it exists
-    const secret = process.env.RAYBILGI_SESSION_SECRET;
-    const secretInfo = secret ? `LEN:${secret.length}` : 'MISSING';
-    return { error: `[DIAGNOSTIC] ${err.message} | Env: ${secretInfo}` };
+  if (!validStation) {
+    return { error: 'Kullanıcı ID veya şifre hatalı.' };
   }
 
+  await createSession(validStation.stationCode, validStation.stationName, remember);
+
+  // Validate nextUrl securely to prevent open redirects
   let redirectUrl = '/raybilgi/gvd';
   if (nextUrl && nextUrl.startsWith('/raybilgi/')) {
     redirectUrl = nextUrl;
