@@ -261,7 +261,14 @@ export function buildCopyPayload(rows: ThbfRow[], layout: SahaLayout): CopyPaylo
     htmlRows.push(
       '<tr>' +
         cells
-          .map((c) => `<td x:str style='mso-number-format:"\\@"'>${escapeHtml(c)}</td>`)
+          .map((c) => {
+            if (/^\d+$/.test(c)) {
+              const format = '0'.repeat(c.length);
+              const numVal = parseInt(c, 10).toString();
+              return `<td style='mso-number-format:"${format}"'>${numVal}</td>`;
+            }
+            return `<td x:str style='mso-number-format:"\\@"'>${escapeHtml(c)}</td>`;
+          })
           .join('') +
         '</tr>',
     );

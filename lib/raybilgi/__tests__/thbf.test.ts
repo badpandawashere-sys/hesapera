@@ -162,13 +162,28 @@ describe('THBF parser', () => {
     expect(buildCopyPayload(rows, '12 Direkt').text).toBe('33537912345-6\tARIFIYE\n00123456789-0\tKÖRFEZ');
   });
 
-  it('HTML clipboard variant marks cells as text without visible prefixes', () => {
+  it('HTML clipboard variant marks cells as numeric/text appropriately without visible prefixes', () => {
     const p = buildCopyPayload([row({ regime: '0012', seri: '3456', vagon_no: '789-0', gidecegi: 'A<B' })], '4-4-4');
-    expect(p.html).toContain(`<td x:str style='mso-number-format:"\\@"'>0012</td>`);
+    // 0012 becomes a numeric cell with 0000 format
+    expect(p.html).toContain(`<td style='mso-number-format:"0000"'>12</td>`);
+    // 3456 becomes a numeric cell with 0000 format
+    expect(p.html).toContain(`<td style='mso-number-format:"0000"'>3456</td>`);
+    // 789-0 is non-numeric, remains x:str
+    expect(p.html).toContain(`<td x:str style='mso-number-format:"\\@"'>789-0</td>`);
     expect(p.html).toContain('A&lt;B');
     expect(p.html).not.toContain("'0012");
     expect(p.html).not.toContain('="0012"');
     expect(p.text).not.toContain("'");
+  });
+
+  it('HTML clipboard formats 8-4 and 11-1 correctly as numeric', () => {
+    const p8 = buildCopyPayload([row({ regime: '0012', seri: '3456', vagon_no: '789-0', gidecegi: 'X' })], '8-4');
+    expect(p8.html).toContain(`<td style='mso-number-format:"00000000"'>123456</td>`);
+    expect(p8.html).toContain(`<td x:str style='mso-number-format:"\\@"'>789-0</td>`);
+
+    const p11 = buildCopyPayload([row({ regime: '0012', seri: '3456', vagon_no: '789-0', gidecegi: 'X' })], '11-1');
+    expect(p11.html).toContain(`<td style='mso-number-format:"00000000000"'>123456789</td>`);
+    expect(p11.html).toContain(`<td x:str style='mso-number-format:"\\@"'>-0</td>`);
   });
 
   it('non-12-digit canonical is not silently corrupted: warned and skipped on copy', () => {
