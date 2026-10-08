@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { resolveCekerRoute } from '@/lib/raybilgi/ceker';
 import { ROUTE_ESKISEHIR_HALKALI, CEKER_LOCOMOTIVES } from '@/lib/raybilgi/ceker-data';
-import { AlertCircle, Train, MapPin, ArrowRight, ChevronDown, Check } from 'lucide-react';
+import { AlertCircle, Train, MapPin, ArrowRight, ChevronDown, Check, ArrowLeftRight, X, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 // Helper for Turkish search
 function normalizeForSearch(str: string) {
   return str.toLocaleLowerCase('tr-TR')
-    .replace(/ğ/g, 'g')
+    .replace(/ş/g, 's')
     .replace(/ü/g, 'u')
     .replace(/ş/g, 's')
     .replace(/ı/g, 'i')
@@ -19,38 +19,34 @@ function normalizeForSearch(str: string) {
     .replace(/ç/g, 'c');
 }
 
-function StationCombobox({ 
-  value, 
-  onChange, 
-  options, 
-  placeholder 
-}: { 
-  value: string; 
-  onChange: (v: string) => void; 
-  options: string[]; 
-  placeholder: string;
+function StationPickerModal({
+  open,
+  onClose,
+  value,
+  onChange,
+  options,
+  title
+}: {
+  open: boolean;
+  onClose: () => void;
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+  title: string;
 }) {
-  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (!open) {
+    if (open) {
       setSearch('');
       setHighlightedIndex(-1);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
+    return () => { document.body.style.overflow = ''; };
   }, [open]);
 
   const filtered = useMemo(() => {
@@ -77,19 +73,10 @@ function StationCombobox({
   }, [search, filtered.length]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!open) {
-      if (e.key === 'ArrowDown' || e.key === 'Enter') {
-        e.preventDefault();
-        setOpen(true);
-      }
-      return;
-    }
-    
     if (e.key === 'Escape') {
-      setOpen(false);
+      onClose();
       return;
     }
-
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setHighlightedIndex(prev => (prev < filtered.length - 1 ? prev + 1 : prev));
@@ -102,7 +89,7 @@ function StationCombobox({
       e.preventDefault();
       if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
         onChange(filtered[highlightedIndex]);
-        setOpen(false);
+        onClose();
       }
     }
   };
@@ -115,49 +102,46 @@ function StationCombobox({
     }
   };
 
-  return (
-    <div className={cn("relative w-full", open && "z-50")} ref={wrapperRef} onKeyDown={handleKeyDown}>
-      <div 
-        className={cn(
-          "flex items-center justify-between w-full h-11 px-3 rounded-lg border bg-background text-sm cursor-text transition-all duration-200",
-          open ? "border-violet-500 ring-2 ring-violet-500/20" : "border-input hover:border-violet-400 shadow-sm"
-        )}
-        onClick={() => setOpen(true)}
-      >
-        {open ? (
-          <input
-            autoFocus
-            className="flex-1 bg-transparent outline-none border-none placeholder:text-muted-foreground min-w-0"
-            placeholder="İstasyon ara..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-        ) : (
-          <span className={cn("truncate", !value && "text-muted-foreground")}>
-            {value || placeholder}
-          </span>
-        )}
-        <ChevronDown className="w-4 h-4 opacity-50 flex-shrink-0 ml-2" />
-      </div>
+  if (!open) return null;
 
-      {open && (
-        <div className="w-full mt-2 bg-popover text-popover-foreground border rounded-md shadow-md max-h-60 overflow-y-auto" ref={listRef}>
+  return (
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4" onKeyDown={handleKeyDown}>
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={onClose} />
+      <div className="relative w-full sm:max-w-md bg-background sm:rounded-2xl rounded-t-2xl shadow-2xl flex flex-col max-h-[85vh] sm:max-h-[70vh] animate-in slide-in-from-bottom-4 sm:slide-in-from-bottom-0 sm:fade-in sm:zoom-in-95 duration-200">
+        <div className="flex items-center justify-between p-4 border-b">
+          <h3 className="font-semibold text-lg text-foreground">{title}</h3>
+          <button onClick={onClose} className="p-2 -mr-2 hover:bg-muted rounded-full transition-colors">
+             <X className="w-5 h-5 text-muted-foreground" />
+          </button>
+        </div>
+        <div className="p-3 border-b bg-muted/30">
+          <div className="relative flex items-center">
+             <Search className="absolute left-3 w-4 h-4 text-muted-foreground" />
+             <input 
+               autoFocus 
+               className="w-full h-10 pl-9 pr-4 text-sm bg-background border border-input rounded-xl outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all"
+               placeholder="İstasyon ara..."
+               value={search}
+               onChange={e => setSearch(e.target.value)}
+             />
+          </div>
+        </div>
+        <div className="overflow-y-auto p-2 flex-1" ref={listRef}>
           {filtered.length === 0 ? (
-            <div className="px-3 py-2 text-sm text-muted-foreground text-center">İstasyon bulunamadı</div>
+            <div className="py-8 text-sm text-muted-foreground text-center">İstasyon bulunamadı</div>
           ) : (
             filtered.map((opt, i) => (
               <div
                 key={opt}
                 className={cn(
-                  "px-3 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between rounded-sm m-1",
-                  (value === opt) && "bg-violet-50 text-violet-900 font-medium",
-                  (highlightedIndex === i && value !== opt) && "bg-accent text-accent-foreground"
+                  "px-3 py-3 text-sm cursor-pointer transition-colors flex items-center justify-between rounded-lg m-1",
+                  value === opt && "bg-violet-50 text-violet-900 font-semibold",
+                  highlightedIndex === i && value !== opt && "bg-accent text-accent-foreground"
                 )}
                 onMouseEnter={() => setHighlightedIndex(i)}
-                onClick={(e) => {
-                  e.stopPropagation();
+                onClick={() => {
                   onChange(opt);
-                  setOpen(false);
+                  onClose();
                 }}
               >
                 {opt}
@@ -166,7 +150,7 @@ function StationCombobox({
             ))
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -176,6 +160,7 @@ export function CekerBilgi() {
 
   const [startStation, setStartStation] = useState<string>('');
   const [endStation, setEndStation] = useState<string>('');
+  const [pickerOpen, setPickerOpen] = useState<'start' | 'end' | null>(null);
   
   const [result, setResult] = useState<ReturnType<typeof resolveCekerRoute> | null>(null);
 
@@ -185,37 +170,60 @@ export function CekerBilgi() {
     setResult(res);
   };
 
+  const handleSwap = () => {
+    const temp = startStation;
+    setStartStation(endStation);
+    setEndStation(temp);
+  };
+
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] rounded-2xl p-6 md:p-8">
         
-        <div className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface">Başlangıç İstasyonu</label>
-              <StationCombobox 
-                value={startStation} 
-                onChange={setStartStation} 
-                options={allStations} 
-                placeholder="İstasyon Seçin..." 
-              />
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 bg-muted/20 p-3 sm:p-5 rounded-2xl border border-border/50">
+            {/* Start Field */}
+            <div className="flex-1 w-full relative">
+              <span className="absolute left-4 top-2.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider pointer-events-none">Nereden</span>
+              <button 
+                onClick={() => setPickerOpen('start')}
+                className="w-full text-left px-4 pt-7 pb-2.5 border border-input rounded-xl bg-background hover:border-violet-400 hover:shadow-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all flex items-center justify-between"
+              >
+                <span className={cn("text-[15px] truncate", startStation ? "font-semibold text-foreground" : "text-muted-foreground")}>
+                  {startStation || 'Başlangıç İstasyonu'}
+                </span>
+                <ChevronDown className="w-4 h-4 opacity-40 shrink-0 ml-2" />
+              </button>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-on-surface">Varış İstasyonu</label>
-              <StationCombobox 
-                value={endStation} 
-                onChange={setEndStation} 
-                options={allStations} 
-                placeholder="İstasyon Seçin..." 
-              />
+            {/* Swap Button */}
+            <button 
+              onClick={handleSwap}
+              className="shrink-0 p-2.5 bg-background border border-border shadow-sm hover:bg-muted hover:text-foreground text-muted-foreground rounded-full transition-colors z-10 -my-3 sm:my-0 focus:outline-none focus:ring-2 focus:ring-violet-500/20"
+              title="İstasyonları Yer Değiştir"
+            >
+              <ArrowLeftRight className="w-4 h-4" />
+            </button>
+
+            {/* End Field */}
+            <div className="flex-1 w-full relative">
+              <span className="absolute left-4 top-2.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider pointer-events-none">Nereye</span>
+              <button 
+                onClick={() => setPickerOpen('end')}
+                className="w-full text-left px-4 pt-7 pb-2.5 border border-input rounded-xl bg-background hover:border-violet-400 hover:shadow-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all flex items-center justify-between"
+              >
+                <span className={cn("text-[15px] truncate", endStation ? "font-semibold text-foreground" : "text-muted-foreground")}>
+                  {endStation || 'Varış İstasyonu'}
+                </span>
+                <ChevronDown className="w-4 h-4 opacity-40 shrink-0 ml-2" />
+              </button>
             </div>
           </div>
 
           <Button 
             onClick={handleCalculate}
             disabled={!startStation || !endStation}
-            className="w-full h-12 mt-4 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-base font-medium shadow-sm transition-all"
+            className="w-full h-14 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-base font-semibold shadow-sm transition-all"
           >
             Çeker Bilgisini Göster
           </Button>
@@ -304,6 +312,19 @@ export function CekerBilgi() {
           )}
         </div>
       )}
+
+      {/* Station Picker Modal */}
+      <StationPickerModal 
+        open={pickerOpen !== null}
+        onClose={() => setPickerOpen(null)}
+        value={pickerOpen === 'start' ? startStation : endStation}
+        onChange={v => {
+          if (pickerOpen === 'start') setStartStation(v);
+          else if (pickerOpen === 'end') setEndStation(v);
+        }}
+        options={allStations}
+        title={pickerOpen === 'start' ? 'Başlangıç İstasyonu Seçin' : 'Varış İstasyonu Seçin'}
+      />
     </div>
   );
 }
