@@ -6,7 +6,7 @@ import RayBilgiPage from '@/app/raybilgi/page';
 
 test('LoginForm renders username and password fields', () => {
   render(<LoginForm />);
-  expect(screen.getByLabelText(/Kullanıcı Adı \/ E-posta/i)).toBeDefined();
+  expect(screen.getByLabelText(/Kullanıcı ID/i)).toBeDefined();
   expect(screen.getByLabelText(/^Şifre$/i)).toBeDefined();
   expect(screen.getByRole('button', { name: /Giriş Yap/i })).toBeDefined();
 });
@@ -25,10 +25,10 @@ test('Show/Hide password works', async () => {
   expect(passInput.type).toBe('password');
 });
 
-test('Giriş sistemi henüz aktif değil message appears on submit', async () => {
+test('Form sets pending state on submit', async () => {
   render(<LoginForm />);
   
-  const userIn = screen.getByLabelText(/Kullanıcı Adı/i);
+  const userIn = screen.getByLabelText(/Kullanıcı ID/i);
   const passIn = screen.getByLabelText(/^Şifre$/i);
   
   await userEvent.type(userIn, 'testuser');
@@ -38,13 +38,6 @@ test('Giriş sistemi henüz aktif değil message appears on submit', async () =>
   fireEvent.submit(form!);
   
   expect(screen.getByText('Giriş Yapılıyor...')).toBeDefined();
-  
-  // Wait for 800ms
-  await act(async () => {
-    await new Promise(r => setTimeout(r, 850));
-  });
-  
-  expect(screen.getByText('Giriş sistemi henüz aktif değil.')).toBeDefined();
 });
 
 test('Landing page GVD links to login', () => {

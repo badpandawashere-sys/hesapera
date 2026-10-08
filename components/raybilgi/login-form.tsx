@@ -1,28 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Eye, EyeOff, Train } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { loginAction } from '@/lib/raybilgi/auth/actions';
 
-export function LoginForm() {
+export function LoginForm({ nextUrl }: { nextUrl?: string }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState('');
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setMessage('');
+    setError('');
 
-    // Simulate network request
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setMessage('Giriş sistemi henüz aktif değil.');
-    }, 800);
+    const formData = new FormData(e.currentTarget);
+    if (nextUrl) {
+      formData.append('next', nextUrl);
+    }
+
+    startTransition(async () => {
+      const result = await loginAction(formData);
+      if (result && result.error) {
+        setError(result.error);
+      }
+    });
   };
 
   return (
@@ -35,18 +41,18 @@ export function LoginForm() {
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight">Giriş Yap</CardTitle>
         <CardDescription className="text-sm">
-          GVD ve kullanıcıya özel RayBilgi araçlarına erişmek için hesabınızla giriş yapın.
+          GVD ve kullanıcıya özel RayBilgi araçlarına erişmek için istasyon hesabınızla giriş yapın.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username">Kullanıcı Adı / E-posta</Label>
+            <Label htmlFor="username">Kullanıcı ID</Label>
             <Input
               id="username"
               name="username"
               type="text"
-              placeholder="E-posta adresiniz veya kullanıcı adınız"
+              placeholder="Örn: arifiye"
               required
               autoComplete="username"
             />
@@ -55,13 +61,6 @@ export function LoginForm() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Şifre</Label>
-              <button 
-                type="button" 
-                className="text-xs font-medium text-primary hover:underline"
-                onClick={() => alert('Şifre sıfırlama sistemi henüz aktif değil.')}
-              >
-                Şifremi Unuttum
-              </button>
             </div>
             <div className="relative">
               <Input
@@ -85,7 +84,7 @@ export function LoginForm() {
           </div>
 
           <div className="flex items-center space-x-2 pt-1">
-            <Checkbox id="remember" />
+            <Checkbox id="remember" name="remember" />
             <label
               htmlFor="remember"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -94,14 +93,14 @@ export function LoginForm() {
             </label>
           </div>
 
-          {message && (
-            <div className="p-3 bg-muted/50 border border-border rounded-lg text-sm font-medium text-center text-foreground">
-              {message}
+          {error && (
+            <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-sm font-medium text-center text-destructive">
+              {error}
             </div>
           )}
 
-          <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
-            {isSubmitting ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
+          <Button type="submit" className="w-full mt-2" disabled={isPending}>
+            {isPending ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </Button>
         </form>
       </CardContent>
