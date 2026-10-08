@@ -258,43 +258,48 @@ export function CekerBilgi() {
               {/* Detail Table */}
               <div className="space-y-4">
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Lokomotif Kanca Çekeri Limitleri</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left whitespace-nowrap">
+                <div className="overflow-x-auto pb-4">
+                  <table className="w-full text-sm text-left whitespace-nowrap border-separate border-spacing-y-2.5">
                     <thead>
-                      <tr className="border-b border-border/40">
-                        <th className="pb-3 pr-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Lokomotif</th>
-                        <th className="pb-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Azami Kanca Çekeri</th>
-                        <th className="pb-3 pl-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sınırlayıcı Kesim</th>
+                      <tr>
+                        <th className="pb-1 pl-4 pr-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Lokomotif</th>
+                        <th className="pb-1 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Azami Kanca Çekeri</th>
+                        <th className="pb-1 pr-4 pl-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sınırlayıcı Kesim</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-border/30">
+                    <tbody>
                       {result.locomotives.map((locoRes, i) => {
                         const label = CEKER_LOCOMOTIVES.find(l => l.id === locoRes.locomotive)?.label || locoRes.locomotive;
                         return (
-                          <tr key={locoRes.locomotive} className="transition-colors hover:bg-muted/20 group">
-                            <td className="py-3.5 pr-4 font-medium text-foreground">
-                              <div className="flex items-center gap-2">
-                                <Train className="w-4 h-4 text-violet-500" />
-                                {label}
+                          <tr 
+                            key={locoRes.locomotive} 
+                            className="group transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass-subtle)] bg-[var(--color-glass-bg)] backdrop-blur-[6px] shadow-sm"
+                          >
+                            <td className="py-4 pl-4 pr-4 font-medium text-foreground border-y border-l border-[var(--color-glass-border)] rounded-l-xl">
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-xl bg-violet-100/50 group-hover:bg-violet-100 transition-colors">
+                                  <Train className="w-4 h-4 text-violet-600" />
+                                </div>
+                                <span className="font-semibold text-[15px]">{label}</span>
                               </div>
                             </td>
-                            <td className="py-3.5 px-4 text-center">
+                            <td className="py-4 px-4 text-center border-y border-[var(--color-glass-border)]">
                               {locoRes.missingData ? (
                                 <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-md">Veri bulunamadı</span>
                               ) : (
-                                <span className="inline-flex items-center gap-1 font-semibold text-foreground text-lg tabular-nums">
+                                <span className="inline-flex items-baseline gap-1 font-bold text-foreground text-[22px] tabular-nums tracking-tight">
                                   {locoRes.maxTonnage} <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">ton</span>
                                 </span>
                               )}
                             </td>
-                            <td className="py-3.5 pl-4 font-medium text-muted-foreground">
+                            <td className="py-4 pr-4 pl-4 font-medium text-muted-foreground border-y border-r border-[var(--color-glass-border)] rounded-r-xl">
                               {!locoRes.missingData && locoRes.limitingSections.length > 0 && (
                                 <div className="flex flex-col gap-1.5">
                                   {locoRes.limitingSections.map((sec, idx) => (
-                                    <div key={idx} className="flex items-center gap-1.5 text-[13px] bg-muted/40 border border-border/30 rounded-md px-2 py-1 w-max group-hover:bg-background transition-colors">
-                                      <span className="text-foreground">{sec.from}</span>
-                                      <ArrowRight className="w-3 h-3 text-muted-foreground/40" />
-                                      <span className="text-foreground">{sec.to}</span>
+                                    <div key={idx} className="flex items-center gap-1.5 text-[13px] bg-background/50 border border-border/30 rounded-lg px-2.5 py-1 w-max group-hover:bg-background transition-colors">
+                                      <span className="text-foreground font-medium">{sec.from}</span>
+                                      <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/40" />
+                                      <span className="text-foreground font-medium">{sec.to}</span>
                                     </div>
                                   ))}
                                 </div>
