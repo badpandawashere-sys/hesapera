@@ -256,22 +256,25 @@ export function buildCopyPayload(rows: ThbfRow[], layout: SahaLayout): CopyPaylo
       skipped += 1;
       continue;
     }
-    const cells = [...splitWagonNo(canon, layout), row.gidecegi];
+    const wagonChunks = splitWagonNo(canon, layout);
+    const destination = row.gidecegi;
+    const cells = [...wagonChunks, destination];
+    
     textLines.push(cells.join('\t'));
-    htmlRows.push(
-      '<tr>' +
-        cells
-          .map((c) => {
-            if (/^\d+$/.test(c)) {
-              const format = '0'.repeat(c.length);
-              const numVal = parseInt(c, 10).toString();
-              return `<td style='mso-number-format:"${format}"'>${numVal}</td>`;
-            }
-            return `<td x:str style='mso-number-format:"\\@"'>${escapeHtml(c)}</td>`;
-          })
-          .join('') +
-        '</tr>',
-    );
+    
+    const htmlCells = [
+      ...wagonChunks.map((c) => {
+        if (/^\d+$/.test(c)) {
+          const format = '0'.repeat(c.length);
+          const numVal = parseInt(c, 10).toString();
+          return `<td style='mso-number-format:"${format}"'>${numVal}</td>`;
+        }
+        return `<td x:str style='mso-number-format:"\\@"'>${escapeHtml(c)}</td>`;
+      }),
+      `<td x:str style='mso-number-format:"\\@"'>${escapeHtml(destination)}</td>`
+    ];
+    
+    htmlRows.push('<tr>' + htmlCells.join('') + '</tr>');
   }
 
   const html =

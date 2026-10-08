@@ -186,6 +186,12 @@ describe('THBF parser', () => {
     expect(p11.html).toContain(`<td x:str style='mso-number-format:"\\@"'>-0</td>`);
   });
 
+  it('numeric conversion is scoped ONLY to wagon cells; numeric destination remains text', () => {
+    // 00123 is pure digits but semantically text because it's the destination
+    const p = buildCopyPayload([row({ regime: '0012', seri: '3456', vagon_no: '789-0', gidecegi: '00123' })], '4-4-4');
+    expect(p.html).toContain(`<td x:str style='mso-number-format:"\\@"'>00123</td>`);
+  });
+
   it('non-12-digit canonical is not silently corrupted: warned and skipped on copy', () => {
     const bad = row({ id: 'bad', regime: '335', seri: '7912', vagon_no: '345-6' });
     const good = row({ id: 'good', regime: '3353', seri: '7912', vagon_no: '345-6' });
