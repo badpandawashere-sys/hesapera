@@ -119,8 +119,8 @@ function StationCombobox({
     <div className={cn("relative w-full", open && "z-50")} ref={wrapperRef} onKeyDown={handleKeyDown}>
       <div 
         className={cn(
-          "flex items-center justify-between w-full h-11 px-3 rounded-lg border bg-background text-sm cursor-text transition-colors",
-          open ? "border-violet-500 ring-1 ring-violet-500" : "border-border hover:border-violet-300"
+          "flex items-center justify-between w-full h-11 px-3 rounded-lg border bg-background text-sm cursor-text transition-all duration-200",
+          open ? "border-violet-500 ring-2 ring-violet-500/20" : "border-input hover:border-violet-400 shadow-sm"
         )}
         onClick={() => setOpen(true)}
       >
@@ -149,9 +149,9 @@ function StationCombobox({
               <div
                 key={opt}
                 className={cn(
-                  "px-3 py-2 text-sm cursor-pointer hover:bg-violet-50 hover:text-violet-900 transition-colors flex items-center justify-between",
-                  (value === opt || highlightedIndex === i) && "bg-violet-50/50 text-violet-900 font-medium",
-                  highlightedIndex === i && "bg-violet-100"
+                  "px-3 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between rounded-sm m-1",
+                  (value === opt) && "bg-violet-50 text-violet-900 font-medium",
+                  (highlightedIndex === i && value !== opt) && "bg-accent text-accent-foreground"
                 )}
                 onMouseEnter={() => setHighlightedIndex(i)}
                 onClick={(e) => {
@@ -161,7 +161,7 @@ function StationCombobox({
                 }}
               >
                 {opt}
-                {value === opt && <Check className="w-4 h-4 text-violet-600" />}
+                {value === opt && <Check className="w-4 h-4 text-violet-600 shrink-0 ml-2" />}
               </div>
             ))
           )}
@@ -215,7 +215,7 @@ export function CekerBilgi() {
           <Button 
             onClick={handleCalculate}
             disabled={!startStation || !endStation}
-            className="w-full h-12 mt-2 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-base font-semibold"
+            className="w-full h-12 mt-4 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-base font-medium shadow-sm transition-all"
           >
             Çeker Bilgisini Göster
           </Button>
@@ -235,21 +235,15 @@ export function CekerBilgi() {
               </p>
             </div>
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-6">
               
               {/* Route Summary */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Güzergâh Özeti</h3>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-foreground font-medium p-4 rounded-xl bg-violet-50/50 border border-violet-100">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-violet-600" />
-                    <span>{startStation}</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-violet-400 hidden sm:block" />
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-violet-600" />
-                    <span>{endStation}</span>
-                  </div>
+              <div className="flex flex-col gap-1 pb-4 border-b border-border/40">
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Güzergâh</span>
+                <div className="flex items-center flex-wrap gap-2 text-lg font-semibold text-foreground">
+                  <span>{startStation}</span>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground/40" />
+                  <span>{endStation}</span>
                 </div>
               </div>
 
@@ -259,40 +253,40 @@ export function CekerBilgi() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left whitespace-nowrap">
                     <thead>
-                      <tr className="border-b border-border/50">
-                        <th className="pb-3 pr-4 font-semibold text-muted-foreground">Lokomotif</th>
-                        <th className="pb-3 px-4 font-semibold text-muted-foreground text-center">Azami Kanca Çekeri</th>
-                        <th className="pb-3 pl-4 font-semibold text-muted-foreground">Sınırlayıcı Kesim</th>
+                      <tr className="border-b border-border/40">
+                        <th className="pb-3 pr-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Lokomotif</th>
+                        <th className="pb-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Azami Kanca Çekeri</th>
+                        <th className="pb-3 pl-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sınırlayıcı Kesim</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/30">
                       {result.locomotives.map((locoRes, i) => {
                         const label = CEKER_LOCOMOTIVES.find(l => l.id === locoRes.locomotive)?.label || locoRes.locomotive;
                         return (
-                          <tr key={locoRes.locomotive} className="transition-colors hover:bg-muted/30">
-                            <td className="py-4 pr-4 font-semibold text-foreground">
+                          <tr key={locoRes.locomotive} className="transition-colors hover:bg-muted/20 group">
+                            <td className="py-3.5 pr-4 font-medium text-foreground">
                               <div className="flex items-center gap-2">
                                 <Train className="w-4 h-4 text-violet-500" />
                                 {label}
                               </div>
                             </td>
-                            <td className="py-4 px-4 text-center">
+                            <td className="py-3.5 px-4 text-center">
                               {locoRes.missingData ? (
                                 <span className="text-muted-foreground text-xs font-medium px-2 py-1 bg-muted rounded-md">Veri bulunamadı</span>
                               ) : (
-                                <span className="inline-flex items-center gap-1 font-bold text-violet-700 text-base">
-                                  {locoRes.maxTonnage} <span className="text-xs font-medium text-violet-500 uppercase">ton</span>
+                                <span className="inline-flex items-center gap-1 font-semibold text-foreground text-lg tabular-nums">
+                                  {locoRes.maxTonnage} <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">ton</span>
                                 </span>
                               )}
                             </td>
-                            <td className="py-4 pl-4 font-medium text-amber-800">
+                            <td className="py-3.5 pl-4 font-medium text-muted-foreground">
                               {!locoRes.missingData && locoRes.limitingSections.length > 0 && (
                                 <div className="flex flex-col gap-1.5">
                                   {locoRes.limitingSections.map((sec, idx) => (
-                                    <div key={idx} className="flex items-center gap-1.5 text-xs bg-amber-50 border border-amber-100 rounded px-2 py-1 w-max">
-                                      <span className="font-semibold text-amber-900">{sec.from}</span>
-                                      <ArrowRight className="w-3 h-3 text-amber-500" />
-                                      <span className="font-semibold text-amber-900">{sec.to}</span>
+                                    <div key={idx} className="flex items-center gap-1.5 text-[13px] bg-muted/40 border border-border/30 rounded-md px-2 py-1 w-max group-hover:bg-background transition-colors">
+                                      <span className="text-foreground">{sec.from}</span>
+                                      <ArrowRight className="w-3 h-3 text-muted-foreground/40" />
+                                      <span className="text-foreground">{sec.to}</span>
                                     </div>
                                   ))}
                                 </div>

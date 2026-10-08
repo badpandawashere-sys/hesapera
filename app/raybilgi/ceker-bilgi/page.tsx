@@ -26,16 +26,16 @@ export default function CekerBilgiPage() {
         </nav>
 
         {/* Header */}
-        <div className="mb-10 max-w-3xl">
+        <div className="mb-8 max-w-2xl">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-3 bg-violet-100 text-violet-700 rounded-xl">
               <Train className="w-8 h-8" strokeWidth={1.5} />
             </div>
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
               Çeker Bilgi
             </h1>
           </div>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
+          <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
             Başlangıç ve varış istasyonunu seçerek güzergâhtaki tüm lokomotifler için azami kanca çekeri bilgilerini karşılaştırın.
           </p>
         </div>
