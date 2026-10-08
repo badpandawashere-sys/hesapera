@@ -66,5 +66,8 @@ export async function getSession() {
 
 export async function deleteSession() {
   const cookieStore = await cookies();
-  cookieStore.delete('raybilgi_session');
+  cookieStore.delete({
+    name: 'raybilgi_session',
+    path: '/raybilgi'
+  });
 }
