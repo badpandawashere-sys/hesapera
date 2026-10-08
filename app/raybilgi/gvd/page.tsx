@@ -41,7 +41,7 @@ export default async function GvdPage() {
           </div>
           
           <form action={logoutAction}>
-            <Button variant="outline" className="gap-2">
+            <Button type="submit" variant="outline" className="gap-2">
               <LogOut className="w-4 h-4" />
               Çıkış Yap
             </Button>
