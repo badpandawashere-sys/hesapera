@@ -10,7 +10,7 @@ export default defineConfig({
     globals: true,
     alias: {
       '@': path.resolve(__dirname, './'),
-      'server-only': path.resolve(__dirname, 'scratch/server-only-mock.ts'),
+      'server-only': path.resolve(__dirname, 'lib/raybilgi/auth/__tests__/__mocks__/server-only.ts'),
     },
   },
 })
