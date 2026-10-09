@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "vercel-build": "prisma generate && prisma migrate resolve --rolled-back 20261009110000_init && prisma migrate deploy && next build",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "calculator:new": "node scripts/create-calculator/index.mjs",
     "start": "next start",
     "lint": "eslint",
