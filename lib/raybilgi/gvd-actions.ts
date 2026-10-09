@@ -23,11 +23,11 @@ export async function getGvdHistory() {
   return GvdRepository.getHistoryRecords(session.stationCode);
 }
 
-export async function createGvdRecordAction(data: Omit<GvdRecord, 'id' | 'stationId' | 'createdAt' | 'updatedAt'>) {
+export async function createGvdRecordAction(data: Omit<GvdRecord, 'id' | 'stationId' | 'stationName' | 'createdAt' | 'updatedAt'>) {
   const session = await requireStation();
   
   try {
-    await GvdRepository.createRecord(session.stationCode, data);
+    await GvdRepository.createRecord(session.stationCode, session.stationName, data);
     revalidatePath('/raybilgi/gvd');
     return { success: true };
   } catch (err: any) {
@@ -35,7 +35,7 @@ export async function createGvdRecordAction(data: Omit<GvdRecord, 'id' | 'statio
   }
 }
 
-export async function updateGvdRecordAction(id: string, data: Partial<Omit<GvdRecord, 'id' | 'stationId' | 'createdAt' | 'updatedAt'>>) {
+export async function updateGvdRecordAction(id: string, data: Partial<Omit<GvdRecord, 'id' | 'stationId' | 'stationName' | 'createdAt' | 'updatedAt'>>) {
   const session = await requireStation();
   
   try {

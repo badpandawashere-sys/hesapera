@@ -14,6 +14,7 @@ interface Props {
   record: GvdRecord | null;
   defaultStatus: GvdStatus;
   referenceData: any;
+  onSuccess?: () => void;
 }
 
 const STATUS_ORDER: GvdStatus[] = [
@@ -21,7 +22,7 @@ const STATUS_ORDER: GvdStatus[] = [
   'Yedek', 'Tamirlik', 'Iskat', 'Tescilsiz'
 ];
 
-export function GvdRecordDialog({ open, onOpenChange, record, defaultStatus, referenceData }: Props) {
+export function GvdRecordDialog({ open, onOpenChange, record, defaultStatus, referenceData, onSuccess }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<GvdStatus>(defaultStatus);
   const [count, setCount] = useState('1');
@@ -138,6 +139,7 @@ export function GvdRecordDialog({ open, onOpenChange, record, defaultStatus, ref
     } else {
       alert(record ? 'Kayıt güncellendi.' : 'Yeni kayıt eklendi.');
       onOpenChange(false);
+      onSuccess?.();
     }
   };
 

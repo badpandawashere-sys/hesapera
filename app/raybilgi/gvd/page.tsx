@@ -5,7 +5,7 @@ import { SiteContainer } from '@/components/layout/site-container';
 import { logoutAction } from '@/lib/raybilgi/auth/actions';
 import { Button } from '@/components/ui/button';
 import { FileSpreadsheet, LogOut } from 'lucide-react';
-import { getActiveGvdRecords } from '@/lib/raybilgi/gvd-actions';
+import { getActiveGvdRecords, getGvdHistory } from '@/lib/raybilgi/gvd-actions';
 import { getGvdReferenceData } from '@/lib/raybilgi/gvd-reference';
 import { GvdDashboard } from '@/components/raybilgi/gvd/gvd-dashboard';
 
@@ -26,6 +26,7 @@ export default async function GvdPage() {
   }
 
   const records = await getActiveGvdRecords();
+  const history = await getGvdHistory();
   const referenceData = getGvdReferenceData();
 
   return (
@@ -54,7 +55,7 @@ export default async function GvdPage() {
           </form>
         </div>
 
-        <GvdDashboard initialRecords={records} referenceData={referenceData} />
+        <GvdDashboard initialRecords={records} initialHistory={history} referenceData={referenceData} />
 
       </SiteContainer>
     </main>

@@ -1,8 +1,31 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { GvdStatus } from '@/types/raybilgi';
 import { GvdRepository } from '@/lib/raybilgi/gvd-repository';
+import prisma from '@/lib/db/prisma';
 
-describe('GVD Core Module', () => {
+// Mock prisma methods
+vi.mock('@/lib/db/prisma', () => {
+  return {
+    default: {
+      gvdRecord: {
+        findMany: vi.fn(),
+        create: vi.fn(),
+        update: vi.fn(),
+        deleteMany: vi.fn()
+      },
+      gvdHistory: {
+        findMany: vi.fn(),
+        createMany: vi.fn()
+      },
+      $transaction: vi.fn((callback) => callback({
+        gvdRecord: { findMany: vi.fn(), deleteMany: vi.fn() },
+        gvdHistory: { createMany: vi.fn() }
+      }))
+    }
+  };
+});
+
+describe('GVD Core Module & Persistence', () => {
   it('should have exact status order', () => {
     const STATUS_ORDER: GvdStatus[] = [
       'Dolu Yük',
@@ -19,17 +42,36 @@ describe('GVD Core Module', () => {
     expect(STATUS_ORDER[7]).toBe('Tescilsiz');
   });
 
-  it('should return empty records from repository when no DB is connected', async () => {
-    const active = await GvdRepository.getActiveRecords('arifiye');
-    expect(active).toEqual([]);
-
-    const history = await GvdRepository.getHistoryRecords('arifiye');
-    expect(history).toEqual([]);
+  it('should pass createRecord params correctly', async () => {
+    vi.mocked(prisma.gvdRecord.create).mockResolvedValueOnce({
+      id: '1', stationCode: '1512', stationName: 'ARİFİYE', status: 'Dolu Yük', count: 1, 
+      createdAt: new Date(), updatedAt: new Date(),
+      wagonType: null, tonnage: 45.5, itemCode: null, itemName: null, customer: null, destinationCode: null, destinationName: null, shipmentDate: null, notes: null, repairType: null, workplace: null
+    });
+    
+    await GvdRepository.createRecord('1512', 'ARİFİYE', { status: 'Dolu Yük', count: 1, tonnage: 45.5 });
+    expect(prisma.gvdRecord.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        stationCode: '1512',
+        stationName: 'ARİFİYE',
+        status: 'Dolu Yük',
+        count: 1,
+        tonnage: 45.5
+      })
+    });
   });
 
-  it('should throw Error when attempting to mutate GVD records since DB is required', async () => {
-    await expect(GvdRepository.createRecord('arifiye', {} as any)).rejects.toThrow(/GVD_DB_REQUIRED/);
-    await expect(GvdRepository.updateRecord('arifiye', '1', {})).rejects.toThrow(/GVD_DB_REQUIRED/);
-    await expect(GvdRepository.moveToHistory('arifiye', ['1'])).rejects.toThrow(/GVD_DB_REQUIRED/);
+  it('should enforce station scope on updateRecord', async () => {
+    vi.mocked(prisma.gvdRecord.update).mockResolvedValueOnce({
+      id: '1', stationCode: '1512', stationName: 'ARİFİYE', status: 'Boş Yük', count: 2, 
+      createdAt: new Date(), updatedAt: new Date(),
+      wagonType: null, tonnage: null, itemCode: null, itemName: null, customer: null, destinationCode: null, destinationName: null, shipmentDate: null, notes: null, repairType: null, workplace: null
+    });
+
+    await GvdRepository.updateRecord('1512', '1', { status: 'Boş Yük', count: 2 });
+    expect(prisma.gvdRecord.update).toHaveBeenCalledWith({
+      where: { id: '1', stationCode: '1512' },
+      data: expect.objectContaining({ status: 'Boş Yük', count: 2 })
+    });
   });
 });

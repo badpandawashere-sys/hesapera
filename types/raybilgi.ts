@@ -11,6 +11,7 @@ export type GvdStatus =
 export interface GvdRecord {
   id: string;
   stationId: string; // The code of the station that owns this record
+  stationName?: string;
   status: GvdStatus;
   
   // Required fields for all statuses

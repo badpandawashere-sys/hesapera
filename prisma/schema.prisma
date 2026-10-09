@@ -4,5 +4,57 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // When deploying to Vercel with Prisma and Postgres, typically POSTGRES_PRISMA_URL is used.
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model GvdRecord {
+  id              String   @id @default(uuid())
+  stationCode     String
+  stationName     String
+  status          String
+  count           Int
+  wagonType       String?
+  tonnage         Float?
+  itemCode        String?
+  itemName        String?
+  customer        String?
+  destinationCode String?
+  destinationName String?
+  shipmentDate    String?
+  notes           String?
+  repairType      String?
+  workplace       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([stationCode])
+  @@index([stationCode, status])
+}
+
+model GvdHistory {
+  id               String   @id @default(uuid())
+  originalRecordId String
+  stationCode      String
+  stationName      String
+  status           String
+  count            Int
+  wagonType        String?
+  tonnage          Float?
+  itemCode         String?
+  itemName         String?
+  customer         String?
+  destinationCode  String?
+  destinationName  String?
+  shipmentDate     String?
+  notes            String?
+  repairType       String?
+  workplace        String?
+  createdAt        DateTime
+  updatedAt        DateTime
+  departedAt       DateTime @default(now())
+
+  @@index([stationCode])
+  @@index([stationCode, departedAt])
 }
