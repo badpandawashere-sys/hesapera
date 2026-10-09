@@ -4,7 +4,10 @@ import { redirect } from 'next/navigation';
 import { SiteContainer } from '@/components/layout/site-container';
 import { logoutAction } from '@/lib/raybilgi/auth/actions';
 import { Button } from '@/components/ui/button';
-import { FileSpreadsheet, TrainFront, LogOut } from 'lucide-react';
+import { FileSpreadsheet, LogOut } from 'lucide-react';
+import { getActiveGvdRecords } from '@/lib/raybilgi/gvd-actions';
+import { getGvdReferenceData } from '@/lib/raybilgi/gvd-reference';
+import { GvdDashboard } from '@/components/raybilgi/gvd/gvd-dashboard';
 
 export const metadata: Metadata = {
   title: 'GVD | RayBilgi',
@@ -22,8 +25,11 @@ export default async function GvdPage() {
     redirect('/raybilgi/giris?next=/raybilgi/gvd');
   }
 
+  const records = await getActiveGvdRecords();
+  const referenceData = getGvdReferenceData();
+
   return (
-    <main className="flex-1 py-12 bg-muted/10">
+    <main className="flex-1 py-12 bg-muted/10 min-h-screen">
       <SiteContainer>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
@@ -36,7 +42,7 @@ export default async function GvdPage() {
               </h1>
             </div>
             <p className="text-muted-foreground">
-              Giriş yapılan istasyon: <strong className="text-foreground">{session.stationName}</strong>
+              Aktif İstasyon: <strong className="text-foreground">{session.stationName}</strong>
             </p>
           </div>
           
@@ -48,15 +54,8 @@ export default async function GvdPage() {
           </form>
         </div>
 
-        <div className="p-8 border border-border/60 bg-card rounded-2xl shadow-sm text-center">
-          <div className="flex justify-center mb-4">
-            <TrainFront className="w-12 h-12 text-muted-foreground/30" />
-          </div>
-          <h2 className="text-xl font-bold mb-2">GVD Arayüzü Yükleniyor</h2>
-          <p className="text-muted-foreground max-w-lg mx-auto">
-            Kimlik doğrulama başarıyla tamamlandı. GVD modülü geliştirme aşamasındadır ve gerçek arayüz buraya entegre edilecektir.
-          </p>
-        </div>
+        <GvdDashboard initialRecords={records} referenceData={referenceData} />
+
       </SiteContainer>
     </main>
   );
