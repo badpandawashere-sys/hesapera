@@ -48,20 +48,20 @@ export async function GET() {
   ];
 
   sheet.columns = [
-    { key: 'status', width: 15 },
-    { key: 'count', width: 8 },
+    { key: 'status', width: 16 },
+    { key: 'count', width: 9 },
     { key: 'wagonType', width: 12 },
-    { key: 'tonnage', width: 10 },
-    { key: 'itemCode', width: 15 },
-    { key: 'itemName', width: 30 },
-    { key: 'customer', width: 25 },
-    { key: 'arrivalStation', width: 20 },
-    { key: 'notes', width: 30 }
+    { key: 'tonnage', width: 12 },
+    { key: 'itemCode', width: 14 },
+    { key: 'itemName', width: 32 },
+    { key: 'customer', width: 26 },
+    { key: 'arrivalStation', width: 22 },
+    { key: 'notes', width: 34 }
   ];
 
   sheet.mergeCells('A1:I1');
   const titleRow = sheet.getRow(1);
-  titleRow.height = 30;
+  titleRow.height = 32;
   const titleCell = sheet.getCell('A1');
   titleCell.value = `${stationName} — GVD`;
   titleCell.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 14 };
@@ -70,8 +70,9 @@ export async function GET() {
 
   sheet.mergeCells('A2:I2');
   const dateRow = sheet.getRow(2);
+  dateRow.height = 22;
   const dateCell = sheet.getCell('A2');
-  const todayStr = new Date().toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const todayStr = new Date().toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'Europe/Istanbul' });
   dateCell.value = `Tarih: ${todayStr}`;
   dateCell.font = { italic: true, color: { argb: 'FF5A6872' } };
   dateCell.alignment = { horizontal: 'left', vertical: 'middle' };
@@ -79,8 +80,10 @@ export async function GET() {
   const headers = ['Statü', 'Adet', 'Seri', 'Tonaj', 'Eşya Kodu', 'Eşya Adı', 'Müşteri', 'Varış', 'Not'];
   const headerRow = sheet.getRow(4);
   headerRow.values = headers;
-  headerRow.font = { bold: true };
+  headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+  headerRow.height = 26;
   headerRow.eachCell((cell) => {
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0A2540' } };
     cell.border = { bottom: { style: 'thin', color: { argb: 'FFD6DEE3' } } };
     cell.alignment = { horizontal: 'center', vertical: 'middle' };
   });
@@ -121,18 +124,20 @@ export async function GET() {
           cell.numFmt = '@';
         }
       });
+      row.height = 23;
       currentRow++;
     }
   }
 
-  const yyyymmdd = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const yyyymmddParts = new Intl.DateTimeFormat('tr-TR', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Istanbul' }).formatToParts(new Date());
+  const yyyymmdd = `${yyyymmddParts.find(p => p.type === 'year')?.value}${yyyymmddParts.find(p => p.type === 'month')?.value}${yyyymmddParts.find(p => p.type === 'day')?.value}`;
   const filename = `${stationName}_gvd_${yyyymmdd}.xlsx`;
 
   const buffer = await workbook.xlsx.writeBuffer();
 
-  return new NextResponse(buffer as any, {
+  return new NextResponse(buffer, {
     headers: {
-      'Content-Disposition': `attachment; filename="${encodeURIComponent(filename)}"`,
+      'Content-Disposition': `attachment; filename="gvd_export.xlsx"; filename*=UTF-8''${encodeURIComponent(filename)}`, 
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     }
   });

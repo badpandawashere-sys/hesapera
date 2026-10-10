@@ -36,7 +36,8 @@ describe('GVD Excel Export (Phase 2B)', () => {
     vi.mocked(GvdRepository.getActiveRecords).mockResolvedValueOnce([]);
     const response = await GET();
     
-    const yyyymmdd = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const yyyymmddParts = new Intl.DateTimeFormat('tr-TR', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Istanbul' }).formatToParts(new Date());
+    const yyyymmdd = `${yyyymmddParts.find(p => p.type === 'year')?.value}${yyyymmddParts.find(p => p.type === 'month')?.value}${yyyymmddParts.find(p => p.type === 'day')?.value}`;
     const expectedFilename = `ARİFİYE_gvd_${yyyymmdd}.xlsx`;
     const cd = response.headers.get('content-disposition');
     expect(cd).toContain(encodeURIComponent(expectedFilename));
