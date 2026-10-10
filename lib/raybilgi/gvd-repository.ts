@@ -51,19 +51,30 @@ export const GvdRepository = {
     stationName: string,
     record: Omit<GvdRecord, 'id' | 'stationId' | 'stationName' | 'createdAt' | 'updatedAt'>
   ): Promise<GvdRecord> {
+    const isLoad = record.status === 'Dolu Yük';
+    const isFilling = record.status === 'Dolmakta';
+    const isUnloading = record.status === 'Boşalmakta';
+
+    const showTonnage = isLoad;
+    const showItem = isLoad || isFilling;
+    const showCustomer = isLoad || isFilling || isUnloading;
+
+    let arrival = record.arrivalStation || null;
+    if (arrival) arrival = arrival.toUpperCase();
+
     const dbRecord = await prisma.gvdRecord.create({
       data: {
         stationCode,
         stationName,
         status: record.status,
         count: record.count,
-        wagonType: record.wagonType,
-        tonnage: record.tonnage,
-        itemCode: record.itemCode,
-        itemName: record.itemName,
-        customer: record.customer,
-        destinationName: record.arrivalStation,
-        notes: record.notes,
+        wagonType: record.wagonType || null,
+        tonnage: showTonnage ? (record.tonnage ?? null) : null,
+        itemCode: showItem ? (record.itemCode || null) : null,
+        itemName: showItem ? (record.itemName || null) : null,
+        customer: showCustomer ? (record.customer || null) : null,
+        destinationName: arrival,
+        notes: record.notes || null,
       },
     });
     return mapRecord(dbRecord);
@@ -74,23 +85,51 @@ export const GvdRepository = {
     id: string,
     updates: Partial<Omit<GvdRecord, 'id' | 'stationId' | 'stationName' | 'createdAt' | 'updatedAt'>>
   ): Promise<GvdRecord> {
-    // We strictly use a where clause with both `id` AND `stationCode`
-    // If the record doesn't belong to the station, it throws a Prisma error (P2025: Record to update not found).
+    const existing = await prisma.gvdRecord.findUnique({
+      where: { id, stationCode }
+    });
+    
+    if (!existing) {
+      throw new Error("Kayt bulunamad.");
+    }
+
+    const targetStatus = updates.status || existing.status;
+    const isLoad = targetStatus === 'Dolu Yük';
+    const isFilling = targetStatus === 'Dolmakta';
+    const isUnloading = targetStatus === 'Boşalmakta';
+
+    const showTonnage = isLoad;
+    const showItem = isLoad || isFilling;
+    const showCustomer = isLoad || isFilling || isUnloading;
+
+    const nextCount = updates.count ?? existing.count;
+    const nextWagonType = updates.wagonType !== undefined ? updates.wagonType : existing.wagonType;
+    const nextTonnage = updates.tonnage !== undefined ? updates.tonnage : existing.tonnage;
+    const nextItemCode = updates.itemCode !== undefined ? updates.itemCode : existing.itemCode;
+    const nextItemName = updates.itemName !== undefined ? updates.itemName : existing.itemName;
+    const nextCustomer = updates.customer !== undefined ? updates.customer : existing.customer;
+    let nextArrival = updates.arrivalStation !== undefined ? updates.arrivalStation : existing.destinationName;
+    const nextNotes = updates.notes !== undefined ? updates.notes : existing.notes;
+
+    if (nextArrival) {
+      nextArrival = nextArrival.toUpperCase();
+    }
+
     const dbRecord = await prisma.gvdRecord.update({
       where: {
         id,
         stationCode, // Enforce station scope!
       },
       data: {
-        status: updates.status,
-        count: updates.count,
-        wagonType: updates.wagonType,
-        tonnage: updates.tonnage,
-        itemCode: updates.itemCode,
-        itemName: updates.itemName,
-        customer: updates.customer,
-        destinationName: updates.arrivalStation,
-        notes: updates.notes,
+        status: targetStatus,
+        count: nextCount,
+        wagonType: nextWagonType || null,
+        tonnage: showTonnage ? (nextTonnage ?? null) : null,
+        itemCode: showItem ? (nextItemCode || null) : null,
+        itemName: showItem ? (nextItemName || null) : null,
+        customer: showCustomer ? (nextCustomer || null) : null,
+        destinationName: nextArrival || null,
+        notes: nextNotes || null,
       },
     });
     return mapRecord(dbRecord);

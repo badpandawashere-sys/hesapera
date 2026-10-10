@@ -1,13 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
+﻿import { describe, it, expect, vi } from 'vitest';
 import { GvdStatus } from '@/types/raybilgi';
 import { GvdRepository } from '@/lib/raybilgi/gvd-repository';
 import prisma from '@/lib/db/prisma';
 
-// Mock prisma methods
 vi.mock('@/lib/db/prisma', () => {
   return {
     default: {
       gvdRecord: {
+        findUnique: vi.fn(),
         findMany: vi.fn(),
         create: vi.fn(),
         update: vi.fn(),
@@ -26,7 +26,7 @@ vi.mock('@/lib/db/prisma', () => {
 });
 
 describe('GVD Core Module & Persistence', () => {
-  it('should have exact status order', () => {
+  it('A. should have exact status order', () => {
     const STATUS_ORDER: GvdStatus[] = [
       'Dolu Yük',
       'Boş Yük',
@@ -42,36 +42,100 @@ describe('GVD Core Module & Persistence', () => {
     expect(STATUS_ORDER[7]).toBe('Tescilsiz');
   });
 
-  it('should pass createRecord params correctly', async () => {
-    vi.mocked(prisma.gvdRecord.create).mockResolvedValueOnce({
-      id: '1', stationCode: '1512', stationName: 'ARİFİYE', status: 'Dolu Yük', count: 1, 
-      createdAt: new Date(), updatedAt: new Date(),
-      wagonType: null, tonnage: 45.5, itemCode: null, itemName: null, customer: null, destinationCode: null, destinationName: null, shipmentDate: null, notes: null, repairType: null, workplace: null
+  it('B. Dolu Yük keeps compatible fields on create', async () => {
+    vi.mocked(prisma.gvdRecord.create).mockResolvedValueOnce({} as any);
+    await GvdRepository.createRecord('1512', 'ARİFİYE', { 
+      status: 'Dolu Yük', 
+      count: 1, 
+      tonnage: 45.5,
+      itemCode: '123',
+      itemName: 'KÖMÜR',
+      customer: 'TCDD'
     });
-    
-    await GvdRepository.createRecord('1512', 'ARİFİYE', { status: 'Dolu Yük', count: 1, tonnage: 45.5 });
     expect(prisma.gvdRecord.create).toHaveBeenCalledWith({
       data: expect.objectContaining({
-        stationCode: '1512',
-        stationName: 'ARİFİYE',
         status: 'Dolu Yük',
-        count: 1,
-        tonnage: 45.5
+        tonnage: 45.5,
+        itemCode: '123',
+        itemName: 'KÖMÜR',
+        customer: 'TCDD'
       })
     });
   });
 
-  it('should enforce station scope on updateRecord', async () => {
-    vi.mocked(prisma.gvdRecord.update).mockResolvedValueOnce({
-      id: '1', stationCode: '1512', stationName: 'ARİFİYE', status: 'Boş Yük', count: 2, 
-      createdAt: new Date(), updatedAt: new Date(),
-      wagonType: null, tonnage: null, itemCode: null, itemName: null, customer: null, destinationCode: null, destinationName: null, shipmentDate: null, notes: null, repairType: null, workplace: null
-    });
+  it('C. Dolu Yük -> Boş Yük clears incompatible fields', async () => {
+    vi.mocked(prisma.gvdRecord.findUnique).mockResolvedValueOnce({
+      id: '1', stationCode: '1512', status: 'Dolu Yük', count: 1, tonnage: 45.5,
+      itemCode: '123', itemName: 'KÖMÜR', customer: 'TCDD', notes: 'test notes'
+    } as any);
+    vi.mocked(prisma.gvdRecord.update).mockResolvedValueOnce({} as any);
 
-    await GvdRepository.updateRecord('1512', '1', { status: 'Boş Yük', count: 2 });
+    await GvdRepository.updateRecord('1512', '1', { status: 'Boş Yük' });
+    
     expect(prisma.gvdRecord.update).toHaveBeenCalledWith({
       where: { id: '1', stationCode: '1512' },
-      data: expect.objectContaining({ status: 'Boş Yük', count: 2 })
+      data: expect.objectContaining({ 
+        status: 'Boş Yük',
+        tonnage: null,
+        itemCode: null,
+        itemName: null,
+        customer: null,
+        notes: 'test notes'
+      })
+    });
+  });
+
+  it('D. Dolu Yük -> Boşalmakta clears item/tonnage but preserves customer', async () => {
+    vi.mocked(prisma.gvdRecord.findUnique).mockResolvedValueOnce({
+      id: '1', stationCode: '1512', status: 'Dolu Yük', count: 1, tonnage: 45.5,
+      itemCode: '123', itemName: 'KÖMÜR', customer: 'TCDD'
+    } as any);
+    vi.mocked(prisma.gvdRecord.update).mockResolvedValueOnce({} as any);
+
+    await GvdRepository.updateRecord('1512', '1', { status: 'Boşalmakta' });
+    
+    expect(prisma.gvdRecord.update).toHaveBeenCalledWith({
+      where: { id: '1', stationCode: '1512' },
+      data: expect.objectContaining({ 
+        status: 'Boşalmakta',
+        tonnage: null,
+        itemCode: null,
+        itemName: null,
+        customer: 'TCDD'
+      })
+    });
+  });
+
+  it('E. Create strips fields incompatible with supplied status', async () => {
+    vi.mocked(prisma.gvdRecord.create).mockResolvedValueOnce({} as any);
+    await GvdRepository.createRecord('1512', 'ARİFİYE', { 
+      status: 'Boş Yük', 
+      count: 1, 
+      tonnage: 45.5, // should be stripped
+      itemCode: '123' // should be stripped
+    });
+    expect(prisma.gvdRecord.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        status: 'Boş Yük',
+        tonnage: null,
+        itemCode: null
+      })
+    });
+  });
+
+  it('F, G. destination persists uppercase, Note is NOT forcibly uppercased', async () => {
+    vi.mocked(prisma.gvdRecord.create).mockResolvedValueOnce({} as any);
+    await GvdRepository.createRecord('1512', 'ARİFİYE', { 
+      status: 'Boş Yük', 
+      count: 1, 
+      arrivalStation: 'izmit',
+      notes: 'small note'
+    });
+    expect(prisma.gvdRecord.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        destinationName: 'IZMIT',
+        notes: 'small note'
+      })
     });
   });
 });

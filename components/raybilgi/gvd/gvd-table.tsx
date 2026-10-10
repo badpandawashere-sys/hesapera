@@ -65,8 +65,8 @@ export function GvdTable({ records, status, selectedIds, onSelectionChange, onEd
               </th>
               <th className="px-4 py-3 font-semibold w-[60px]">İşlem</th>
               <th className="px-4 py-3 font-semibold">Adet</th>
-              <th className="px-4 py-3 font-semibold">Vagon Tipi</th>
               {showTonnage && <th className="px-4 py-3 font-semibold">Tonaj</th>}
+              <th className="px-4 py-3 font-semibold">Vagon Tipi</th>
               {showItem && <th className="px-4 py-3 font-semibold">Eşya Kodu</th>}
               {showItem && <th className="px-4 py-3 font-semibold">Eşya Adı</th>}
               {showCustomer && <th className="px-4 py-3 font-semibold">Müşteri</th>}
@@ -90,8 +90,8 @@ export function GvdTable({ records, status, selectedIds, onSelectionChange, onEd
                   </Button>
                 </td>
                 <td className="px-4 py-3 font-medium">{r.count}</td>
-                <td className="px-4 py-3">{r.wagonType}</td>
                 {showTonnage && <td className="px-4 py-3">{r.tonnage}</td>}
+                <td className="px-4 py-3">{r.wagonType}</td>
                 {showItem && <td className="px-4 py-3 text-muted-foreground">{r.itemCode}</td>}
                 {showItem && <td className="px-4 py-3 truncate max-w-[200px]" title={r.itemName}>{r.itemName}</td>}
                 {showCustomer && <td className="px-4 py-3 truncate max-w-[150px]">{r.customer}</td>}

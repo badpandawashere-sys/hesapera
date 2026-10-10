@@ -155,7 +155,23 @@ export function GvdRecordDialog({ open, onOpenChange, record, defaultStatus, ref
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Statü</Label>
-                <Select value={status} onValueChange={(v: any) => { if (v) setStatus(v as GvdStatus); }}>
+                <Select value={status} onValueChange={(v: any) => { 
+                  if (v) {
+                    const newStatus = v as GvdStatus;
+                    setStatus(newStatus);
+                    const isL = newStatus === 'Dolu Yük';
+                    const isF = newStatus === 'Dolmakta';
+                    const isU = newStatus === 'Boşalmakta';
+                    if (!isL) setTonnage('');
+                    if (!isL && !isF) {
+                      setItemCode('');
+                      setItemName('');
+                    }
+                    if (!isL && !isF && !isU) {
+                      setCustomer('');
+                    }
+                  }
+                }}>
                   <SelectTrigger>
                     <SelectValue placeholder="Statü seçin" />
                   </SelectTrigger>
@@ -186,7 +202,7 @@ export function GvdRecordDialog({ open, onOpenChange, record, defaultStatus, ref
 
               <div className="space-y-2">
                 <Label>Varış</Label>
-                <Input list="istasyonlar" value={arrivalStation} onChange={e => setArrivalStation(e.target.value)} />
+                <Input list="istasyonlar" value={arrivalStation} onChange={e => setArrivalStation(e.target.value.toUpperCase())} />
                 <datalist id="istasyonlar">
                   {referenceData?.stationNames?.map((s: string) => (
                     <option key={s} value={s} />
