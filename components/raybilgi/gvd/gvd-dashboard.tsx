@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { GvdRecord, GvdHistoryRecord, GvdStatus } from '@/types/raybilgi';
 import { Button } from '@/components/ui/button';
-import { Plus, Archive, RefreshCw } from 'lucide-react';
+import { Plus, Archive, RefreshCw, Download } from 'lucide-react';
 import { GvdStatusSummary } from './gvd-status-summary';
 import { GvdTable } from './gvd-table';
 import { GvdHistoryTable } from './gvd-history-table';
@@ -37,6 +37,13 @@ export function GvdDashboard({ initialRecords, initialHistory, referenceData }: 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingRecord, setEditingRecord] = useState<GvdRecord | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportExcel = () => {
+    setIsExporting(true);
+    window.location.href = '/api/raybilgi/gvd-export';
+    setTimeout(() => setIsExporting(false), 2000);
+  };
 
   // Filter records by selected status
   const filteredRecords = initialRecords.filter(r => r.status === selectedStatus);
@@ -111,6 +118,10 @@ export function GvdDashboard({ initialRecords, initialHistory, referenceData }: 
                   Gidenlere Taşı ({selectedIds.size})
                 </Button>
               )}
+              <Button variant="outline" onClick={handleExportExcel} disabled={isExporting} className="gap-2 text-muted-foreground hover:text-foreground">
+                <Download className="w-4 h-4" />
+                Excel'e Aktar
+              </Button>
               <Button onClick={handleOpenNew} className="gap-2">
                 <Plus className="w-4 h-4" />
                 Yeni Kayıt
