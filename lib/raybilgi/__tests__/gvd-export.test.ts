@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GET } from '@/app/api/raybilgi/gvd-export/route';
+import { GET } from '@/app/raybilgi/gvd/export/route';
 import { getSession } from '@/lib/raybilgi/auth/session';
 import { GvdRepository } from '@/lib/raybilgi/gvd-repository';
 import ExcelJS from 'exceljs';

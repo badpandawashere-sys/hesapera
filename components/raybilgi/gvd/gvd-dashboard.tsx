@@ -41,7 +41,7 @@ export function GvdDashboard({ initialRecords, initialHistory, referenceData }: 
 
   const handleExportExcel = () => {
     setIsExporting(true);
-    window.location.href = '/api/raybilgi/gvd-export';
+    window.location.href = '/raybilgi/gvd/export';
     setTimeout(() => setIsExporting(false), 2000);
   };
 
