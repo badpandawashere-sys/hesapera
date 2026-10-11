@@ -1,0 +1,694 @@
+[
+  {
+    "seri": "0022",
+    "vagon": "DE²²",
+    "uzunluk": "18.9",
+    "dara": "118"
+  },
+  {
+    "seri": "0024",
+    "vagon": "DE²⁴",
+    "uzunluk": "19",
+    "dara": "113"
+  },
+  {
+    "seri": "0033",
+    "vagon": "DE³³",
+    "uzunluk": "20.8",
+    "dara": "119"
+  },
+  {
+    "seri": "0083",
+    "vagon": "Fb",
+    "uzunluk": "8.14",
+    "dara": "12.5"
+  },
+  {
+    "seri": "0084",
+    "vagon": "Fab",
+    "uzunluk": "13.54",
+    "dara": "23.94"
+  },
+  {
+    "seri": "0090",
+    "vagon": "YTM",
+    "uzunluk": "",
+    "dara": "71.5"
+  },
+  {
+    "seri": "0665",
+    "vagon": "Talns",
+    "uzunluk": "—",
+    "dara": "24.5"
+  },
+  {
+    "seri": "0838",
+    "vagon": "Tadns",
+    "uzunluk": "—",
+    "dara": "26.4"
+  },
+  {
+    "seri": "1003",
+    "vagon": "WSP",
+    "uzunluk": 26.5,
+    "dara": 43.0,
+    "dingil": null,
+    "rejim": null,
+    "shp_idare": null,
+    "tonaji": null,
+    "fren_bos": null,
+    "fren_dolu": null,
+    "fren_aralik": null
+  },
+  {
+    "seri": "1073",
+    "vagon": "WSP",
+    "uzunluk": 23.0,
+    "dara": 46.0,
+    "dingil": null,
+    "rejim": null,
+    "shp_idare": null,
+    "tonaji": null,
+    "fren_bos": null,
+    "fren_dolu": null,
+    "fren_aralik": null
+  },
+  {
+    "seri": "1103",
+    "vagon": "WSP",
+    "uzunluk": "23",
+    "dara": "35.3"
+  },
+  {
+    "seri": "1500",
+    "vagon": "Gbs",
+    "uzunluk": "14.02",
+    "dara": "4"
+  },
+  {
+    "seri": "1510",
+    "vagon": "Gbs",
+    "uzunluk": "14.52",
+    "dara": "5.5"
+  },
+  {
+    "seri": "1511",
+    "vagon": "Gb",
+    "uzunluk": "14.02",
+    "dara": "14.3"
+  },
+  {
+    "seri": "1512",
+    "vagon": "Gb",
+    "uzunluk": "14.02",
+    "dara": "14.05"
+  },
+  {
+    "seri": "1513",
+    "vagon": "Gbs",
+    "uzunluk": "14",
+    "dara": "6"
+  },
+  {
+    "seri": "1810",
+    "vagon": "Ga",
+    "uzunluk": "21.7",
+    "dara": "28.5"
+  },
+  {
+    "seri": "1811",
+    "vagon": "Gabs",
+    "uzunluk": "21.7",
+    "dara": "28.5"
+  },
+  {
+    "seri": "1901",
+    "vagon": "Ga",
+    "uzunluk": "17",
+    "dara": "26"
+  },
+  {
+    "seri": "1902",
+    "vagon": "Ga",
+    "uzunluk": "17",
+    "dara": "24"
+  },
+  {
+    "seri": "2461",
+    "vagon": "Hbbillnss",
+    "uzunluk": "16.41",
+    "dara": "17"
+  },
+  {
+    "seri": "2752",
+    "vagon": "Habis",
+    "uzunluk": "21.7",
+    "dara": "28"
+  },
+  {
+    "seri": "2851",
+    "vagon": "Habis",
+    "uzunluk": "21.7",
+    "dara": "25"
+  },
+  {
+    "seri": "2909",
+    "vagon": "Hccrrs",
+    "uzunluk": "29.00",
+    "dara": "38"
+  },
+  {
+    "seri": "2933",
+    "vagon": "H",
+    "uzunluk": "28.28",
+    "dara": "32"
+  },
+  {
+    "seri": "3301",
+    "vagon": "Ks",
+    "uzunluk": "13.86",
+    "dara": "13"
+  },
+  {
+    "seri": "3302",
+    "vagon": "Ks",
+    "uzunluk": "13.86",
+    "dara": "14"
+  },
+  {
+    "seri": "3303",
+    "vagon": "Kb",
+    "uzunluk": "13.86",
+    "dara": "14.02"
+  },
+  {
+    "seri": "3329",
+    "vagon": "Kgs",
+    "uzunluk": "13.86",
+    "dara": "14.5"
+  },
+  {
+    "seri": "3546",
+    "vagon": "Rilns",
+    "uzunluk": "20.34",
+    "dara": "27"
+  },
+  {
+    "seri": "3547",
+    "vagon": "Rilns",
+    "uzunluk": "20.34",
+    "dara": "27"
+  },
+  {
+    "seri": "3555",
+    "vagon": "Rgs",
+    "uzunluk": "19.9",
+    "dara": "21.45"
+  },
+  {
+    "seri": "3557",
+    "vagon": "Rs",
+    "uzunluk": "19",
+    "dara": "21"
+  },
+  {
+    "seri": "3558",
+    "vagon": "Rs",
+    "uzunluk": "19.9",
+    "dara": "21.45"
+  },
+  {
+    "seri": "3816",
+    "vagon": "Rgns",
+    "uzunluk": "19.64",
+    "dara": "21"
+  },
+  {
+    "seri": "3900",
+    "vagon": "R",
+    "uzunluk": "25",
+    "dara": ""
+  },
+  {
+    "seri": "3916",
+    "vagon": "Rs",
+    "uzunluk": "21",
+    "dara": "21.8"
+  },
+  {
+    "seri": "3917",
+    "vagon": "Rs",
+    "uzunluk": "21",
+    "dara": "21.8"
+  },
+  {
+    "seri": "3918",
+    "vagon": "Rs",
+    "uzunluk": "23",
+    "dara": "21.8"
+  },
+  {
+    "seri": "3919",
+    "vagon": "Rs",
+    "uzunluk": "23",
+    "dara": "21.8"
+  },
+  {
+    "seri": "3920",
+    "vagon": "Rs",
+    "uzunluk": "19.9",
+    "dara": "21.8"
+  },
+  {
+    "seri": "3923",
+    "vagon": "Rs",
+    "uzunluk": "23",
+    "dara": ""
+  },
+  {
+    "seri": "3924",
+    "vagon": "Rs",
+    "uzunluk": "23",
+    "dara": "25.3"
+  },
+  {
+    "seri": "3938",
+    "vagon": "Rs",
+    "uzunluk": "19.1",
+    "dara": "25"
+  },
+  {
+    "seri": "3948",
+    "vagon": "Rs",
+    "uzunluk": "25",
+    "dara": ""
+  },
+  {
+    "seri": "4157",
+    "vagon": "Lbig",
+    "uzunluk": "27",
+    "dara": ""
+  },
+  {
+    "seri": "4272",
+    "vagon": "La",
+    "uzunluk": "27",
+    "dara": "27"
+  },
+  {
+    "seri": "4273",
+    "vagon": "La",
+    "uzunluk": "27",
+    "dara": "27"
+  },
+  {
+    "seri": "4363",
+    "vagon": "Laa",
+    "uzunluk": "26.5",
+    "dara": "37"
+  },
+  {
+    "seri": "4377",
+    "vagon": "La",
+    "uzunluk": "23.85",
+    "dara": ""
+  },
+  {
+    "seri": "4425",
+    "vagon": "Lgs",
+    "uzunluk": "14.52",
+    "dara": "10.7"
+  },
+  {
+    "seri": "4462",
+    "vagon": "La",
+    "uzunluk": "23.1",
+    "dara": "22.45"
+  },
+  {
+    "seri": "4540",
+    "vagon": "Sgs",
+    "uzunluk": "20.34",
+    "dara": "25"
+  },
+  {
+    "seri": "4543",
+    "vagon": "Sgns",
+    "uzunluk": "19.74",
+    "dara": "17.5"
+  },
+  {
+    "seri": "4568",
+    "vagon": "Sgss",
+    "uzunluk": "20.34",
+    "dara": "23"
+  },
+  {
+    "seri": "4569",
+    "vagon": "Sgss",
+    "uzunluk": "19.64",
+    "dara": "23"
+  },
+  {
+    "seri": "4594",
+    "vagon": "Sg",
+    "uzunluk": "19.64",
+    "dara": "24.3"
+  },
+  {
+    "seri": "4700",
+    "vagon": "Ss",
+    "uzunluk": "12.54",
+    "dara": "22"
+  },
+  {
+    "seri": "4701",
+    "vagon": "Ss",
+    "uzunluk": "12.54",
+    "dara": "22"
+  },
+  {
+    "seri": "4708",
+    "vagon": "Sg",
+    "uzunluk": "19.9",
+    "dara": "21.45"
+  },
+  {
+    "seri": "4855",
+    "vagon": "Saps",
+    "uzunluk": "27",
+    "dara": "27"
+  },
+  {
+    "seri": "4952",
+    "vagon": "Sggmrs",
+    "uzunluk": "25.5",
+    "dara": "25.4"
+  },
+  {
+    "seri": "4960",
+    "vagon": "Sggrss 80",
+    "uzunluk": "23.970",
+    "dara": "27"
+  },
+  {
+    "seri": "5003",
+    "vagon": "Aclm",
+    "uzunluk": "26.4",
+    "dara": "45"
+  },
+  {
+    "seri": "5133",
+    "vagon": "E",
+    "uzunluk": "10",
+    "dara": "12"
+  },
+  {
+    "seri": "5300",
+    "vagon": "Ea",
+    "uzunluk": "18.34",
+    "dara": "26"
+  },
+  {
+    "seri": "5330",
+    "vagon": "Eis",
+    "uzunluk": "8.7",
+    "dara": "12"
+  },
+  {
+    "seri": "5379",
+    "vagon": "Ea",
+    "uzunluk": "15.74",
+    "dara": "26"
+  },
+  {
+    "seri": "5380",
+    "vagon": "Ea",
+    "uzunluk": "15.74",
+    "dara": "24.6"
+  },
+  {
+    "seri": "5422",
+    "vagon": "Eas",
+    "uzunluk": "14",
+    "dara": "25"
+  },
+  {
+    "seri": "5431",
+    "vagon": "Eacs",
+    "uzunluk": "14",
+    "dara": "25"
+  },
+  {
+    "seri": "5520",
+    "vagon": "E",
+    "uzunluk": "10.5",
+    "dara": "15"
+  },
+  {
+    "seri": "5521",
+    "vagon": "E",
+    "uzunluk": "10",
+    "dara": "11.8"
+  },
+  {
+    "seri": "5931",
+    "vagon": "Eal",
+    "uzunluk": "14",
+    "dara": "24"
+  },
+  {
+    "seri": "5932",
+    "vagon": "Eal",
+    "uzunluk": "13.92",
+    "dara": "23"
+  },
+  {
+    "seri": "6377",
+    "vagon": "Falns",
+    "uzunluk": "27",
+    "dara": "26.5"
+  },
+  {
+    "seri": "6441",
+    "vagon": "Fas",
+    "uzunluk": "22.44",
+    "dara": "22.44"
+  },
+  {
+    "seri": "6553",
+    "vagon": "Fal",
+    "uzunluk": "24",
+    "dara": "24"
+  },
+  {
+    "seri": "6554",
+    "vagon": "Fal",
+    "uzunluk": "24",
+    "dara": "24"
+  },
+  {
+    "seri": "6641",
+    "vagon": "Falns",
+    "uzunluk": "22.54",
+    "dara": "22.5"
+  },
+  {
+    "seri": "6642",
+    "vagon": "Falns",
+    "uzunluk": "25",
+    "dara": "22.5"
+  },
+  {
+    "seri": "6650",
+    "vagon": "Falns",
+    "uzunluk": "27",
+    "dara": "25"
+  },
+  {
+    "seri": "6651",
+    "vagon": "Fas",
+    "uzunluk": "27",
+    "dara": "27"
+  },
+  {
+    "seri": "6652",
+    "vagon": "Fas",
+    "uzunluk": "27.15",
+    "dara": "27.15"
+  },
+  {
+    "seri": "6675",
+    "vagon": "Fa",
+    "uzunluk": "13.54",
+    "dara": "23.87"
+  },
+  {
+    "seri": "6860",
+    "vagon": "Fal",
+    "uzunluk": "24",
+    "dara": "24"
+  },
+  {
+    "seri": "6862",
+    "vagon": "Fal",
+    "uzunluk": "24",
+    "dara": "24"
+  },
+  {
+    "seri": "6863",
+    "vagon": "Fal",
+    "uzunluk": "24",
+    "dara": "24"
+  },
+  {
+    "seri": "7580",
+    "vagon": "Zaˢ",
+    "uzunluk": "25",
+    "dara": "25"
+  },
+  {
+    "seri": "7581",
+    "vagon": "Zaˢ",
+    "uzunluk": "23",
+    "dara": "23"
+  },
+  {
+    "seri": "7582",
+    "vagon": "Zaˢ",
+    "uzunluk": "23",
+    "dara": "23"
+  },
+  {
+    "seri": "7834",
+    "vagon": "Zacens",
+    "uzunluk": "25",
+    "dara": "24.5"
+  },
+  {
+    "seri": "7836",
+    "vagon": "Zans",
+    "uzunluk": "23",
+    "dara": "24"
+  },
+  {
+    "seri": "7849",
+    "vagon": "Zaˢ",
+    "uzunluk": "23",
+    "dara": "23"
+  },
+  {
+    "seri": "7851",
+    "vagon": "Za",
+    "uzunluk": "12.92",
+    "dara": "23.1"
+  },
+  {
+    "seri": "7878",
+    "vagon": "Zaes",
+    "uzunluk": "12.92",
+    "dara": "25"
+  },
+  {
+    "seri": "7880",
+    "vagon": "Zaˢ",
+    "uzunluk": "23",
+    "dara": "23"
+  },
+  {
+    "seri": "7900",
+    "vagon": "Zaˢ",
+    "uzunluk": "25",
+    "dara": "25"
+  },
+  {
+    "seri": "7901",
+    "vagon": "Zaˢ",
+    "uzunluk": "22",
+    "dara": "22"
+  },
+  {
+    "seri": "7950",
+    "vagon": "Zas",
+    "uzunluk": "—",
+    "dara": "28"
+  },
+  {
+    "seri": "7952",
+    "vagon": "Zas-wu",
+    "uzunluk": "14.54",
+    "dara": "26"
+  },
+  {
+    "seri": "7968",
+    "vagon": "Zaes-wu",
+    "uzunluk": "—",
+    "dara": "28"
+  },
+  {
+    "seri": "9103",
+    "vagon": "D±",
+    "uzunluk": "23",
+    "dara": "42.5"
+  },
+  {
+    "seri": "9203",
+    "vagon": "D",
+    "uzunluk": "",
+    "dara": "31"
+  },
+  {
+    "seri": "9229",
+    "vagon": "Das",
+    "uzunluk": "14.94",
+    "dara": "26"
+  },
+  {
+    "seri": "9320",
+    "vagon": "Dy",
+    "uzunluk": "18",
+    "dara": "18"
+  },
+  {
+    "seri": "9329",
+    "vagon": "Uadgs",
+    "uzunluk": "12.55",
+    "dara": "27.8"
+  },
+  {
+    "seri": "9358",
+    "vagon": "Uagons-w",
+    "uzunluk": "13.40",
+    "dara": "20.6"
+  },
+  {
+    "seri": "9931",
+    "vagon": "Uaiikk",
+    "uzunluk": "9.00",
+    "dara": "33.8"
+  },
+  {
+    "seri": "9932",
+    "vagon": "Uaiikk",
+    "uzunluk": "11.70",
+    "dara": "35"
+  },
+  {
+    "seri": "9952",
+    "vagon": "Uaais",
+    "uzunluk": "10.10",
+    "dara": "38"
+  },
+  {
+    "seri": "9956",
+    "vagon": "Uaais",
+    "uzunluk": "10.10",
+    "dara": "103"
+  },
+  {
+    "seri": "9964",
+    "vagon": "Uaais",
+    "uzunluk": "10.10",
+    "dara": "160"
+  }
+]
