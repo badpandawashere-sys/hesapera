@@ -3,8 +3,9 @@ import { getSession } from '@/lib/raybilgi/auth/session';
 import { redirect } from 'next/navigation';
 import { SiteContainer } from '@/components/layout/site-container';
 import { logoutAction } from '@/lib/raybilgi/auth/actions';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { FileSpreadsheet, LogOut } from 'lucide-react';
+import { FileSpreadsheet, LogOut, KeyRound } from 'lucide-react';
 import { getActiveGvdRecords, getGvdHistory } from '@/lib/raybilgi/gvd-actions';
 import { getGvdReferenceData } from '@/lib/raybilgi/gvd-reference';
 import { GvdDashboard } from '@/components/raybilgi/gvd/gvd-dashboard';
@@ -47,12 +48,20 @@ export default async function GvdPage() {
             </p>
           </div>
           
-          <form action={logoutAction}>
-            <Button type="submit" variant="outline" className="gap-2">
-              <LogOut className="w-4 h-4" />
-              Çıkış Yap
-            </Button>
-          </form>
+          <div className="flex items-center gap-2">
+            <Link href="/raybilgi/hesap/sifre">
+              <Button variant="outline" className="gap-2">
+                <KeyRound className="w-4 h-4" />
+                Şifre Değiştir
+              </Button>
+            </Link>
+            <form action={logoutAction}>
+              <Button type="submit" variant="outline" className="gap-2">
+                <LogOut className="w-4 h-4" />
+                Çıkış Yap
+              </Button>
+            </form>
+          </div>
         </div>
 
         <GvdDashboard initialRecords={records} initialHistory={history} referenceData={referenceData} />

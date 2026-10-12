@@ -56,3 +56,17 @@ model GvdHistory {
   @@index([stationCode])
   @@index([stationCode, departedAt])
 }
+
+model RayBilgiStationAccount {
+  id                String    @id @default(uuid())
+  stationCode       String    @unique
+  username          String    @unique
+  stationName       String
+  passwordHash      String
+  enabled           Boolean   @default(true)
+  passwordChangedAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([username])
+}

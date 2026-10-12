@@ -3,7 +3,7 @@ import { getSession } from '@/lib/raybilgi/auth/session';
 import { redirect } from 'next/navigation';
 import { SiteContainer } from '@/components/layout/site-container';
 import { Button } from '@/components/ui/button';
-import { Calculator, LogOut, ArrowLeft } from 'lucide-react';
+import { Calculator, LogOut, ArrowLeft, KeyRound } from 'lucide-react';
 import Link from 'next/link';
 import { logoutAction } from '@/lib/raybilgi/auth/actions';
 import { get5600WagonLookup, get5600StationNames } from '@/lib/raybilgi/mod5600-reference';
@@ -58,6 +58,12 @@ export default async function Mod5600Page() {
             <span className="text-xs bg-muted text-muted-foreground px-3 py-1.5 rounded-full font-semibold border border-border">
               {session.stationName}
             </span>
+            <Link href="/raybilgi/hesap/sifre">
+              <Button variant="outline" size="sm" className="gap-2 text-xs">
+                <KeyRound className="w-4 h-4" />
+                Şifre Değiştir
+              </Button>
+            </Link>
             <form action={logoutAction}>
               <Button variant="outline" size="sm" type="submit" className="gap-2 text-xs">
                 <LogOut className="w-4 h-4" />
