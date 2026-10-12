@@ -37,10 +37,14 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
   const [results, setResults] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isFocused, setIsFocused] = useState(false);
   const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside(wrapperRef, () => setIsOpen(false));
+  useOnClickOutside(wrapperRef, () => {
+    setIsOpen(false);
+    setIsFocused(false);
+  });
 
   useEffect(() => {
     if (query.trim().length === 0) {
@@ -75,6 +79,15 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
   }, [query, items]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      setIsOpen(false);
+      if (query) {
+        setQuery('');
+      }
+      return;
+    }
+
     if (!isOpen) return;
 
     if (e.key === 'ArrowDown') {
@@ -91,17 +104,17 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
         // Default to first result if none selected but enter is pressed
         navigateToResult(results[0].slug);
       }
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      setIsOpen(false);
     }
   };
 
   const navigateToResult = (slug: string) => {
     setIsOpen(false);
+    setIsFocused(false);
     setQuery('');
     router.push(`/hesaplama/${slug}`);
   };
+
+  const showEsc = isOpen || (isFocused && query.trim().length > 0);
 
   return (
     <div className="relative w-full" ref={wrapperRef}>
@@ -115,14 +128,22 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => {
+            setIsFocused(true);
             if (results.length > 0) setIsOpen(true);
           }}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
           placeholder="Hesaplayıcı ara... (Örn: kredi, yüzde, yaş...)"
-          className="w-full bg-surface-container-lowest border border-border/50 py-4 pl-12 pr-4 rounded-xl text-on-surface placeholder:text-outline font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm transition-all"
+          className={`w-full bg-surface-container-lowest border border-border/50 py-4 pl-12 rounded-xl text-on-surface placeholder:text-outline font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm transition-all ${
+            showEsc ? 'pr-4 sm:pr-16' : 'pr-4'
+          }`}
         />
-        <div className="hidden sm:flex absolute right-4 items-center gap-1 px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm border border-border">
-          <span className="text-[10px]">ESC</span>
-        </div>
+        {showEsc && (
+          <div className="hidden sm:flex absolute right-4 items-center gap-1 px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm border border-border pointer-events-none select-none">
+            <span className="text-[10px]">ESC</span>
+          </div>
+        )}
       </div>
 
       {isOpen && (
