@@ -37,13 +37,11 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
   const [results, setResults] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [isFocused, setIsFocused] = useState(false);
   const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(wrapperRef, () => {
     setIsOpen(false);
-    setIsFocused(false);
   });
 
   useEffect(() => {
@@ -78,13 +76,36 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
     setSelectedIndex(-1);
   }, [query, items]);
 
+  const navigateToResult = (slug: string) => {
+    setIsOpen(false);
+    setQuery('');
+    router.push(`/hesaplama/${slug}`);
+  };
+
+  const hasQuery = query.trim().length > 0;
+
+  const handleSearchSubmit = () => {
+    if (!hasQuery) return;
+
+    if (selectedIndex >= 0 && selectedIndex < results.length) {
+      navigateToResult(results[selectedIndex].slug);
+    } else if (results.length > 0) {
+      navigateToResult(results[0].slug);
+    } else if (!isOpen) {
+      setIsOpen(true);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       e.preventDefault();
       setIsOpen(false);
-      if (query) {
-        setQuery('');
-      }
+      return;
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearchSubmit();
       return;
     }
 
@@ -96,25 +117,8 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (selectedIndex >= 0 && selectedIndex < results.length) {
-        navigateToResult(results[selectedIndex].slug);
-      } else if (results.length > 0) {
-        // Default to first result if none selected but enter is pressed
-        navigateToResult(results[0].slug);
-      }
     }
   };
-
-  const navigateToResult = (slug: string) => {
-    setIsOpen(false);
-    setIsFocused(false);
-    setQuery('');
-    router.push(`/hesaplama/${slug}`);
-  };
-
-  const showEsc = isOpen || (isFocused && query.trim().length > 0);
 
   return (
     <div className="relative w-full" ref={wrapperRef}>
@@ -128,22 +132,21 @@ export function CalculatorSearch({ items }: { items: CalculatorSearchItem[] }) {
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => {
-            setIsFocused(true);
             if (results.length > 0) setIsOpen(true);
           }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
           placeholder="Hesaplayıcı ara... (Örn: kredi, yüzde, yaş...)"
-          className={`w-full bg-surface-container-lowest border border-border/50 py-4 pl-12 rounded-xl text-on-surface placeholder:text-outline font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm transition-all ${
-            showEsc ? 'pr-4 sm:pr-16' : 'pr-4'
-          }`}
+          className="w-full bg-surface-container-lowest border border-border/50 py-4 pl-12 pr-24 rounded-xl text-on-surface placeholder:text-outline font-body-lg text-body-lg focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-sm transition-all"
         />
-        {showEsc && (
-          <div className="hidden sm:flex absolute right-4 items-center gap-1 px-2 py-1 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm border border-border pointer-events-none select-none">
-            <span className="text-[10px]">ESC</span>
-          </div>
-        )}
+        <button
+          type="button"
+          aria-label="Ara"
+          disabled={!hasQuery}
+          onClick={handleSearchSubmit}
+          className="absolute right-2 sm:right-2.5 top-1/2 -translate-y-1/2 h-10 px-3.5 sm:px-4 rounded-lg font-label-md text-label-md font-medium inline-flex items-center justify-center gap-1.5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:bg-surface-container disabled:text-on-surface-variant/40 disabled:cursor-not-allowed bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm cursor-pointer"
+        >
+          <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+          <span>Ara</span>
+        </button>
       </div>
 
       {isOpen && (
