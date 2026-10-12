@@ -121,12 +121,12 @@ export default function HomePage() {
             <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-space-2xs">Sık Arananlar:</span>
               {[
                 { label: 'Kredi hesaplama', slug: '/hesaplama/kredi' },
-                { label: 'Kıdem tazminatı', isComingSoon: true },
-                { label: 'MTV hesaplama', isComingSoon: true },
                 { label: 'Yüzde hesaplama', slug: '/hesaplama/yuzde' },
                 { label: 'Yakıt tüketimi', slug: '/hesaplama/yakit-tuketimi' },
                 { label: 'KDV hesaplama', slug: '/hesaplama/kdv-hesaplama' },
                 { label: 'Mevduat getirisi', slug: '/hesaplama/vadeli-mevduat-faizi' },
+                { label: 'Kıdem tazminatı', isComingSoon: true },
+                { label: 'MTV hesaplama', isComingSoon: true },
               ].map((item) => {
                 if (item.slug) {
                   return (
