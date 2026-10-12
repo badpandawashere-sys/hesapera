@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { WagonRecord, WagonRowInput } from '@/types/raybilgi';
 import { calculateWagonRow, calculateTrainTotals } from '@/lib/raybilgi/mod5600-engine';
+import { isBulkPaste, parseAndApplyWagonPaste } from '@/lib/raybilgi/mod5600-paste';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Trash2, TrainTrack, Scale, Gauge, ShieldAlert, AlertCircle, CheckCircle2, FileSpreadsheet } from 'lucide-react';
@@ -182,6 +183,56 @@ export function Mod5600Dashboard({
     }
   };
 
+  const [pasteNotification, setPasteNotification] = useState<{
+    type: 'success' | 'warning';
+    message: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!pasteNotification) return;
+    const timer = setTimeout(() => {
+      setPasteNotification(null);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [pasteNotification]);
+
+  const handleTablePaste = (e: React.ClipboardEvent, rowIndex: number) => {
+    const clipboardText = e.clipboardData?.getData('text') || '';
+    if (!isBulkPaste(clipboardText)) {
+      // Normal single-cell paste -> let native input paste proceed normally
+      return;
+    }
+
+    // Intercept bulk paste
+    e.preventDefault();
+
+    const result = parseAndApplyWagonPaste(clipboardText, rowIndex, rows, MAX_WAGONS);
+    if (result.appliedCount > 0) {
+      setRows(result.newRows);
+      if (result.reachedCapacity) {
+        setPasteNotification({
+          type: 'warning',
+          message: '49 vagon sınırına ulaşıldı.',
+        });
+      } else if (result.skippedCount > 0) {
+        setPasteNotification({
+          type: 'warning',
+          message: `${result.appliedCount} satır aktarıldı, ${result.skippedCount} satır okunamadı.`,
+        });
+      } else {
+        setPasteNotification({
+          type: 'success',
+          message: `${result.appliedCount} vagon satırı yapıştırıldı.`,
+        });
+      }
+    } else if (result.skippedCount > 0) {
+      setPasteNotification({
+        type: 'warning',
+        message: `${result.skippedCount} satır okunamadı. Desteklenen formatlar: 3, 4 veya 6 sütun.`,
+      });
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Hidden Datalist for Station Autocomplete */}
@@ -317,7 +368,7 @@ export function Mod5600Dashboard({
               Dizideki Vagonlar ({rows.length} / {MAX_WAGONS})
             </h2>
             <p className="text-xs text-muted-foreground">
-              Vagon serisini girdiğinizde dingil, tip, dara ve fren ağırlıkları otomatik hesaplanır.
+              Vagon serisini girdiğinizde dingil, tip, dara ve fren ağırlıkları otomatik hesaplanır. Excel veya Saha Vaziyeti tablolarından kopyaladığınız satırları doğrudan yapıştırabilirsiniz (Ctrl+V).
             </p>
           </div>
 
@@ -365,6 +416,32 @@ export function Mod5600Dashboard({
           </div>
         </div>
 
+        {/* Bulk Paste Bildirimi */}
+        {pasteNotification && (
+          <div
+            className={`p-3 rounded-xl border text-xs font-semibold flex items-center justify-between gap-2 transition-all ${
+              pasteNotification.type === 'success'
+                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+                : 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {pasteNotification.type === 'success' ? (
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+              ) : (
+                <AlertCircle className="w-4 h-4 shrink-0" />
+              )}
+              <span>{pasteNotification.message}</span>
+            </div>
+            <button
+              onClick={() => setPasteNotification(null)}
+              className="text-muted-foreground hover:text-foreground text-xs font-bold px-1"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
         {/* Tablo Kapsayıcısı (Masaüstü ve Yatay Kaydırma) */}
         <div className="overflow-x-auto border border-border rounded-xl">
           <table className="w-full text-xs text-left border-collapse min-w-[1050px]">
@@ -393,6 +470,7 @@ export function Mod5600Dashboard({
                 return (
                   <tr
                     key={input.id}
+                    onPaste={(e) => handleTablePaste(e, idx)}
                     className={`transition-colors ${
                       calc.isValid
                         ? 'bg-emerald-500/5 hover:bg-emerald-500/10'
@@ -417,6 +495,7 @@ export function Mod5600Dashboard({
                         type="text"
                         value={input.regime}
                         placeholder="3175"
+                        onPaste={(e) => handleTablePaste(e, idx)}
                         onChange={(e) => handleUpdateRow(idx, 'regime', e.target.value)}
                         className="h-8 text-center text-xs px-1 font-medium"
                       />
@@ -428,6 +507,7 @@ export function Mod5600Dashboard({
                         type="text"
                         value={input.serial}
                         placeholder="Örn: 5379"
+                        onPaste={(e) => handleTablePaste(e, idx)}
                         onChange={(e) => handleUpdateRow(idx, 'serial', e.target.value)}
                         className={`h-8 text-center text-xs px-1 font-bold ${
                           isInvalid
@@ -461,6 +541,7 @@ export function Mod5600Dashboard({
                         type="text"
                         value={input.wagonNo}
                         placeholder="183-2"
+                        onPaste={(e) => handleTablePaste(e, idx)}
                         onChange={(e) => handleUpdateRow(idx, 'wagonNo', e.target.value)}
                         className="h-8 text-center text-xs px-1 font-medium"
                       />
@@ -483,6 +564,7 @@ export function Mod5600Dashboard({
                         list="station-options"
                         value={input.departure}
                         placeholder={topDeparture || 'Çıkış...'}
+                        onPaste={(e) => handleTablePaste(e, idx)}
                         onChange={(e) => handleUpdateRow(idx, 'departure', e.target.value.toUpperCase())}
                         className="h-8 text-center text-xs px-1 font-medium"
                       />
@@ -495,6 +577,7 @@ export function Mod5600Dashboard({
                         list="station-options"
                         value={input.arrival}
                         placeholder={topArrival || 'Varış...'}
+                        onPaste={(e) => handleTablePaste(e, idx)}
                         onChange={(e) => handleUpdateRow(idx, 'arrival', e.target.value.toUpperCase())}
                         className="h-8 text-center text-xs px-1 font-medium"
                       />
@@ -511,6 +594,7 @@ export function Mod5600Dashboard({
                         type="text"
                         value={input.netInput}
                         placeholder="0.00"
+                        onPaste={(e) => handleTablePaste(e, idx)}
                         onChange={(e) => handleUpdateRow(idx, 'netInput', e.target.value)}
                         className="h-8 text-center text-xs px-1 font-medium"
                       />
