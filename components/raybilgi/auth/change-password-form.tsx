@@ -62,8 +62,8 @@ export function ChangePasswordForm({ stationName }: ChangePasswordFormProps) {
             name="newPassword"
             type="password"
             autoComplete="new-password"
-            placeholder="En az 12 karakter..."
-            minLength={12}
+            placeholder="En az 6 karakter..."
+            minLength={6}
             maxLength={128}
             required
             disabled={isPending}
@@ -84,7 +84,7 @@ export function ChangePasswordForm({ stationName }: ChangePasswordFormProps) {
             type="password"
             autoComplete="new-password"
             placeholder="Şifrenizi tekrar girin..."
-            minLength={12}
+            minLength={6}
             maxLength={128}
             required
             disabled={isPending}
@@ -98,7 +98,7 @@ export function ChangePasswordForm({ stationName }: ChangePasswordFormProps) {
             Şifre Güvenlik Kuralı:
           </p>
           <ul className="list-disc list-inside space-y-0.5 pl-1 text-[11px]">
-            <li>Şifreniz en az 12 karakter olmalıdır.</li>
+            <li>Şifreniz en az 6 karakter olmalıdır.</li>
             <li>Türkçe karakterler dahil tüm karakterleri kullanabilirsiniz.</li>
             <li>Oluşturduğunuz şifre veritabanında tek yönlü scrypt hash ile korunur.</li>
           </ul>

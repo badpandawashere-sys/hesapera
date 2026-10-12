@@ -130,11 +130,17 @@ describe('RAYBİLGİ Station Password Security (Phase A)', () => {
     expect((callArgs.update as any).stationCode).toBeUndefined();
   });
 
-  // H. password shorter than 12 rejected
-  it('H. password shorter than 12 is rejected by policy and action', async () => {
-    const policyResult = validatePasswordPolicy('kisa123', 'kisa123');
-    expect(policyResult.valid).toBe(false);
-    expect(policyResult.error).toContain('12');
+  // H. password shorter than 6 rejected, 6 accepted
+  it('H. password shorter than 6 is rejected (5 chars), 6 chars accepted', async () => {
+    // 5 chars -> rejected
+    const policyResult5 = validatePasswordPolicy('12345', '12345');
+    expect(policyResult5.valid).toBe(false);
+    expect(policyResult5.error).toContain('6');
+
+    // 6 chars -> accepted
+    const policyResult6 = validatePasswordPolicy('123456', '123456');
+    expect(policyResult6.valid).toBe(true);
+    expect(policyResult6.error).toBeUndefined();
 
     vi.mocked(getSession).mockResolvedValueOnce({
       stationCode: '1512',
@@ -143,11 +149,11 @@ describe('RAYBİLGİ Station Password Security (Phase A)', () => {
     });
 
     const formData = new FormData();
-    formData.append('newPassword', 'kisa123');
-    formData.append('confirmation', 'kisa123');
+    formData.append('newPassword', '12345');
+    formData.append('confirmation', '12345');
 
     const actionResult = await changePasswordAction(null, formData);
-    expect(actionResult.error).toContain('12');
+    expect(actionResult.error).toContain('6');
     expect(prisma.rayBilgiStationAccount.upsert).not.toHaveBeenCalled();
   });
 

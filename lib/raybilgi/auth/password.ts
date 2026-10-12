@@ -13,7 +13,7 @@ export interface PasswordValidationResult {
 
 /**
  * Validates new password according to RayBilgi security policy:
- * - Minimum 12 characters
+ * - Minimum 6 characters
  * - Maximum 128 characters
  * - Allows any characters including Turkish letters
  * - Mismatch check against confirmation
@@ -22,8 +22,8 @@ export function validatePasswordPolicy(password: string, confirmation: string): 
   if (!password || typeof password !== 'string') {
     return { valid: false, error: 'Şifre boş bırakılamaz.' };
   }
-  if (password.length < 12) {
-    return { valid: false, error: 'Şifre en az 12 karakter olmalıdır.' };
+  if (password.length < 6) {
+    return { valid: false, error: 'Şifre en az 6 karakter olmalıdır.' };
   }
   if (password.length > 128) {
     return { valid: false, error: 'Şifre en fazla 128 karakter olabilir.' };
