@@ -124,8 +124,8 @@ export default function HomePage() {
                 { label: 'Kıdem tazminatı', isComingSoon: true },
                 { label: 'MTV hesaplama', isComingSoon: true },
                 { label: 'Yüzde hesaplama', slug: '/hesaplama/yuzde' },
-                { label: 'Yakıt tüketimi', isComingSoon: true },
-                { label: 'KDV hesaplama', isComingSoon: true },
+                { label: 'Yakıt tüketimi', slug: '/hesaplama/yakit-tuketimi' },
+                { label: 'KDV hesaplama', slug: '/hesaplama/kdv-hesaplama' },
                 { label: 'Mevduat getirisi', slug: '/hesaplama/vadeli-mevduat-faizi' },
               ].map((item) => {
                 if (item.slug) {
