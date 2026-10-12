@@ -275,11 +275,11 @@ export default function HomePage() {
               icon={Receipt}
               badge="Güncel KDV Oranları"
               href="/hesaplama/kdv-hesaplama"
-              colorClass="text-secondary"
-              bgClass="bg-secondary-fixed"
+              colorClass="text-primary"
+              bgClass="bg-primary-fixed/60"
               previewData={[
                 { label: 'Tutar (KDV Hariç)', value: '₺10.000' },
-                { label: 'KDV Oranı', value: '%20', valueClass: 'text-secondary' },
+                { label: 'KDV Oranı', value: '%20', valueClass: 'text-primary' },
                 { label: 'Hesaplama Türü', value: 'KDV Ekleme' },
               ]}
               resultLabel="KDV Dahil Toplam"
