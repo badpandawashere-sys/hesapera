@@ -237,17 +237,17 @@ export default function HomePage() {
               desc="Banka komisyonları ve taksit planlaması."
               category="Kredi"
               icon={Building}
-              badge="2025 Güncel Faiz Oranları"
+              badge="Güncel Faiz Oranları"
               href="/hesaplama/konut-kredisi"
               colorClass="text-primary"
               bgClass="bg-primary-fixed/60"
               previewData={[
-                { label: 'Kredi Tutarı', value: 'â‚º1.500.000' },
+                { label: 'Kredi Tutarı', value: '₺1.500.000' },
                 { label: 'Vade Süresi', value: '120 Ay (10 Yıl)' },
                 { label: 'Aylık Faiz', value: '%2.89', valueClass: 'text-primary' },
               ]}
               resultLabel="Aylık Taksit"
-              resultValue="â‚º44.250"
+              resultValue="₺44.250"
               actionText="Detaylı Hesapla"
             />
             <FeaturedCalculatorCard 
@@ -255,54 +255,54 @@ export default function HomePage() {
               desc="SGK, gelir vergisi ve damga vergisi kesintileri."
               category="Maaş"
               icon={Wallet}
-              badge="2025 Asgari Ücret & Dilimler"
-              href="/hesaplama/maas-hesaplama"
+              badge="2026 Asgari Ücret & Dilimler"
+              href="/hesaplama/maas"
               colorClass="text-tertiary"
               bgClass="bg-tertiary-fixed/60"
               previewData={[
-                { label: 'Net Hedef Maaş', value: 'â‚º45.000' },
-                { label: 'Vergilendirme Yılı', value: '2025 Mali Yılı' },
+                { label: 'Net Hedef Maaş', value: '₺45.000' },
+                { label: 'Vergilendirme Yılı', value: '2026 Mali Yılı' },
                 { label: 'SGK Muafiyeti', value: 'Uygulanıyor', valueClass: 'text-tertiary' },
               ]}
               resultLabel="Gereken Brüt"
-              resultValue="â‚º63.120"
+              resultValue="₺63.120"
               actionText="Maaş Cetvelini Gör"
             />
             <FeaturedCalculatorCard 
-              title="Kıdem ve İhbar Tazminatı"
-              desc="Kıdem tavanı ve damga vergisi dahil net tutar."
-              category="Çalışma"
+              title="KDV Hesaplama"
+              desc="KDV dahil ve hariç tutarları hızlıca hesaplayın."
+              category="Vergi"
               icon={Receipt}
-              badge="Tavan Ücret Güncellendi"
-              href="/hesaplama/kidem-tazminati"
+              badge="Güncel KDV Oranları"
+              href="/hesaplama/kdv-hesaplama"
               colorClass="text-secondary"
               bgClass="bg-secondary-fixed"
               previewData={[
-                { label: 'Giydirilmiş Brüt', value: 'â‚º35.000' },
-                { label: 'Çalışma Süresi', value: '4 Yıl 3 Ay' },
-                { label: 'İhbar Süresi', value: '8 Hafta' },
+                { label: 'Tutar (KDV Hariç)', value: '₺10.000' },
+                { label: 'KDV Oranı', value: '%20', valueClass: 'text-secondary' },
+                { label: 'Hesaplama Türü', value: 'KDV Ekleme' },
               ]}
-              resultLabel="Tahmini Tazminat"
-              resultValue="â‚º148.750"
-              actionText="Tazminat Hesapla"
+              resultLabel="KDV Dahil Toplam"
+              resultValue="₺12.000"
+              actionText="KDV Hesapla"
             />
             <FeaturedCalculatorCard 
-              title="Motorlu Taşıtlar Vergisi"
-              desc="Tescil yılı ve motor silindir hacmi tarifesi."
+              title="Yakıt Tüketimi"
+              desc="Mesafe, tüketim ve yakıt fiyatına göre maliyeti hesaplayın."
               category="Otomotiv"
               icon={Car}
-              badge="2025 Yeniden Değerleme"
-              href="/hesaplama/mtv-hesaplama"
+              badge="Yakıt Maliyeti"
+              href="/hesaplama/yakit-tuketimi"
               colorClass="text-primary"
               bgClass="bg-surface-container-high"
               previewData={[
-                { label: 'Araç Yaşı', value: '1 - 3 Yaş' },
-                { label: 'Motor Hacmi', value: '1301 - 1600 cc' },
-                { label: 'İlk İktisap', value: '2018 Sonrası' },
+                { label: 'Kat Edilen Mesafe', value: '500 km' },
+                { label: 'Ortalama Tüketim', value: '6,0 L / 100 km' },
+                { label: 'Yakıt Litre Fiyatı', value: '₺45,00', valueClass: 'text-primary' },
               ]}
-              resultLabel="Yıllık Toplam MTV"
-              resultValue="â‚º7.026"
-              actionText="MTV Hesapla"
+              resultLabel="Tahmini Yakıt Maliyeti"
+              resultValue="₺1.350"
+              actionText="Yakıt Hesapla"
             />
           </div>
         </SiteContainer>
