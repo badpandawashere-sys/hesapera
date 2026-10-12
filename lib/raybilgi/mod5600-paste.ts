@@ -65,7 +65,8 @@ export function parseSingleWagonNumber(
  * Parses a single clipboard line into wagon fields.
  * Supports:
  * - 3 columns: regime | serial | wagonNo
- * - 4 columns: regime | serial | wagonNo | netInput
+ * - 4 columns: regime | serial | wagonNo | arrival
+ * - 5 columns: regime | serial | wagonNo | arrival | netInput
  * - 6 columns: regime | serial | wagonNo | departure | arrival | netInput
  * - 1 column: 12-digit compact wagon number OR single serial
  */
@@ -92,12 +93,24 @@ export function parseWagonRowLine(rawLine: string): ParsedWagonRow | null {
         netInput: rawParts[5] ?? '',
       };
     }
-    if (rawParts.length === 4 || rawParts.length === 5) {
+    if (rawParts.length === 5) {
       return {
         regime: rawParts[0],
         serial: rawParts[1],
         wagonNo: rawParts[2],
-        netInput: rawParts[3] ?? '',
+        departure: '',
+        arrival: rawParts[3] ? rawParts[3].toLocaleUpperCase('tr-TR') : '',
+        netInput: rawParts[4] ?? '',
+      };
+    }
+    if (rawParts.length === 4) {
+      return {
+        regime: rawParts[0],
+        serial: rawParts[1],
+        wagonNo: rawParts[2],
+        departure: '',
+        arrival: rawParts[3] ? rawParts[3].toLocaleUpperCase('tr-TR') : '',
+        netInput: '',
       };
     }
     if (rawParts.length === 3) {
@@ -143,12 +156,24 @@ export function parseWagonRowLine(rawLine: string): ParsedWagonRow | null {
       netInput: spaceParts[5] ?? '',
     };
   }
-  if (spaceParts.length === 4 || spaceParts.length === 5) {
+  if (spaceParts.length === 5) {
     return {
       regime: spaceParts[0],
       serial: spaceParts[1],
       wagonNo: spaceParts[2],
-      netInput: spaceParts[3] ?? '',
+      departure: '',
+      arrival: spaceParts[3] ? spaceParts[3].toLocaleUpperCase('tr-TR') : '',
+      netInput: spaceParts[4] ?? '',
+    };
+  }
+  if (spaceParts.length === 4) {
+    return {
+      regime: spaceParts[0],
+      serial: spaceParts[1],
+      wagonNo: spaceParts[2],
+      departure: '',
+      arrival: spaceParts[3] ? spaceParts[3].toLocaleUpperCase('tr-TR') : '',
+      netInput: '',
     };
   }
   if (spaceParts.length === 3) {

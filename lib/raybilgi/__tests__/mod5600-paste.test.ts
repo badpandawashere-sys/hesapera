@@ -71,14 +71,69 @@ describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
     expect(result.newRows[1].wagonNo).toBe('184-0');
   });
 
-  // C. 4-column format
-  it('C. parses 4-column format (regime, serial, wagonNo, netInput)', () => {
-    const parsed = parseWagonRowLine('3175\t5379\t183-2\t25,5');
+  // C. 4-column format (regime, serial, wagonNo, arrival)
+  it('C. parses 4-column format (regime, serial, wagonNo, arrival)', () => {
+    const parsed = parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ');
     expect(parsed).toEqual({
       regime: '3175',
-      serial: '5379',
-      wagonNo: '183-2',
+      serial: '2461',
+      wagonNo: '776-8',
+      departure: '',
+      arrival: 'KAYSERİ',
+      netInput: '',
+    });
+  });
+
+  // C2. 4-column multiple rows (Saha Vaziyeti real format)
+  it('C2. parses and applies multiple 4-column Saha Vaziyeti rows with arrival station names', () => {
+    const text =
+      '3175\t2461\t776-8\tKAYSERİ\n' +
+      '3175\t2461\t777-6\tANKARA\n' +
+      '3175\t2461\t778-4\tILICA\n' +
+      '3175\t2461\t779-2\tKARS';
+    const initialRows = createMockRows(10);
+    const result = parseAndApplyWagonPaste(text, 0, initialRows);
+
+    expect(result.appliedCount).toBe(4);
+    expect(result.skippedCount).toBe(0);
+
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].departure).toBe('');
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+    expect(result.newRows[0].netInput).toBe('');
+
+    expect(result.newRows[1].arrival).toBe('ANKARA');
+    expect(result.newRows[1].netInput).toBe('');
+
+    expect(result.newRows[2].arrival).toBe('ILICA');
+    expect(result.newRows[2].netInput).toBe('');
+
+    expect(result.newRows[3].arrival).toBe('KARS');
+    expect(result.newRows[3].netInput).toBe('');
+  });
+
+  // C3. 5-column format (regime, serial, wagonNo, arrival, netInput)
+  it('C3. parses 5-column format (regime, serial, wagonNo, arrival, netInput) with comma and dot decimals', () => {
+    const commaParsed = parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ\t25,5');
+    expect(commaParsed).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      departure: '',
+      arrival: 'KAYSERİ',
       netInput: '25,5',
+    });
+
+    const dotParsed = parseWagonRowLine('3175\t2461\t777-6\tANKARA\t30.2');
+    expect(dotParsed).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '777-6',
+      departure: '',
+      arrival: 'ANKARA',
+      netInput: '30.2',
     });
   });
 
@@ -134,7 +189,8 @@ describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
 
   // H. Turkish decimal comma
   it('H. preserves Turkish decimal comma in netInput and calculates correctly', () => {
-    const parsed = parseWagonRowLine('3175\t5379\t183-2\t25,4');
+    const parsed = parseWagonRowLine('3175\t5379\t183-2\tKAYSERİ\t25,4');
+    expect(parsed?.arrival).toBe('KAYSERİ');
     expect(parsed?.netInput).toBe('25,4');
     expect(parseTurkishFloat(parsed?.netInput)).toBe(25.4);
   });
@@ -250,7 +306,7 @@ describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
   // Q. calculations update after bulk paste
   it('Q. recalculation immediately reflects new technical parameters and totals after bulk paste', () => {
     const initialRows = createMockRows(10);
-    const text = '3175\t5379\t183-2\t20\n3175\t4569\t184-0\t15';
+    const text = '3175\t5379\t183-2\tKÖRFEZ\t20\n3175\t4569\t184-0\tKÖRFEZ\t15';
 
     const pasteResult = parseAndApplyWagonPaste(text, 0, initialRows);
     expect(pasteResult.appliedCount).toBe(2);
