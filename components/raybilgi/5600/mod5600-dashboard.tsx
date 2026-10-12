@@ -206,7 +206,7 @@ export function Mod5600Dashboard({
     // Intercept bulk paste
     e.preventDefault();
 
-    const result = parseAndApplyWagonPaste(clipboardText, rowIndex, rows, MAX_WAGONS);
+    const result = parseAndApplyWagonPaste(clipboardText, rowIndex, rows, MAX_WAGONS, wagonLookup);
     if (result.appliedCount > 0) {
       setRows(result.newRows);
       if (result.reachedCapacity) {

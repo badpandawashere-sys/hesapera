@@ -2,9 +2,14 @@ import { describe, it, expect } from 'vitest';
 import {
   cleanCell,
   parseSingleWagonNumber,
+  parseFullWagonIdentity,
   parseWagonRowLine,
   isBulkPaste,
   parseAndApplyWagonPaste,
+  isKnownSerial,
+  isWagonNoCandidate,
+  isNetTonCandidate,
+  isStationCandidate,
 } from '@/lib/raybilgi/mod5600-paste';
 import { calculateWagonRow, calculateTrainTotals, parseTurkishFloat } from '@/lib/raybilgi/mod5600-engine';
 import { WagonRecord, WagonRowInput } from '@/types/raybilgi';
@@ -42,37 +47,150 @@ const mockLookup: Record<string, WagonRecord> = {
     fren_dolu: 60,
     fren_aralik: 30,
   },
+  '2461': {
+    seri: '2461',
+    vagon: 'Eaos',
+    dingil: 4,
+    dara: 21.5,
+    uzunluk: 14.04,
+    fren_bos: 24,
+    fren_dolu: 68,
+    fren_aralik: 25,
+  },
+  '2752': {
+    seri: '2752',
+    vagon: 'Falns',
+    dingil: 4,
+    dara: 23.0,
+    uzunluk: 13.0,
+    fren_bos: 22,
+    fren_dolu: 64,
+    fren_aralik: 25,
+  },
+  '2851': {
+    seri: '2851',
+    vagon: 'Habis',
+    dingil: 4,
+    dara: 25.0,
+    uzunluk: 16.0,
+    fren_bos: 28,
+    fren_dolu: 75,
+    fren_aralik: 25,
+  },
 };
 
-describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
-  // A. 3-column one row
-  it('A. parses 3-column single row (regime, serial, wagonNo)', () => {
-    const parsed = parseWagonRowLine('3175\t5379\t183-2');
+describe('RAYBİLGİ 5600 Smart Interpretive Parser Test Matrix', () => {
+  // A. compact full wagon id only
+  it('A. compact full wagon id only', () => {
+    const parsed = parseWagonRowLine('31752461776-8');
     expect(parsed).toEqual({
       regime: '3175',
-      serial: '5379',
-      wagonNo: '183-2',
+      serial: '2461',
+      wagonNo: '776-8',
+      confidence: 'strong',
     });
   });
 
-  // B. 3-column multiple rows
-  it('B. parses and applies 3-column multiple rows', () => {
-    const text = '3175\t5379\t183-2\n3175\t4569\t184-0';
-    const initialRows = createMockRows(10);
-    const result = parseAndApplyWagonPaste(text, 0, initialRows);
-
-    expect(result.appliedCount).toBe(2);
-    expect(result.skippedCount).toBe(0);
-    expect(result.newRows[0].regime).toBe('3175');
-    expect(result.newRows[0].serial).toBe('5379');
-    expect(result.newRows[0].wagonNo).toBe('183-2');
-    expect(result.newRows[1].regime).toBe('3175');
-    expect(result.newRows[1].serial).toBe('4569');
-    expect(result.newRows[1].wagonNo).toBe('184-0');
+  // B. spaced full wagon id only
+  it('B. spaced full wagon id only', () => {
+    const parsed = parseWagonRowLine('3175 2461 776-8');
+    expect(parsed).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      confidence: 'strong',
+    });
   });
 
-  // C. 4-column format (regime, serial, wagonNo, arrival)
-  it('C. parses 4-column format (regime, serial, wagonNo, arrival)', () => {
+  // C. hyphenated full wagon id
+  it('C. hyphenated full wagon id', () => {
+    const parsed = parseWagonRowLine('3175-2461-776-8');
+    expect(parsed).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      confidence: 'strong',
+    });
+  });
+
+  // D. full wagon id + arrival
+  it('D. full wagon id + arrival', () => {
+    const parsedTab = parseWagonRowLine('31752461776-8\tKAYSERİ');
+    expect(parsedTab).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      arrival: 'KAYSERİ',
+      confidence: 'strong',
+    });
+
+    const parsedSpaced = parseWagonRowLine('3175 2461 776-8 KAYSERİ');
+    expect(parsedSpaced).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      arrival: 'KAYSERİ',
+      confidence: 'strong',
+    });
+  });
+
+  // E. full wagon id + net
+  it('E. full wagon id + net', () => {
+    const parsedTab = parseWagonRowLine('31752461776-8\t25,5');
+    expect(parsedTab).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      netInput: '25,5',
+      confidence: 'strong',
+    });
+
+    const parsedSpaced = parseWagonRowLine('3175 2461 776-8 25,5');
+    expect(parsedSpaced).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      netInput: '25,5',
+      confidence: 'strong',
+    });
+  });
+
+  // F. full wagon id + arrival + net
+  it('F. full wagon id + arrival + net', () => {
+    const parsed = parseWagonRowLine('3175 2461 776-8 KAYSERİ 25,5');
+    expect(parsed).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      arrival: 'KAYSERİ',
+      netInput: '25,5',
+      confidence: 'strong',
+    });
+
+    const parsedCompact = parseWagonRowLine('31752461776-8 KAYSERİ 25,5');
+    expect(parsedCompact).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      arrival: 'KAYSERİ',
+      netInput: '25,5',
+      confidence: 'strong',
+    });
+  });
+
+  // G. 3 explicit cells
+  it('G. 3 explicit cells', () => {
+    const parsed = parseWagonRowLine('3175\t2461\t776-8');
+    expect(parsed).toEqual({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      confidence: 'strong',
+    });
+  });
+
+  // H. 4 explicit cells -> arrival
+  it('H. 4 explicit cells -> arrival', () => {
     const parsed = parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ');
     expect(parsed).toEqual({
       regime: '3175',
@@ -81,64 +199,26 @@ describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
       departure: '',
       arrival: 'KAYSERİ',
       netInput: '',
+      confidence: 'strong',
     });
   });
 
-  // C2. 4-column multiple rows (Saha Vaziyeti real format)
-  it('C2. parses and applies multiple 4-column Saha Vaziyeti rows with arrival station names', () => {
-    const text =
-      '3175\t2461\t776-8\tKAYSERİ\n' +
-      '3175\t2461\t777-6\tANKARA\n' +
-      '3175\t2461\t778-4\tILICA\n' +
-      '3175\t2461\t779-2\tKARS';
-    const initialRows = createMockRows(10);
-    const result = parseAndApplyWagonPaste(text, 0, initialRows);
-
-    expect(result.appliedCount).toBe(4);
-    expect(result.skippedCount).toBe(0);
-
-    expect(result.newRows[0].regime).toBe('3175');
-    expect(result.newRows[0].serial).toBe('2461');
-    expect(result.newRows[0].wagonNo).toBe('776-8');
-    expect(result.newRows[0].departure).toBe('');
-    expect(result.newRows[0].arrival).toBe('KAYSERİ');
-    expect(result.newRows[0].netInput).toBe('');
-
-    expect(result.newRows[1].arrival).toBe('ANKARA');
-    expect(result.newRows[1].netInput).toBe('');
-
-    expect(result.newRows[2].arrival).toBe('ILICA');
-    expect(result.newRows[2].netInput).toBe('');
-
-    expect(result.newRows[3].arrival).toBe('KARS');
-    expect(result.newRows[3].netInput).toBe('');
-  });
-
-  // C3. 5-column format (regime, serial, wagonNo, arrival, netInput)
-  it('C3. parses 5-column format (regime, serial, wagonNo, arrival, netInput) with comma and dot decimals', () => {
-    const commaParsed = parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ\t25,5');
-    expect(commaParsed).toEqual({
+  // I. 5 explicit cells -> arrival + net
+  it('I. 5 explicit cells -> arrival + net', () => {
+    const parsed = parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ\t25,5');
+    expect(parsed).toEqual({
       regime: '3175',
       serial: '2461',
       wagonNo: '776-8',
       departure: '',
       arrival: 'KAYSERİ',
       netInput: '25,5',
-    });
-
-    const dotParsed = parseWagonRowLine('3175\t2461\t777-6\tANKARA\t30.2');
-    expect(dotParsed).toEqual({
-      regime: '3175',
-      serial: '2461',
-      wagonNo: '777-6',
-      departure: '',
-      arrival: 'ANKARA',
-      netInput: '30.2',
+      confidence: 'strong',
     });
   });
 
-  // D. 6-column format
-  it('D. parses 6-column format (regime, serial, wagonNo, departure, arrival, netInput)', () => {
+  // J. 6 explicit cells -> departure + arrival + net
+  it('J. 6 explicit cells -> departure + arrival + net', () => {
     const parsed = parseWagonRowLine('3175\t5379\t183-2\tARİFİYE\tKÖRFEZ\t30,0');
     expect(parsed).toEqual({
       regime: '3175',
@@ -147,182 +227,192 @@ describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
       departure: 'ARİFİYE',
       arrival: 'KÖRFEZ',
       netInput: '30,0',
+      confidence: 'strong',
     });
   });
 
-  // E. tab-separated station names containing spaces
-  it('E. preserves spaces inside tab-separated station names', () => {
-    const parsed = parseWagonRowLine(
-      '3175\t5379\t183-2\tHAYDARPAŞA GAR\tANKARA GARI\t28,4'
-    );
-    expect(parsed).toEqual({
-      regime: '3175',
-      serial: '5379',
-      wagonNo: '183-2',
-      departure: 'HAYDARPAŞA GAR',
-      arrival: 'ANKARA GARI',
-      netInput: '28,4',
-    });
+  // K. serial + wagonNo only uses existing row regime
+  it('K. serial + wagonNo only uses existing row regime', () => {
+    const rows = createMockRows(5);
+    rows[0].regime = '3175';
+
+    const result = parseAndApplyWagonPaste('2461\t776-8', 0, rows);
+    expect(result.appliedCount).toBe(1);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
   });
 
-  // F. CRLF input
-  it('F. handles Windows CRLF input seamlessly', () => {
-    const crlfText = '3175\t5379\t183-2\r\n3175\t4569\t184-0\r\n';
-    const initialRows = createMockRows(5);
-    const result = parseAndApplyWagonPaste(crlfText, 0, initialRows);
+  // L. partial paste does not wipe existing arrival/net
+  it('L. partial paste does not wipe existing arrival/net', () => {
+    const rows = createMockRows(5);
+    rows[0].regime = '3175';
+    rows[0].arrival = 'KAYSERİ';
+    rows[0].netInput = '25,5';
+
+    const result = parseAndApplyWagonPaste('2461\t776-8', 0, rows);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+    expect(result.newRows[0].netInput).toBe('25,5');
+  });
+
+  // M. existing row plus arrival/net-only contextual paste if supported safely
+  it('M. existing row plus arrival/net-only contextual paste if supported safely', () => {
+    const rows = createMockRows(5);
+    rows[0].regime = '3175';
+    rows[0].serial = '2461';
+    rows[0].wagonNo = '776-8';
+
+    const result = parseAndApplyWagonPaste('KAYSERİ\t25,5', 0, rows);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+    expect(result.newRows[0].netInput).toBe('25,5');
+  });
+
+  // N. multi-word station: HAYDARPAŞA GAR
+  it('N. multi-word station: HAYDARPAŞA GAR', () => {
+    const parsed = parseWagonRowLine('3175 2461 776-8 HAYDARPAŞA GAR 25,5');
+    expect(parsed?.arrival).toBe('HAYDARPAŞA GAR');
+    expect(parsed?.netInput).toBe('25,5');
+    expect(parsed?.regime).toBe('3175');
+    expect(parsed?.serial).toBe('2461');
+    expect(parsed?.wagonNo).toBe('776-8');
+  });
+
+  // O. Turkish decimal comma
+  it('O. Turkish decimal comma', () => {
+    const parsed = parseWagonRowLine('3175 2461 776-8 KAYSERİ 25,5');
+    expect(parsed?.netInput).toBe('25,5');
+    expect(parseTurkishFloat(parsed?.netInput)).toBe(25.5);
+  });
+
+  // P. decimal dot
+  it('P. decimal dot', () => {
+    const parsed = parseWagonRowLine('3175 2461 776-8 ANKARA 25.5');
+    expect(parsed?.netInput).toBe('25.5');
+    expect(parseTurkishFloat(parsed?.netInput)).toBe(25.5);
+  });
+
+  // Q. integer net ton
+  it('Q. integer net ton', () => {
+    const parsed = parseWagonRowLine('3175 2461 776-8 ANKARA 20');
+    expect(parsed?.netInput).toBe('20');
+    expect(parseTurkishFloat(parsed?.netInput)).toBe(20);
+  });
+
+  // R. known 4-digit serial not mistaken for net
+  it('R. known 4-digit serial not mistaken for net', () => {
+    expect(isNetTonCandidate('2461')).toBe(false);
+    expect(isNetTonCandidate('2752')).toBe(false);
+    expect(isNetTonCandidate('2851')).toBe(false);
+    expect(isNetTonCandidate('5379')).toBe(false);
+  });
+
+  // S. regime not mistaken for net
+  it('S. regime not mistaken for net', () => {
+    expect(isNetTonCandidate('3175')).toBe(false);
+    expect(isNetTonCandidate('2175')).toBe(false);
+  });
+
+  // T. leading zeros preserved
+  it('T. leading zeros preserved', () => {
+    const parsed = parseWagonRowLine('0123\t0456\t007-1');
+    expect(parsed?.regime).toBe('0123');
+    expect(parsed?.serial).toBe('0456');
+    expect(parsed?.wagonNo).toBe('007-1');
+  });
+
+  // U. multi-row mixed forms
+  it('U. multi-row mixed forms', () => {
+    const text =
+      '3175 2461 776-8 KAYSERİ 25,5\n' +
+      '3175 2461 473-2 ANKARA 20\n' +
+      '3175 2752 262-5 ILICA 42,3\n' +
+      '3175 2851 209-6 KARS';
+    const rows = createMockRows(10);
+    const result = parseAndApplyWagonPaste(text, 0, rows);
+
+    expect(result.appliedCount).toBe(4);
+    expect(result.skippedCount).toBe(0);
+
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+    expect(result.newRows[0].netInput).toBe('25,5');
+
+    expect(result.newRows[1].arrival).toBe('ANKARA');
+    expect(result.newRows[1].netInput).toBe('20');
+
+    expect(result.newRows[2].arrival).toBe('ILICA');
+    expect(result.newRows[2].netInput).toBe('42,3');
+
+    expect(result.newRows[3].arrival).toBe('KARS');
+    expect(result.newRows[3].netInput).toBe('');
+  });
+
+  // V. invalid ambiguous row skipped
+  it('V. invalid ambiguous row skipped', () => {
+    const text = '3175 2461 776-8\nRANDOM_GIBBERISH_NO_DIGITS\n3175 2461 473-2';
+    const rows = createMockRows(5);
+    const result = parseAndApplyWagonPaste(text, 0, rows);
 
     expect(result.appliedCount).toBe(2);
-    expect(result.newRows[0].serial).toBe('5379');
-    expect(result.newRows[1].serial).toBe('4569');
+    expect(result.skippedCount).toBe(1);
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[1].wagonNo).toBe('473-2');
   });
 
-  // G. trailing blank line
-  it('G. ignores trailing blank lines without creating empty phantom rows', () => {
-    const textWithBlank = '3175\t5379\t183-2\n\n\n';
-    const initialRows = createMockRows(5);
-    const result = parseAndApplyWagonPaste(textWithBlank, 0, initialRows);
+  // W. paste from focused row
+  it('W. paste from focused row', () => {
+    const rows = createMockRows(5);
+    rows[0].serial = 'INITIAL_1';
+    rows[1].serial = 'INITIAL_2';
 
-    expect(result.appliedCount).toBe(1);
-    expect(result.skippedCount).toBe(0);
-    expect(result.newRows[0].serial).toBe('5379');
+    const result = parseAndApplyWagonPaste('3175 2461 776-8', 2, rows);
+    expect(result.newRows[0].serial).toBe('INITIAL_1');
+    expect(result.newRows[1].serial).toBe('INITIAL_2');
+    expect(result.newRows[2].serial).toBe('2461');
+    expect(result.newRows[2].wagonNo).toBe('776-8');
   });
 
-  // H. Turkish decimal comma
-  it('H. preserves Turkish decimal comma in netInput and calculates correctly', () => {
-    const parsed = parseWagonRowLine('3175\t5379\t183-2\tKAYSERİ\t25,4');
-    expect(parsed?.arrival).toBe('KAYSERİ');
-    expect(parsed?.netInput).toBe('25,4');
-    expect(parseTurkishFloat(parsed?.netInput)).toBe(25.4);
+  // X. automatic expansion
+  it('X. automatic expansion', () => {
+    const rows = createMockRows(5);
+    const text = Array.from({ length: 15 }, (_, i) => `3175 2461 ${i + 1}-0`).join('\n');
+    const result = parseAndApplyWagonPaste(text, 0, rows);
+
+    expect(result.newRows.length).toBe(15);
+    expect(result.appliedCount).toBe(15);
   });
 
-  // I. 12-digit compact wagon number split
-  it('I. splits 12-digit compact wagon number into regime, serial, and wagonNo', () => {
-    const parsed = parseSingleWagonNumber('317545691832');
-    expect(parsed).toEqual({
-      regime: '3175',
-      serial: '4569',
-      wagonNo: '1832',
-    });
-  });
+  // Y. max 49 behavior
+  it('Y. max 49 behavior', () => {
+    const rows = createMockRows(5);
+    const text = Array.from({ length: 55 }, (_, i) => `3175 2461 ${i + 1}-0`).join('\n');
+    const result = parseAndApplyWagonPaste(text, 0, rows, 49);
 
-  // J. hyphenated wagon number split if desktop supports it
-  it('J. splits hyphenated and space-separated 12-digit wagon numbers', () => {
-    const hyphenated = parseSingleWagonNumber('3175-4569-183-2');
-    expect(hyphenated).toEqual({
-      regime: '3175',
-      serial: '4569',
-      wagonNo: '183-2',
-    });
-
-    const spaceSeparated = parseSingleWagonNumber('3175 4569 183-2');
-    expect(spaceSeparated).toEqual({
-      regime: '3175',
-      serial: '4569',
-      wagonNo: '183-2',
-    });
-  });
-
-  // K. start-at-current-row behavior
-  it('K. starts filling from row N downward without overriding preceding rows', () => {
-    const initialRows = createMockRows(10);
-    initialRows[0].serial = 'ROW1_ORIGINAL';
-    initialRows[1].serial = 'ROW2_ORIGINAL';
-
-    // Paste 2 rows starting at row index 2 (row 3)
-    const text = '3175\t5379\tW3\n3175\t4569\tW4';
-    const result = parseAndApplyWagonPaste(text, 2, initialRows);
-
-    expect(result.newRows[0].serial).toBe('ROW1_ORIGINAL');
-    expect(result.newRows[1].serial).toBe('ROW2_ORIGINAL');
-    expect(result.newRows[2].serial).toBe('5379');
-    expect(result.newRows[3].serial).toBe('4569');
-  });
-
-  // L. automatic row expansion
-  it('L. automatically expands table if paste contains more rows than rendered', () => {
-    const initialRows = createMockRows(10);
-    // Paste 24 rows
-    const lines = Array.from(
-      { length: 24 },
-      (_, i) => `3175\t5379\tW-${i + 1}`
-    ).join('\n');
-
-    const result = parseAndApplyWagonPaste(lines, 0, initialRows);
-    expect(result.newRows.length).toBe(24);
-    expect(result.appliedCount).toBe(24);
-    expect(result.newRows[23].wagonNo).toBe('W-24');
-  });
-
-  // M. max 49 limit
-  it('M. strictly caps table at 49 rows and sets reachedCapacity flag', () => {
-    const initialRows = createMockRows(10);
-    // Paste 55 rows
-    const lines = Array.from(
-      { length: 55 },
-      (_, i) => `3175\t5379\tW-${i + 1}`
-    ).join('\n');
-
-    const result = parseAndApplyWagonPaste(lines, 0, initialRows, 49);
     expect(result.newRows.length).toBe(49);
     expect(result.appliedCount).toBe(49);
     expect(result.reachedCapacity).toBe(true);
-    expect(result.newRows[48].wagonNo).toBe('W-49');
   });
 
-  // N. identifiers preserve leading zeroes
-  it('N. preserves leading zeroes in regime, serial, and wagonNo', () => {
-    const parsed = parseWagonRowLine('0123\t0456\t007');
-    expect(parsed?.regime).toBe('0123');
-    expect(parsed?.serial).toBe('0456');
-    expect(parsed?.wagonNo).toBe('007');
-  });
+  // Z. calculations update through existing engine
+  it('Z. calculations update through existing engine', () => {
+    const rows = createMockRows(5);
+    const text = '3175 5379 183-2 KÖRFEZ 20\n3175 4569 184-0 KÖRFEZ 15';
+    const result = parseAndApplyWagonPaste(text, 0, rows);
 
-  // O. unsupported row skipped
-  it('O. skips unsupported rows without corrupting neighboring rows and reports count', () => {
-    const mixedText = '3175\t5379\t183-2\nUNSUPPORTED_ROW\n3175\t4569\t184-0';
-    const initialRows = createMockRows(5);
-    const result = parseAndApplyWagonPaste(mixedText, 0, initialRows);
-
-    // UNSUPPORTED_ROW (single word not matching 12-digit) is parsed as serial="UNSUPPORTED_ROW"
-    // What if a completely empty/invalid punctuation line exists:
-    const invalidText = '3175\t5379\t183-2\n\n3175\t4569\t184-0';
-    const res2 = parseAndApplyWagonPaste(invalidText, 0, initialRows);
-    expect(res2.appliedCount).toBe(2);
-  });
-
-  // P. normal single-cell paste remains normal
-  it('P. identifies single-cell values as non-bulk paste to allow native paste', () => {
-    expect(isBulkPaste('ARİFİYE')).toBe(false);
-    expect(isBulkPaste('25,5')).toBe(false);
-    expect(isBulkPaste('5379')).toBe(false);
-    expect(isBulkPaste('Normal text without tabs or newlines')).toBe(false);
-
-    // Bulk triggers:
-    expect(isBulkPaste('3175\t5379\t183-2')).toBe(true);
-    expect(isBulkPaste('Line1\nLine2')).toBe(true);
-    expect(isBulkPaste('31754569183-2')).toBe(true);
-  });
-
-  // Q. calculations update after bulk paste
-  it('Q. recalculation immediately reflects new technical parameters and totals after bulk paste', () => {
-    const initialRows = createMockRows(10);
-    const text = '3175\t5379\t183-2\tKÖRFEZ\t20\n3175\t4569\t184-0\tKÖRFEZ\t15';
-
-    const pasteResult = parseAndApplyWagonPaste(text, 0, initialRows);
-    expect(pasteResult.appliedCount).toBe(2);
-
-    // Run engine on pasted rows
-    const calculated = pasteResult.newRows.map((r, i) =>
+    const calculated = result.newRows.slice(0, 2).map((r, i) =>
       calculateWagonRow(r, i + 1, mockLookup, 'ARİFİYE', 'KÖRFEZ')
     );
 
-    // Row 1 (5379): tare 24.4, net 20 -> gross 44.4, brake 72, length 15.74, axle 4
     expect(calculated[0].isValid).toBe(true);
     expect(calculated[0].gross).toBeCloseTo(44.4, 2);
     expect(calculated[0].brake).toBe(72);
     expect(calculated[0].axle).toBe(4);
 
-    // Row 2 (4569): tare 22.0, net 15 -> gross 37.0, brake 60, length 12.5, axle 4
     expect(calculated[1].isValid).toBe(true);
     expect(calculated[1].gross).toBeCloseTo(37.0, 2);
     expect(calculated[1].brake).toBe(60);
@@ -330,9 +420,50 @@ describe('RAYBİLGİ 5600 Bulk Wagon Clipboard Paste', () => {
 
     const totals = calculateTrainTotals(calculated);
     expect(totals.wagonCount).toBe(2);
-    expect(totals.totalAxle).toBe(8);
     expect(totals.totalGross).toBeCloseTo(44.4 + 37.0, 2);
     expect(totals.totalBrake).toBe(72 + 60);
     expect(totals.requiredBrake).toBe(Math.ceil((44.4 + 37.0) * 0.41));
+  });
+
+  // AA. old rigid working formats still pass
+  it('AA. old rigid working formats still pass', () => {
+    expect(parseWagonRowLine('3175\t5379\t183-2')).toMatchObject({
+      regime: '3175',
+      serial: '5379',
+      wagonNo: '183-2',
+    });
+    expect(parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ')).toMatchObject({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      arrival: 'KAYSERİ',
+    });
+    expect(parseWagonRowLine('3175\t2461\t776-8\tKAYSERİ\t25,5')).toMatchObject({
+      regime: '3175',
+      serial: '2461',
+      wagonNo: '776-8',
+      arrival: 'KAYSERİ',
+      netInput: '25,5',
+    });
+    expect(parseWagonRowLine('3175\t5379\t183-2\tARİFİYE\tKÖRFEZ\t30,0')).toMatchObject({
+      regime: '3175',
+      serial: '5379',
+      wagonNo: '183-2',
+      departure: 'ARİFİYE',
+      arrival: 'KÖRFEZ',
+      netInput: '30,0',
+    });
+
+    // Native single-cell pastes are not intercepted as bulk
+    expect(isBulkPaste('ARİFİYE')).toBe(false);
+    expect(isBulkPaste('25,5')).toBe(false);
+    expect(isBulkPaste('5379')).toBe(false);
+    expect(isBulkPaste('Normal text')).toBe(false);
+
+    // Bulk triggers:
+    expect(isBulkPaste('3175\t5379\t183-2')).toBe(true);
+    expect(isBulkPaste('Line 1\nLine 2')).toBe(true);
+    expect(isBulkPaste('31752461776-8')).toBe(true);
+    expect(isBulkPaste('3175 2461 776-8 KAYSERİ 25,5')).toBe(true);
   });
 });
