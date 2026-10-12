@@ -5,7 +5,7 @@ import { WagonRecord, WagonRowInput } from '@/types/raybilgi';
 import { calculateWagonRow, calculateTrainTotals } from '@/lib/raybilgi/mod5600-engine';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Trash2, TrainTrack, Scale, Gauge, ShieldAlert, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Plus, Trash2, TrainTrack, Scale, Gauge, ShieldAlert, AlertCircle, CheckCircle2, FileSpreadsheet } from 'lucide-react';
 
 interface Mod5600DashboardProps {
   stationNames: string[];
@@ -105,6 +105,81 @@ export function Mod5600Dashboard({
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
     });
+  };
+
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    setExportError(null);
+
+    try {
+      const payload = {
+        trainNo,
+        departure: topDeparture,
+        arrival: topArrival,
+        rows: rows.map((r) => ({
+          regime: r.regime,
+          serial: r.serial,
+          wagonNo: r.wagonNo,
+          departure: r.departure,
+          arrival: r.arrival,
+          netInput: r.netInput,
+        })),
+      };
+
+      const res = await fetch('/raybilgi/5600/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        let errorMsg = 'XLSX çıktısı alınırken bir hata oluştu.';
+        try {
+          const data = await res.json();
+          if (data && data.error) {
+            errorMsg = data.error;
+          }
+        } catch {
+          // ignore json parse error
+        }
+        setExportError(errorMsg);
+        return;
+      }
+
+      const blob = await res.blob();
+      const disposition = res.headers.get('Content-Disposition');
+      let filename = `5600_${trainNo.trim() || 'Tren'}.xlsx`;
+
+      if (disposition) {
+        const utf8Match = disposition.match(/filename\*=UTF-8''([^;]+)/i);
+        if (utf8Match && utf8Match[1]) {
+          filename = decodeURIComponent(utf8Match[1]);
+        } else {
+          const plainMatch = disposition.match(/filename="?([^";]+)"?/i);
+          if (plainMatch && plainMatch[1]) {
+            filename = decodeURIComponent(plainMatch[1]);
+          }
+        }
+      }
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      setExportError('Sunucuya bağlanırken bir hata oluştu.');
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   return (
@@ -246,7 +321,7 @@ export function Mod5600Dashboard({
             </p>
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <Button
               variant="outline"
               size="sm"
@@ -260,12 +335,32 @@ export function Mod5600Dashboard({
 
             <Button
               size="sm"
+              variant="outline"
               onClick={handleAddRow}
               disabled={rows.length >= MAX_WAGONS}
               className="gap-1.5 text-xs font-semibold"
             >
               <Plus className="w-3.5 h-3.5" />
               Satır Ekle
+            </Button>
+
+            <Button
+              size="sm"
+              onClick={handleExport}
+              disabled={isExporting}
+              className="gap-1.5 text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"
+            >
+              {isExporting ? (
+                <>
+                  <span className="w-3.5 h-3.5 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                  <span>Hazırlanıyor...</span>
+                </>
+              ) : (
+                <>
+                  <FileSpreadsheet className="w-3.5 h-3.5" />
+                  <span>5600 ÇIKTI AL</span>
+                </>
+              )}
             </Button>
           </div>
         </div>
@@ -435,6 +530,47 @@ export function Mod5600Dashboard({
               })}
             </tbody>
           </table>
+        </div>
+
+        {/* Hata Uyarısı */}
+        {exportError && (
+          <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs font-semibold flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{exportError}</span>
+            </div>
+            <button
+              onClick={() => setExportError(null)}
+              className="text-muted-foreground hover:text-foreground text-xs font-bold px-1"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
+        {/* Alt Aksiyon Çubuğu */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-border/60">
+          <p className="text-xs text-muted-foreground">
+            Dizide <strong>{totals.wagonCount}</strong> geçerli vagon bulunuyor. Resmi 5600 şablonu kullanılarak Excel (.xlsx) çıktısı üretilir.
+          </p>
+
+          <Button
+            onClick={handleExport}
+            disabled={isExporting}
+            className="w-full sm:w-auto gap-2 font-bold px-6 py-2.5 bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm text-xs rounded-xl"
+          >
+            {isExporting ? (
+              <>
+                <span className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                <span>Hazırlanıyor...</span>
+              </>
+            ) : (
+              <>
+                <FileSpreadsheet className="w-4 h-4" />
+                <span>5600 ÇIKTI AL</span>
+              </>
+            )}
+          </Button>
         </div>
       </div>
     </div>

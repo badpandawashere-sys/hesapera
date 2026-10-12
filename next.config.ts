@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
       canvas: "./lib/empty-module.ts",
     },
   },
+  outputFileTracingIncludes: {
+    '/raybilgi/5600/export': ['./data/raybilgi/**/*'],
+  },
 };
 
 export default nextConfig;
