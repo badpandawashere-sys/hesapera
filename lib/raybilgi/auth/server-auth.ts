@@ -1,5 +1,6 @@
 import 'server-only';
-import stationCodes from '../station_codes.json';
+import prisma from '@/lib/db/prisma';
+import { verifyPassword } from './password';
 
 // Normalize Turkish to lowercase ascii roughly, just for matching
 export function normalizeTurkish(text: string) {
@@ -16,54 +17,42 @@ export function normalizeTurkish(text: string) {
 }
 
 /**
- * Validates credentials against the authoritative station_codes.json.
- * Uses constant-time string comparison for the derived password.
- * Do NOT log the password or expected password.
+ * Validates station login credentials against the database password hash.
+ * 
+ * In Phase B, authentication requires a provisioned DB record in RayBilgiStationAccount
+ * with a matching password hash. Station codes no longer function as password material,
+ * and legacy derived passwords (e.g. code + code) are strictly rejected with zero fallback.
+ * 
+ * Returns null if account does not exist, is disabled, or password verification fails.
+ * Plaintext passwords and expected hashes are never logged.
  */
 export async function validateStationLogin(username: string, passwordString: string) {
   if (!username || !passwordString) return null;
-  
-  const normalizedInputName = normalizeTurkish(username);
 
-  // Find the station by name
-  let matchedCode: string | null = null;
-  let matchedName: string | null = null;
+  const canonicalUsername = normalizeTurkish(username);
 
-  for (const [code, name] of Object.entries(stationCodes)) {
-    if (normalizeTurkish(name) === normalizedInputName) {
-      matchedCode = code;
-      matchedName = name;
-      break;
-    }
-  }
+  // Look up account by normalized username or station code
+  const account = await prisma.rayBilgiStationAccount.findFirst({
+    where: {
+      OR: [
+        { username: canonicalUsername },
+        { stationCode: canonicalUsername },
+      ],
+    },
+  });
 
-  if (!matchedCode || !matchedName) {
-    // Return null, but don't expose if station exists or not
+  if (!account || !account.enabled) {
     return null;
   }
 
-  // Derive expected password deterministicly: String(code) + String(code)
-  const expectedPassword = String(matchedCode) + String(matchedCode);
-
-  // Timing safe comparison (basic equivalent since we're in Edge/Node runtime and lengths differ usually)
-  // To avoid timing attacks somewhat, check lengths first
-  if (passwordString.length !== expectedPassword.length) {
+  const isMatch = await verifyPassword(passwordString, account.passwordHash);
+  if (!isMatch) {
     return null;
   }
 
-  let isMatch = true;
-  for (let i = 0; i < expectedPassword.length; i++) {
-    if (passwordString[i] !== expectedPassword[i]) {
-      isMatch = false;
-    }
-  }
-
-  if (isMatch) {
-    return {
-      stationCode: matchedCode,
-      stationName: matchedName,
-    };
-  }
-
-  return null;
+  return {
+    stationCode: account.stationCode,
+    stationName: account.stationName,
+    username: account.username,
+  };
 }

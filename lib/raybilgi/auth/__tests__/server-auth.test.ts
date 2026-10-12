@@ -1,7 +1,27 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { validateStationLogin, normalizeTurkish } from '../server-auth';
+import { hashPassword } from '../password';
+import prisma from '@/lib/db/prisma';
 
-describe('Station Authentication', () => {
+vi.mock('@/lib/db/prisma', () => ({
+  default: {
+    rayBilgiStationAccount: {
+      findFirst: vi.fn(),
+    },
+  },
+}));
+
+describe('Station Authentication (Phase B)', () => {
+  let sampleHash: string;
+
+  beforeAll(async () => {
+    sampleHash = await hashPassword('GuvenliSifre2026!');
+  });
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('normalizes Turkish characters safely', () => {
     expect(normalizeTurkish('ARİFİYE')).toBe('arifiye');
     expect(normalizeTurkish('Arifiye')).toBe('arifiye');
@@ -11,33 +31,106 @@ describe('Station Authentication', () => {
     expect(normalizeTurkish('ÇÖĞÜŞI')).toBe('çöğüşı');
   });
 
-  it('validates ARİFİYE successfully with 15121512', async () => {
-    const res = await validateStationLogin('ARİFİYE', '15121512');
+  it('validates ARİFİYE successfully with correct DB password', async () => {
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce({
+      id: 'acc-1',
+      stationCode: '1512',
+      stationName: 'Arifiye',
+      username: 'arifiye',
+      passwordHash: sampleHash,
+      enabled: true,
+      passwordChangedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as any);
+
+    const res = await validateStationLogin('ARİFİYE', 'GuvenliSifre2026!');
     expect(res).not.toBeNull();
     expect(res?.stationCode).toBe('1512');
-    expect(res?.stationName).toBe('Arifiye'); // Source name is Arifiye
+    expect(res?.stationName).toBe('Arifiye');
+    expect(res?.username).toBe('arifiye');
   });
 
-  it('validates case-insensitively', async () => {
-    const res = await validateStationLogin('aRifiYE', '15121512');
+  it('validates case-insensitively with correct DB password', async () => {
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce({
+      id: 'acc-1',
+      stationCode: '1512',
+      stationName: 'Arifiye',
+      username: 'arifiye',
+      passwordHash: sampleHash,
+      enabled: true,
+      passwordChangedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as any);
+
+    const res = await validateStationLogin('aRifiYE', 'GuvenliSifre2026!');
     expect(res).not.toBeNull();
+    expect(res?.stationCode).toBe('1512');
   });
 
   it('rejects wrong password', async () => {
-    const res = await validateStationLogin('ARİFİYE', '15121513');
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce({
+      id: 'acc-1',
+      stationCode: '1512',
+      stationName: 'Arifiye',
+      username: 'arifiye',
+      passwordHash: sampleHash,
+      enabled: true,
+      passwordChangedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as any);
+
+    const res = await validateStationLogin('ARİFİYE', 'YanlisSifre123');
     expect(res).toBeNull();
   });
 
-  it('rejects unknown username', async () => {
-    const res = await validateStationLogin('HAYALİ İSTASYON', '12341234');
+  it('strictly rejects legacy station-code-derived password (no fallback)', async () => {
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce({
+      id: 'acc-1',
+      stationCode: '1512',
+      stationName: 'Arifiye',
+      username: 'arifiye',
+      passwordHash: sampleHash,
+      enabled: true,
+      passwordChangedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as any);
+
+    // Old legacy derived password was 15121512
+    const res = await validateStationLogin('ARİFİYE', '15121512');
     expect(res).toBeNull();
   });
 
-  it('preserves leading zeros in password checks', async () => {
-    // If a hypothetical station code was 0123, password would be 01230123.
-    // For ARİFİYE, it's 1512. Let's find one that has leading zeroes if possible, 
-    // or just assume the string concatenation logic preserves it because it uses String().
-    // We already verified String(code) + String(code).
-    expect(String('0123') + String('0123')).toBe('01230123');
+  it('rejects unknown / unprovisioned username', async () => {
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce(null);
+
+    const res = await validateStationLogin('HAYALİ İSTASYON', 'GuvenliSifre2026!');
+    expect(res).toBeNull();
+  });
+
+  it('rejects disabled account', async () => {
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce({
+      id: 'acc-2',
+      stationCode: '1512',
+      stationName: 'Arifiye',
+      username: 'arifiye',
+      passwordHash: sampleHash,
+      enabled: false,
+      passwordChangedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    } as any);
+
+    const res = await validateStationLogin('ARİFİYE', 'GuvenliSifre2026!');
+    expect(res).toBeNull();
+  });
+
+  it('rejects empty username or password', async () => {
+    expect(await validateStationLogin('', 'GuvenliSifre2026!')).toBeNull();
+    expect(await validateStationLogin('ARİFİYE', '')).toBeNull();
+    expect(prisma.rayBilgiStationAccount.findFirst).not.toHaveBeenCalled();
   });
 });

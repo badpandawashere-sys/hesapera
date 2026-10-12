@@ -19,6 +19,7 @@ vi.mock('@/lib/db/prisma', () => ({
   default: {
     rayBilgiStationAccount: {
       upsert: vi.fn(),
+      findFirst: vi.fn(),
     },
   },
 }));
@@ -205,16 +206,46 @@ describe('RAYBİLGİ Station Password Security (Phase A)', () => {
     expect(callArgs.update.passwordChangedAt).toBeInstanceOf(Date);
   });
 
-  // K. existing login implementation remains unchanged in Phase A
-  it('K. existing login validation remains unchanged and still works via legacy derivation in Phase A', async () => {
-    // 1512 is ARİFİYE, legacy password is "15121512"
-    const valid = await validateStationLogin('ARİFİYE', '15121512');
+  // K. login verification cutover to DB password hash with zero fallback (Phase B)
+  it('K. login verifies only DB password hash and strictly rejects legacy station-code password', async () => {
+    const validPassword = 'GuvenliSifre2026!';
+    const passwordHash = await hashPassword(validPassword);
+
+    const mockAccount = {
+      id: 'acc-1',
+      stationCode: '1512',
+      stationName: 'ARİFİYE',
+      username: 'arifiye',
+      passwordHash,
+      enabled: true,
+      passwordChangedAt: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    // Correct DB password succeeds
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce(mockAccount as any);
+    const valid = await validateStationLogin('ARİFİYE', validPassword);
     expect(valid).not.toBeNull();
     expect(valid?.stationCode).toBe('1512');
-    expect(valid?.stationName).toBe('Arifiye');
+    expect(valid?.stationName).toBe('ARİFİYE');
+
+    // Legacy station-code derived password (15121512) fails with zero fallback
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce(mockAccount as any);
+    const legacyAttempt = await validateStationLogin('ARİFİYE', '15121512');
+    expect(legacyAttempt).toBeNull();
 
     // Wrong password fails
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce(mockAccount as any);
     const invalid = await validateStationLogin('ARİFİYE', 'wrongpassword');
     expect(invalid).toBeNull();
+
+    // Disabled account fails
+    vi.mocked(prisma.rayBilgiStationAccount.findFirst).mockResolvedValueOnce({
+      ...mockAccount,
+      enabled: false,
+    } as any);
+    const disabled = await validateStationLogin('ARİFİYE', validPassword);
+    expect(disabled).toBeNull();
   });
 });
