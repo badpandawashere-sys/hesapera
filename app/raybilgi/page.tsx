@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteContainer } from '@/components/layout/site-container';
-import { TrainFront, FileSpreadsheet, Calculator, Ruler, Train, Wrench, Lock, ArrowRight } from 'lucide-react';
+import { TrainFront, FileSpreadsheet, Calculator, Scale, Train, Wrench, Lock, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'RayBilgi – Demiryolu ve Vagon Araçları | Hesapera',
@@ -32,9 +32,9 @@ const modules = [
   },
   {
     id: 'dara',
-    name: 'Dara / Metre',
-    description: 'Vagon dara, uzunluk ve ilgili saha hesaplamaları.',
-    icon: Ruler,
+    name: 'Vagon Dara Hesaplama',
+    description: 'Fotoğraf, liste veya vagon numaralarından toplam darayı hesaplayın.',
+    icon: Scale,
   },
   {
     id: 'ceker',
@@ -182,6 +182,34 @@ export default function RayBilgiPage() {
                     </h3>
                     <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-4">
                       Tren dizi hazırlığı, dingil, uzunluk, dara ve otomatik hava freni hesaplamaları.
+                    </p>
+                  </div>
+                </Link>
+              );
+            }
+            if (item.id === 'dara') {
+              return (
+                <Link
+                  key={item.id}
+                  href="/raybilgi/giris?next=/raybilgi/vagon-dara"
+                  data-testid="raybilgi-card-dara"
+                  className="group p-5 rounded-2xl bg-[var(--color-glass-bg)] backdrop-blur-[12px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-subtle)] flex flex-col justify-between transition-colors hover:border-violet-300"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-2.5 bg-violet-100 rounded-lg text-violet-700">
+                        <Icon className="w-5 h-5" strokeWidth={1.8} />
+                      </div>
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold uppercase tracking-wider">
+                        Kullanıma açık
+                        <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                    <h3 className="font-headline-sm text-headline-sm text-on-surface text-[18px] mb-2">
+                      {item.name}
+                    </h3>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant line-clamp-3 mb-4">
+                      {item.description}
                     </p>
                   </div>
                 </Link>
