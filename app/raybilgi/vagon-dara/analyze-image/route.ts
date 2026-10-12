@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/raybilgi/auth/session';
-import { extractWagonIdentitiesFromImage } from '@/lib/raybilgi/gemini-vision';
+import {
+  extractWagonIdentitiesFromImage,
+  isTimeoutError,
+  FRIENDLY_TIMEOUT_ERROR_MESSAGE,
+} from '@/lib/raybilgi/gemini-vision';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8 MB
 const ALLOWED_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
@@ -67,6 +73,13 @@ export async function POST(req: NextRequest) {
       count: wagons.length,
     });
   } catch (error: unknown) {
+    if (isTimeoutError(error)) {
+      return NextResponse.json(
+        { ok: false, error: FRIENDLY_TIMEOUT_ERROR_MESSAGE },
+        { status: 504 }
+      );
+    }
+
     const message = error instanceof Error ? error.message : 'Görsel işlenirken bir hata oluştu.';
 
     if (message.includes('429') || message.includes('RESOURCE_EXHAUSTED')) {
@@ -77,6 +90,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: message }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, error: 'Görsel işlenirken bir hata oluştu. Lütfen tekrar deneyin.' },
+      { status: 500 }
+    );
   }
 }

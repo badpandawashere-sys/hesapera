@@ -8,10 +8,25 @@ vi.mock('@/lib/raybilgi/auth/session', () => ({
 
 vi.mock('@/lib/raybilgi/gemini-vision', () => ({
   extractWagonIdentitiesFromImage: vi.fn(),
+  isTimeoutError: (err: unknown) => {
+    if (!(err instanceof Error)) return false;
+    return (
+      err.name === 'TimeoutError' ||
+      err.name === 'AbortError' ||
+      err.message.includes('aborted') ||
+      err.message.includes('timeout') ||
+      err.message.includes('zaman aşımına')
+    );
+  },
+  FRIENDLY_TIMEOUT_ERROR_MESSAGE:
+    'Fotoğraf analizi zaman aşımına uğradı. Lütfen tekrar deneyin veya daha küçük/net bir fotoğraf kullanın.',
 }));
 
 import { getSession } from '@/lib/raybilgi/auth/session';
-import { extractWagonIdentitiesFromImage } from '@/lib/raybilgi/gemini-vision';
+import {
+  extractWagonIdentitiesFromImage,
+  FRIENDLY_TIMEOUT_ERROR_MESSAGE,
+} from '@/lib/raybilgi/gemini-vision';
 
 function createMockRequest(formData?: FormData | null): NextRequest {
   return {
@@ -138,5 +153,51 @@ describe('analyze-image route', () => {
     expect(json.wagons).toHaveLength(1);
     expect(json.wagons[0].serial).toBe('2461');
     expect(json.wagons[0].wagonNo).toBe('776-8');
+  });
+
+  it('returns friendly Turkish timeout error on timeout/abort', async () => {
+    vi.mocked(getSession).mockResolvedValue({
+      stationCode: '06',
+      stationName: 'Ankara Gar',
+      expiresAt: new Date(Date.now() + 3600000),
+    });
+
+    const timeoutError = new Error('The operation was aborted due to timeout');
+    timeoutError.name = 'TimeoutError';
+    vi.mocked(extractWagonIdentitiesFromImage).mockRejectedValue(timeoutError);
+
+    const validFile = new File(['image-bytes'], 'wagon.jpg', { type: 'image/jpeg' });
+    const formData = new FormData();
+    formData.append('image', validFile);
+    const req = createMockRequest(formData);
+
+    const res = await POST(req);
+    expect(res.status).toBe(504);
+    const json = await res.json();
+    expect(json.ok).toBe(false);
+    expect(json.error).toBe(FRIENDLY_TIMEOUT_ERROR_MESSAGE);
+  });
+
+  it('returns 429 quota error immediately without retrying', async () => {
+    vi.mocked(getSession).mockResolvedValue({
+      stationCode: '06',
+      stationName: 'Ankara Gar',
+      expiresAt: new Date(Date.now() + 3600000),
+    });
+
+    vi.mocked(extractWagonIdentitiesFromImage).mockRejectedValue(
+      new Error('Gemini API kotası aşıldı (429 RESOURCE_EXHAUSTED). Lütfen bir süre sonra tekrar deneyin.')
+    );
+
+    const validFile = new File(['image-bytes'], 'wagon.jpg', { type: 'image/jpeg' });
+    const formData = new FormData();
+    formData.append('image', validFile);
+    const req = createMockRequest(formData);
+
+    const res = await POST(req);
+    expect(res.status).toBe(429);
+    const json = await res.json();
+    expect(json.ok).toBe(false);
+    expect(json.error).toContain('429 RESOURCE_EXHAUSTED');
   });
 });

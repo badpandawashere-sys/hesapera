@@ -8,6 +8,12 @@ export interface ExtractedWagonIdentity {
   wagonNo: string;
 }
 
+export const GEMINI_REQUEST_TIMEOUT_MS = 45_000;
+export const DEFAULT_GEMINI_VISION_MODEL = 'gemini-3.8-flash';
+
+export const FRIENDLY_TIMEOUT_ERROR_MESSAGE =
+  'Fotoğraf analizi zaman aşımına uğradı. Lütfen tekrar deneyin veya daha küçük/net bir fotoğraf kullanın.';
+
 const WagonIdentityItemSchema = z.object({
   rawText: z.string().optional().default(''),
   regime: z.string().optional().default(''),
@@ -18,6 +24,17 @@ const WagonIdentityItemSchema = z.object({
 const VisionOutputSchema = z.object({
   wagons: z.array(WagonIdentityItemSchema).default([]),
 });
+
+export function isTimeoutError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+  return (
+    error.name === 'TimeoutError' ||
+    error.name === 'AbortError' ||
+    error.message.includes('aborted') ||
+    error.message.includes('timeout') ||
+    error.message.includes('zaman aşımına')
+  );
+}
 
 /**
  * Extracts wagon identity numbers from an image buffer using Gemini Vision.
@@ -36,7 +53,7 @@ export async function extractWagonIdentitiesFromImage(
     throw new Error('GEMINI_API_KEY yapılandırılmamış. Lütfen sunucu ortam değişkenlerini kontrol edin.');
   }
 
-  const model = process.env.GEMINI_VISION_MODEL || 'gemini-2.5-flash';
+  const model = process.env.GEMINI_VISION_MODEL || DEFAULT_GEMINI_VISION_MODEL;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
   const systemPrompt = `You are a specialized railway operational OCR assistant for European/Turkish freight wagons (UIC / RIV).
@@ -96,14 +113,22 @@ STRICT CONSTRAINTS:
     },
   };
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-    signal: AbortSignal.timeout(30000),
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      signal: AbortSignal.timeout(GEMINI_REQUEST_TIMEOUT_MS),
+    });
+  } catch (error: unknown) {
+    if (isTimeoutError(error)) {
+      throw new Error(FRIENDLY_TIMEOUT_ERROR_MESSAGE);
+    }
+    throw error;
+  }
 
   if (response.status === 429) {
     throw new Error('Gemini API kotası aşıldı (429 RESOURCE_EXHAUSTED). Lütfen bir süre sonra tekrar deneyin.');

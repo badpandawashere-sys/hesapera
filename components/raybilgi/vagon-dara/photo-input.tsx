@@ -194,7 +194,7 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
                   {loading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
-                      Numaralar Taranıyor...
+                      Fotoğraf analiz ediliyor...
                     </>
                   ) : (
                     <>
