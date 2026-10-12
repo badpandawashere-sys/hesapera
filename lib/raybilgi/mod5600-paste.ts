@@ -25,6 +25,7 @@ export interface ParseRowContext {
 }
 
 export interface PasteResult {
+  handled: boolean;
   newRows: WagonRowInput[];
   appliedCount: number;
   skippedCount: number;
@@ -140,141 +141,134 @@ export const parseSingleWagonNumber = parseFullWagonIdentity;
 
 /**
  * Parses free-text single line containing wagon identity and optional station / net ton.
+ * Follows strict priority order:
+ * 1. Collapse repeated whitespace for token analysis
+ * 2. Detect identity prefix:
+ *    a. regime + serial + wagonNo (e.g. "3175 2461 776-8 ...")
+ *    b. serial + wagonNo (e.g. "2461 776-8 ...", preserves existing regime)
+ *    c. compact full wagon identity (e.g. "31752461776-8 ...")
+ *    d. compact partial wagon identity (e.g. "2461-776-8 ...")
+ * 3. After identity is removed: detect trailing net ton if present
+ * 4. Remaining text between identity and net: ARRIVAL
+ * 5. Preserve multi-word arrival by joining remaining tokens with spaces
  */
-function parseFreeText(
+export function parseFreeText(
   rawText: string,
   context?: ParseRowContext
 ): ParsedWagonPatch | null {
   const text = cleanCell(rawText);
   if (!text) return null;
 
-  // 1. Try full wagon identity prefix (regime + serial + wagonNo):
-  // e.g. "3175 2461 776-8 KAYSERİ 25,5" or "31752461776-8" or "3175-2461-776-8 HAYDARPAŞA GAR 25,5"
-  const fullPrefixMatch = text.match(
-    /^(\d{4})[-\s]?(\d{4})[-\s]?([0-9A-Za-z]+-[0-9A-Za-z]+|\d{3,4})(?:\s+(.*))?$/
-  );
-  if (fullPrefixMatch) {
-    const regime = fullPrefixMatch[1];
-    const serial = fullPrefixMatch[2];
-    const wagonNo = fullPrefixMatch[3];
-    const remainder = (fullPrefixMatch[4] || '').trim();
+  // 1. Collapse repeated whitespace for token analysis
+  const normalized = text.replace(/\s+/g, ' ').trim();
+  const tokens = normalized.split(' ');
 
-    if (!remainder) {
-      return {
-        regime,
-        serial,
-        wagonNo,
-        confidence: 'strong',
-      };
-    }
+  let regime: string | undefined;
+  let serial: string | undefined;
+  let wagonNo: string | undefined;
+  let remainingTokens: string[] = [];
+  let identityMatched = false;
 
-    // Check if remainder ends with trailing net ton
-    const netMatch = remainder.match(/^(.*?)(?:\s+(\d+(?:[.,]\d+)?))$/);
-    if (netMatch && isNetTonCandidate(netMatch[2])) {
-      const netInput = netMatch[2];
-      const stationText = netMatch[1].trim();
-      return {
-        regime,
-        serial,
-        wagonNo,
-        ...(stationText && isStationCandidate(stationText)
-          ? { arrival: stationText.toLocaleUpperCase('tr-TR') }
-          : {}),
-        netInput,
-        confidence: 'strong',
-      };
-    }
-
-    if (isNetTonCandidate(remainder)) {
-      return {
-        regime,
-        serial,
-        wagonNo,
-        netInput: remainder,
-        confidence: 'strong',
-      };
-    }
-
-    if (isStationCandidate(remainder)) {
-      return {
-        regime,
-        serial,
-        wagonNo,
-        arrival: remainder.toLocaleUpperCase('tr-TR'),
-        confidence: 'strong',
-      };
-    }
-  }
-
-  // 2. Try Serial + WagonNo prefix (omitting regime, e.g. "2461 776-8 KAYSERİ 25,5" or "2461 776-8"):
-  const serialWagonMatch = text.match(
-    /^(\d{4})[-\s]?([0-9A-Za-z]+-[0-9A-Za-z]+)(?:\s+(.*))?$/
-  );
-  if (serialWagonMatch) {
-    const serial = serialWagonMatch[1];
-    const wagonNo = serialWagonMatch[2];
-    const remainder = (serialWagonMatch[3] || '').trim();
-
-    if (!remainder) {
-      return {
-        serial,
-        wagonNo,
-        confidence: 'strong',
-      };
-    }
-
-    const netMatch = remainder.match(/^(.*?)(?:\s+(\d+(?:[.,]\d+)?))$/);
-    if (netMatch && isNetTonCandidate(netMatch[2])) {
-      const netInput = netMatch[2];
-      const stationText = netMatch[1].trim();
-      return {
-        serial,
-        wagonNo,
-        ...(stationText && isStationCandidate(stationText)
-          ? { arrival: stationText.toLocaleUpperCase('tr-TR') }
-          : {}),
-        netInput,
-        confidence: 'strong',
-      };
-    }
-
-    if (isNetTonCandidate(remainder)) {
-      return {
-        serial,
-        wagonNo,
-        netInput: remainder,
-        confidence: 'strong',
-      };
-    }
-
-    if (isStationCandidate(remainder)) {
-      return {
-        serial,
-        wagonNo,
-        arrival: remainder.toLocaleUpperCase('tr-TR'),
-        confidence: 'strong',
-      };
-    }
-  }
-
-  // 3. Try Station + Net ton only (contextual patch, e.g. "HAYDARPAŞA GAR 25,5" or "KAYSERİ 25,5"):
-  const stationNetMatch = text.match(/^(.*?)\s+(\d+(?:[.,]\d+)?)$/);
+  // 2a. Priority A: regime + (4-digit serial) + wagonNo
+  // e.g. "3175 2461 776-8 KAYSERİ 25,5" or "3175 2461 776-8 KAYSERİ"
   if (
-    stationNetMatch &&
-    isStationCandidate(stationNetMatch[1]) &&
-    isNetTonCandidate(stationNetMatch[2])
+    tokens.length >= 3 &&
+    /^\d{4}$/.test(tokens[0]) &&
+    /^\d{4}$/.test(tokens[1]) &&
+    isWagonNoCandidate(tokens[2])
   ) {
+    regime = tokens[0];
+    serial = tokens[1];
+    wagonNo = tokens[2];
+    remainingTokens = tokens.slice(3);
+    identityMatched = true;
+  }
+  // 2b. Priority B: (4-digit serial) + wagonNo (without regime)
+  // e.g. "2461 776-8 KAYSERİ 25,5" or "2461 776-8 KAYSERİ" or "2461 776-8"
+  else if (
+    tokens.length >= 2 &&
+    /^\d{4}$/.test(tokens[0]) &&
+    isWagonNoCandidate(tokens[1])
+  ) {
+    // 2461 is serial, 776-8 is wagonNo. Regime is NOT set (keeps existing row regime)
+    serial = tokens[0];
+    wagonNo = tokens[1];
+    remainingTokens = tokens.slice(2);
+    identityMatched = true;
+  }
+  // 2c. Priority C: compact full wagon identity at tokens[0]
+  // e.g. "31752461776-8 KAYSERİ 25,5" or "3175-2461-776-8 HAYDARPAŞA GAR 25,5"
+  else {
+    const compactFull = parseFullWagonIdentity(tokens[0]);
+    if (compactFull) {
+      regime = compactFull.regime;
+      serial = compactFull.serial;
+      wagonNo = compactFull.wagonNo;
+      remainingTokens = tokens.slice(1);
+      identityMatched = true;
+    } else {
+      // 2d. Priority D: compact partial wagon identity at tokens[0]
+      // e.g. "2461-776-8 KAYSERİ 25,5"
+      const compactPartialMatch = tokens[0].match(/^(\d{4})[-\s]?([0-9A-Za-z]+-[0-9A-Za-z]+)$/);
+      if (compactPartialMatch) {
+        serial = compactPartialMatch[1];
+        wagonNo = compactPartialMatch[2];
+        remainingTokens = tokens.slice(1);
+        identityMatched = true;
+      }
+    }
+  }
+
+  // If identity was matched:
+  if (identityMatched) {
+    let arrival: string | undefined;
+    let netInput: string | undefined;
+
+    if (remainingTokens.length > 0) {
+      const lastToken = remainingTokens[remainingTokens.length - 1];
+      if (isNetTonCandidate(lastToken)) {
+        netInput = lastToken;
+        const arrivalTokens = remainingTokens.slice(0, -1);
+        if (arrivalTokens.length > 0) {
+          arrival = arrivalTokens.join(' ').toLocaleUpperCase('tr-TR');
+        }
+      } else {
+        // All remaining tokens are arrival (e.g. "KAYSERİ" or "HAYDARPAŞA GAR")
+        arrival = remainingTokens.join(' ').toLocaleUpperCase('tr-TR');
+      }
+    }
+
     return {
-      arrival: stationNetMatch[1].toLocaleUpperCase('tr-TR'),
-      netInput: stationNetMatch[2],
-      confidence: 'contextual',
+      ...(regime !== undefined ? { regime } : {}),
+      ...(serial !== undefined ? { serial } : {}),
+      ...(wagonNo !== undefined ? { wagonNo } : {}),
+      ...(arrival !== undefined ? { arrival } : {}),
+      ...(netInput !== undefined ? { netInput } : {}),
+      confidence: 'strong',
     };
   }
 
-  // 4. Try 4-digit serial only:
-  if (/^\d{4}$/.test(text)) {
+  // If no identity prefix matched:
+  // Check if it's Arrival + Net Ton only (e.g. "KAYSERİ 25,5" or "HAYDARPAŞA GAR 25,5"):
+  if (tokens.length >= 2) {
+    const lastToken = tokens[tokens.length - 1];
+    if (isNetTonCandidate(lastToken)) {
+      const arrivalTokens = tokens.slice(0, -1);
+      const stationCandidate = arrivalTokens.join(' ');
+      if (isStationCandidate(stationCandidate)) {
+        return {
+          arrival: stationCandidate.toLocaleUpperCase('tr-TR'),
+          netInput: lastToken,
+          confidence: 'contextual',
+        };
+      }
+    }
+  }
+
+  // 4-digit serial only (e.g. "2461"):
+  if (tokens.length === 1 && /^\d{4}$/.test(tokens[0])) {
     return {
-      serial: text,
+      serial: tokens[0],
       confidence: 'contextual',
     };
   }
@@ -523,42 +517,54 @@ export function parseWagonRowLine(
 export const parseClipboardRow = parseWagonRowLine;
 
 /**
- * Determines whether clipboard text contains bulk wagon data that should be intercepted,
- * or if it is a simple single-cell paste that should be handled natively.
+ * Determines whether clipboard text contains smart wagon data that should be intercepted,
+ * or if it is a simple single-cell paste that should be handled natively by the browser.
  */
-export function isBulkPaste(clipboardText: string): boolean {
+export function isSmartPaste(
+  clipboardText: string,
+  context?: ParseRowContext
+): boolean {
   if (!clipboardText) return false;
 
   const normalized = clipboardText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const lines = normalized.split('\n').map((l) => l.trim()).filter(Boolean);
 
-  // Multiple rows
+  if (lines.length === 0) return false;
+
+  // Multiple rows -> always handled
   if (lines.length > 1) {
     return true;
   }
 
   // Single row
-  if (lines.length === 1) {
-    const line = lines[0];
-    if (line.includes('\t')) return true;
-    if (parseFullWagonIdentity(line) !== null) return true;
+  const line = lines[0];
 
-    // Check if line contains multiple wagon tokens
-    const patch = parseFreeText(line);
-    if (patch && patch.confidence !== 'ambiguous') {
-      const fieldCount = [
-        patch.regime,
-        patch.serial,
-        patch.wagonNo,
-        patch.arrival,
-        patch.netInput,
-      ].filter(Boolean).length;
-      if (fieldCount >= 2) return true;
-    }
+  // Tab-separated cells -> always handled
+  if (line.includes('\t')) return true;
+
+  // Compact full wagon identity
+  if (parseFullWagonIdentity(line) !== null) return true;
+
+  // Check if line contains recognized wagon data (e.g. full ID, partial ID, arrival + net, etc.)
+  const patch = parseFreeText(line, context);
+  if (patch && patch.confidence !== 'ambiguous') {
+    const fieldCount = [
+      patch.regime,
+      patch.serial,
+      patch.wagonNo,
+      patch.departure,
+      patch.arrival,
+      patch.netInput,
+    ].filter(Boolean).length;
+    // Intercept when at least 2 fields are recognized
+    if (fieldCount >= 2) return true;
   }
 
   return false;
 }
+
+/** Alias for backward compatibility */
+export const isBulkPaste = isSmartPaste;
 
 /**
  * Parses bulk clipboard text and applies parsed wagon row patches starting from startRowIndex downward.
@@ -572,11 +578,24 @@ export function parseAndApplyWagonPaste(
   maxRows: number = 49,
   wagonLookup?: WagonLookup
 ): PasteResult {
+  const isHandled = isSmartPaste(clipboardText, { wagonLookup });
+
+  if (!isHandled) {
+    return {
+      handled: false,
+      newRows: [...currentRows],
+      appliedCount: 0,
+      skippedCount: 0,
+      reachedCapacity: false,
+    };
+  }
+
   const normalized = clipboardText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const lines = normalized.split('\n').filter((l) => l.trim().length > 0);
 
   if (lines.length === 0) {
     return {
+      handled: false,
       newRows: [...currentRows],
       appliedCount: 0,
       skippedCount: 0,
@@ -611,6 +630,7 @@ export function parseAndApplyWagonPaste(
 
   if (validParsed.length === 0) {
     return {
+      handled: true,
       newRows: [...currentRows],
       appliedCount: 0,
       skippedCount,
@@ -620,6 +640,7 @@ export function parseAndApplyWagonPaste(
 
   if (startIdx >= maxRows) {
     return {
+      handled: true,
       newRows: [...currentRows],
       appliedCount: 0,
       skippedCount,
@@ -660,6 +681,7 @@ export function parseAndApplyWagonPaste(
     }
 
     const patch = validParsed[i];
+    // Exact REPLACEMENT semantics — NEVER concatenate existing + pasted!
     newRows[targetIdx] = {
       ...newRows[targetIdx],
       ...(patch.regime !== undefined && { regime: patch.regime }),
@@ -673,6 +695,7 @@ export function parseAndApplyWagonPaste(
   }
 
   return {
+    handled: true,
     newRows,
     appliedCount,
     skippedCount,

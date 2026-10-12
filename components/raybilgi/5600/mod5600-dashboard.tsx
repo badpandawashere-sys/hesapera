@@ -198,39 +198,44 @@ export function Mod5600Dashboard({
 
   const handleTablePaste = (e: React.ClipboardEvent, rowIndex: number) => {
     const clipboardText = e.clipboardData?.getData('text') || '';
-    if (!isBulkPaste(clipboardText)) {
-      // Normal single-cell paste -> let native input paste proceed normally
-      return;
-    }
-
-    // Intercept bulk paste
-    e.preventDefault();
+    if (!clipboardText) return;
 
     const result = parseAndApplyWagonPaste(clipboardText, rowIndex, rows, MAX_WAGONS, wagonLookup);
-    if (result.appliedCount > 0) {
-      setRows(result.newRows);
-      if (result.reachedCapacity) {
-        setPasteNotification({
-          type: 'warning',
-          message: '49 vagon sınırına ulaşıldı.',
-        });
+
+    if (result.handled) {
+      // Smart paste recognized: prevent native browser paste and stop bubbling
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (result.appliedCount > 0) {
+        setRows(result.newRows);
+        if (result.reachedCapacity) {
+          setPasteNotification({
+            type: 'warning',
+            message: '49 vagon sınırına ulaşıldı.',
+          });
+        } else if (result.skippedCount > 0) {
+          setPasteNotification({
+            type: 'warning',
+            message: `${result.appliedCount} satır aktarıldı, ${result.skippedCount} satır okunamadı.`,
+          });
+        } else {
+          setPasteNotification({
+            type: 'success',
+            message: `${result.appliedCount} vagon satırı aktarıldı.`,
+          });
+        }
       } else if (result.skippedCount > 0) {
         setPasteNotification({
           type: 'warning',
-          message: `${result.appliedCount} satır aktarıldı, ${result.skippedCount} satır okunamadı.`,
-        });
-      } else {
-        setPasteNotification({
-          type: 'success',
-          message: `${result.appliedCount} vagon satırı yapıştırıldı.`,
+          message: `${result.skippedCount} satır okunamadı.`,
         });
       }
-    } else if (result.skippedCount > 0) {
-      setPasteNotification({
-        type: 'warning',
-        message: `${result.skippedCount} satır okunamadı. Desteklenen formatlar: 3, 4 veya 6 sütun.`,
-      });
+      return;
     }
+
+    // result.handled is false: single ordinary value (e.g. "KAYSERİ", "25,5", "5379")
+    // Allow normal browser single-input paste to proceed natively.
   };
 
   return (

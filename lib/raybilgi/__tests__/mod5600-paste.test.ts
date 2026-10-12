@@ -467,3 +467,123 @@ describe('RAYBİLGİ 5600 Smart Interpretive Parser Test Matrix', () => {
     expect(isBulkPaste('3175 2461 776-8 KAYSERİ 25,5')).toBe(true);
   });
 });
+
+describe('EXACT PRODUCTION REPRODUCTIONS', () => {
+  // 1. "2461 776-8 KAYSERİ 25,5" with existing row regime 3175
+  it('1. parses "2461 776-8 KAYSERİ 25,5" and preserves existing regime 3175', () => {
+    const rows = createMockRows(5);
+    rows[0].regime = '3175';
+
+    const result = parseAndApplyWagonPaste('2461 776-8 KAYSERİ 25,5', 0, rows);
+    expect(result.handled).toBe(true);
+    expect(result.appliedCount).toBe(1);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+    expect(result.newRows[0].netInput).toBe('25,5');
+  });
+
+  // 2. "3175 2461 776-8 KAYSERİ"
+  it('2. parses "3175 2461 776-8 KAYSERİ" leaving netInput unchanged', () => {
+    const rows = createMockRows(5);
+    rows[0].netInput = '10,0';
+
+    const result = parseAndApplyWagonPaste('3175 2461 776-8 KAYSERİ', 0, rows);
+    expect(result.handled).toBe(true);
+    expect(result.appliedCount).toBe(1);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+    expect(result.newRows[0].netInput).toBe('10,0');
+  });
+
+  // 3. "2461 776-8 KAYSERİ"
+  it('3. parses "2461 776-8 KAYSERİ" preserving existing regime', () => {
+    const rows = createMockRows(5);
+    rows[0].regime = '3175';
+
+    const result = parseAndApplyWagonPaste('2461 776-8 KAYSERİ', 0, rows);
+    expect(result.handled).toBe(true);
+    expect(result.appliedCount).toBe(1);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('KAYSERİ');
+  });
+
+  // 4. "2461 776-8 HAYDARPAŞA GAR 25,5"
+  it('4. parses "2461 776-8 HAYDARPAŞA GAR 25,5" with exact multi-word arrival', () => {
+    const rows = createMockRows(5);
+    const result = parseAndApplyWagonPaste('2461 776-8 HAYDARPAŞA GAR 25,5', 0, rows);
+    expect(result.handled).toBe(true);
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('HAYDARPAŞA GAR');
+    expect(result.newRows[0].netInput).toBe('25,5');
+  });
+
+  // 5. "3175 2461 776-8 HAYDARPAŞA GAR"
+  it('5. parses "3175 2461 776-8 HAYDARPAŞA GAR" with full identity and multi-word arrival', () => {
+    const rows = createMockRows(5);
+    const result = parseAndApplyWagonPaste('3175 2461 776-8 HAYDARPAŞA GAR', 0, rows);
+    expect(result.handled).toBe(true);
+    expect(result.newRows[0].regime).toBe('3175');
+    expect(result.newRows[0].serial).toBe('2461');
+    expect(result.newRows[0].wagonNo).toBe('776-8');
+    expect(result.newRows[0].arrival).toBe('HAYDARPAŞA GAR');
+  });
+
+  // 6. SMART HANDLED paste prevents native paste
+  it('6. smart handled paste sets handled: true and single state application', () => {
+    const result = parseAndApplyWagonPaste('2461 776-8 KAYSERİ 25,5', 0, createMockRows(5));
+    expect(result.handled).toBe(true);
+    expect(result.appliedCount).toBe(1);
+  });
+
+  // 7. netInput never duplicates / concatenates (25,5 must never become 25,525,5)
+  it('7. netInput replaces exactly and never duplicates (no 25,525,5)', () => {
+    const rows = createMockRows(5);
+    rows[0].netInput = '25,5';
+
+    const result = parseAndApplyWagonPaste('2461 776-8 KAYSERİ 25,5', 0, rows);
+    expect(result.newRows[0].netInput).toBe('25,5');
+    expect(result.newRows[0].netInput).not.toBe('25,525,5');
+  });
+
+  // 8. Single ordinary value "KAYSERİ" is NOT handled as smart row (allows native browser paste)
+  it('8. single ordinary value "KAYSERİ" returns handled: false', () => {
+    const result = parseAndApplyWagonPaste('KAYSERİ', 0, createMockRows(5));
+    expect(result.handled).toBe(false);
+    expect(result.appliedCount).toBe(0);
+  });
+
+  // 9. Single ordinary numeric value "25,5" is NOT handled as smart row (allows native browser paste)
+  it('9. single ordinary numeric value "25,5" returns handled: false', () => {
+    const result = parseAndApplyWagonPaste('25,5', 0, createMockRows(5));
+    expect(result.handled).toBe(false);
+    expect(result.appliedCount).toBe(0);
+  });
+
+  // 10. Existing tab-separated 3/4/5/6-cell pastes remain handled
+  it('10. tab-separated 3/4/5/6-cell pastes return handled: true and correct fields', () => {
+    const res3 = parseAndApplyWagonPaste('3175\t2461\t776-8', 0, createMockRows(5));
+    expect(res3.handled).toBe(true);
+    expect(res3.newRows[0].wagonNo).toBe('776-8');
+
+    const res4 = parseAndApplyWagonPaste('3175\t2461\t776-8\tKAYSERİ', 0, createMockRows(5));
+    expect(res4.handled).toBe(true);
+    expect(res4.newRows[0].arrival).toBe('KAYSERİ');
+
+    const res5 = parseAndApplyWagonPaste('3175\t2461\t776-8\tKAYSERİ\t25,5', 0, createMockRows(5));
+    expect(res5.handled).toBe(true);
+    expect(res5.newRows[0].netInput).toBe('25,5');
+
+    const res6 = parseAndApplyWagonPaste('3175\t5379\t183-2\tARİFİYE\tKÖRFEZ\t30,0', 0, createMockRows(5));
+    expect(res6.handled).toBe(true);
+    expect(res6.newRows[0].departure).toBe('ARİFİYE');
+    expect(res6.newRows[0].arrival).toBe('KÖRFEZ');
+    expect(res6.newRows[0].netInput).toBe('30,0');
+  });
+});
