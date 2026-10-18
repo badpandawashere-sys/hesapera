@@ -106,6 +106,24 @@ describe('CalculatorFieldComponent - FormattedNumberInput Regression', () => {
     expect(input.getAttribute('inputMode')).toBe('numeric');
   });
 
+  it('G2) Grouped integer values remain valid for native form validation', () => {
+    const intField: CalculatorField = {
+      ...defaultField,
+      step: 1,
+    };
+    render(
+      <CalculatorFieldComponent
+        field={intField}
+        value={2000}
+        onChange={() => undefined}
+      />,
+    );
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+    expect(input.value).toBe('2.000');
+    expect(input.checkValidity()).toBe(true);
+  });
+
   it('H) Decimal field inputMode="decimal"', () => {
     const decField: CalculatorField = {
       ...defaultField,

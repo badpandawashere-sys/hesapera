@@ -53,6 +53,8 @@ import { KarMarjiForm } from '@/components/calculator/kar-marji-form';
 import { KomisyonForm } from '@/components/calculator/komisyon-form';
 import { LastikEbatForm } from '@/components/calculator/lastik-ebat-form';
 import { MaasForm } from '@/components/calculator/maas-form';
+import { KidemTazminatiForm } from '@/components/calculator/kidem-tazminati-form';
+import { MtvForm } from '@/components/calculator/mtv-form';
 import { ZamHesaplamaForm } from '@/components/calculator/zam-hesaplama-form';
 import { IdealKiloForm } from '@/components/calculator/ideal-kilo-form';
 import { KaloriIhtiyaciForm } from '@/components/calculator/kalori-ihtiyaci-form';
@@ -248,6 +250,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <KomisyonForm calculator={calculatorViewModel} />
         ) : slug === 'maas' ? (
           <MaasForm calculator={calculatorViewModel} />
+        ) : slug === 'kidem-tazminati' ? (
+          <KidemTazminatiForm calculator={calculatorViewModel} />
         ) : slug === 'lastik-ebat-hesaplama' ? (
           <LastikEbatForm calculator={calculatorViewModel} />
         ) : slug === 'yuzde' ? (
@@ -284,6 +288,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <YakitTuketimiForm calculator={calculatorViewModel} />
           ) : slug === 'gun-hesaplama' ? (
             <GunHesaplamaForm calculator={calculatorViewModel} />
+        ) : slug === 'mtv-hesaplama' ? (
+          <MtvForm calculator={calculatorViewModel} />
         ) : GeneratedPremiumForm ? (
           <GeneratedPremiumForm calculator={calculatorViewModel} />
         ) : (

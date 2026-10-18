@@ -52,4 +52,16 @@ describe('Homepage', () => {
     render(<HomePage />);
     expect(screen.getAllByText(/Pop/i).length).toBeGreaterThan(0);
   });
+
+  it('5. should link to the published MTV calculator', () => {
+    render(<HomePage />);
+    expect(screen.getByRole('link', { name: /MTV hesaplama/i }).getAttribute('href')).toBe('/hesaplama/mtv-hesaplama');
+    expect(screen.queryByRole('button', { name: /MTV hesaplama/i })).toBeNull();
+  });
+
+  it('6. should link to the published Kıdem Tazminatı calculator', () => {
+    render(<HomePage />);
+    expect(screen.getByRole('link', { name: /Kıdem tazminatı/i }).getAttribute('href')).toBe('/hesaplama/kidem-tazminati');
+    expect(screen.queryByRole('button', { name: /Kıdem tazminatı/i })).toBeNull();
+  });
 });

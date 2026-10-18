@@ -125,8 +125,8 @@ export default function HomePage() {
                 { label: 'Yakıt tüketimi', slug: '/hesaplama/yakit-tuketimi' },
                 { label: 'KDV hesaplama', slug: '/hesaplama/kdv-hesaplama' },
                 { label: 'Mevduat getirisi', slug: '/hesaplama/vadeli-mevduat-faizi' },
-                { label: 'Kıdem tazminatı', isComingSoon: true },
-                { label: 'MTV hesaplama', isComingSoon: true },
+                { label: 'Kıdem tazminatı', slug: '/hesaplama/kidem-tazminati' },
+                { label: 'MTV hesaplama', slug: '/hesaplama/mtv-hesaplama' },
               ].map((item) => {
                 if (item.slug) {
                   return (
@@ -262,10 +262,10 @@ export default function HomePage() {
               previewData={[
                 { label: 'Net Hedef Maaş', value: '₺45.000' },
                 { label: 'Vergilendirme Yılı', value: '2026 Mali Yılı' },
-                { label: 'SGK Muafiyeti', value: 'Uygulanıyor', valueClass: 'text-tertiary' },
+                { label: 'Asgari Ücret Vergi İstisnası', value: 'Uygulanıyor', valueClass: 'text-tertiary' },
               ]}
-              resultLabel="Gereken Brüt"
-              resultValue="₺63.120"
+              resultLabel="Gereken Brüt (Ocak)"
+              resultValue="₺56.704"
               actionText="Maaş Cetvelini Gör"
             />
             <FeaturedCalculatorCard 

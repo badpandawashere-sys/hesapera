@@ -149,7 +149,8 @@ function FormattedNumberInput({ id, value, onChange, placeholder, className, err
       id={id}
       type="text"
       inputMode={isInteger ? "numeric" : "decimal"}
-      pattern={isInteger ? "[0-9]*" : undefined}
+      // Grouped integer values render Turkish thousands separators (e.g. 2.000).
+      pattern={isInteger ? "[0-9.]*" : undefined}
       value={displayValue}
       onChange={handleChange}
       onBlur={handleBlur}

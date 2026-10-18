@@ -3,8 +3,41 @@ import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateMaas } from '../formulas/maas';
 
 const schema = z.object({
-  grossSalary: z.number().min(33030),
-  employerDiscountType: z.enum(['none', 'other', 'manufacturing'])
+  calculationMode: z.enum(['grossToNet', 'netToGross']).default('grossToNet').optional(),
+  grossSalary: z.number().optional(),
+  netSalary: z.number().optional(),
+  employerDiscountType: z.enum(['none', 'other', 'manufacturing']).default('none')
+}).superRefine((data, ctx) => {
+  const mode = data.calculationMode || 'grossToNet';
+  if (mode === 'grossToNet') {
+    if (data.grossSalary === undefined || data.grossSalary === null || isNaN(data.grossSalary)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Lütfen geçerli bir brüt maaş girin.',
+        path: ['grossSalary']
+      });
+    } else if (data.grossSalary < 33030) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '2026 yılı için brüt maaş asgari ücret olan 33.030 TL\'den düşük olamaz.',
+        path: ['grossSalary']
+      });
+    }
+  } else if (mode === 'netToGross') {
+    if (data.netSalary === undefined || data.netSalary === null || isNaN(data.netSalary)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Lütfen geçerli bir hedef net maaş girin.',
+        path: ['netSalary']
+      });
+    } else if (data.netSalary < 28075.50) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '2026 yılı için net maaş asgari ücret neti olan 28.075,50 TL\'den düşük olamaz.',
+        path: ['netSalary']
+      });
+    }
+  }
 });
 
 type Input = z.infer<typeof schema>;
@@ -14,16 +47,16 @@ export const maasCalculatorDef: CalculatorDefinition<Input, any> = {
   slug: 'maas',
   status: 'published',
   name: 'Maaş Hesaplama',
-  shortDescription: '2026 brüt maaşınızı girerek aylık net maaşınızı, SGK ve vergi kesintilerini, vergi dilimlerini ve yıllık maaş tablonuzu hesaplayın.',
+  shortDescription: '2026 yılı için brütten nete veya netten brüte maaşınızı hesaplayın; SGK, vergi kesintileri, vergi dilimleri ve 12 aylık bordro tablonuzu inceleyin.',
   category: 'other',
   type: 'simple',
   fields: [],
   schema,
   calculate: (input) => calculateMaas(input),
   metadata: {
-    title: 'Maaş Hesaplama 2026 – Brüt Maaştan Aylık Net Maaş',
-    description: '2026 brüt maaşınızı girerek aylık net maaşınızı, SGK ve vergi kesintilerini, vergi dilimlerini ve yıllık maaş tablonuzu hesaplayın.',
-    keywords: ['maaş hesaplama', 'brütten nete maaş hesaplama', '2026 maaş hesaplama', 'net maaş hesaplama', 'maaş bordrosu hesaplama', 'sgk kesintisi', 'gelir vergisi'],
+    title: 'Maaş Hesaplama 2026 – Brütten Nete & Netten Brüte Maaş Hesabı',
+    description: '2026 yılı için brütten nete veya netten brüte maaşınızı hesaplayın; SGK ve vergi kesintilerini, vergi dilimlerini ve 12 aylık maaş tablonuzu görün.',
+    keywords: ['maaş hesaplama', 'brütten nete maaş hesaplama', 'netten brüte maaş hesaplama', '2026 maaş hesaplama', 'net maaş hesaplama', 'maaş bordrosu hesaplama', 'sabit net maaş', 'sgk kesintisi', 'gelir vergisi'],
     canonical: 'https://www.hesapera.com.tr/hesaplama/maas',
     icon: 'Wallet',
     content: {

@@ -55,6 +55,7 @@ describe('Yakıt tüketimi final content and SEO intent', () => {
     expect(links.map(link => link.getAttribute('href'))).toEqual([
       '/hesaplama/yakit-maliyeti',
       '/hesaplama/tasit-kredisi',
+      '/hesaplama/mtv-hesaplama',
     ]);
     expect(links.some(link => link.getAttribute('href') === '/hesaplama/yakit-tuketimi')).toBe(false);
   });

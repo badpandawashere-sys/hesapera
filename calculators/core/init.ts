@@ -1,4 +1,6 @@
 import { maasCalculatorDef } from '../definitions/maas';
+import { kidemTazminatiCalculatorDef } from '../definitions/kidemTazminati';
+import { mtvCalculatorDef } from '../definitions/mtv';
 import { CalculatorRegistry } from './calculator-registry';
 import { percentageCalculatorDef } from '../definitions/percentage';
 import { discountCalculatorDef } from '../definitions/discount';
@@ -284,11 +286,12 @@ export function initializeCalculators() {
   CalculatorRegistry.register(altinOranCalculatorDef);
   CalculatorRegistry.register(yakitMaliyetiCalculatorDef);
   CalculatorRegistry.register(yakitTuketimiCalculatorDef);
+  CalculatorRegistry.register(maasCalculatorDef);
+  CalculatorRegistry.register(kidemTazminatiCalculatorDef);
+  CalculatorRegistry.register(mtvCalculatorDef);
   initialized = true;
 }
 
 // Auto-initialize for seamless usage
 initializeCalculators();
 
-
-CalculatorRegistry.register(maasCalculatorDef);

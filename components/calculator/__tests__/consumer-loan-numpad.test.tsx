@@ -24,7 +24,7 @@ describe('Consumer Loan Numpad Pilot Integration Test', () => {
     expect(interestInput.getAttribute('step')).toBeNull(); // step attribute OLMAYACAK
     
     expect(termInput.getAttribute('inputmode')).toBe('numeric');
-    expect(termInput.getAttribute('pattern')).toBe('[0-9]*'); // pattern eklendi
+    expect(termInput.getAttribute('pattern')).toBe('[0-9]*');
 
     // 3. KRİTİK FORMAT REGRESSION GATE
     act(() => {
