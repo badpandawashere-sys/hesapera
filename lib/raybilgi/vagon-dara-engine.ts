@@ -16,6 +16,8 @@ export interface DaraWagonInput {
   wagonNo: string;
   rawText?: string;
   source?: 'photo' | 'paste' | 'manual';
+  confidence?: number;
+  confidenceWarning?: string;
 }
 
 export interface DaraWagonRow {
@@ -32,6 +34,8 @@ export interface DaraWagonRow {
   status: DaraRowStatus;
   isDuplicate: boolean;
   statusMessage?: string;
+  confidence?: number;
+  confidenceWarning?: string;
 }
 
 export interface DaraTotals {
@@ -277,6 +281,8 @@ export function resolveWagonRow(
     status,
     isDuplicate,
     statusMessage,
+    confidence: input.confidence,
+    confidenceWarning: input.confidenceWarning,
   };
 }
 

@@ -25,6 +25,8 @@ class WagonListResponse(BaseModel):
 
     ok: bool = True
     processingTimeMs: int = Field(..., description="Server-side processing duration in milliseconds")
+    processedWidth: int = Field(0, description="Processed image width in pixels")
+    processedHeight: int = Field(0, description="Processed image height in pixels")
     lines: list[OcrLine] = Field(default_factory=list, description="Extracted text lines sorted top-to-bottom")
     warnings: list[str] = Field(default_factory=list, description="Operational warnings if any")
 

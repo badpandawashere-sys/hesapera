@@ -1,142 +1,121 @@
 # RayBilgi Wagon OCR Service
 
-Deterministic, local, self-hosted OCR microservice designed for railway document and photo recognition.
+Deterministic, high-speed, self-hosted CPU OCR microservice designed for European and Turkish railway freight wagon identification markings, Saha Vaziyeti documents, and wagon lists.
 
-This service replaces external generative AI (Gemini Vision) and cloud OCR APIs with a fast, self-hosted, CPU-only OCR pipeline based on the PP-OCRv4 ONNX model family.
+---
+
+## 🏗️ Architecture & Production Pipeline
+
+```
+Browser (photo-input.tsx)
+  │ (Client-side downscale to max 1920px canvas)
+  ▼
+Next.js API (/raybilgi/vagon-dara/analyze-image)
+  │ (Auth check, MIME/8MB check, ephemeral memory buffer)
+  ▼
+Wagon OCR Microservice (POST /wagon-list via ocr-client.ts)
+  │ (X-OCR-Secret auth, EXIF orientation, CLAHE, RapidOCR PP-OCRv6 ONNX CPU)
+  ▼
+Provider-Neutral OCR Text Lines & Confidence
+  │
+  ▼
+RayBilgi Deterministic Parser (parseSingleDaraLine / parsePasteForDara)
+  │
+  ▼
+Canonical Reference Lookup (vagon_data.json -> tech_data -> user_data)
+  │
+  ▼
+Exact Tare, Axle, Length, Wagon Type (Zero Generative AI)
+```
 
 ---
 
 ## 🔒 Architectural Boundaries & Privacy
 
-1. **OCR Only (Neutral Extraction):**
-   - The service extracts characters, bounding boxes, and confidence scores only.
-   - **Zero domain calculation:** This service NEVER calculates tare, wagon type, axles, train length, brake percentages, or any technical railway parameters.
-   - Domain resolution and validation are exclusively handled downstream by canonical RayBilgi engines (`lib/raybilgi/wagon-tare.ts` & `wagon-reference.ts`).
+1. **OCR Only (Neutral Character Extraction):**
+   - The Python service returns character lines, conservative confidence scores, and bounding boxes only.
+   - **Zero railway domain calculations:** This service NEVER calculates tare weight (dara), wagon type, axle count, train length, brake percentage, or canonical serials.
+   - Technical values are calculated exclusively downstream by the canonical RayBilgi JSON database.
 
 2. **Ephemeral In-Memory Processing:**
-   - Uploaded images are read directly into RAM and processed in-memory.
-   - Zero disk persistence: No images, intermediate tensors, or temporary files are saved to disk.
-   - Zero database logging: No image payloads or base64 strings are stored in databases or logs.
+   - Uploaded images are read directly into memory buffers and decoded as OpenCV/NumPy arrays in RAM.
+   - **Zero disk persistence:** Images, crops, base64 strings, and intermediate files are never written to disk, databases, or logs.
 
-3. **Service-to-Service Security:**
-   - All OCR requests require authentication via the `X-OCR-Secret` header matching `OCR_SECRET_KEY`.
+3. **Service Authentication:**
+   - All requests require the `X-OCR-Secret` header matching the environment variable `OCR_SECRET_KEY`.
    - Constant-time HMAC comparison prevents timing attacks.
 
 ---
 
-## 🚀 Quickstart
+## ⚡ Technical Specifications
 
-### 1. Local Development (Python venv)
-
-#### Prerequisites
-- Python 3.10+ (tested on Python 3.11, 3.12, and 3.14)
-
-#### Installation
-```bash
-# Navigate to the service directory
-cd services/wagon-ocr
-
-# Create and activate virtual environment
-python -m venv .venv
-# On Windows PowerShell:
-.\.venv\Scripts\Activate.ps1
-# On Linux/macOS:
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-#### Running the Service
-```bash
-uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-```
-
-#### Running Tests
-```bash
-pytest -v
-```
+- **Engine:** RapidOCR (`rapidocr` 3.10+ with `onnxruntime` CPU)
+- **Models:** Bundled PP-OCRv6 small models (`PP-OCRv6_det_small.onnx`, `ch_ppocr_mobile_v2.0_cls_mobile.onnx`, `PP-OCRv6_rec_small.onnx`)
+- **Process Model:** Single application worker (Uvicorn 1 worker) to prevent model duplication in RAM
+- **Lifecycle:** Singleton engine initialized once during application startup (FastAPI lifespan)
+- **Speed:** ~790 ms cold engine load, < 1.0 s warm OCR inference on CPU
 
 ---
 
-### 2. Docker Deployment
+## 📡 API Endpoints
 
-#### Build Image
-```bash
-docker build -t hesapera/wagon-ocr:latest services/wagon-ocr
-```
-
-#### Run Container
-```bash
-docker run -d \
-  -p 8000:8000 \
-  -e OCR_SECRET_KEY="production-secret-key-change-me" \
-  --name wagon-ocr \
-  hesapera/wagon-ocr:latest
-```
-
----
-
-## ⚙️ Environment Variables
-
-| Variable | Description | Default |
-| :--- | :--- | :--- |
-| `OCR_SECRET_KEY` | Shared secret header required in `X-OCR-Secret` | `dev-wagon-ocr-secret-2026` |
-| `WAGON_OCR_HOST` | Host address to bind the server | `127.0.0.1` |
-| `WAGON_OCR_PORT` | Port number to bind the server | `8000` |
-
----
-
-## 📡 API Contract
-
-### `GET /health`
-Liveness and readiness probe. Does not require authentication.
-
-**Response (200 OK):**
+### 1. `GET /health`
+Liveness check returning service and engine state.
 ```json
 {
   "status": "ok",
   "ok": true,
-  "engine": "RapidOCR-ONNX (PP-OCRv4)",
+  "engine": "RapidOCR-ONNX (PP-OCRv6)",
   "version": "1.0.0",
   "ready": true
 }
 ```
 
----
+### 2. `GET /ready`
+Readiness check verifying that OCR models are loaded in memory.
+- `200 OK`: Model ready for inference.
+- `503 Service Unavailable`: Model still loading or unavailable.
 
-### `POST /wagon-list`
-Extracts text lines and bounding boxes from an uploaded railway document photo.
-
-**Headers:**
-- `X-OCR-Secret`: Required shared secret string matching `OCR_SECRET_KEY`.
-
-**Form Data:**
-- `image`: Multipart file upload (JPEG, PNG, or WebP; maximum 8 MB).
-
-**Response (200 OK):**
+### 3. `POST /wagon-list`
+Multipart form-data endpoint accepting a railway photo.
+- **Header:** `X-OCR-Secret: <OCR_SECRET_KEY>`
+- **Field:** `image` (JPEG, PNG, WebP up to 8 MB)
+- **Response:**
 ```json
 {
   "ok": true,
-  "processingTimeMs": 273,
+  "processingTimeMs": 973,
+  "processedWidth": 900,
+  "processedHeight": 400,
   "lines": [
     {
-      "text": "REJIM SERI VAGON NO VARIS",
-      "confidence": 0.9182,
-      "bbox": { "x1": 59, "y1": 60, "x2": 215, "y2": 73 }
-    },
-    {
-      "text": "3175 2461 776-8 KAYSERI",
-      "confidence": 0.7959,
-      "bbox": { "x1": 59, "y1": 131, "x2": 207, "y2": 142 }
+      "text": "3175 2461 776-8 KAYSERI 25,5",
+      "confidence": 0.9679,
+      "bbox": {
+        "x1": 50,
+        "y1": 100,
+        "x2": 450,
+        "y2": 140
+      }
     }
   ],
   "warnings": []
 }
 ```
 
-**Status Codes:**
-- `200 OK`: Successful OCR extraction.
-- `400 Bad Request`: Missing file, non-image format, file > 8MB, or unreadable/corrupted bytes.
-- `403 Forbidden`: Missing or incorrect `X-OCR-Secret`.
-- `500 Internal Server Error`: Server-side processing failure.
+---
+
+## 🚀 Railway Deployment Guide
+
+1. In Railway, create a new service connected to this repository.
+2. Under **Settings**:
+   - **Root Directory:** `services/wagon-ocr`
+   - **Build:** Dockerfile (`Dockerfile`)
+   - **Healthcheck Path:** `/health`
+   - **Restart Policy:** On Failure (3 retries)
+3. Under **Variables**:
+   - Add `OCR_SECRET_KEY=<generate-strong-random-hex>`
+4. Deploy the service and generate a public Railway domain (e.g. `https://wagon-ocr-production.up.railway.app`).
+5. In Vercel / Next.js environment variables:
+   - `WAGON_OCR_API_URL=https://wagon-ocr-production.up.railway.app`
+   - `WAGON_OCR_API_SECRET=<same-secret-as-OCR_SECRET_KEY>`

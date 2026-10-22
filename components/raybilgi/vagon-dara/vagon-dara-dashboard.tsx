@@ -21,7 +21,7 @@ import {
   Check,
   RotateCcw,
 } from 'lucide-react';
-import { ExtractedWagonIdentity } from '@/lib/raybilgi/gemini-vision';
+import type { ExtractedWagonIdentity } from '@/lib/raybilgi/ocr-client';
 
 interface VagonDaraDashboardProps {
   wagonLookup: Record<string, WagonRecord>;
@@ -51,6 +51,8 @@ export function VagonDaraDashboard({ wagonLookup }: VagonDaraDashboardProps) {
       wagonNo: w.wagonNo || '',
       rawText: w.rawText,
       source: 'photo',
+      confidence: w.confidence,
+      confidenceWarning: w.confidenceWarning,
     }));
     setRows((prev) => [...prev, ...newInputs]);
   };
@@ -76,7 +78,15 @@ export function VagonDaraDashboard({ wagonLookup }: VagonDaraDashboardProps) {
     value: string
   ) => {
     setRows((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, [field]: value } : r))
+      prev.map((r) =>
+        r.id === id
+          ? {
+              ...r,
+              [field]: value,
+              confidenceWarning: undefined,
+            }
+          : r
+      )
     );
   };
 

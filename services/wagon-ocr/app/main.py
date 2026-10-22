@@ -1,29 +1,107 @@
 """FastAPI application for RayBilgi Wagon OCR Service."""
 
+from contextlib import asynccontextmanager
 import hmac
 import time
+import threading
 from typing import Annotated
 
-from fastapi import FastAPI, File, Header, HTTPException, UploadFile, status
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, File, Header, HTTPException, UploadFile, status, Request
+from starlette.concurrency import run_in_threadpool
 
 from .config import ALLOWED_MIME_TYPES, ENGINE_NAME, MAX_IMAGE_SIZE_BYTES, OCR_SECRET_KEY
-from .ocr_engine import get_ocr_engine
+from .ocr_engine import get_ocr_engine, is_engine_ready
 from .preprocessing import preprocess_image
 from .row_grouping import group_blocks_into_rows
 from .schemas import HealthResponse, WagonListResponse
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initializes singleton OCR engine once at application startup."""
+    try:
+        get_ocr_engine()
+    except Exception as exc:
+        # Engine will be re-attempted on request if startup failed
+        pass
+    yield
+
 
 app = FastAPI(
     title="RayBilgi Wagon OCR Service",
     description="Deterministic local OCR microservice for railway document and photo recognition.",
     version="1.0.0",
+    lifespan=lifespan,
 )
+
+_recognition_lock = threading.Lock()
+
+
+def process_image_bytes(content: bytes) -> WagonListResponse:
+    """Core image OCR pipeline: strictly in-memory, bounded, and provider-neutral."""
+    # Serialize the shared ONNX engine; reject overload rather than building an unbounded queue.
+    if not _recognition_lock.acquire(blocking=False):
+        raise HTTPException(status_code=503, detail="OCR servisi meşgul. Lütfen tekrar deneyin.")
+    try:
+        started = time.perf_counter()
+        try:
+            processed, _ = preprocess_image(content, enhance_contrast=True)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail="Görsel çözümlenemedi veya bozuk dosya formatı.") from exc
+
+        try:
+            h, w = processed.shape[:2]
+            blocks = get_ocr_engine().recognize(processed)
+            lines = group_blocks_into_rows(blocks)
+        except Exception as exc:
+            raise HTTPException(status_code=503, detail="OCR motoru kullanılamıyor.") from exc
+
+        elapsed_ms = round((time.perf_counter() - started) * 1000)
+        return WagonListResponse(
+            ok=True,
+            processingTimeMs=elapsed_ms,
+            processedWidth=w,
+            processedHeight=h,
+            lines=lines,
+            warnings=[] if lines else ["Görselde okunabilir metin bulunamadı."],
+        )
+    finally:
+        _recognition_lock.release()
 
 
 @app.get("/health", response_model=HealthResponse)
 def health_check() -> HealthResponse:
     """Minimal unauthenticated health check endpoint without exposing sensitive configuration."""
-    return HealthResponse(status="ok", ok=True, engine=ENGINE_NAME, version="1.0.0", ready=True)
+    try:
+        get_ocr_engine()
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="OCR motoru hazır değil.") from exc
+    return HealthResponse(
+        status="ok",
+        ok=True,
+        engine=ENGINE_NAME,
+        version="1.0.0",
+        ready=is_engine_ready(),
+    )
+
+
+@app.get("/ready", response_model=HealthResponse)
+def ready_check() -> HealthResponse:
+    """Readiness probe verifying the OCR models are loaded and available in memory."""
+    if not is_engine_ready():
+        try:
+            get_ocr_engine()
+        except Exception:
+            raise HTTPException(status_code=503, detail="OCR motoru hazır değil.")
+    return HealthResponse(
+        status="ok",
+        ok=True,
+        engine=ENGINE_NAME,
+        version="1.0.0",
+        ready=True,
+    )
 
 
 @app.post(
@@ -33,6 +111,7 @@ def health_check() -> HealthResponse:
         400: {"description": "Invalid image or unsupported format"},
         403: {"description": "Invalid or missing OCR secret header"},
         500: {"description": "Internal OCR processing error"},
+        503: {"description": "Service busy or engine unavailable"},
     },
 )
 async def extract_wagon_list(
@@ -42,8 +121,8 @@ async def extract_wagon_list(
     """
     Extracts text lines and bounding boxes from an uploaded railway document photo.
 
-    CRITICAL BOUNDARIES:
-    - Service-to-service authenticated via X-OCR-Secret.
+    CRITICAL ARCHITECTURAL BOUNDARIES:
+    - Service-to-service authenticated via X-OCR-Secret header.
     - Ephemeral memory processing: Zero disk persistence, zero database writes.
     - Provider-neutral line extraction: NO tare, NO wagon type, NO axles, NO railway technical data.
     """
@@ -69,7 +148,7 @@ async def extract_wagon_list(
         )
 
     # 3. Read image bytes into RAM (ephemeral, bounded by 8 MB)
-    content = await image.read()
+    content = await image.read(MAX_IMAGE_SIZE_BYTES + 1)
 
     if not content:
         raise HTTPException(
@@ -83,40 +162,28 @@ async def extract_wagon_list(
             detail=f"Dosya boyutu {MAX_IMAGE_SIZE_BYTES // (1024 * 1024)} MB sınırını aşıyor.",
         )
 
-    start_time = time.perf_counter()
+    return await run_in_threadpool(process_image_bytes, content)
 
-    # 4. In-memory preprocessing (EXIF, resize, CLAHE)
-    try:
-        processed_img, _ = preprocess_image(content, enhance_contrast=True)
-    except ValueError as err:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(err),
-        ) from err
-    except Exception as err:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Görsel ön işleme hatası: {err}",
-        ) from err
 
-    # 5. Local OCR extraction (RapidOCR / PP-OCR ONNX on CPU)
-    try:
-        engine = get_ocr_engine()
-        blocks = engine.recognize(processed_img)
-    except Exception as err:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"OCR tanıma motoru hatası: {err}",
-        ) from err
+@app.post("/recognize", response_model=WagonListResponse)
+async def recognize_raw(
+    request: Request,
+    x_ocr_secret: Annotated[str | None, Header(alias="X-OCR-Secret")] = None,
+) -> WagonListResponse:
+    """Raw bounded image body endpoint for streaming clients."""
+    if not x_ocr_secret or not hmac.compare_digest(x_ocr_secret, OCR_SECRET_KEY):
+        raise HTTPException(status_code=403, detail="Yetkisiz servis erişimi.")
+    content_type = request.headers.get("content-type", "").split(";")[0].lower()
+    if content_type not in ALLOWED_MIME_TYPES:
+        raise HTTPException(status_code=400, detail="Desteklenmeyen dosya türü.")
 
-    # 6. Row clustering and horizontal sorting
-    lines = group_blocks_into_rows(blocks)
+    content = bytearray()
+    async for chunk in request.stream():
+        if len(content) + len(chunk) > MAX_IMAGE_SIZE_BYTES:
+            raise HTTPException(status_code=400, detail="Dosya boyutu 8 MB sınırını aşıyor.")
+        content.extend(chunk)
 
-    elapsed_ms = int(round((time.perf_counter() - start_time) * 1000))
+    if not content:
+        raise HTTPException(status_code=400, detail="Görsel dosyası boş.")
 
-    return WagonListResponse(
-        ok=True,
-        processingTimeMs=elapsed_ms,
-        lines=lines,
-        warnings=[],
-    )
+    return await run_in_threadpool(process_image_bytes, bytes(content))

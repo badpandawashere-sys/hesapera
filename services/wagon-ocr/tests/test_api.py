@@ -107,3 +107,23 @@ def test_post_wagon_list_with_valid_image_returns_neutral_json():
     # STRICT CONTRACT: Zero railway technical fields in top-level response
     for forbidden in ["tare", "dara", "wagon_type", "vagon_tipi", "axle", "dingil", "length", "boy", "brake", "fren"]:
         assert forbidden not in data, f"Response contains technical railway field: {forbidden}"
+
+
+def test_image_persistence_absent(tmp_path):
+    """Verify that requests leave zero persistent image files on disk."""
+    service_dir = Path(__file__).parent.parent
+    before_files = set(service_dir.rglob("*.jpg")) | set(service_dir.rglob("*.png")) | set(service_dir.rglob("*.webp"))
+    # Perform OCR
+    with open(FIXTURE_PATH, "rb") as f:
+        img_bytes = f.read()
+
+    response = client.post(
+        "/wagon-list",
+        headers={"X-OCR-Secret": OCR_SECRET_KEY},
+        files={"image": ("persist_check.png", img_bytes, "image/png")},
+    )
+    assert response.status_code == 200
+
+    after_files = set(service_dir.rglob("*.jpg")) | set(service_dir.rglob("*.png")) | set(service_dir.rglob("*.webp"))
+    new_files = after_files - before_files
+    assert len(new_files) == 0, f"Unexpected files persisted on disk: {new_files}"

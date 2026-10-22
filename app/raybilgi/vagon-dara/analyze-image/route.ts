@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/raybilgi/auth/session';
 import {
-  extractWagonIdentitiesFromImage,
-  isTimeoutError,
-  FRIENDLY_TIMEOUT_ERROR_MESSAGE,
-} from '@/lib/raybilgi/gemini-vision';
+  recognizeWagonList,
+  OcrClientError,
+  type ExtractedWagonIdentity,
+} from '@/lib/raybilgi/ocr-client';
+import { parseSingleDaraLine, isHeaderLine } from '@/lib/raybilgi/vagon-dara-engine';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
-export const maxDuration = 60;
+export const maxDuration = 30;
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8 MB
 const ALLOWED_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
@@ -42,6 +43,9 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Validate file size (max 8MB)
+    if (file.size === 0) {
+      return NextResponse.json({ ok: false, error: 'Görsel dosyası boş.' }, { status: 400 });
+    }
     if (file.size > MAX_IMAGE_BYTES) {
       return NextResponse.json(
         { ok: false, error: 'Dosya boyutu 8 MB sınırını aşıyor.' },
@@ -62,32 +66,79 @@ export async function POST(req: NextRequest) {
 
     // 5. Read file into memory buffer (ephemeral, not written to disk or database)
     const arrayBuffer = await file.arrayBuffer();
-    const base64 = Buffer.from(arrayBuffer).toString('base64');
+    const bytes = new Uint8Array(arrayBuffer);
+    const signature = Buffer.from(bytes.subarray(0, 12));
+    const validImage =
+      file.type === 'image/jpeg'
+        ? signature[0] === 0xff && signature[1] === 0xd8 && signature[2] === 0xff
+        : file.type === 'image/png'
+        ? signature.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+        : signature.toString('ascii', 0, 4) === 'RIFF' &&
+          signature.toString('ascii', 8, 12) === 'WEBP';
 
-    // 6. Extract wagon identities via Gemini Vision
-    const wagons = await extractWagonIdentitiesFromImage(base64, file.type);
+    if (!validImage) {
+      return NextResponse.json(
+        { ok: false, error: 'Görsel içeriği dosya türüyle uyuşmuyor veya dosya bozuk.' },
+        { status: 400 }
+      );
+    }
+
+    // 6. Call fast self-hosted OCR service
+    const ocrResult = await recognizeWagonList(bytes, file.type);
+
+    if (!ocrResult.lines || ocrResult.lines.length === 0) {
+      return NextResponse.json(
+        { ok: false, error: 'Fotoğrafta okunabilir vagon numarası bulunamadı.' },
+        { status: 400 }
+      );
+    }
+
+    // 7. Parse OCR lines with existing deterministic wagon parser
+    const wagons: ExtractedWagonIdentity[] = [];
+
+    for (const line of ocrResult.lines) {
+      const trimmed = line.text.trim();
+      if (!trimmed || isHeaderLine(trimmed)) continue;
+
+      const parsed = parseSingleDaraLine(trimmed);
+      if (!parsed) continue;
+
+      // Confidence metadata
+      let confidenceWarning: string | undefined;
+      if (line.confidence < 0.65) {
+        confidenceWarning = 'Numarayı doğrulayın';
+      } else if (line.confidence < 0.85) {
+        confidenceWarning = 'Okumayı kontrol edin';
+      }
+
+      if (parsed.serial || parsed.wagonNo) {
+        wagons.push({
+          rawText: trimmed,
+          regime: parsed.regime || '',
+          serial: parsed.serial || '',
+          wagonNo: parsed.wagonNo || '',
+          confidence: line.confidence,
+          confidenceWarning,
+        });
+      }
+    }
+
+    if (wagons.length === 0) {
+      return NextResponse.json(
+        { ok: false, error: 'Fotoğrafta okunabilir vagon numarası bulunamadı.' },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json({
       ok: true,
       wagons,
       count: wagons.length,
+      warnings: ocrResult.warnings,
     });
   } catch (error: unknown) {
-    if (isTimeoutError(error)) {
-      return NextResponse.json(
-        { ok: false, error: FRIENDLY_TIMEOUT_ERROR_MESSAGE },
-        { status: 504 }
-      );
-    }
-
-    const message = error instanceof Error ? error.message : 'Görsel işlenirken bir hata oluştu.';
-
-    if (message.includes('429') || message.includes('RESOURCE_EXHAUSTED')) {
-      return NextResponse.json({ ok: false, error: message }, { status: 429 });
-    }
-
-    if (message.includes('GEMINI_API_KEY')) {
-      return NextResponse.json({ ok: false, error: message }, { status: 500 });
+    if (error instanceof OcrClientError) {
+      return NextResponse.json({ ok: false, error: error.message }, { status: error.status });
     }
 
     return NextResponse.json(

@@ -21,7 +21,7 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 # Warmup OCR engine during image build to pre-bundle ONNX models inside the container
-RUN python -c "from rapidocr_onnxruntime import RapidOCR; RapidOCR()"
+RUN python -c "from rapidocr import RapidOCR; RapidOCR()"
 
 # Copy application source code
 COPY app/ ./app/
@@ -37,4 +37,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

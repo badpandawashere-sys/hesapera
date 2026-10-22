@@ -71,6 +71,7 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
                   <td className="py-2.5 px-3">
                     <Input
                       value={row.regime}
+                      aria-label={`${idx + 1}. vagon rejimi`}
                       onChange={(e) => onUpdateRow(row.id, 'regime', e.target.value)}
                       placeholder="3175"
                       maxLength={4}
@@ -82,6 +83,7 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
                   <td className="py-2.5 px-3">
                     <Input
                       value={row.serial}
+                      aria-label={`${idx + 1}. vagon serisi`}
                       onChange={(e) => onUpdateRow(row.id, 'serial', e.target.value)}
                       placeholder="2461"
                       maxLength={6}
@@ -95,6 +97,7 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
                   <td className="py-2.5 px-3">
                     <Input
                       value={row.wagonNo}
+                      aria-label={`${idx + 1}. vagon numarası`}
                       onChange={(e) => onUpdateRow(row.id, 'wagonNo', e.target.value)}
                       placeholder="776-8"
                       className="h-8 text-xs font-mono w-28 bg-background"
@@ -148,42 +151,58 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
 
                   {/* Durum Rozeti */}
                   <td className="py-2.5 px-3">
-                    {row.status === 'resolved' && !row.isDuplicate && (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
-                        <CheckCircle2 className="w-3 h-3" />
-                        Tanımlandı
-                      </span>
-                    )}
+                    <div className="flex flex-col gap-1 items-start">
+                      {row.status === 'resolved' && !row.isDuplicate && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Tanımlandı
+                        </span>
+                      )}
 
-                    {row.status === 'duplicate' && (
-                      <span
-                        title={row.statusMessage}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800"
-                      >
-                        <Copy className="w-3 h-3" />
-                        Mükerrer Vagon
-                      </span>
-                    )}
+                      {row.status === 'duplicate' && (
+                        <span
+                          title={row.statusMessage}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200 dark:border-amber-800"
+                        >
+                          <Copy className="w-3 h-3" />
+                          Mükerrer Vagon
+                        </span>
+                      )}
 
-                    {row.status === 'unknown_serial' && (
-                      <span
-                        title={row.statusMessage}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-800"
-                      >
-                        <AlertTriangle className="w-3 h-3" />
-                        Bilinmeyen Seri
-                      </span>
-                    )}
+                      {row.status === 'unknown_serial' && (
+                        <span
+                          title={row.statusMessage}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200 dark:border-rose-800"
+                        >
+                          <AlertTriangle className="w-3 h-3" />
+                          Bilinmeyen Seri
+                        </span>
+                      )}
 
-                    {row.status === 'incomplete' && (
-                      <span
-                        title={row.statusMessage}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-muted text-muted-foreground border border-border"
-                      >
-                        <HelpCircle className="w-3 h-3" />
-                        Eksik Numara
-                      </span>
-                    )}
+                      {row.status === 'incomplete' && (
+                        <span
+                          title={row.statusMessage}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-muted text-muted-foreground border border-border"
+                        >
+                          <HelpCircle className="w-3 h-3" />
+                          Eksik Numara
+                        </span>
+                      )}
+
+                      {row.confidenceWarning && (
+                        <span
+                          title={`OCR Güven Skoru: ${row.confidence != null ? Math.round(row.confidence * 100) + '%' : 'Belirsiz'}`}
+                          className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${
+                            row.confidence != null && row.confidence < 0.65
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-400'
+                              : 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400'
+                          }`}
+                        >
+                          <AlertTriangle className="w-2.5 h-2.5" />
+                          {row.confidenceWarning}
+                        </span>
+                      )}
+                    </div>
                   </td>
 
                   {/* Sil */}

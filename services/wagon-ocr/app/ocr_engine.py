@@ -1,7 +1,8 @@
-"""OCR engine abstraction and RapidOCR (PaddleOCR-ONNX family) implementation."""
+"""OCR engine abstraction and RapidOCR (PP-OCRv6 ONNX family) implementation."""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from threading import Lock
 import numpy as np
 
 
@@ -26,31 +27,27 @@ class BaseOcrEngine(ABC):
 
 class RapidOcrEngine(BaseOcrEngine):
     """
-    RapidOCR implementation using ONNX Runtime.
-    Runs PaddleOCR PP-OCRv4 detection (DBNet), angle classification, and recognition models on CPU.
+    RapidOCR implementation using ONNX Runtime CPU.
+    Runs PaddleOCR PP-OCRv6 detection, angle classification, and recognition models on CPU.
     """
 
     def __init__(self) -> None:
-        from rapidocr_onnxruntime import RapidOCR
+        from rapidocr import RapidOCR
 
         # Initialize RapidOCR engine (loads ONNX models once in memory)
         self._engine = RapidOCR()
 
     def recognize(self, image: np.ndarray) -> list[OcrBlock]:
-        # RapidOCR returns: (result, elapse_list)
-        # where result is: [[dt_boxes, rec_res, score], ...]
-        raw_result, _ = self._engine(image)
+        # RapidOCR returns a RapidOCROutput object with boxes, txts, scores, elapse
+        output = self._engine(image)
 
-        if not raw_result:
+        if output is None or output.boxes is None or output.txts is None:
             return []
 
         blocks: list[OcrBlock] = []
+        scores = output.scores if output.scores is not None else [1.0] * len(output.txts)
 
-        for item in raw_result:
-            if not item or len(item) < 3:
-                continue
-
-            dt_box, text, score = item[0], item[1], item[2]
+        for dt_box, text, score in zip(output.boxes, output.txts, scores):
             clean_text = str(text or "").strip()
 
             if not clean_text:
@@ -82,11 +79,19 @@ class RapidOcrEngine(BaseOcrEngine):
 
 # Cached singleton instance to avoid reloading models on every request
 _global_engine: BaseOcrEngine | None = None
+_engine_lock = Lock()
+
+
+def is_engine_ready() -> bool:
+    """Returns True if the singleton OCR engine has been initialized and is ready."""
+    global _global_engine
+    return _global_engine is not None
 
 
 def get_ocr_engine() -> BaseOcrEngine:
-    """Returns the singleton OCR engine instance."""
+    """Returns the singleton OCR engine instance, initializing it if necessary."""
     global _global_engine
-    if _global_engine is None:
-        _global_engine = RapidOcrEngine()
+    with _engine_lock:
+        if _global_engine is None:
+            _global_engine = RapidOcrEngine()
     return _global_engine

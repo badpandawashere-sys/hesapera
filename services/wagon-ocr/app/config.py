@@ -20,5 +20,4 @@ ALLOWED_MIME_TYPES: set[str] = {
 # Image preprocessing limits
 MAX_LONG_EDGE: int = 1920
 
-# OCR Engine configuration
-ENGINE_NAME: str = "RapidOCR-ONNX (PP-OCRv4)"
+ENGINE_NAME: str = "RapidOCR-ONNX (PP-OCRv6)"

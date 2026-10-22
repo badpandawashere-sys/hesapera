@@ -19,6 +19,10 @@ def decode_image_with_exif(image_bytes: bytes) -> np.ndarray:
 
     try:
         with Image.open(io.BytesIO(image_bytes)) as pil_img:
+            if pil_img.format not in {"JPEG", "PNG", "WEBP"}:
+                raise ValueError("Yalnızca JPEG, PNG veya WebP kabul edilir.")
+            if pil_img.width * pil_img.height > 25_000_000:
+                raise ValueError("Görsel 25 megapiksel sınırını aşıyor. Daha küçük bir görsel yükleyin.")
             # Correct EXIF orientation (handles mobile phone camera rotations)
             pil_img = ImageOps.exif_transpose(pil_img) or pil_img
 
