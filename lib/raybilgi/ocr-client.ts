@@ -1,5 +1,6 @@
 import 'server-only';
 import { z } from 'zod';
+import { extractWagonIdentitiesWithGemini } from './gemini-vision';
 
 export const OcrBBoxSchema = z.object({
   x1: z.number(),
@@ -48,14 +49,13 @@ export class OcrClientError extends Error {
 export const OCR_TIMEOUT_MS = 12_000;
 
 /**
- * Sends image to the fast self-hosted RapidOCR service on Railway or local host.
- * Strictly 0 retries, 12s timeout, Zod validation.
+ * Calls remote RapidOCR service (e.g. self-hosted microservice on Railway or local host).
  */
-export async function recognizeWagonList(
+export async function callRemoteRapidOcr(
   imageBytes: Uint8Array | Buffer | Blob | File,
-  mimeType: string = 'image/jpeg'
+  mimeType: string,
+  apiUrl: string
 ): Promise<OcrResponse> {
-  const apiUrl = process.env.WAGON_OCR_API_URL || 'http://127.0.0.1:8000';
   const secretKey =
     process.env.WAGON_OCR_API_SECRET || process.env.OCR_SECRET_KEY || '';
 
@@ -148,4 +148,65 @@ export async function recognizeWagonList(
   }
 
   return parseResult.data;
+}
+
+/**
+ * Universal OCR orchestrator for RayBilgi:
+ * - If an external RapidOCR service URL is explicitly configured and valid, attempts it first.
+ * - If external service is not configured (or in production where WAGON_OCR_API_URL is omitted),
+ *   or if the external service fails, automatically routes to Google Gemini Vision.
+ * - Never returns fake or guessed numbers; adheres to strict validation.
+ */
+export async function recognizeWagonList(
+  imageBytes: Uint8Array | Buffer | Blob | File,
+  mimeType: string = 'image/jpeg'
+): Promise<OcrResponse> {
+  const customUrl = process.env.WAGON_OCR_API_URL?.trim();
+
+  // In production, an empty URL or localhost fallback is not a valid remote service
+  const isCustomConfigured =
+    Boolean(customUrl) &&
+    (process.env.NODE_ENV !== 'production' ||
+      (!customUrl!.includes('127.0.0.1') && !customUrl!.includes('localhost')));
+
+  let remoteError: unknown = null;
+
+  if (isCustomConfigured) {
+    try {
+      return await callRemoteRapidOcr(imageBytes, mimeType, customUrl!);
+    } catch (err: unknown) {
+      remoteError = err;
+      console.warn(
+        'Harici OCR servisi başarısız oldu, Gemini Vision yedek mekanizması çalıştırılıyor:',
+        err instanceof Error ? err.message : err
+      );
+    }
+  }
+
+  // Convert imageBytes to Buffer for Gemini Vision
+  let buffer: Buffer;
+  if (Buffer.isBuffer(imageBytes)) {
+    buffer = imageBytes;
+  } else if (imageBytes instanceof File || imageBytes instanceof Blob) {
+    const arrayBuffer = await imageBytes.arrayBuffer();
+    buffer = Buffer.from(arrayBuffer);
+  } else {
+    buffer = Buffer.from(imageBytes);
+  }
+
+  try {
+    return await extractWagonIdentitiesWithGemini(buffer, mimeType);
+  } catch (geminiError: unknown) {
+    // If Gemini fails and we had a remote error earlier, propagate the most helpful error
+    if (geminiError instanceof OcrClientError) {
+      throw geminiError;
+    }
+    if (remoteError instanceof OcrClientError) {
+      throw remoteError;
+    }
+    throw new OcrClientError(
+      'Fotoğraf okuma servisine ulaşılamadı. Metin Yapıştır seçeneğini kullanabilirsiniz.',
+      503
+    );
+  }
 }
