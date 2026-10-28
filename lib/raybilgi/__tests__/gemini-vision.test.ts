@@ -38,7 +38,7 @@ describe('gemini-vision', () => {
     );
   });
 
-  it('successfully extracts a single valid wagon number with confidence', async () => {
+  it('successfully extracts a single valid wagon line without faking confidence', async () => {
     let capturedUrl = '';
     let capturedBody: any = null;
 
@@ -53,15 +53,7 @@ describe('gemini-vision', () => {
                 parts: [
                   {
                     text: JSON.stringify({
-                      wagons: [
-                        {
-                          rawText: '31 75 2461 776-8',
-                          regime: '31 75',
-                          serial: '2461',
-                          wagonNo: '776-8',
-                          confidence: 0.98,
-                        },
-                      ],
+                      lines: ['31 75 2461 776-8'],
                       warnings: [],
                     }),
                   },
@@ -85,7 +77,8 @@ describe('gemini-vision', () => {
     expect(result.ok).toBe(true);
     expect(result.lines).toHaveLength(1);
     expect(result.lines[0].text).toBe('31 75 2461 776-8');
-    expect(result.lines[0].confidence).toBe(0.98);
+    // CRITICAL: Honest representation - no fabricated fake confidence score
+    expect(result.lines[0].confidence).toBeUndefined();
 
     // CRITICAL: Verify NO tare, length, or axles in OCR line output
     const lineItem = result.lines[0] as unknown as Record<string, unknown>;
@@ -104,10 +97,10 @@ describe('gemini-vision', () => {
                 parts: [
                   {
                     text: JSON.stringify({
-                      wagons: [
-                        { rawText: '3175 2461 776-8', regime: '3175', serial: '2461', wagonNo: '776-8', confidence: 0.96 },
-                        { rawText: '3175 4569 183-2', regime: '3175', serial: '4569', wagonNo: '183-2', confidence: 0.92 },
-                        { rawText: '3175 5379 209-6', regime: '3175', serial: '5379', wagonNo: '209-6', confidence: 0.88 },
+                      lines: [
+                        '3175 2461 776-8',
+                        '3175 4569 183-2',
+                        '3175 5379 209-6',
                       ],
                       warnings: [],
                     }),
@@ -126,9 +119,11 @@ describe('gemini-vision', () => {
     expect(result.lines[0].text).toBe('3175 2461 776-8');
     expect(result.lines[1].text).toBe('3175 4569 183-2');
     expect(result.lines[2].text).toBe('3175 5379 209-6');
+    // None should have fake confidence
+    expect(result.lines[0].confidence).toBeUndefined();
   });
 
-  it('marks blurry or occluded markings with low confidence and warning', async () => {
+  it('marks blurry or occluded markings with warning without faking scores', async () => {
     vi.spyOn(globalThis, 'fetch').mockImplementation(async () => {
       return new Response(
         JSON.stringify({
@@ -138,9 +133,7 @@ describe('gemini-vision', () => {
                 parts: [
                   {
                     text: JSON.stringify({
-                      wagons: [
-                        { rawText: '2461 7??-8', regime: '', serial: '2461', wagonNo: '7??-8', confidence: 0.55 },
-                      ],
+                      lines: ['2461 7??-8'],
                       warnings: ['Görsel kısmen bulanık, kontrol önerilir.'],
                     }),
                   },
@@ -155,7 +148,8 @@ describe('gemini-vision', () => {
 
     const result = await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3]));
     expect(result.lines).toHaveLength(1);
-    expect(result.lines[0].confidence).toBe(0.55);
+    expect(result.lines[0].text).toBe('2461 7??-8');
+    expect(result.lines[0].confidence).toBeUndefined();
     expect(result.warnings).toContain('Görsel kısmen bulanık, kontrol önerilir.');
   });
 
@@ -169,7 +163,7 @@ describe('gemini-vision', () => {
                 parts: [
                   {
                     text: JSON.stringify({
-                      wagons: [],
+                      lines: [],
                       warnings: ['Görselde okunabilir vagon numarası bulunamadı.'],
                     }),
                   },
@@ -243,7 +237,7 @@ describe('gemini-vision', () => {
               content: {
                 parts: [
                   {
-                    text: '```json\n{\n  "wagons": [{"rawText": "2461 776-8", "serial": "2461", "wagonNo": "776-8", "confidence": 0.95}],\n  "warnings": []\n}\n```',
+                    text: '```json\n{\n  "lines": ["2461 776-8"],\n  "warnings": []\n}\n```',
                   },
                 ],
               },
@@ -257,6 +251,39 @@ describe('gemini-vision', () => {
     const result = await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3]));
     expect(result.lines).toHaveLength(1);
     expect(result.lines[0].text).toBe('2461 776-8');
+  });
+
+  it('filters out thought reasoning parts and selects the final answer part', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async () => {
+      return new Response(
+        JSON.stringify({
+          candidates: [
+            {
+              content: {
+                parts: [
+                  {
+                    thought: true,
+                    text: 'Analyzing wagon table: I see one wagon 3175 4568 213-8.',
+                  },
+                  {
+                    thought: false,
+                    text: JSON.stringify({
+                      lines: ['3175 4568 213-8'],
+                      warnings: [],
+                    }),
+                  },
+                ],
+              },
+            },
+          ],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    });
+
+    const result = await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3]));
+    expect(result.lines).toHaveLength(1);
+    expect(result.lines[0].text).toBe('3175 4568 213-8');
   });
 
   it('maps 400 Bad Request error cleanly', async () => {
@@ -301,9 +328,7 @@ describe('gemini-vision', () => {
                 parts: [
                   {
                     text: JSON.stringify({
-                      wagons: [
-                        { rawText: '3175 2461 776-8', serial: '2461', wagonNo: '776-8', confidence: 0.95 },
-                      ],
+                      lines: ['3175 2461 776-8'],
                       warnings: [],
                     }),
                   },

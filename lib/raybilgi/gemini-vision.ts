@@ -5,43 +5,24 @@ import { OcrClientError, type OcrResponse, type OcrLine } from './ocr-client';
 export const GEMINI_REQUEST_TIMEOUT_MS = 25_000;
 export const DEFAULT_GEMINI_VISION_MODEL = 'gemini-3.8-flash';
 
-export const GeminiWagonItemSchema = z.object({
-  rawText: z.string().optional().default(''),
-  regime: z.string().optional().default(''),
-  serial: z.string().optional().default(''),
-  wagonNo: z.string().optional().default(''),
-  confidence: z.number().optional().default(0.95),
-});
-
 export const GeminiOutputSchema = z.object({
-  wagons: z.array(GeminiWagonItemSchema).default([]),
+  lines: z.array(z.string()).default([]),
   warnings: z.array(z.string()).default([]),
 });
 
-export type GeminiWagonItem = z.infer<typeof GeminiWagonItemSchema>;
 export type GeminiOutput = z.infer<typeof GeminiOutputSchema>;
 
-const SYSTEM_PROMPT = `You are an ultra-precise, deterministic railway optical character reader (OCR) for Turkish and European freight wagons (TCDD / UIC / RIV).
-Your SOLE responsibility is extracting visible wagon identity numbers from wagon bodies, Saha Vaziyeti documents, or wagon lists.
+const SYSTEM_PROMPT = `You are a fast, deterministic optical character reader (OCR) for European and Turkish freight wagons (TCDD / UIC / RIV).
+Your SOLE task is reading visible wagon identity lines from wagon bodies, Saha Vaziyeti documents, or wagon lists.
 
-WAGON IDENTITY MARKINGS:
-- A full UIC 12-digit wagon number has three parts:
-  1. Regime (4 digits, e.g. 3175, 3375, 2175, or spaced 31 75). Always strip spaces (e.g. "31 75" -> "3175").
-  2. Serial code (4 digits, e.g. 2461, 4569, 5379, 2752). Always strip spaces (e.g. "24 61" -> "2461").
-  3. Individual sequence number with check-digit (e.g. 776-8, 183-2, 209-6, 473-2). Keep the hyphen.
-- If only the serial and wagon number are visible (e.g. "2461 776-8" or "2461-776-8"), leave regime as empty string.
-- If multiple wagons are visible in a list or across the image, extract all of them in top-to-bottom order.
-
-STRICT OPERATIONAL CONSTRAINTS (CRITICAL):
-1. ZERO TARE (DARA) ESTIMATION: Absolutely DO NOT calculate, estimate, output, or guess tare weight (dara), net tonnage, or loaded weight. Even if numbers like "25.5 t" or "DARA 21.5" appear in the image, DO NOT treat them as wagon identification.
-2. ZERO TECHNICAL SPECIFICATIONS: Absolutely DO NOT estimate wagon type, axle count, train length, or brake values. Technical values are strictly resolved downstream by canonical databases.
-3. ZERO HALLUCINATION & NO GUESSING: Read ONLY characters that are physically visible and clearly legible. NEVER invent, predict, or guess unseen digits.
-4. NO COMPLETION: If digits or check-digits are scratched, blurry, or cut off, DO NOT invent them to complete a 12-digit number. Report only what is visible or lower confidence.
-5. CONFIDENCE SCORING:
-   - Clear, sharp, undamaged markings: confidence 0.95 - 1.0
-   - Slight glare, dust, or tilt: confidence 0.70 - 0.85
-   - Blurry, partially occluded, or ambiguous: confidence < 0.65
-6. NO RAILWAY DATA IN IMAGE: If the uploaded image contains no railway freight wagons, documents, or markings (e.g. personal photo, landscape, animal, blank paper), return an empty "wagons": [] array and set a descriptive message in "warnings".`;
+INSTRUCTIONS:
+1. Extract each visible wagon identity number marking as a single text line in the exact top-to-bottom order it appears in the image.
+   Examples of visible lines: "31 75 2461 776-8", "3175 4568 213-8", "2461 776-8", "2461-776-8".
+2. Read ONLY characters that are physically visible and clearly legible.
+3. NEVER guess, invent, or complete unseen characters or check-digits.
+4. NEVER calculate, estimate, or output tare weight (dara), net weight, length, axles, or technical specs.
+5. NEVER fabricate wagon series or search databases.
+6. If the image contains no wagons or railway documents, return an empty "lines": [] array and set an explanation in "warnings".`;
 
 /**
  * Extracts visible wagon numbers from an image buffer using Google Gemini Vision API.
@@ -89,36 +70,12 @@ export async function extractWagonIdentitiesWithGemini(
       responseSchema: {
         type: 'OBJECT',
         properties: {
-          wagons: {
+          lines: {
             type: 'ARRAY',
             items: {
-              type: 'OBJECT',
-              properties: {
-                rawText: {
-                  type: 'STRING',
-                  description:
-                    'Exact text marking read from the wagon body or document, e.g. "31 75 2461 776-8" or "2461 776-8".',
-                },
-                regime: {
-                  type: 'STRING',
-                  description: '4-digit UIC regime code (e.g. 3175, 3375) or empty string',
-                },
-                serial: {
-                  type: 'STRING',
-                  description: '4-digit wagon serial number (e.g. 2461, 4569) or empty string',
-                },
-                wagonNo: {
-                  type: 'STRING',
-                  description:
-                    'Wagon sequence number and check digit (e.g. 776-8, 183-2) or empty string',
-                },
-                confidence: {
-                  type: 'NUMBER',
-                  description: 'Confidence score between 0.0 and 1.0 based on visual clarity',
-                },
-              },
-              required: ['serial', 'wagonNo'],
+              type: 'STRING',
             },
+            description: 'List of visible wagon identity lines in top-to-bottom order.',
           },
           warnings: {
             type: 'ARRAY',
@@ -126,7 +83,7 @@ export async function extractWagonIdentitiesWithGemini(
             description: 'Operational warnings for blurriness, partial occlusion, or missing items',
           },
         },
-        required: ['wagons'],
+        required: ['lines'],
       },
     },
   };
@@ -202,8 +159,13 @@ export async function extractWagonIdentitiesWithGemini(
     );
   }
 
-  const jsonCandidate = (rawJson as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> })
-    ?.candidates?.[0]?.content?.parts?.[0]?.text;
+  const parts = (rawJson as {
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string; thought?: boolean }> } }>;
+  })?.candidates?.[0]?.content?.parts;
+
+  const textPart =
+    parts?.find((p) => p.text && !p.thought) || parts?.find((p) => p.text) || parts?.[0];
+  const jsonCandidate = textPart?.text;
 
   if (!jsonCandidate) {
     return {
@@ -241,28 +203,17 @@ export async function extractWagonIdentitiesWithGemini(
     );
   }
 
-  const extractedWagons = validation.data.wagons;
+  const extractedLines = validation.data.lines;
   const lines: OcrLine[] = [];
 
-  for (const w of extractedWagons) {
-    const raw = (w.rawText || '').trim();
-    const regime = (w.regime || '').replace(/\s+/g, '').trim();
-    const serial = (w.serial || '').replace(/\s+/g, '').trim();
-    const wagonNo = (w.wagonNo || '').replace(/\s+/g, '').trim();
+  for (const rawLine of extractedLines) {
+    const trimmed = typeof rawLine === 'string' ? rawLine.trim() : '';
+    if (!trimmed) continue;
 
-    // Line text reconstruction for deterministic downstream parseSingleDaraLine
-    let lineText = raw;
-    if (!lineText) {
-      lineText = [regime, serial, wagonNo].filter(Boolean).join(' ');
-    }
-
-    if (lineText) {
-      const conf = typeof w.confidence === 'number' ? Math.max(0, Math.min(1, w.confidence)) : 0.95;
-      lines.push({
-        text: lineText,
-        confidence: conf,
-      });
-    }
+    lines.push({
+      text: trimmed,
+      confidence: undefined,
+    });
   }
 
   return {

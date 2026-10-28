@@ -11,7 +11,7 @@ export const OcrBBoxSchema = z.object({
 
 export const OcrLineSchema = z.object({
   text: z.string(),
-  confidence: z.number(),
+  confidence: z.number().optional(),
   bbox: OcrBBoxSchema.optional(),
 });
 

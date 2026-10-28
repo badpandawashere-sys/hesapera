@@ -103,11 +103,20 @@ export async function POST(req: NextRequest) {
       const parsed = parseSingleDaraLine(trimmed);
       if (!parsed) continue;
 
-      // Confidence metadata
+      // Confidence metadata:
+      // If OCR engine provided numeric confidence (e.g. RapidOCR), use thresholds.
+      // If confidence is absent (e.g. Gemini lines), do NOT fake confidence; use deterministic format check.
       let confidenceWarning: string | undefined;
-      if (line.confidence < 0.65) {
-        confidenceWarning = 'Numarayı doğrulayın';
-      } else if (line.confidence < 0.85) {
+      if (typeof line.confidence === 'number') {
+        if (line.confidence < 0.65) {
+          confidenceWarning = 'Numarayı doğrulayın';
+        } else if (line.confidence < 0.85) {
+          confidenceWarning = 'Okumayı kontrol edin';
+        }
+      } else if (
+        (parsed.wagonNo && !parsed.wagonNo.includes('-')) ||
+        (parsed.serial && parsed.serial.length !== 4)
+      ) {
         confidenceWarning = 'Okumayı kontrol edin';
       }
 
