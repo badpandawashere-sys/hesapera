@@ -3,15 +3,15 @@ import { getSession } from '@/lib/raybilgi/auth/session';
 import { redirect } from 'next/navigation';
 import { SiteContainer } from '@/components/layout/site-container';
 import { Button } from '@/components/ui/button';
-import { Scale, LogOut, ArrowLeft, KeyRound } from 'lucide-react';
+import { Scale, LogOut, ArrowLeft, KeyRound, Ruler } from 'lucide-react';
 import Link from 'next/link';
 import { logoutAction } from '@/lib/raybilgi/auth/actions';
 import { get5600WagonLookup } from '@/lib/raybilgi/mod5600-reference';
 import { VagonDaraDashboard } from '@/components/raybilgi/vagon-dara/vagon-dara-dashboard';
 
 export const metadata: Metadata = {
-  title: 'Vagon Dara Hesaplama • RayBilgi | Hesapera',
-  description: 'Fotoğraf, kamera ve liste yapıştırma ile otomatik vagon darası ve tren parametreleri hesaplama.',
+  title: 'Vagon Metre Ölçer • RayBilgi | Hesapera',
+  description: 'Fotoğraf, kamera ve liste ile tren vagonlarının toplam uzunluğunu (metre) ve darasını otomatik hesaplama.',
   robots: {
     index: false,
     follow: false,
@@ -42,14 +42,14 @@ export default async function VagonDaraPage() {
                 <ArrowLeft className="w-5 h-5" />
               </Link>
               <div className="p-2 bg-violet-100 text-violet-700 rounded-lg">
-                <Scale className="w-6 h-6" strokeWidth={1.5} />
+                <Ruler className="w-6 h-6" strokeWidth={1.5} />
               </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">
-                Vagon Dara Hesaplama
+                Vagon Metre Ölçer
               </h1>
             </div>
             <p className="text-sm md:text-base text-muted-foreground">
-              {session.stationName} — Fotoğraf, kamera veya liste yapıştırma ile otomatik vagon darası ve toplam tonaj hesabı.
+              {session.stationName} — Fotoğraf, kamera veya liste yapıştırma ile vagon dizisi toplam uzunluğu (metre), vagon sayısı ve tonaj hesabı.
             </p>
           </div>
 

@@ -55,7 +55,7 @@ describe('vagon-dara-engine', () => {
       expect(resolved[1].length).toBe(12.5);
     });
 
-    it('marks unknown serial as unknown_serial with null tare', () => {
+    it('marks unknown serial as unknown_serial with null tare and length', () => {
       const inputs: DaraWagonInput[] = [
         { id: '1', regime: '3175', serial: '9999', wagonNo: '123-4' },
       ];
@@ -64,19 +64,36 @@ describe('vagon-dara-engine', () => {
 
       expect(resolved[0].status).toBe('unknown_serial');
       expect(resolved[0].tare).toBeNull();
+      expect(resolved[0].length).toBeNull();
       expect(resolved[0].wagonType).toBe('');
     });
 
-    it('marks missing serial or wagonNo as incomplete', () => {
+    it('preserves dimensions for incomplete regime (175) or missing wagonNo when serial is known', () => {
       const inputs: DaraWagonInput[] = [
-        { id: '1', regime: '3175', serial: '', wagonNo: '776-8' },
-        { id: '2', regime: '3175', serial: '2461', wagonNo: '' },
+        { id: '1', regime: '175', serial: '2461', wagonNo: '776-8' }, // Incomplete regime (3 digits)
+        { id: '2', regime: '3175', serial: '4569', wagonNo: '' },       // Missing wagonNo
+        { id: '3', regime: '3175', serial: '', wagonNo: '776-8' },       // Missing serial
       ];
 
       const resolved = resolveWagonsForTare(inputs, mockLookup);
 
+      // 1. Incomplete regime with known serial
       expect(resolved[0].status).toBe('incomplete');
+      expect(resolved[0].regime).toBe('175'); // Raw preserved, not force-mutated
+      expect(resolved[0].length).toBe(14.04);
+      expect(resolved[0].tare).toBe(21.5);
+      expect(resolved[0].wagonType).toBe('Eaos');
+
+      // 2. Missing wagonNo with known serial
       expect(resolved[1].status).toBe('incomplete');
+      expect(resolved[1].length).toBe(12.5);
+      expect(resolved[1].tare).toBe(22.4);
+      expect(resolved[1].wagonType).toBe('Fas');
+
+      // 3. Missing serial (cannot know dimensions)
+      expect(resolved[2].status).toBe('incomplete');
+      expect(resolved[2].length).toBeNull();
+      expect(resolved[2].tare).toBeNull();
     });
 
     it('detects duplicate identical wagon identities and marks subsequent row as duplicate', () => {
@@ -97,24 +114,84 @@ describe('vagon-dara-engine', () => {
       expect(resolved[2].status).toBe('duplicate');
       expect(resolved[2].isDuplicate).toBe(true);
     });
+
+    it('does NOT mark two rows as duplicates if sequence number is missing', () => {
+      const inputs: DaraWagonInput[] = [
+        { id: '1', regime: '3175', serial: '2461', wagonNo: '' },
+        { id: '2', regime: '3175', serial: '2461', wagonNo: '' }, // same serial, no sequence no -> not duplicate
+      ];
+
+      const resolved = resolveWagonsForTare(inputs, mockLookup);
+      expect(resolved[0].isDuplicate).toBe(false);
+      expect(resolved[1].isDuplicate).toBe(false);
+
+      const totals = calculateTareTotals(resolved);
+      expect(totals.resolvedCount).toBe(2);
+      expect(totals.totalLength).toBe(28.08); // 14.04 * 2
+    });
+
+    it('does NOT silently merge different or incomplete regimes into duplicates, but flags review alert', () => {
+      const inputs: DaraWagonInput[] = [
+        { id: '1', regime: '3175', serial: '2461', wagonNo: '776-8' }, // Complete regime
+        { id: '2', regime: '2175', serial: '2461', wagonNo: '776-8' }, // Different complete regime
+        { id: '3', regime: '175',  serial: '2461', wagonNo: '776-8' }, // Incomplete regime
+      ];
+
+      const resolved = resolveWagonsForTare(inputs, mockLookup);
+
+      // Row 1: Valid initial entry
+      expect(resolved[0].isDuplicate).toBe(false);
+      expect(resolved[0].status).toBe('resolved');
+
+      // Row 2: Different regime (2175 vs 3175) -> NOT duplicate, but alerted
+      expect(resolved[1].isDuplicate).toBe(false);
+      expect(resolved[1].status).toBe('resolved');
+      expect(resolved[1].statusMessage).toContain('Benzer seri ve vagon no');
+
+      // Row 3: Incomplete regime (175) -> NOT duplicate, both counted, alerted
+      expect(resolved[2].isDuplicate).toBe(false);
+      expect(resolved[2].status).toBe('incomplete');
+      expect(resolved[2].statusMessage).toContain('Benzer seri ve vagon no');
+
+      // All 3 rows are included in length & tare because there is no definite proof of duplication!
+      const totals = calculateTareTotals(resolved);
+      expect(totals.resolvedCount).toBe(3);
+      expect(totals.totalLength).toBe(42.12); // 14.04 * 3
+    });
+
+    it('marks identical incomplete regime rows as definite duplicate', () => {
+      const inputs: DaraWagonInput[] = [
+        { id: '1', regime: '175', serial: '2461', wagonNo: '776-8' },
+        { id: '2', regime: '175', serial: '2461', wagonNo: '776-8' }, // exact same incomplete row
+      ];
+
+      const resolved = resolveWagonsForTare(inputs, mockLookup);
+      expect(resolved[0].isDuplicate).toBe(false);
+      expect(resolved[1].isDuplicate).toBe(true);
+      expect(resolved[1].status).toBe('duplicate');
+
+      const totals = calculateTareTotals(resolved);
+      expect(totals.resolvedCount).toBe(1);
+      expect(totals.duplicateCount).toBe(1);
+    });
   });
 
   describe('calculateTareTotals', () => {
-    it('sums tare, axles, and length ONLY for resolved non-duplicate rows', () => {
+    it('sums tare, axles, and length for recognized non-duplicate rows including incomplete regime/no', () => {
       const inputs: DaraWagonInput[] = [
-        { id: '1', regime: '3175', serial: '2461', wagonNo: '776-8' }, // 21.5 t, 4 axles, 14.04 m
-        { id: '2', regime: '3175', serial: '5379', wagonNo: '209-6' }, // 24.4 t, 4 axles, 15.74 m
-        { id: '3', regime: '3175', serial: '9999', wagonNo: '111-1' }, // unknown -> excluded
+        { id: '1', regime: '3175', serial: '2461', wagonNo: '776-8' }, // 21.5 t, 4 axles, 14.04 m (resolved)
+        { id: '2', regime: '175',  serial: '5379', wagonNo: '209-6' }, // 24.4 t, 4 axles, 15.74 m (incomplete regime -> INCLUDED!)
+        { id: '3', regime: '3175', serial: '9999', wagonNo: '111-1' }, // unknown serial -> excluded
         { id: '4', regime: '3175', serial: '2461', wagonNo: '776-8' }, // duplicate -> excluded
-        { id: '5', regime: '3175', serial: '', wagonNo: '000-0' },     // incomplete -> excluded
+        { id: '5', regime: '3175', serial: '', wagonNo: '000-0' },     // missing serial -> excluded
       ];
 
       const resolved = resolveWagonsForTare(inputs, mockLookup);
       const totals = calculateTareTotals(resolved);
 
       expect(totals.totalCount).toBe(5);
-      expect(totals.resolvedCount).toBe(2);
-      expect(totals.controlNeededCount).toBe(3);
+      expect(totals.resolvedCount).toBe(2); // rows 1 and 2 included!
+      expect(totals.controlNeededCount).toBe(4); // row 2 (incomplete regime), 3 (unknown), 4 (dup), 5 (missing serial)
       expect(totals.duplicateCount).toBe(1);
 
       // Expected tare: 21.5 + 24.4 = 45.9

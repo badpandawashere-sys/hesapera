@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteContainer } from '@/components/layout/site-container';
-import { TrainFront, FileSpreadsheet, Calculator, Scale, Train, Wrench, Lock, ArrowRight } from 'lucide-react';
+import { TrainFront, FileSpreadsheet, Calculator, Scale, Train, Wrench, Lock, ArrowRight, Ruler } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'RayBilgi – Demiryolu ve Vagon Araçları | Hesapera',
@@ -32,9 +32,9 @@ const modules = [
   },
   {
     id: 'dara',
-    name: 'Vagon Dara Hesaplama',
-    description: 'Fotoğraf, liste veya vagon numaralarından toplam darayı hesaplayın.',
-    icon: Scale,
+    name: 'Vagon Metre Ölçer',
+    description: 'Fotoğraf, liste veya vagon numaralarından toplam uzunluk (metre) ve darayı hesaplayın.',
+    icon: Ruler,
   },
   {
     id: 'ceker',

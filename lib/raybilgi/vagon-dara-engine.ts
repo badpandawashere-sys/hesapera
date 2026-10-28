@@ -250,21 +250,43 @@ export function parsePasteForDara(
 export function resolveWagonRow(
   input: DaraWagonInput,
   lookup: Record<string, WagonRecord>,
-  seenKeys: Set<string>
+  seenKeys: Set<string>,
+  seenSerialWagonNos?: Map<string, string[]>
 ): DaraWagonRow {
   const regime = cleanCell(input.regime);
   const serial = normalizeSerial(input.serial);
   const wagonNo = cleanCell(input.wagonNo);
 
-  const isIncomplete = !serial || !wagonNo;
-
+  // Deduplication evaluation:
+  // 1. Definite duplicate requires an exact match on full identity (regime + serial + wagonNo).
+  // 2. Rows with missing sequence numbers are NOT duplicates since a train routinely contains multiple wagons of the same serial.
+  // 3. Different regimes (e.g. 3175 vs 2175 or 175) with same serial + wagonNo are NOT silently merged or excluded as duplicates;
+  //    they are calculated separately and flagged with an alert for operator review.
   let isDuplicate = false;
-  if (!isIncomplete) {
-    const identityKey = `${regime ? regime + '-' : ''}${serial}-${wagonNo}`.toUpperCase();
-    if (seenKeys.has(identityKey)) {
+  let ambiguityWarning: string | undefined;
+
+  if (serial && wagonNo) {
+    const fullKey = `${regime || 'NONE'}|${serial}|${wagonNo}`.toUpperCase();
+    const serialWagonKey = `${serial}|${wagonNo}`.toUpperCase();
+
+    if (seenKeys.has(fullKey)) {
+      // Exact full identity duplicate (exact same regime, serial, and wagonNo)
       isDuplicate = true;
     } else {
-      seenKeys.add(identityKey);
+      seenKeys.add(fullKey);
+
+      // Check if the same serial + wagonNo was previously registered with a different regime
+      if (seenSerialWagonNos) {
+        const existingRegimes = seenSerialWagonNos.get(serialWagonKey);
+        if (existingRegimes && existingRegimes.length > 0) {
+          ambiguityWarning = `Benzer seri ve vagon no (${existingRegimes.join(', ')} ile); rejim kontrolü yapınız`;
+        }
+
+        if (!seenSerialWagonNos.has(serialWagonKey)) {
+          seenSerialWagonNos.set(serialWagonKey, []);
+        }
+        seenSerialWagonNos.get(serialWagonKey)!.push(regime || 'Eksik');
+      }
     }
   }
 
@@ -278,26 +300,33 @@ export function resolveWagonRow(
   let statusMessage: string | undefined;
 
   const checkValidation = validateUicCheckDigit(regime, serial, wagonNo);
-  const confidenceWarning = input.confidenceWarning || checkValidation.warning;
+  const confidenceWarning = input.confidenceWarning || ambiguityWarning || checkValidation.warning;
 
   const isIncompleteRegime = Boolean(regime && regime.length < 4);
+  const isIncompleteNumber = !serial || !wagonNo;
 
   if (isDuplicate) {
     status = 'duplicate';
     statusMessage = 'Mükerrer vagon kaydı (Hesaba dahil edilmedi)';
-  } else if (isIncomplete) {
+  } else if (!serial) {
     status = 'incomplete';
-    statusMessage = 'Eksik seri veya vagon numarası';
+    statusMessage = 'Eksik seri numarası';
   } else if (!rec) {
     status = 'unknown_serial';
     statusMessage = `Kayıtlarda bulunmayan seri: ${serial}`;
-  } else if (isIncompleteRegime) {
+  } else if (isIncompleteRegime || isIncompleteNumber) {
     status = 'incomplete';
-    statusMessage = checkValidation.warning || `Eksik rejim numarası: ${regime} (Lütfen 4 haneye tamamlayın)`;
+    if (isIncompleteRegime && !wagonNo) {
+      statusMessage = 'Eksik rejim ve vagon no (Boy ve dara hesaptadır)';
+    } else if (isIncompleteRegime) {
+      statusMessage = ambiguityWarning || checkValidation.warning || `Eksik rejim: ${regime} (Boy ve dara hesaptadır)`;
+    } else {
+      statusMessage = ambiguityWarning || 'Eksik vagon numarası (Boy ve dara hesaptadır)';
+    }
   } else {
     status = 'resolved';
-    if (checkValidation.warning) {
-      statusMessage = checkValidation.warning;
+    if (ambiguityWarning || checkValidation.warning) {
+      statusMessage = ambiguityWarning || checkValidation.warning;
     }
   }
 
@@ -435,12 +464,16 @@ export function resolveWagonsForTare(
   lookup: Record<string, WagonRecord>
 ): DaraWagonRow[] {
   const seenKeys = new Set<string>();
-  return inputs.map((input) => resolveWagonRow(input, lookup, seenKeys));
+  const seenSerialWagonNos = new Map<string, string[]>();
+  return inputs.map((input) => resolveWagonRow(input, lookup, seenKeys, seenSerialWagonNos));
 }
 
 /**
- * Calculates tare and technical totals.
- * CRITICAL RULE: Sums ONLY non-duplicate rows with status === 'resolved'.
+ * Calculates length, tare, and technical totals.
+ * BUSINESS RULES:
+ * 1. Sums non-duplicate rows that have a recognized serial (rec exists: length or tare != null).
+ * 2. Incomplete regime or missing sequence number is included if serial is known.
+ * 3. Unknown serials (status === 'unknown_serial') and duplicates (isDuplicate) are excluded from totals.
  */
 export function calculateTareTotals(rows: DaraWagonRow[]): DaraTotals {
   let totalCount = rows.length;
@@ -458,7 +491,13 @@ export function calculateTareTotals(rows: DaraWagonRow[]): DaraTotals {
       continue;
     }
 
-    if (row.status === 'resolved') {
+    if (row.status === 'unknown_serial' || !row.serial) {
+      controlNeededCount++;
+      continue;
+    }
+
+    // Row has a recognized serial specification (length or tare available)
+    if (row.length != null || row.tare != null) {
       resolvedCount++;
       if (row.tare != null) {
         totalTare += row.tare;
@@ -468,6 +507,11 @@ export function calculateTareTotals(rows: DaraWagonRow[]): DaraTotals {
       }
       if (row.length != null) {
         totalLength += row.length;
+      }
+
+      // If status is incomplete (e.g. regime < 4 or wagonNo missing), flag for review
+      if (row.status === 'incomplete') {
+        controlNeededCount++;
       }
     } else {
       controlNeededCount++;

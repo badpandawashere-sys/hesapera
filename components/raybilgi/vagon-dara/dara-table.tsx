@@ -40,16 +40,21 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
               <th className="py-3 px-3 w-24">Seri</th>
               <th className="py-3 px-3 w-32">Vagon No</th>
               <th className="py-3 px-3 w-24">Tip</th>
+              <th className="py-3 px-3 w-28 text-right text-violet-700 dark:text-violet-400">Boy (m)</th>
               <th className="py-3 px-3 w-28 text-right">Dara (t)</th>
               <th className="py-3 px-3 w-20 text-center">Dingil</th>
-              <th className="py-3 px-3 w-24 text-right">Boy (m)</th>
-              <th className="py-3 px-3 min-w-[130px]">Durum</th>
+              <th className="py-3 px-3 min-w-[140px]">Durum</th>
               <th className="py-3 px-3 text-center w-16">İşlem</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/60">
             {rows.map((row, idx) => {
-              const isExcluded = row.isDuplicate || row.status !== 'resolved';
+              const isExcluded =
+                row.isDuplicate ||
+                row.status === 'unknown_serial' ||
+                (row.tare == null && row.length == null);
+
+              const hasRecognizedSerial = row.length != null || row.tare != null;
 
               return (
                 <tr
@@ -115,12 +120,35 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
                     )}
                   </td>
 
-                  {/* Dara (t) (Otomatik) */}
+                  {/* Boy (m) (Öncelikli Metrik - Dara Öncesinde) */}
+                  <td className="py-2.5 px-3 text-right">
+                    {row.length != null ? (
+                      <span
+                        className={`font-mono ${
+                          isExcluded
+                            ? 'text-muted-foreground line-through opacity-70'
+                            : 'font-bold px-2 py-0.5 rounded bg-violet-50 text-violet-950 dark:bg-violet-950/40 dark:text-violet-200 border border-violet-200/60 dark:border-violet-800/60'
+                        }`}
+                      >
+                        {row.length.toLocaleString('tr-TR', {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{' '}
+                        <span className="text-[11px] font-normal text-muted-foreground">m</span>
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                  </td>
+
+                  {/* Dara (t) (İkincil Bilgi) */}
                   <td className="py-2.5 px-3 text-right">
                     {row.tare != null ? (
                       <span
-                        className={`font-mono font-bold ${
-                          isExcluded ? 'text-muted-foreground line-through opacity-70' : 'text-foreground'
+                        className={`font-mono ${
+                          isExcluded
+                            ? 'text-muted-foreground line-through opacity-70'
+                            : 'font-semibold text-foreground'
                         }`}
                       >
                         {row.tare.toLocaleString('tr-TR', {
@@ -137,16 +165,6 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
                   {/* Dingil */}
                   <td className="py-2.5 px-3 text-center text-xs font-mono text-muted-foreground">
                     {row.axle != null ? row.axle : '—'}
-                  </td>
-
-                  {/* Uzunluk */}
-                  <td className="py-2.5 px-3 text-right text-xs font-mono text-muted-foreground">
-                    {row.length != null
-                      ? `${row.length.toLocaleString('tr-TR', {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })} m`
-                      : '—'}
                   </td>
 
                   {/* Durum Rozeti */}
@@ -179,7 +197,20 @@ export function DaraTable({ rows, onUpdateRow, onRemoveRow }: DaraTableProps) {
                         </span>
                       )}
 
-                      {row.status === 'incomplete' && (
+                      {row.status === 'incomplete' && hasRecognizedSerial && (
+                        <span
+                          title={row.statusMessage || 'Seri tanımlandı; boy ve dara hesaba dahil edildi.'}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
+                        >
+                          <AlertTriangle className="w-3 h-3 text-amber-600" />
+                          {row.regime && row.regime.length < 4 ? 'Eksik Rejim' : 'Eksik No'}
+                          <span className="text-[10px] font-normal text-amber-700 dark:text-amber-400 font-sans">
+                            (Hesapta)
+                          </span>
+                        </span>
+                      )}
+
+                      {row.status === 'incomplete' && !hasRecognizedSerial && (
                         <span
                           title={row.statusMessage}
                           className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-muted text-muted-foreground border border-border"

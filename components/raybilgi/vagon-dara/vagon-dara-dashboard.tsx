@@ -104,28 +104,32 @@ export function VagonDaraDashboard({ wagonLookup }: VagonDaraDashboardProps) {
   const handleCopySummary = async () => {
     if (resolvedRows.length === 0) return;
 
+    const formattedLength = totals.totalLength.toLocaleString('tr-TR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
     const formattedTare = totals.totalTare.toLocaleString('tr-TR', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
 
-    let text = `RAYBİLGİ VAGON DARA HESAPLAMA ÖZETİ\n`;
-    text += `Toplam Vagon: ${totals.totalCount} adet\n`;
-    text += `Tanımlanan Vagon: ${totals.resolvedCount} adet\n`;
-    text += `Kontrol Gerekli: ${totals.controlNeededCount} adet\n`;
+    let text = `RAYBİLGİ VAGON METRE ÖLÇER ÖZETİ\n`;
+    text += `Toplam Tren Uzunluğu: ${formattedLength} metre (m)\n`;
+    text += `Hesaplanan Vagon: ${totals.resolvedCount} / ${totals.totalCount} adet\n`;
     text += `Toplam Dara: ${formattedTare} ton (t)\n`;
-    text += `Toplam Dingil: ${totals.totalAxles}\n`;
-    text += `Toplam Uzunluk: ${totals.totalLength.toLocaleString('tr-TR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })} m\n\n`;
-    text += `VAGON LİSTESİ:\n`;
-    text += `Sıra\tRejim\tSeri\tVagon No\tTip\tDara (t)\tDurum\n`;
+    text += `Toplam Dingil: ${totals.totalAxles} dingil\n`;
+    if (totals.controlNeededCount > 0) {
+      text += `Kontrol Bekleyen: ${totals.controlNeededCount} vagon\n`;
+    }
+    text += `\nVAGON LİSTESİ:\n`;
+    text += `Sıra\tRejim\tSeri\tVagon No\tTip\tBoy (m)\tDara (t)\tDingil\tDurum\n`;
 
     resolvedRows.forEach((r, i) => {
       text += `${i + 1}\t${r.regime}\t${r.serial}\t${r.wagonNo}\t${r.wagonType || '-'}\t${
+        r.length != null ? r.length.toLocaleString('tr-TR') : '-'
+      }\t${
         r.tare != null ? r.tare.toLocaleString('tr-TR') : '-'
-      }\t${r.status}\n`;
+      }\t${r.axle != null ? r.axle : '-'}\t${r.status}\n`;
     });
 
     try {

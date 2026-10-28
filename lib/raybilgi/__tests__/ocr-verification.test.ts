@@ -7,12 +7,13 @@ import {
   DaraWagonInput,
 } from '../vagon-dara-engine';
 import { WagonRecord } from '@/types/raybilgi';
+import { get5600WagonLookup } from '@/lib/raybilgi/mod5600-reference';
 import vagonRaw from '@/data/vagon_data.json';
 
-const lookup: Record<string, WagonRecord> = {};
+const rawLookup: Record<string, WagonRecord> = {};
 for (const item of vagonRaw as unknown as WagonRecord[]) {
   if (item.seri) {
-    lookup[item.seri] = item;
+    rawLookup[item.seri] = item;
   }
 }
 
@@ -38,6 +39,7 @@ describe('Independent Wagon OCR & Engine Integration', () => {
     const v4 = validateUicCheckDigit('', '4568', '213-8');
     expect(v4.isValid).toBe(true);
   });
+
   it('parses synthetic railway table lines correctly', () => {
     const line1 = '3175 2461 776-8 KAYSERI';
     const p1 = parseSingleDaraLine(line1);
@@ -76,8 +78,7 @@ describe('Independent Wagon OCR & Engine Integration', () => {
 
     const parsed = rawLines.map((l) => ({ raw: l, res: parseSingleDaraLine(l) }));
 
-    parsed.forEach(({ raw, res }) => {
-      console.log(`[RAW]: ${raw} =>`, res);
+    parsed.forEach(({ res }) => {
       expect(res).not.toBeNull();
       expect(res?.serial).toBeTruthy();
       expect(res?.wagonNo).toBeTruthy();
@@ -92,7 +93,7 @@ describe('Independent Wagon OCR & Engine Integration', () => {
       { id: '4', regime: '3175', serial: '6936', wagonNo: '081-8' }, // unknown serial
     ];
 
-    const rows = resolveWagonsForTare(inputs, lookup);
+    const rows = resolveWagonsForTare(inputs, rawLookup);
     expect(rows[0].status).toBe('resolved');
     expect(rows[0].tare).toBe(23);
     expect(rows[0].wagonType).toBe('Sgss');
@@ -110,9 +111,68 @@ describe('Independent Wagon OCR & Engine Integration', () => {
     expect(rows[3].wagonType).toBe('');
 
     const totals = calculateTareTotals(rows);
-    // Only resolved rows counted in tare: 23 + 23 + 28 = 74
+    // Only non-duplicate, recognized rows counted in tare: 23 + 23 + 28 = 74
     expect(totals.totalTare).toBe(74);
     expect(totals.resolvedCount).toBe(3);
     expect(totals.controlNeededCount).toBe(1);
+  });
+
+  it('calculates total length and tare for test1.png including incomplete regime rows', () => {
+    const fullLookup = get5600WagonLookup();
+    const test1Lines = [
+      '175 4568 213-8',
+      '175 4569 397-8',
+      '175 2752 237-7',
+      '175 4540 102-6',
+      '175 2461 215-7',
+      '175 6641 457-7',
+      '075 9229 069-8',
+      '175 3302 603-5',
+      '175 6936 081-8', // unknown serial
+      '175 7851 023-0',
+      '175 6641 663-9',
+      '175 6641 472-6',
+      '075 9103 005-5',
+    ];
+
+    const inputs: DaraWagonInput[] = test1Lines.map((line, idx) => {
+      const p = parseSingleDaraLine(line)!;
+      return {
+        id: `t1-${idx}`,
+        regime: p.regime || '',
+        serial: p.serial || '',
+        wagonNo: p.wagonNo || '',
+      };
+    });
+
+    const rows = resolveWagonsForTare(inputs, fullLookup);
+    expect(rows).toHaveLength(13);
+
+    // Row 1 (4568): incomplete regime '175' but length and tare are resolved
+    expect(rows[0].regime).toBe('175');
+    expect(rows[0].length).toBe(20.34);
+    expect(rows[0].tare).toBe(24);
+    expect(rows[0].status).toBe('incomplete');
+
+    // Row 9 (6936): unknown serial
+    expect(rows[8].serial).toBe('6936');
+    expect(rows[8].status).toBe('unknown_serial');
+    expect(rows[8].length).toBeNull();
+    expect(rows[8].tare).toBeNull();
+
+    const totals = calculateTareTotals(rows);
+
+    // Exactly 12 out of 13 wagons recognized and calculated
+    expect(totals.totalCount).toBe(13);
+    expect(totals.resolvedCount).toBe(12);
+
+    // Total train length: 230.77 m
+    expect(totals.totalLength).toBe(230.77);
+
+    // Total tare: 289.81 t
+    expect(totals.totalTare).toBe(289.81);
+
+    // Total axles: 44 dingil
+    expect(totals.totalAxles).toBe(44);
   });
 });
