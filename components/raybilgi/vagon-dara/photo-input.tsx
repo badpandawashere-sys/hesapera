@@ -5,8 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Camera, Upload, Loader2, AlertCircle, X, Check, Image as ImageIcon } from 'lucide-react';
 import type { ExtractedWagonIdentity } from '@/lib/raybilgi/ocr-client';
 
+import { recognizeWagonsInBrowser, isBrowserOcrSupported } from '@/lib/raybilgi/browser-ocr';
+
 interface PhotoInputProps {
   onIdentitiesExtracted: (wagons: ExtractedWagonIdentity[]) => void;
+  onSwitchToPaste?: () => void;
+  onAddManualRow?: () => void;
   disabled?: boolean;
 }
 
@@ -60,10 +64,16 @@ async function optimizeImageForUpload(file: File): Promise<File | Blob> {
   }
 }
 
-export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInputProps) {
+export function PhotoInput({
+  onIdentitiesExtracted,
+  onSwitchToPaste,
+  onAddManualRow,
+  disabled = false,
+}: PhotoInputProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [progressText, setProgressText] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successCount, setSuccessCount] = useState<number | null>(null);
   const [warnings, setWarnings] = useState<string[]>([]);
@@ -80,6 +90,7 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
     setSelectedFile(null);
     setPreviewUrl(null);
     setSuccessCount(null);
+    setProgressText(null);
     setWarnings([]);
 
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
@@ -114,6 +125,7 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
     setPreviewUrl(null);
     setError(null);
     setSuccessCount(null);
+    setProgressText(null);
     setWarnings([]);
     if (fileInputRef.current) fileInputRef.current.value = '';
     if (cameraInputRef.current) cameraInputRef.current.value = '';
@@ -128,34 +140,64 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
     setLoading(true);
     setError(null);
     setSuccessCount(null);
+    setProgressText('Görsel taranıyor...');
     setWarnings([]);
 
     try {
-      // Browser-side optimization: downscale large phone photos to max 1920px before upload
-      const fileToUpload = await optimizeImageForUpload(selectedFile);
+      let wagons: ExtractedWagonIdentity[] = [];
 
-      const formData = new FormData();
-      formData.append('image', fileToUpload, selectedFile.name);
+      // 1. In modern browsers, run ultra-fast local WebAssembly OCR (zero server cost, zero 25s timeout)
+      if (isBrowserOcrSupported()) {
+        try {
+          const localResult = await recognizeWagonsInBrowser(selectedFile, (status) => {
+            setProgressText(status);
+          });
+          if (localResult && localResult.wagons.length > 0) {
+            wagons = localResult.wagons;
+            if (localResult.warnings.length > 0) {
+              setWarnings(localResult.warnings);
+            }
+          }
+        } catch (browserErr) {
+          console.warn('Tarayıcı OCR çalıştırılamadı:', browserErr);
+        }
 
-      const res = await fetch('/raybilgi/vagon-dara/analyze-image', {
-        method: 'POST',
-        body: formData,
-        signal: controller.signal,
-      });
+        // RULE: NEVER silently fall back to Gemini API in supported browsers!
+        if (wagons.length === 0) {
+          setError(
+            'Görselde okunabilir vagon numarası tespit edilemedi. Lütfen daha net bir fotoğraf deneyin, Metin / Liste Yapıştır seçeneğini kullanın veya elle vagon ekleyin.'
+          );
+          return;
+        }
+      } else {
+        // Fallback ONLY in environments where Web Worker / WebAssembly is unavailable (e.g. headless/mock tests)
+        setProgressText('Sunucu servisi ile taranıyor...');
+        const fileToUpload = await optimizeImageForUpload(selectedFile);
 
-      const data = await res.json().catch(() => ({}));
-      if (controller.signal.aborted) return;
+        const formData = new FormData();
+        formData.append('image', fileToUpload, selectedFile.name);
 
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || 'Görsel taranırken bir hata oluştu.');
+        const res = await fetch('/raybilgi/vagon-dara/analyze-image', {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal,
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (controller.signal.aborted) return;
+
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || 'Görsel taranırken bir hata oluştu.');
+        }
+
+        wagons = data.wagons || [];
+        setWarnings(
+          Array.isArray(data.warnings)
+            ? data.warnings.filter((w: unknown) => typeof w === 'string')
+            : []
+        );
       }
 
-      const wagons: ExtractedWagonIdentity[] = data.wagons || [];
-      setWarnings(
-        Array.isArray(data.warnings)
-          ? data.warnings.filter((w: unknown) => typeof w === 'string')
-          : []
-      );
       if (wagons.length === 0) {
         setError(
           'Görselde okunabilir vagon numarası tespit edilemedi. Lütfen daha net bir fotoğraf deneyin veya elle ekleyin.'
@@ -173,6 +215,7 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
       setError(msg);
     } finally {
       setLoading(false);
+      setProgressText(null);
       clearTimeout(timeout);
       requestRef.current = null;
     }
@@ -309,7 +352,7 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
                   {loading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
-                      Fotoğraf okunuyor...
+                      {progressText || 'Fotoğraf okunuyor...'}
                     </>
                   ) : (
                     <>
@@ -339,10 +382,51 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
       {error && (
         <div
           role="alert"
-          className="mt-3 p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-center gap-2"
+          className="mt-3 p-3.5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs space-y-2.5"
         >
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
+          <div className="flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <span className="font-semibold text-foreground">Fotoğraf Okuma Uyarısı</span>
+              <p className="mt-0.5 text-muted-foreground">{error}</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-destructive/15">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleUploadAndAnalyze}
+              disabled={loading}
+              className="h-7 text-xs font-semibold"
+            >
+              Tekrar Dene
+            </Button>
+            {onSwitchToPaste && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onSwitchToPaste}
+                disabled={loading}
+                className="h-7 text-xs font-semibold text-violet-700 dark:text-violet-400 border-violet-300 dark:border-violet-800"
+              >
+                Metin / Liste Yapıştır
+              </Button>
+            )}
+            {onAddManualRow && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={onAddManualRow}
+                disabled={loading}
+                className="h-7 text-xs font-semibold"
+              >
+                Elle Vagon Ekle
+              </Button>
+            )}
+          </div>
         </div>
       )}
       {warnings.length > 0 && (

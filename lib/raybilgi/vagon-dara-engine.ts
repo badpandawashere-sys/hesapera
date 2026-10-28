@@ -142,20 +142,43 @@ export function parseSingleDaraLine(
     }
   }
 
+  // Normalize dot to hyphen for wagon check digits (e.g. 213.8 -> 213-8)
+  const normalizedClean = clean.replace(/\b(\d{3})\.(\d)\b/g, '$1-$2');
+
   // 2. Compact 12-digit / hyphenated / spaced full identity
-  const fullIdentity = parseFullWagonIdentity(clean);
+  const fullIdentity = parseFullWagonIdentity(normalizedClean);
   if (fullIdentity) {
     return fullIdentity;
   }
 
   // 3. Free text parsing (e.g. "3175 2461 776-8 KAYSERİ 25,5" or "2461 776-8 KAYSERİ")
-  const freeText = parseFreeText(clean);
+  const freeText = parseFreeText(normalizedClean);
   if (freeText && (freeText.serial || freeText.wagonNo)) {
     return {
       regime: freeText.regime || '',
       serial: freeText.serial || '',
       wagonNo: freeText.wagonNo || '',
     };
+  }
+
+  // 3b. Space-delimited line with prefix + serial + wagonNo (e.g. OCR lines like "175 4568 213-8 ÇORLU 4" or "M175 3302 603-5 REV.")
+  const spaceTokens = normalizedClean.split(/\s+/);
+  if (spaceTokens.length >= 2) {
+    if (spaceTokens.length >= 3 && /^\d{4}$/.test(spaceTokens[1]) && isWagonNoCandidate(spaceTokens[2])) {
+      const cleanPrefix = spaceTokens[0].replace(/[^0-9]/g, '');
+      return {
+        regime: cleanPrefix || spaceTokens[0],
+        serial: spaceTokens[1],
+        wagonNo: spaceTokens[2],
+      };
+    }
+    if (/^\d{4}$/.test(spaceTokens[0]) && isWagonNoCandidate(spaceTokens[1])) {
+      return {
+        regime: '',
+        serial: spaceTokens[0],
+        wagonNo: spaceTokens[1],
+      };
+    }
   }
 
   // 4. Two-token serial + wagonNo candidate (e.g. "2461-776-8")
@@ -254,17 +277,28 @@ export function resolveWagonRow(
   let status: DaraRowStatus;
   let statusMessage: string | undefined;
 
-  if (isIncomplete) {
-    status = 'incomplete';
-    statusMessage = 'Eksik seri veya vagon numarası';
-  } else if (isDuplicate) {
+  const checkValidation = validateUicCheckDigit(regime, serial, wagonNo);
+  const confidenceWarning = input.confidenceWarning || checkValidation.warning;
+
+  const isIncompleteRegime = Boolean(regime && regime.length < 4);
+
+  if (isDuplicate) {
     status = 'duplicate';
     statusMessage = 'Mükerrer vagon kaydı (Hesaba dahil edilmedi)';
+  } else if (isIncomplete) {
+    status = 'incomplete';
+    statusMessage = 'Eksik seri veya vagon numarası';
   } else if (!rec) {
     status = 'unknown_serial';
     statusMessage = `Kayıtlarda bulunmayan seri: ${serial}`;
+  } else if (isIncompleteRegime) {
+    status = 'incomplete';
+    statusMessage = checkValidation.warning || `Eksik rejim numarası: ${regime} (Lütfen 4 haneye tamamlayın)`;
   } else {
     status = 'resolved';
+    if (checkValidation.warning) {
+      statusMessage = checkValidation.warning;
+    }
   }
 
   return {
@@ -282,8 +316,115 @@ export function resolveWagonRow(
     isDuplicate,
     statusMessage,
     confidence: input.confidence,
-    confidenceWarning: input.confidenceWarning,
+    confidenceWarning,
   };
+}
+
+export interface UicCheckResult {
+  isValid: boolean | null;
+  expectedCheckDigit?: number;
+  actualCheckDigit?: number;
+  warning?: string;
+}
+
+/**
+ * Validates 12-digit railway wagon identity using standard UIC Modulo 10 (2-1-2-1-2-1-2-1-2-1-2 alternating weights).
+ * If regime is missing, checks against standard domestic regimes.
+ * Does NOT mutate digits; produces a non-destructive warning if mismatch is found.
+ */
+export function validateUicCheckDigit(
+  regime: string,
+  serial: string,
+  wagonNo: string
+): UicCheckResult {
+  const reg = cleanCell(regime).replace(/\D/g, '');
+  const ser = cleanCell(serial).replace(/\D/g, '');
+  const wagonParts = cleanCell(wagonNo).split('-');
+  const seq = wagonParts[0]?.replace(/\D/g, '') || '';
+  const checkStr = wagonParts[1]?.replace(/\D/g, '') || '';
+
+  if (!checkStr || checkStr.length !== 1) {
+    return { isValid: null };
+  }
+
+  const actual = parseInt(checkStr, 10);
+
+  // Partial / incomplete regime (< 4 digits)
+  if (reg.length > 0 && reg.length < 4) {
+    const candidateRegimes = ['3175', '2175', '8175', '6075', '5075', '8375', '2375', '4075'];
+    const matchingCandidates: string[] = [];
+    if (ser.length === 4 && seq.length === 3) {
+      for (const r of candidateRegimes) {
+        if (r.endsWith(reg)) {
+          const full11 = r + ser + seq;
+          let sum = 0;
+          for (let i = 0; i < 11; i++) {
+            const d = parseInt(full11[i], 10);
+            const weight = i % 2 === 0 ? 2 : 1;
+            const prod = d * weight;
+            sum += prod >= 10 ? prod - 9 : prod;
+          }
+          const exp = (10 - (sum % 10)) % 10;
+          if (exp === actual) {
+            matchingCandidates.push(r);
+          }
+        }
+      }
+    }
+    return {
+      isValid: false,
+      actualCheckDigit: actual,
+      warning: `Eksik rejim: ${regime} (4 haneli olmalı${matchingCandidates.length > 0 ? `, olası: ${matchingCandidates.join(', ')}` : ''})`,
+    };
+  }
+
+  // Full 11 digits (4 reg + 4 ser + 3 seq)
+  if (reg.length === 4 && ser.length === 4 && seq.length === 3) {
+    const full11 = reg + ser + seq;
+    let sum = 0;
+    for (let i = 0; i < 11; i++) {
+      const d = parseInt(full11[i], 10);
+      const weight = i % 2 === 0 ? 2 : 1;
+      const prod = d * weight;
+      sum += prod >= 10 ? prod - 9 : prod;
+    }
+    const expected = (10 - (sum % 10)) % 10;
+    const isValid = expected === actual;
+    return {
+      isValid,
+      expectedCheckDigit: expected,
+      actualCheckDigit: actual,
+      warning: isValid ? undefined : `Kontrol basamağı uyuşmuyor (Beklenen: ${expected}, Okunan: ${actual})`,
+    };
+  }
+
+  // 4 ser + 3 seq (regime unknown/missing entirely)
+  if (ser.length === 4 && seq.length === 3) {
+    const candidateRegimes = ['3175', '2175', '8175', '6075', '5075', '8375', '2375', '4075'];
+    let matchesAny = false;
+    for (const r of candidateRegimes) {
+      const full11 = r + ser + seq;
+      let sum = 0;
+      for (let i = 0; i < 11; i++) {
+        const d = parseInt(full11[i], 10);
+        const weight = i % 2 === 0 ? 2 : 1;
+        const prod = d * weight;
+        sum += prod >= 10 ? prod - 9 : prod;
+      }
+      const exp = (10 - (sum % 10)) % 10;
+      if (exp === actual) {
+        matchesAny = true;
+        break;
+      }
+    }
+    return {
+      isValid: matchesAny,
+      actualCheckDigit: actual,
+      warning: matchesAny ? undefined : 'Kontrol basamağı standart rejimlerle uyuşmuyor',
+    };
+  }
+
+  return { isValid: null };
 }
 
 /**

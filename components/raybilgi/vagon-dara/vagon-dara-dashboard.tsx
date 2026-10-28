@@ -46,7 +46,7 @@ export function VagonDaraDashboard({ wagonLookup }: VagonDaraDashboardProps) {
   const handleIdentitiesExtracted = (extracted: ExtractedWagonIdentity[]) => {
     const newInputs: DaraWagonInput[] = extracted.map((w, idx) => ({
       id: `photo-${Date.now()}-${idx}-${Math.random().toString(36).substring(2, 6)}`,
-      regime: w.regime || '3175',
+      regime: w.regime || '',
       serial: w.serial || '',
       wagonNo: w.wagonNo || '',
       rawText: w.rawText,
@@ -172,7 +172,11 @@ export function VagonDaraDashboard({ wagonLookup }: VagonDaraDashboardProps) {
 
       {/* 3. Aktif Giriş Paneli */}
       {activeTab === 'photo' ? (
-        <PhotoInput onIdentitiesExtracted={handleIdentitiesExtracted} />
+        <PhotoInput
+          onIdentitiesExtracted={handleIdentitiesExtracted}
+          onSwitchToPaste={() => setActiveTab('paste')}
+          onAddManualRow={handleAddManualRow}
+        />
       ) : (
         <PasteInput onWagonsParsed={handleWagonsParsed} />
       )}
