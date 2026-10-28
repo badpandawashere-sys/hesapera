@@ -13,6 +13,7 @@ import { LoanCalculatorForm } from '@/components/calculator/loan-calculator-form
 import { ConsumerLoanForm } from '@/components/calculator/consumer-loan-form';
 import { MortgageLoanForm } from '@/components/calculator/mortgage-loan-form';
 import { VehicleLoanForm } from '@/components/calculator/vehicle-loan-form';
+import { WorkplaceLoanForm } from '@/components/calculator/workplace-loan-form';
 import { CreditCardMinimumPaymentForm } from '@/components/calculator/credit-card-minimum-payment-form';
 import { LoanRestructuringForm } from '@/components/calculator/loan-restructuring-form';
 import { GoldForm } from '@/components/calculator/gold-form';
@@ -290,6 +291,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
             <GunHesaplamaForm calculator={calculatorViewModel} />
         ) : slug === 'mtv-hesaplama' ? (
           <MtvForm calculator={calculatorViewModel} />
+        ) : slug === 'is-yeri-kredisi' ? (
+          <WorkplaceLoanForm calculator={calculatorViewModel} />
         ) : GeneratedPremiumForm ? (
           <GeneratedPremiumForm calculator={calculatorViewModel} />
         ) : (

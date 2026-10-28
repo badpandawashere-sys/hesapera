@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { CalculatorResult } from '@/calculators/core/calculator-result';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertCircle, Info, Calculator, CheckCircle2 } from 'lucide-react';
@@ -240,13 +243,21 @@ export function CalculatorBreakdownCard({ result }: CalculatorResultProps) {
 }
 
 export function CalculatorTableCard({ result }: CalculatorResultProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   if (!result.success || !result.data || !result.data.table || result.data.table.length === 0) return null;
   const { table } = result.data as any;
+
+  const displayRows = isExpanded ? table : table.slice(0, 5);
 
   return (
     <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-500 delay-150">
       <div className="border-b border-border bg-muted/20 px-5 md:px-6 py-4 flex items-center justify-between">
         <h3 className="font-semibold text-foreground">Ödeme Planı Özeti</h3>
+        {table.length > 5 && (
+          <span className="text-xs text-muted-foreground">
+            {isExpanded ? `Tüm ${table.length} Ay Gösteriliyor` : `İlk 5 Ay Gösteriliyor`}
+          </span>
+        )}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
@@ -258,7 +269,7 @@ export function CalculatorTableCard({ result }: CalculatorResultProps) {
             </tr>
           </thead>
           <tbody className="divide-y divide-border/50">
-            {table.slice(0, 5).map((row: any, i: number) => (
+            {displayRows.map((row: any, i: number) => (
               <tr key={i} className="hover:bg-muted/10 transition-colors">
                 {Object.values(row).map((val: any, j: number) => (
                   <td key={j} className="px-5 md:px-6 py-3 text-foreground/90 whitespace-nowrap">{val}</td>
@@ -269,8 +280,12 @@ export function CalculatorTableCard({ result }: CalculatorResultProps) {
         </table>
         {table.length > 5 && (
           <div className="p-4 text-center border-t border-border bg-muted/5">
-            <button className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
-              Tüm Ödeme Planını Gör ({table.length} Ay)
+            <button
+              type="button"
+              onClick={() => setIsExpanded(prev => !prev)}
+              className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+            >
+              {isExpanded ? 'Daha Az Göster (İlk 5 Ay)' : `Tüm Ödeme Planını Gör (${table.length} Ay)`}
             </button>
           </div>
         )}
