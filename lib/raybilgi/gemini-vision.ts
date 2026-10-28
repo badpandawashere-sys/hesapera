@@ -2,7 +2,7 @@ import 'server-only';
 import { z } from 'zod';
 import { OcrClientError, type OcrResponse, type OcrLine } from './ocr-client';
 
-export const GEMINI_REQUEST_TIMEOUT_MS = 20_000;
+export const GEMINI_REQUEST_TIMEOUT_MS = 25_000;
 export const DEFAULT_GEMINI_VISION_MODEL = 'gemini-3.8-flash';
 
 export const GeminiWagonItemSchema = z.object({
@@ -82,6 +82,9 @@ export async function extractWagonIdentitiesWithGemini(
     ],
     generationConfig: {
       temperature: 0.0,
+      thinkingConfig: {
+        thinkingLevel: 'low',
+      },
       responseMimeType: 'application/json',
       responseSchema: {
         type: 'OBJECT',
@@ -128,6 +131,7 @@ export async function extractWagonIdentitiesWithGemini(
     },
   };
 
+  const imageSizeKb = Math.round(imageBuffer.length / 1024);
   let response: Response;
   try {
     response = await fetch(url, {
@@ -140,13 +144,17 @@ export async function extractWagonIdentitiesWithGemini(
       cache: 'no-store',
     });
   } catch (error: unknown) {
-    if (
+    const elapsedMs = Date.now() - started;
+    const isTimeout =
       error instanceof Error &&
       (error.name === 'TimeoutError' ||
         error.name === 'AbortError' ||
         error.message.includes('timeout') ||
-        error.message.includes('aborted'))
-    ) {
+        error.message.includes('aborted'));
+    console.info(
+      `[Wagon OCR] Boyut: ${imageSizeKb} KB, Süre: ${elapsedMs} ms, HTTP: ${isTimeout ? 504 : 503}, Timeout: ${isTimeout}`
+    );
+    if (isTimeout) {
       throw new OcrClientError(
         'Fotoğraf analizi zaman aşımına uğradı. Lütfen daha küçük veya net bir fotoğrafla tekrar deneyin.',
         504
@@ -157,6 +165,11 @@ export async function extractWagonIdentitiesWithGemini(
       503
     );
   }
+
+  const durationMs = Date.now() - started;
+  console.info(
+    `[Wagon OCR] Boyut: ${imageSizeKb} KB, Süre: ${durationMs} ms, HTTP: ${response.status}, Timeout: false`
+  );
 
   if (response.status === 429) {
     throw new OcrClientError(

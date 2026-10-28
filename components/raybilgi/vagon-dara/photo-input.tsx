@@ -123,7 +123,7 @@ export function PhotoInput({ onIdentitiesExtracted, disabled = false }: PhotoInp
     if (!selectedFile || disabled || loading || requestRef.current) return;
     const controller = new AbortController();
     requestRef.current = controller;
-    const timeout = setTimeout(() => controller.abort(), 25_000);
+    const timeout = setTimeout(() => controller.abort(), 28_000);
 
     setLoading(true);
     setError(null);

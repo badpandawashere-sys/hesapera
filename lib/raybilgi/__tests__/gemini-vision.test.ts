@@ -21,8 +21,8 @@ describe('gemini-vision', () => {
     process.env = originalEnv;
   });
 
-  it('has a 20 second request timeout constant', () => {
-    expect(GEMINI_REQUEST_TIMEOUT_MS).toBe(20_000);
+  it('has a 25 second request timeout constant', () => {
+    expect(GEMINI_REQUEST_TIMEOUT_MS).toBe(25_000);
   });
 
   it('uses gemini-3.8-flash as the default model', () => {
@@ -79,6 +79,7 @@ describe('gemini-vision', () => {
 
     expect(capturedUrl).toContain('models/gemini-3.8-flash:generateContent?key=test-gemini-key');
     expect(capturedBody.generationConfig.temperature).toBe(0.0);
+    expect(capturedBody.generationConfig.thinkingConfig?.thinkingLevel).toBe('low');
     expect(capturedBody.generationConfig.responseMimeType).toBe('application/json');
 
     expect(result.ok).toBe(true);
@@ -256,5 +257,74 @@ describe('gemini-vision', () => {
     const result = await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3]));
     expect(result.lines).toHaveLength(1);
     expect(result.lines[0].text).toBe('2461 776-8');
+  });
+
+  it('maps 400 Bad Request error cleanly', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async () => {
+      return new Response('Bad Request', { status: 400 });
+    });
+
+    try {
+      await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3]));
+      expect.fail('Should have thrown 400');
+    } catch (err: any) {
+      expect(err).toBeInstanceOf(OcrClientError);
+      expect(err.status).toBe(400);
+      expect(err.message).toContain('kullanılamıyor (400)');
+    }
+  });
+
+  it('maps 404 Not Found error cleanly', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async () => {
+      return new Response('Not Found', { status: 404 });
+    });
+
+    try {
+      await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3]));
+      expect.fail('Should have thrown 404');
+    } catch (err: any) {
+      expect(err).toBeInstanceOf(OcrClientError);
+      expect(err.status).toBe(404);
+      expect(err.message).toContain('kullanılamıyor (404)');
+    }
+  });
+
+  it('logs safe performance metrics without leaking sensitive information', async () => {
+    const consoleSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
+
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async () => {
+      return new Response(
+        JSON.stringify({
+          candidates: [
+            {
+              content: {
+                parts: [
+                  {
+                    text: JSON.stringify({
+                      wagons: [
+                        { rawText: '3175 2461 776-8', serial: '2461', wagonNo: '776-8', confidence: 0.95 },
+                      ],
+                      warnings: [],
+                    }),
+                  },
+                ],
+              },
+            },
+          ],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    });
+
+    await extractWagonIdentitiesWithGemini(Buffer.from([1, 2, 3, 4]));
+
+    expect(consoleSpy).toHaveBeenCalled();
+    const logCall = consoleSpy.mock.calls[0][0];
+    expect(logCall).toContain('[Wagon OCR]');
+    expect(logCall).toContain('Boyut:');
+    expect(logCall).toContain('Süre:');
+    expect(logCall).toContain('HTTP: 200');
+    expect(logCall).not.toContain('test-gemini-key');
+    expect(logCall).not.toContain('3175 2461 776-8');
   });
 });
