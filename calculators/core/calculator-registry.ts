@@ -21,6 +21,7 @@ const CATEGORY_MAP: Record<string, string> = {
   'kredi-yillik-maliyet-orani': 'kredi',
   'ne-kadar-kredi-alabilirim': 'kredi',
   'kredi-karti-gecikme-faizi': 'kredi',
+  'kredi-dosya-masrafi': 'kredi',
 
   'altin': 'finans',
   'doviz': 'finans',
