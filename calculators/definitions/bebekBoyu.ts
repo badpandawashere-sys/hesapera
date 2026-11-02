@@ -22,7 +22,7 @@ export const bebekBoyuCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Bebek Boyu / Çocuk Hedef Boy Hesaplama | Hesapera',
     description: 'Anne ve baba boyunu kullanarak erkek veya kız çocuğunuzun genetik olarak ulaşabileceği tahmini yetişkinlik boyunu hesaplayın.',
     keywords: ['bebek boyu hesaplama', 'çocuk boyu hesaplama', 'hedef boy hesaplama', 'genetik boy hesaplama', 'mid parental height'],
-    canonical: 'https://hesapera.com/bebek-boyu',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bebek-boyu',
     faq: [],
     relatedCalculators: ['asi-takvimi']
   },

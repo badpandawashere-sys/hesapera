@@ -93,7 +93,7 @@ export const alanCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["cevre", "hacim"]
+    relatedCalculators: ['cevre', 'hacim', 'metrekare']
   },
   fields: [
     {

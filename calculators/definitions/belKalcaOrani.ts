@@ -22,7 +22,7 @@ export const belKalcaOraniCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Bel / Kalça Oranı Hesaplama (WHO Standartları) | Hesapera',
     description: 'Bel/Kalça oranınızı hesaplayarak vücut yağ dağılımınızı ve metabolik obezite riskinizi WHO (Dünya Sağlık Örgütü) referanslarına göre öğrenin.',
     keywords: ['bel kalça oranı hesaplama', 'abdominal obezite riski', 'wist to hip ratio', 'vücut yağ oranı hesaplama', 'obezite ölçümü'],
-    canonical: 'https://hesapera.com/bel-kalca-orani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bel-kalca-orani',
     faq: [],
     relatedCalculators: ['bazal-metabolizma-hizi']
   },

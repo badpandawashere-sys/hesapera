@@ -93,9 +93,9 @@ describe('yakit-maliyeti registry and sitemap integration', () => {
 
     // Published calculator iceren kategoriler sitemapte bulunmalidir.
     expect(urls).toContain('https://www.hesapera.com.tr/kategoriler/maas-calisma');
+    expect(urls).toContain('https://www.hesapera.com.tr/kategoriler/vergi');
 
     // Empty categories should NOT be in the sitemap
-    expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/vergi');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/zaman');
     expect(urls).not.toContain('https://www.hesapera.com.tr/kategoriler/hukuk');
   }, 30000);

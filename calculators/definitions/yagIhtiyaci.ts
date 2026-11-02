@@ -21,7 +21,7 @@ export const gunlukYagIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = 
     title: 'Günlük Yağ İhtiyacı Hesaplama | Hesapera',
     description: 'Günlük enerji (kalori) ihtiyacınıza ve hedef yağ yüzdenize göre günlük almanız gereken yağ miktarını gram olarak hesaplayın.',
     keywords: ['günlük yağ ihtiyacı hesaplama', 'yağ hesabı', 'makro yağ', 'sağlıklı yağ oranı', 'kaloriden yağ hesaplama'],
-    canonical: 'https://hesapera.com/gunluk-yag-ihtiyaci',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gunluk-yag-ihtiyaci',
     faq: [],
     relatedCalculators: ['gunluk-makro-besin-ihtiyaci', 'gunluk-kalori-ihtiyaci']
   },

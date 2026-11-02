@@ -20,7 +20,7 @@ export const gunlukSuIhtiyaciCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Günlük Su İhtiyacı Hesaplama | Hesapera',
     description: 'Vücut ağırlığınıza göre günlük ortalama sıvı (su) ihtiyacınızı litre ve mililitre cinsinden genel tıbbi referanslarla hesaplayın.',
     keywords: ['günlük su ihtiyacı hesaplama', 'günde ne kadar su içmeliyim', 'su hesabı', 'sıvı ihtiyacı', 'kilo başına su hesabı'],
-    canonical: 'https://hesapera.com/gunluk-su-ihtiyaci',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gunluk-su-ihtiyaci',
     faq: [],
     relatedCalculators: ['gunluk-kalori-ihtiyaci']
   },

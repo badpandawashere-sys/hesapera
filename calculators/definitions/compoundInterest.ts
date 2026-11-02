@@ -23,7 +23,7 @@ export const compoundInterestCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Bileşik Faiz Hesaplama Aracı | Hesapera',
     description: 'Bileşik faiz mantığıyla gelecekteki toplam değeri ve kazancınızı hesaplayın.',
     keywords: ["bileşik faiz","gelecek değer","faiz hesaplama"],
-    canonical: 'https://hesapera.com/bilesik-faiz-hesaplama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bilesik-faiz',
     faq: [],
     relatedCalculators: ["basit-faiz-hesaplama"]
   },

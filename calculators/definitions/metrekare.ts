@@ -73,7 +73,7 @@ export const metrekareCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["alan"]
+    relatedCalculators: ['alan', 'cevre', 'hacim']
   },
   fields: [
     {

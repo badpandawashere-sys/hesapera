@@ -51,7 +51,7 @@ export default function ContactPage() {
     },
     {
       q: 'Hesaplamalarda girdiğim veriler saklanıyor mu?',
-      a: 'Kesinlikle hayır. Hesaplama girdileriniz sunuculara iletilmez veya veri tabanlarında depolanmaz. Tüm matematiksel işlemler tarayıcınızda yerel olarak gerçekleşir.',
+      a: 'Hayır. Hesaplama araçlarına girdiğiniz sayısal değerler hiçbir veritabanında depolanmaz veya kayıt altına alınmaz; yalnızca hesaplama sonucunu üretmek üzere anlık olarak işlenir.',
     },
   ];
 

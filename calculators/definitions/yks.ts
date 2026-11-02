@@ -103,7 +103,7 @@ export const yksCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ['tyt-puan', 'obp-okul-puani', 'universite-yks-taban-puanlari']
+    relatedCalculators: ['tyt-puan', 'msu-puan']
   },
   fields: [
     {

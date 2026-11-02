@@ -74,7 +74,7 @@ export const inflationCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["birikim","bilesik-buyume","faiz"]
+    relatedCalculators: ['kira-artis-orani', 'zam-hesaplama', 'gecmis-altin-fiyatlari', 'gecmis-doviz-kurlari']
   },
   fields: [
     {

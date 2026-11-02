@@ -24,7 +24,7 @@ export const okulaBaslamaYasiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Okula Başlama Yaşı Hesaplama (MEB 2026 Kayıtları) | Hesapera',
     description: 'Güncel MEB yönetmeliğine göre çocuğunuzun ilkokula veya anaokuluna ne zaman başlayacağını ay hesabı yaparak öğrenin.',
     keywords: ['okula başlama yaşı', 'ilkokul kayıt yaşı', 'meb 1. sınıf kayıt', 'anaokulu yaş hesaplama', '72 ay hesaplama'],
-    canonical: 'https://hesapera.com/okula-baslama-yasi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/okula-baslama-yasi',
     faq: [],
     relatedCalculators: ['yas']
   },

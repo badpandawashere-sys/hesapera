@@ -37,7 +37,7 @@ export const areaGeometryCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Alan Hesaplama Aracı | Hesapera',
     description: 'Kare, dikdörtgen, üçgen veya dairenin alanını hesaplayın.',
     keywords: ["alan hesaplama","üçgen alanı","daire alanı","metrekare"],
-    canonical: 'https://hesapera.com/alan-hesaplama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/alan-hesaplama',
     faq: [],
     relatedCalculators: ["cevre-hesaplama","hacim-hesaplama","metrekare-hesaplama"]
   },

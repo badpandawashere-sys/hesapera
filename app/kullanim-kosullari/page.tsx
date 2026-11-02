@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
-  const lastUpdated = '15 Eylül 2026';
+  const lastUpdated = '31 Ekim 2026';
 
   return (
     <main className="flex-1 py-12 md:py-16 bg-muted/10">

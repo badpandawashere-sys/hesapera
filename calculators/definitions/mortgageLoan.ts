@@ -144,7 +144,7 @@ export const mortgageLoanCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["ihtiyac-kredisi","is-yeri-kredisi"]
+    relatedCalculators: ['kredi', 'ihtiyac-kredisi', 'kredi-erken-kapatma-cezasi', 'ne-kadar-kredi-alabilirim']
   },
   fields: [
     { id: 'loanAmount', label: 'Kredi Tutarı', type: 'currency', required: true, min: 0 },

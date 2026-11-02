@@ -21,7 +21,7 @@ export const permutationCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Permütasyon Hesaplama Aracı | Hesapera',
     description: 'n elemanlı bir kümenin r elemanlı permütasyonlarını (sıralı diziliş) hesaplayın.',
     keywords: ["permütasyon","sıralama","matematik","olasılık"],
-    canonical: 'https://hesapera.com/permutasyon-hesaplama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/permutasyon-hesaplama',
     faq: [],
     relatedCalculators: ["kombinasyon-hesaplama","faktoriyel-hesaplama"]
   },

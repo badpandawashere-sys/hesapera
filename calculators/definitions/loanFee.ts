@@ -82,13 +82,7 @@ export const loanFeeCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Tüketici kredilerinde anaparanın %0,50’sini aşan tahsis ücretleri veya belgelendirilemeyen istihbarat/dosya masrafları yasalara aykırıdır. Tüketiciler, e-Devlet üzerinden Tüketici Hakem Heyetine (THH) başvurarak veya bankaya ihtarname çekerek kesilen fazla tutarların yasal faiziyle iadesini talep edebilir.',
       }
     ],
-    relatedCalculators: [
-      'ihtiyac-kredisi',
-      'konut-kredisi',
-      'tasit-kredisi',
-      'is-yeri-kredisi',
-      'kredi-yillik-maliyet-orani'
-    ]
+    relatedCalculators: ['kredi', 'ihtiyac-kredisi', 'konut-kredisi', 'kredi-yillik-maliyet-orani']
   },
   fields: [
     {

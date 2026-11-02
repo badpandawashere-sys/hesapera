@@ -20,7 +20,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-              Türkiye&apos;nin en gelişmiş, ücretsiz ve modern hesaplama platformu. Finans, vergi, sağlık ve matematikte yüzlerce araca tek tıkla ulaşın.
+              Türkiye&apos;nin ücretsiz ve modern hesaplama platformu. Finans, kredi, vergi, eğitim, sağlık ve matematik hesaplama araçlarına tek tıkla ulaşın.
             </p>
           </div>
           

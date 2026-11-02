@@ -21,7 +21,7 @@ export const aksCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'AKS Puan Hesaplama Aracı | Hesapera',
     description: 'MEB Adaylık Kaldırma Sınavı (AKS) sonucunuzu hesaplayın.',
     keywords: ["aks puan hesaplama","adaylık kaldırma sınavı","aks kaç puan"],
-    canonical: 'https://hesapera.com/aks-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/aks-puan',
     faq: [],
     relatedCalculators: ["ags-puan"]
   },

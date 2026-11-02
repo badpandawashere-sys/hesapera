@@ -21,7 +21,7 @@ export const yumurtlamaDonemiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Yumurtlama Dönemi Hesaplama (Ovülasyon Takvimi) | Hesapera',
     description: 'Adet döngünüze göre doğurganlığın en yüksek olduğu ovülasyon (yumurtlama) gününüzü ve verimli (hamile kalma) döneminizi hesaplayın.',
     keywords: ['yumurtlama dönemi hesaplama', 'ovülasyon hesaplama', 'hamile kalma günleri', 'verimli dönem hesabı', 'adet döngüsü hesaplama'],
-    canonical: 'https://hesapera.com/yumurtlama-donemi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/yumurtlama-donemi',
     faq: [],
     relatedCalculators: ['gebelik', 'adet-gunu']
   },

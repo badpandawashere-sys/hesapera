@@ -69,7 +69,7 @@ export const discountCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Evet, aracımızda %12.5, %5.25 gibi ondalıklı (küsüratlı) indirim oranlarını da rahatlıkla hesaplayabilirsiniz.'
       }
     ],
-    relatedCalculators: ["yuzde", "oran", "kdv-hesaplama"],
+    relatedCalculators: ['kdv-hesaplama', 'kar-marji-hesaplama', 'yuzde'],
     content: {
       intro: "İndirim Hesaplama Aracı ile mağaza veya internet alışverişlerinizde size sunulan kampanyaların gerçek faydasını saniyeler içinde görebilirsiniz.",
       sections: [

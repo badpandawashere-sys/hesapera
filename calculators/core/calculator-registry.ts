@@ -16,12 +16,15 @@ const CATEGORY_MAP: Record<string, string> = {
   'konut-kredisi': 'kredi',
   'kredi': 'kredi',
   'tasit-kredisi': 'kredi',
+  'is-yeri-kredisi': 'kredi',
+  'kredi-erken-kapatma-cezasi': 'kredi',
   'kredi-karti-asgari-odeme-tutari': 'kredi',
   'kredi-yapilandirma': 'kredi',
   'kredi-yillik-maliyet-orani': 'kredi',
   'ne-kadar-kredi-alabilirim': 'kredi',
   'kredi-karti-gecikme-faizi': 'kredi',
   'kredi-dosya-masrafi': 'kredi',
+  'kredi-gecikme-faizi': 'kredi',
 
   'altin': 'finans',
   'doviz': 'finans',
@@ -34,6 +37,12 @@ const CATEGORY_MAP: Record<string, string> = {
   'gecmis-altin-fiyatlari': 'finans',
   'gecmis-doviz-kurlari': 'finans',
   'iban-dogrulama': 'finans',
+  'kar-marji-hesaplama': 'finans',
+  'zam-hesaplama': 'finans',
+  'indirim-hesaplama': 'finans',
+  'komisyon-hesaplama': 'finans',
+
+  'kdv-hesaplama': 'vergi',
 
   'kpss-puan': 'egitim-sinav',
   'tyt-puan': 'egitim-sinav',
@@ -41,6 +50,13 @@ const CATEGORY_MAP: Record<string, string> = {
   'lgs-puan': 'egitim-sinav',
   'ders-notu': 'egitim-sinav',
   'takdir-tesekkur': 'egitim-sinav',
+  'ekpss-puan': 'egitim-sinav',
+  'eus-puan': 'egitim-sinav',
+  'h-kim-ve-savci-yardimciligi-sinavi-puan': 'egitim-sinav',
+  'hmgs-puan': 'egitim-sinav',
+  'isg-puan': 'egitim-sinav',
+  'iyos-puan': 'egitim-sinav',
+  'msu-puan': 'egitim-sinav',
 
   'vucut-kitle-endeksi': 'saglik',
   'gunluk-kalori-ihtiyaci': 'saglik',
@@ -51,7 +67,9 @@ const CATEGORY_MAP: Record<string, string> = {
   'yakit-maliyeti': 'otomotiv',
   'yakit-tuketimi': 'otomotiv',
   'mtv-hesaplama': 'otomotiv',
+  'lastik-ebat-hesaplama': 'otomotiv',
   'maas': 'maas-calisma',
+  'kidem-tazminati': 'maas-calisma',
 };
 
 class Registry {
@@ -94,9 +112,13 @@ class Registry {
       'finance': 'finans',
       'math': 'matematik',
       'health': 'saglik',
-      'education': 'egitim-sinav'
+      'education': 'egitim-sinav',
+      'hr': 'maas-calisma',
+      'daily': 'matematik',
+      'legal': 'finans',
+      'other': 'finans',
     };
-    return fallback[originalCategory] || 'diger';
+    return fallback[originalCategory] || 'finans';
   }
 
   getPublishedByCategory(uiCategoryId: string): CalculatorDefinition<any, any>[] {

@@ -105,6 +105,7 @@ export const kidemTazminatiCalculatorDef: CalculatorDefinition<Input, KidemTazmi
       'damga vergisi kıdem tazminatı'
     ],
     canonical: 'https://www.hesapera.com.tr/hesaplama/kidem-tazminati',
+    relatedCalculators: ['maas', 'zam-hesaplama'],
     icon: 'Briefcase',
     content: {
       intro: 'Kıdem Tazminatı Hesaplama aracı; 1475 sayılı İş Kanunu’nun 14. maddesi, T.C. Çalışma ve Sosyal Güvenlik Bakanlığı (ÇSGB) resmî istatistikleri ve Hazine ve Maliye Bakanlığı tarafından yayımlanan Mali ve Sosyal Haklar Genelgeleri uyarınca çalışanın hak edeceği yasal kıdem tazminatı tutarını hesaplar.',

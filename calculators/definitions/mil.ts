@@ -24,7 +24,7 @@ export const milCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Mil Hesaplama Aracı | Hesapera',
     description: 'Mil, kilometre (km) ve metre (m) arasında iki yönlü uzunluk birimi dönüşümü yapın. 1 mil = 1.609344 km sabiti ile doğru hesaplama.',
     keywords: ['mil hesaplama', 'mil km dönüştürme', '1 mil kaç km', 'kilometre mil hesaplama', 'uzunluk ölçüleri'],
-    canonical: 'https://hesapera.com/hesaplama/mil',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/mil',
     faq: [],
     relatedCalculators: ["metrekare"]
   },

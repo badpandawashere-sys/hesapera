@@ -162,7 +162,7 @@ export const loanEarlyPayoffPenaltyCalculatorDef: CalculatorDefinition<Input, an
         }
       ]
     },
-    relatedCalculators: ["kredi-hesaplama","kredi-yapilandirma","kredi-yillik-maliyet-orani"]
+    relatedCalculators: ['konut-kredisi', 'ihtiyac-kredisi', 'kredi', 'kredi-yapilandirma']
   },
   fields: [
     {

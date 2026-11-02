@@ -130,7 +130,7 @@ export const lgsCalculatorDef: CalculatorDefinition<Input, any> = {
         text: "2026 Merkezî Sınavı 13 Haziran 2026'da gerçekleştirilecek olup, sonuçlar 10 Temmuz 2026'da meb.gov.tr adresi üzerinden adaylara duyurulacaktır. Din veya Yabancı Dil muafiyeti bulunan öğrencilerin puanları, çözmedikleri testin ağırlığı doğrultusunda diğer testlere dağıtılarak hesaplanacaktır."
       }
     },
-    relatedCalculators: ['obp-hesaplama', 'takdir-tesekkur-hesaplama']
+    relatedCalculators: ['takdir-tesekkur', 'ders-notu']
   },
   fields: [
     // We do not use the explicit fields array for UI rendering in LGS since lgs-form.tsx ignores it.

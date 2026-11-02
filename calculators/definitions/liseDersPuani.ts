@@ -23,7 +23,7 @@ export const liseDersPuaniCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Lise Ders Puanı Hesaplama 2026 | Hesapera',
     description: 'Güncel MEB Ortaöğretim Kurumları Yönetmeliğine göre lise dersleriniz için sınav, performans ve proje ortalamanızı hesaplayın.',
     keywords: ['lise ders puanı', 'lise ders ortalaması', 'performans notu hesaplama', 'proje notu hesaplama', 'meb lise not hesaplama'],
-    canonical: 'https://hesapera.com/lise-ders-puani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/lise-ders-puani',
     faq: [],
     relatedCalculators: ['lise-ortalama', 'lise-sinif-gecme']
   },

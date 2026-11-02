@@ -21,7 +21,7 @@ export const lossCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Zarar Hesaplama Aracı | Hesapera',
     description: 'Satıştan doğan zararı ve zarar oranını anında bulun.',
     keywords: ["zarar hesaplama","zarar marjı","satış zararı"],
-    canonical: 'https://hesapera.com/zarar-hesaplama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/zarar-hesaplama',
     faq: [],
     relatedCalculators: ["kar-hesaplama","indirim-hesaplama"]
   },

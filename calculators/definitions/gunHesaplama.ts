@@ -106,7 +106,7 @@ export const gunHesaplamaDef: CalculatorDefinition<Input, any> = {
       { label: "Kaç Gün Kaldı", icon: "Clock" },
       { label: "İki Tarih Arası", icon: "CalendarRange" }
     ],
-    relatedCalculators: ["yas"]
+    relatedCalculators: ['yas']
   },
   fields: [],
   schema,

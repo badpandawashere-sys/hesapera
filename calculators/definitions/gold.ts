@@ -133,7 +133,7 @@ export const goldCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["doviz", "ihtiyac-kredisi"]
+    relatedCalculators: ['gecmis-altin-fiyatlari', 'doviz', 'birikim']
   },
   fields: [
     {

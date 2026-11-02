@@ -1,4 +1,4 @@
-﻿import { Metadata } from 'next';
+import { Metadata } from 'next';
 import { SiteContainer } from '@/components/layout/site-container';
 import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
 import '@/calculators/core/init'; // populate registry
@@ -9,6 +9,14 @@ import { categories } from '@/lib/data/categories';
 export const metadata: Metadata = {
   title: 'Tüm Hesaplama Araçları | Hesapera',
   description: 'İhtiyacınız olan tüm hesaplama araçlarını Hesapera ile kolayca bulun.',
+  alternates: {
+    canonical: 'https://www.hesapera.com.tr/hesaplama',
+  },
+  openGraph: {
+    title: 'Tüm Hesaplama Araçları | Hesapera',
+    description: 'İhtiyacınız olan tüm hesaplama araçlarını Hesapera ile kolayca bulun.',
+    url: 'https://www.hesapera.com.tr/hesaplama',
+  },
 };
 
 export default function HesaplamaIndexPage() {

@@ -67,7 +67,7 @@ export const factorialCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["kombinasyon", "permutasyon", "ebob-ekok"]
+    relatedCalculators: []
   },
   fields: [
     {

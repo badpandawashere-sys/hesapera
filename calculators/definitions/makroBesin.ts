@@ -28,7 +28,7 @@ export const gunlukMakroBesinIhtiyaciCalculatorDef: CalculatorDefinition<Input, 
     title: 'Günlük Makro Besin İhtiyacı Hesaplama | Hesapera',
     description: 'Günlük kalori hedefinize uygun olarak protein, karbonhidrat ve yağ dağılımınızı (makro) gram bazında bilimsel 4-4-9 katsayılarıyla hesaplayın.',
     keywords: ['makro besin hesaplama', 'günlük protein ihtiyacı', 'makro hesapla', 'kaloriden gram hesaplama', 'karbonhidrat yağ protein hesabı'],
-    canonical: 'https://hesapera.com/gunluk-makro-besin-ihtiyaci',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gunluk-makro-besin-ihtiyaci',
     faq: [],
     relatedCalculators: ['gunluk-kalori-ihtiyaci', 'gunluk-karbonhidrat-ihtiyaci']
   },

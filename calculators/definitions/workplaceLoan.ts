@@ -141,7 +141,7 @@ export const workplaceLoanCalculatorDef: CalculatorDefinition<Input, any> = {
         { name: "Bankacılık Düzenleme ve Denetleme Kurumu (BDDK) - Kredi Yönetmelikleri", url: "https://www.bddk.org.tr" }
       ]
     },
-    relatedCalculators: ["ticari-kredi", "konut-kredisi", "ihtiyac-kredisi", "kredi-yillik-maliyet-orani"]
+    relatedCalculators: ['kredi', 'konut-kredisi', 'ihtiyac-kredisi', 'kredi-yillik-maliyet-orani']
   },
   fields: [
     {

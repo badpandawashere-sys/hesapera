@@ -22,7 +22,7 @@ export const bondCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Bono Hesaplama Aracı | Hesapera',
     description: 'Hazine bonosu getiri hesabı.',
     keywords: ["bono", "hazine bonosu", "iskontolu bono"],
-    canonical: 'https://hesapera.com/bono',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bono',
     faq: [],
     relatedCalculators: ["tahvil","eurobond"]
   },

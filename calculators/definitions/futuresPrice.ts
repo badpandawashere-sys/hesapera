@@ -25,7 +25,7 @@ export const futuresPriceCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Vadeli İşlem Fiyatı Hesaplama Aracı | Hesapera',
     description: 'Dayanak varlığın spot fiyatı, finansman maliyeti ve temettü etkisi üzerinden teorik vadeli işlem fiyatını hesaplayın.',
     keywords: ["vadeli işlem fiyatı","viop","spot fiyat","teorik fiyat","taşıma maliyeti"],
-    canonical: 'https://hesapera.com/vadeli-islem-fiyati',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/vadeli-islem-fiyati',
     faq: [],
     relatedCalculators: ["repo","ic-ve-dis-iskonto","altin"]
   },

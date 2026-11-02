@@ -22,7 +22,7 @@ export const commercialLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Ticari Kredi Hesaplama Aracı | Hesapera',
     description: 'Şirketiniz için kullanacağınız ticari kredinin genel geri ödeme ve faiz tablosunu hesaplayın.',
     keywords: ["ticari kredi hesaplama","kurumsal kredi","şirket kredisi"],
-    canonical: 'https://hesapera.com/ticari-kredi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ticari-kredi',
     faq: [],
     relatedCalculators: ["ticari-ihtiyac-kredisi","ticari-arac-kredisi","kredi-yapilandirma"]
   },

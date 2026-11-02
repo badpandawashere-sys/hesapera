@@ -24,7 +24,7 @@ export const npvCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Net Bugünkü Değer Hesaplama (NPV) Aracı | Hesapera',
     description: 'Gelecekteki nakit akışlarının, belirlenen iskonto oranıyla bugünkü değerini hesaplayın.',
     keywords: ["net bugünkü değer","npv hesaplama","iskonto","nakit akışı değerleme"],
-    canonical: 'https://hesapera.com/net-bugunku-deger',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/net-bugunku-deger',
     faq: [],
     relatedCalculators: ["ic-verim-orani","faiz","bono","eurobond"]
   },

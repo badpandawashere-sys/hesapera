@@ -22,7 +22,7 @@ export const gunlukKreatinDozuCalculatorDef: CalculatorDefinition<Input, any> = 
     title: 'Günlük Kreatin Dozu Hesaplama (Yükleme ve Koruma) | Hesapera',
     description: 'Vücut ağırlığınıza göre günlük kullanmanız gereken kreatin miktarını (yükleme evresi veya koruma dozu) ISSN referanslarıyla öğrenin.',
     keywords: ['günlük kreatin dozu hesaplama', 'kreatin hesaplama', 'kreatin yükleme', 'kreatin kullanımı', 'sporcu takviyesi'],
-    canonical: 'https://hesapera.com/gunluk-kreatin-dozu',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gunluk-kreatin-dozu',
     faq: [],
     relatedCalculators: ['gunluk-makro-besin-ihtiyaci']
   },

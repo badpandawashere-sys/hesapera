@@ -1,6 +1,7 @@
 import React from 'react';
 import { CalculatorDefinition } from '@/calculators/core/calculator-types';
 import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
+import { categories } from '@/lib/data/categories';
 
 export function JsonLd({ data }: { data: any }) {
   return (
@@ -45,14 +46,7 @@ export function getCalculatorJsonLd(calculator: CalculatorDefinition) {
   
   // Resolve category info for BreadcrumbList
   const uiCategoryId = CalculatorRegistry.getUiCategory(calculator.slug, calculator.category);
-  const categoryName = uiCategoryId === 'matematik' ? 'Matematik' 
-                     : uiCategoryId === 'kredi' ? 'Kredi'
-                     : uiCategoryId === 'finans' ? 'Finans'
-                     : uiCategoryId === 'saglik' ? 'Sağlık'
-                     : uiCategoryId === 'egitim-sinav' ? 'Eğitim & Sınav'
-                     : uiCategoryId === 'emlak' ? 'Emlak'
-                     : uiCategoryId === 'otomotiv' ? 'Otomotiv'
-                     : 'Hesaplama'; // fallback (We can hardcode or just do simple lookup)
+  const categoryName = categories.find((c) => c.id === uiCategoryId)?.name || 'Hesaplama';
   
   const graph: any[] = [
     {

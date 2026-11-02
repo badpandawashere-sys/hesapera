@@ -20,7 +20,7 @@ export const gebelikCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Gebelik Haftası ve Tahmini Doğum Tarihi Hesaplama | Hesapera',
     description: 'Son adet tarihinize göre yaklaşık gebelik haftanızı, gününüzü, trimester sınırlarını ve tahmini doğum tarihinizi (40 hafta) öğrenin.',
     keywords: ['gebelik hesaplama', 'kaç haftalık hamileyim', 'tahmini doğum tarihi', 'trimester hesaplama', 'hamilelik takvimi'],
-    canonical: 'https://hesapera.com/gebelik',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gebelik',
     faq: [],
     relatedCalculators: ['adet-gunu', 'bebek-kilosu']
   },

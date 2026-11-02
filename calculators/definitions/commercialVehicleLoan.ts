@@ -22,7 +22,7 @@ export const commercialVehicleLoanCalculatorDef: CalculatorDefinition<Input, any
     title: 'Ticari Araç Kredisi Hesaplama Aracı | Hesapera',
     description: 'Ticari faaliyetlerinizde kullanmak üzere alacağınız araçlar için ticari araç kredisi geri ödeme planını oluşturun.',
     keywords: ["ticari araç kredisi","kamyonet kredisi","ticari otomobil kredisi"],
-    canonical: 'https://hesapera.com/ticari-arac-kredisi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ticari-arac-kredisi',
     faq: [],
     relatedCalculators: ["tasit-kredisi","ticari-kredi","ticari-ihtiyac-kredisi"]
   },

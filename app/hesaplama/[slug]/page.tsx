@@ -15,6 +15,7 @@ import { MortgageLoanForm } from '@/components/calculator/mortgage-loan-form';
 import { VehicleLoanForm } from '@/components/calculator/vehicle-loan-form';
 import { WorkplaceLoanForm } from '@/components/calculator/workplace-loan-form';
 import { LoanFeeForm } from '@/components/calculator/loan-fee-form';
+import { LoanLateFeeForm } from '@/components/calculator/loan-late-fee-form';
 import { CreditCardMinimumPaymentForm } from '@/components/calculator/credit-card-minimum-payment-form';
 import { LoanRestructuringForm } from '@/components/calculator/loan-restructuring-form';
 import { GoldForm } from '@/components/calculator/gold-form';
@@ -77,16 +78,9 @@ export async function generateMetadata(props: CalculatorPageProps): Promise<Meta
   const { slug } = await props.params;
   const calculator = CalculatorRegistry.getBySlug(slug);
 
-  if (!calculator) {
+  if (!calculator || calculator.status !== 'published') {
     return {
       title: 'Sayfa Bulunamadı | Hesapera',
-    };
-  }
-
-  if (calculator.status === 'draft') {
-    return {
-      title: `Yakında: ${calculator.name} | Hesapera`,
-      description: calculator.shortDescription,
       robots: {
         index: false,
         follow: false,
@@ -117,12 +111,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
   const { slug } = await props.params;
   const calculator = CalculatorRegistry.getBySlug(slug);
 
-  if (!calculator) {
+  if (!calculator || calculator.status !== 'published') {
     notFound();
-  }
-
-  if (calculator.status === 'draft') {
-    return <ComingSoon name={calculator.name} description={calculator.shortDescription} category={calculator.category} />;
   }
 
   const calculatorViewModel = calculatorToViewModel(calculator);
@@ -296,6 +286,8 @@ export default async function CalculatorPage(props: CalculatorPageProps) {
           <WorkplaceLoanForm calculator={calculatorViewModel} />
         ) : slug === 'kredi-dosya-masrafi' ? (
           <LoanFeeForm calculator={calculatorViewModel} />
+        ) : slug === 'kredi-gecikme-faizi' ? (
+          <LoanLateFeeForm calculator={calculatorViewModel} />
         ) : GeneratedPremiumForm ? (
           <GeneratedPremiumForm calculator={calculatorViewModel} />
         ) : (

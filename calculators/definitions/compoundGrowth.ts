@@ -64,7 +64,7 @@ export const compoundGrowthCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["birikim","bilesik-faiz-hesaplama"]
+    relatedCalculators: ['birikim', 'faiz', 'vadeli-mevduat-faizi', 'basit-faiz']
   },
   fields: [
   {

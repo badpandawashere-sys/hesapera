@@ -22,7 +22,7 @@ export const pmyoCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'PMYO Puan Hesaplama â€” Polis Meslek Yüksekokulu | Hesapera',
     description: 'Polis Meslek Yüksekokulu (PMYO) güncel başarı puanı formülüne göre TYT (%25), fiziki yeterlilik (%25) ve mülakat (%50) bileşenleriyle nihai puanınızı hesaplayın.',
     keywords: ['pmyo puan hesaplama', 'polis meslek yüksekokulu', 'pmyo başarı puanı', 'tyt fiziki mülakat'],
-    canonical: 'https://hesapera.com/pmyo-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/pmyo-puan',
     faq: [],
     relatedCalculators: ['pomem-puan', 'msu-puan']
   },

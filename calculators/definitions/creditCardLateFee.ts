@@ -75,7 +75,7 @@ export const creditCardLateFeeCalculatorDef: CalculatorDefinition<Input, any> = 
       ]
     },
 
-    relatedCalculators: ["kredi-karti-asgari-odeme-tutari", "kredi-yapilandirma", "kredi"]
+    relatedCalculators: ['kredi-karti-asgari-odeme-tutari', 'ihtiyac-kredisi']
   },
   fields: [
     {

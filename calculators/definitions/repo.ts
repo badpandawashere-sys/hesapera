@@ -23,7 +23,7 @@ export const repoCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Repo Hesaplama Aracı | Hesapera',
     description: 'Repo işleminizin anapara, faiz oranı ve vade gününe göre vade sonu net getirisini ve stopaj tutarını hesaplayın.',
     keywords: ["repo hesaplama","repo getirisi","ters repo","stopajlı repo"],
-    canonical: 'https://hesapera.com/repo',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/repo',
     faq: [],
     relatedCalculators: ["faiz","bono","ic-verim-orani"]
   },

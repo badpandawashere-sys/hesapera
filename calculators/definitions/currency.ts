@@ -123,7 +123,7 @@ export const currencyCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["altin", "ihtiyac-kredisi"]
+    relatedCalculators: ['gecmis-doviz-kurlari', 'altin', 'birikim']
   },
   fields: [
     {

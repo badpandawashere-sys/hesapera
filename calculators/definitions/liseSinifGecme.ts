@@ -28,7 +28,7 @@ export const liseSinifGecmeCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Lise Sınıf Geçme / Kalma Hesaplama 2026 | Hesapera',
     description: 'Devamsızlık ve ders yıl sonu puanlarınızı girerek lisede doğrudan geçme, sorumlu geçme veya sınıf tekrarı (kalma) durumunuzu öğrenin.',
     keywords: ['lise sınıf geçme', 'sınıf tekrarı hesaplama', 'sorumlu geçme hesaplama', 'baraj dersi', 'lise devamsızlık sınırı'],
-    canonical: 'https://hesapera.com/lise-sinif-gecme',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/lise-sinif-gecme',
     faq: [],
     relatedCalculators: ['lise-ortalama', 'lise-mezuniyet-puani']
   },

@@ -67,7 +67,7 @@ export const vatCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Evet, KDV Hesaplama aracımızda hazır butonların (%1, %10, %20) yanı sıra "Özel Oran" seçeneğini kullanarak istediğiniz yüzdelik değeri manuel olarak girebilirsiniz.'
       }
     ],
-    relatedCalculators: ["yuzde", "oran"],
+    relatedCalculators: ['indirim-hesaplama', 'kar-marji-hesaplama', 'komisyon-hesaplama', 'yuzde'],
     content: {
       intro: "Katma Değer Vergisi (KDV), aldığımız mal ve hizmetler üzerinden devlete ödenen bir tüketim vergisidir. KDV Hesaplama Aracı, bir mal veya hizmetin KDV hariç fiyatına vergi eklemeyi veya KDV dahil fiyatı içinden vergiyi ayrıştırmayı hızlıca yapmanızı sağlar.",
       sections: [

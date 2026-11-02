@@ -21,7 +21,7 @@ export const realReturnCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Reel Getiri Hesaplama Aracı | Hesapera',
     description: 'Nominal getiri ve enflasyon oranını dikkate alarak yatırımınızın gerçek reel getirisini hesaplayın.',
     keywords: ["reel getiri","gerçek getiri","nominal getiri","enflasyondan arındırılmış getiri"],
-    canonical: 'https://hesapera.com/reel-getiri',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/reel-getiri',
     faq: [],
     relatedCalculators: ["parasal-deger","enflasyon","faiz"]
   },

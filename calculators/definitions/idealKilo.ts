@@ -73,7 +73,7 @@ export const idealKiloCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ['vucut-kitle-indeksi', 'bazal-metabolizma-hizi']
+    relatedCalculators: ['vucut-kitle-endeksi', 'gunluk-kalori-ihtiyaci']
   },
   fields: [
     {

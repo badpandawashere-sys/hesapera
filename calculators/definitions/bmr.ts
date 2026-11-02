@@ -23,7 +23,7 @@ export const bazalMetabolizmaHiziCalculatorDef: CalculatorDefinition<Input, any>
     title: 'Bazal Metabolizma Hızı Hesaplama (BMR) | Hesapera',
     description: 'Mifflin-St Jeor formülü kullanılarak cinsiyet, yaş, boy ve kilonuza göre günlük tahmini bazal metabolizma hızınızı (BMR) öğrenin.',
     keywords: ['bazal metabolizma hızı hesaplama', 'bmr hesaplama', 'metabolizma hızı ölçme', 'mifflin st jeor bmr'],
-    canonical: 'https://hesapera.com/bazal-metabolizma-hizi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bazal-metabolizma-hizi',
     faq: [],
     relatedCalculators: []
   },

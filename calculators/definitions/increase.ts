@@ -68,7 +68,7 @@ export const increaseCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: '%0 zam, fiyatta veya maaşta herhangi bir artış yapılmadığı anlamına gelir. Eski fiyat ile yeni fiyat birbirine eşittir.'
       }
     ],
-    relatedCalculators: ["yuzde", "oran", "indirim-hesaplama", "kdv-hesaplama"],
+    relatedCalculators: ['maas', 'enflasyon', 'kira-artis-orani', 'yuzde'],
     content: {
       intro: "Zam Hesaplama Aracı ile enflasyonist ortamlarda fiyat değişimlerini, maaş artışlarını ve yüzdelik zam tutarlarını saniyeler içinde ve sıfır hata payıyla hesaplayabilirsiniz.",
       sections: [

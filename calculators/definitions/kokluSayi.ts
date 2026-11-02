@@ -75,7 +75,7 @@ export const kokluSayiCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["uslu-sayi", "ebob-ekok"]
+    relatedCalculators: []
   },
   fields: [
     {

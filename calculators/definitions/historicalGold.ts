@@ -81,7 +81,7 @@ export const historicalGoldCalculatorDef: CalculatorDefinition<Input, any> = {
         text: "Eğer sisteme belirli bir tarih ve miktar (örneğin 100 Gram Altın) girerseniz, araç o günün tahmini alış ve satış fiyatını çeker. Çıkan değer, o dönem elinizdeki altını bozdurduğunuzda (Alışa Göre Değer) veya yeni altın aldığınızda (Satışa Göre Değer) oluşacak tahmini Türk Lirası veya altın miktarını ifade eder."
       }
     },
-    relatedCalculators: ["altin","gecmis-doviz-kurlari","doviz"]
+    relatedCalculators: ['altin', 'gecmis-doviz-kurlari', 'doviz']
   },
   fields: [
     {

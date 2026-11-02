@@ -23,7 +23,7 @@ export const creditCardCashAdvanceCalculatorDef: CalculatorDefinition<Input, any
     title: 'Kredi Kartı Taksitli Nakit Avans Hesaplama Aracı | Hesapera',
     description: 'Çektiğiniz nakit avansın taksitlerini ve işlem ücretleriyle toplam maliyetini parametrik olarak hesaplayın.',
     keywords: ["taksitli nakit avans","kredi kartı nakit avans","nakit avans hesaplama"],
-    canonical: 'https://hesapera.com/kredi-karti-taksitli-nakit-avans',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-karti-taksitli-nakit-avans',
     faq: [],
     relatedCalculators: ["kredi-karti-islem-taksitlendirme","ihtiyac-kredisi"]
   },

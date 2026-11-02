@@ -28,7 +28,7 @@ export const averageCostCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Ortalama Maliyet Hesaplama Aracı | Hesapera',
     description: 'Farklı fiyatlardan alınan ürünlerin toplam ortalama maliyetini bulun.',
     keywords: ["ortalama maliyet","paçal hesaplama","birim maliyet"],
-    canonical: 'https://hesapera.com/ortalama-maliyet-hesaplama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ortalama-maliyet-hesaplama',
     faq: [],
     relatedCalculators: ["kar-hesaplama","zarar-hesaplama"]
   },

@@ -22,7 +22,7 @@ export const universiteYksTabanPuanlariDef: CalculatorDefinition<Input, any> = {
     title: 'Üniversite / YKS Taban Puanları 2026 | Hesapera',
     description: '2026 YKS üniversite bölümleri taban puanları ve başarı sıralamalarını sorgulayın. Sayısal, Eşit Ağırlık, Sözel ve TYT puan türlerine göre filtreleyin.',
     keywords: ['yks taban puanları', 'üniversite taban puanları', 'yks 2026 taban puanları', 'üniversite sıralamaları'],
-    canonical: 'https://hesapera.com/universite-yks-taban-puanlari',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/universite-yks-taban-puanlari',
     faq: [],
     relatedCalculators: ['tyt-puan', 'obp-okul-puani']
   },

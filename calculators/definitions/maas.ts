@@ -58,6 +58,7 @@ export const maasCalculatorDef: CalculatorDefinition<Input, any> = {
     description: '2026 yılı için brütten nete veya netten brüte maaşınızı hesaplayın; SGK ve vergi kesintilerini, vergi dilimlerini ve 12 aylık maaş tablonuzu görün.',
     keywords: ['maaş hesaplama', 'brütten nete maaş hesaplama', 'netten brüte maaş hesaplama', '2026 maaş hesaplama', 'net maaş hesaplama', 'maaş bordrosu hesaplama', 'sabit net maaş', 'sgk kesintisi', 'gelir vergisi'],
     canonical: 'https://www.hesapera.com.tr/hesaplama/maas',
+    relatedCalculators: ['kidem-tazminati', 'zam-hesaplama'],
     icon: 'Wallet',
     content: {
       intro: 'Maaş Hesaplama aracı ile 2026 yılı Türkiye yasal mevzuatına göre standart 4/a ücretli çalışan için brüt maaşınızdan kesilecek olan SGK, işsizlik sigortası, gelir vergisi ve damga vergisi kesintilerini hesaplayabilir, 12 aylık net maaş tablonuzu görebilirsiniz.',

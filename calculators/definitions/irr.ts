@@ -23,7 +23,7 @@ export const irrCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'İç Verim Oranı Hesaplama Aracı | Hesapera',
     description: 'Bir dizi yatırım veya nakit akışının beklenen getiri oranını (IRR) hesaplayın.',
     keywords: ["iç verim oranı","irr hesaplama","yatırım getirisi","nakit akışı","internal rate of return"],
-    canonical: 'https://hesapera.com/ic-verim-orani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ic-verim-orani',
     faq: [],
     relatedCalculators: ["net-bugunku-deger","bono","eurobond","birikim"]
   },

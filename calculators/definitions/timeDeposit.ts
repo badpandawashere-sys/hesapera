@@ -81,7 +81,7 @@ export const timeDepositCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["faiz","bilesik-faiz-hesaplama","repo"]
+    relatedCalculators: ['faiz', 'basit-faiz', 'birikim', 'bilesik-buyume']
   },
   fields: [
   {

@@ -33,7 +33,7 @@ export const eusCalculatorDef: CalculatorDefinition<Input, any> = {
     description: '2026 EUS (Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı) güncel puan ve net hesaplama aracı. EUS doğru ve yanlış sayılarınızı girerek tahmini standart puanınızı hesaplayın.',
     keywords: ["eus puan hesaplama","eczacılık uzmanlık sınavı","eus 2026","eus hesabı", "eus net hesaplama"],
     canonical: 'https://www.hesapera.com.tr/hesaplama/eus-puan',
-    relatedCalculators: ["yks-puan","kpss-puan"],
+    relatedCalculators: [],
     content: {
 
     intro: 'Bu araç ile Eczacılıkta Uzmanlık Eğitimi Giriş Sınavı (EUS) testlerindeki doğru ve yanlış sayınıza göre netinizi ve yerleştirmeye esas tahmini standart puanınızı hesaplayabilirsiniz.',

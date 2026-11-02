@@ -103,7 +103,7 @@ export const ageCalculatorDef: CalculatorDefinition<Input, any> = {
       { label: 'Detaylı Zaman', icon: 'Clock' },
       { label: 'Doğum Günü Sayacı', icon: 'Gift' }
     ],
-    relatedCalculators: []
+    relatedCalculators: ['gun-hesaplama']
   },
   fields: [
   {

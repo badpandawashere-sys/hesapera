@@ -22,7 +22,7 @@ export const sigaraMaliyetiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Sigara Maliyeti Hesaplama | Hesapera',
     description: 'Günlük içtiğiniz sigara sayısına ve paket fiyatına göre aylık, yıllık ve 5 yıllık sigara maliyetinizi / harcamanızı hesaplayın.',
     keywords: ['sigara maliyeti hesaplama', 'sigara masrafı', 'aylık sigara harcaması', 'sigara bırakma maliyet hesabı'],
-    canonical: 'https://hesapera.com/sigara-maliyeti',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/sigara-maliyeti',
     faq: [],
     relatedCalculators: []
   },

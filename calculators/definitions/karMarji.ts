@@ -69,7 +69,7 @@ export const karMarjiCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Matematiksel olarak bir ürün bedavaya mâl edilip (0 TL maliyet) satılmadığı sürece kâr marjı tam %100 olamaz. Ancak kâr oranı %100, %500 veya daha fazla olabilir.'
       }
     ],
-    relatedCalculators: ["yuzde", "oran", "kdv-hesaplama", "indirim-hesaplama"],
+    relatedCalculators: ['komisyon-hesaplama', 'kdv-hesaplama', 'indirim-hesaplama', 'yuzde'],
     content: {
       intro: "Ticari faaliyetlerde kârlılığı ölçmenin en temel iki göstergesi Kâr Marjı ve Kâr Oranıdır. Kâr Marjı Hesaplama Aracı ile alış ve satış fiyatlarınız üzerinden kâr - zarar durumunuzu en doğru şekilde analiz edebilirsiniz.",
       sections: [

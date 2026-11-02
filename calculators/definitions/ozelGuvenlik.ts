@@ -23,7 +23,7 @@ export const ozelGuvenlikCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Özel Güvenlik Sınavı Puanı Hesaplama | Hesapera',
     description: 'EGM mevzuatına uygun olarak Özel Güvenlik sınav puanınızı hesaplayın. Silahlı ve silahsız adaylar için yazılı, silah bilgisi ve atış puanı ile başarı durumunuzu öğrenin.',
     keywords: ['özel güvenlik puan hesaplama', 'ögg sınavı hesaplama', 'silahlı özel güvenlik', 'silahsız özel güvenlik puanı'],
-    canonical: 'https://hesapera.com/ozel-guvenlik-sinavi-puani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ozel-guvenlik-sinavi-puani',
     faq: [],
     relatedCalculators: ['kpss-puan']
   },

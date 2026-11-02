@@ -21,7 +21,7 @@ export const ratioCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Oran Hesaplama Aracı | Hesapera',
     description: 'İki sayı arasındaki oranı ve yüzde karşılığını anında bulun.',
     keywords: ["oran hesaplama","yüzde oranı","iki sayı arası oran"],
-    canonical: 'https://hesapera.com/oran-hesaplama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/oran-hesaplama',
     faq: [],
     relatedCalculators: ["yuzde-hesaplama"]
   },

@@ -29,6 +29,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/hesaplama`,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/rehber`,
       changeFrequency: 'weekly',
       priority: 0.8,

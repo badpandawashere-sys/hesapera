@@ -25,7 +25,7 @@ export const dgsBaseScoresCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'DGS Taban Puanları | Hesapera',
     description: 'DGS taban puanlarını yıl, üniversite ve program bazında inceleyin.',
     keywords: ['dgs taban puan', 'dgs yerleştirme', 'dgs puan sorgula', 'dikey geçiş taban puan'],
-    canonical: 'https://hesapera.com/dgs-taban-puanlari',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/dgs-taban-puanlari',
     faq: [],
     relatedCalculators: ['dgs-puan', 'ales-puan']
   },

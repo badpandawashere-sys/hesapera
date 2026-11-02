@@ -78,7 +78,7 @@ export const takdirTesekkurCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ['lise-ortalama', 'e-okul-not']
+    relatedCalculators: ['ders-notu', 'lgs-puan']
   },
   fields: [
     {

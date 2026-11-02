@@ -22,7 +22,7 @@ export const creditCardInstallmentCalculatorDef: CalculatorDefinition<Input, any
     title: 'Kredi Kartı İşlem Taksitlendirme Hesaplama Aracı | Hesapera',
     description: 'Peşin yaptığınız bir harcamayı sonradan taksitlendirmek istediğinizde aylık ödeme planını oluşturun.',
     keywords: ["işlem taksitlendirme","kredi kartı taksit","sonradan taksitlendirme","taksitli avans"],
-    canonical: 'https://hesapera.com/kredi-karti-islem-taksitlendirme',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-karti-islem-taksitlendirme',
     faq: [],
     relatedCalculators: ["kredi-karti-ek-taksit","kredi-hesaplama"]
   },

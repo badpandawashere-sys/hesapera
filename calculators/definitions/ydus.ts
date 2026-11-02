@@ -21,7 +21,7 @@ export const ydusCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'YDUS Puan Hesaplama 2026 | Hesapera',
     description: '2026 YDUS sınavı için netlerinizi ve yaklaşık sınav puanınızı hesaplayın. 80 soruluk standart test için 4 yanlış 1 doğruyu götürür.',
     keywords: ['ydus puan hesaplama', 'yan dal uzmanlık sınavı', 'ydus net hesaplama', '2026 ydus'],
-    canonical: 'https://hesapera.com/ydus-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ydus-puan',
     faq: [],
     relatedCalculators: ['tus-puan', 'dus-puan']
   },

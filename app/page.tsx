@@ -100,9 +100,9 @@ export default function HomePage() {
       <section className="relative w-full py-space-xl md:py-space-2xl">
         <SiteContainer className="relative flex flex-col items-center text-center">
           <div className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-secondary-container/70 shadow-sm mb-space-md max-w-full">
-            <span className="text-primary font-label-md text-label-md font-medium whitespace-nowrap">Top 14 Kategori</span>
+            <span className="text-primary font-label-md text-label-md font-medium whitespace-nowrap">{activeCategories.length} Aktif Kategori</span>
             <span className="text-on-secondary-container/40 text-[10px] leading-none shrink-0 select-none" aria-hidden="true">•</span>
-            <span className="text-on-secondary-container font-label-md text-label-md whitespace-nowrap">120+ Doğrulanmış Hesaplama Aracı</span>
+            <span className="text-on-secondary-container font-label-md text-label-md whitespace-nowrap">{allCalculators.length} Hesaplama Aracı</span>
           </div>
           
           <h1 className="font-display-hero text-display-hero text-on-surface tracking-tight max-w-4xl mx-auto mb-space-sm">
@@ -198,7 +198,7 @@ export default function HomePage() {
               <p className="font-body-md text-body-md text-on-surface-variant mt-1">İhtiyacın olan alana göre kategorilere ayrılmış kapsamlı araç seti.</p>
             </div>
             <Link className="inline-flex items-center gap-1 font-label-lg text-label-lg text-[#7C3AED] hover:text-primary-container group transition-colors" href="/kategoriler">
-              <span>Tüm 14 Kategoriyi İncele</span>
+              <span>Tüm {activeCategories.length} Kategoriyi İncele</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

@@ -106,7 +106,7 @@ export const yakitMaliyetiCalculatorDef: CalculatorDefinition<Input, any> = {
         }
       ]
     },
-    relatedCalculators: ['tasit-kredisi', 'yuzde', 'oran']
+    relatedCalculators: ['yakit-tuketimi', 'tasit-kredisi', 'lastik-ebat-hesaplama', 'mtv-hesaplama']
   },
   fields: [
     {

@@ -14,7 +14,7 @@ export const iyosCalculatorDef: CalculatorDefinition<any, any> = {
     title: 'İYÖS Puan Hesaplama 2026 | Hesapera',
     description: '2026 İYÖS doğru sayınıza göre ham puanınızı hesaplayın; sınav istatistikleri biliniyorsa güncel göreli değerlendirme formülüyle İdari Yargı Ön Sınavı puanınızı hesaplayın.',
     canonical: 'https://www.hesapera.com.tr/hesaplama/iyos-puan',
-    relatedCalculators: ['hmgs-puan', 'h-kim-ve-savci-yardimciligi-sinavi-puan', 'isg-puan', 'kpss-puan'],
+    relatedCalculators: ['hmgs-puan', 'h-kim-ve-savci-yardimciligi-sinavi-puan'],
     faq: [
       {
         question: 'İYÖS nedir?',
@@ -78,7 +78,7 @@ export const iyosCalculatorDef: CalculatorDefinition<any, any> = {
       }
     ],
     content: {
-      intro: '',
+      intro: 'Bu araç, İdari Yargı Ön Sınavı (İYÖS) için 2026 göreli değerlendirme ve 2025 oransal değerlendirme yöntemlerine göre ham puanınızı ve başarı puanınızı hesaplar.',
       sections: [
         {
                     title: 'İYÖS (İdari Yargı Ön Sınavı) Nedir?',

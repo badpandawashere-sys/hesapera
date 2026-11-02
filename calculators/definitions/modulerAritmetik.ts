@@ -23,7 +23,7 @@ export const modulerAritmetikCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Modüler Aritmetik Hesaplama (Mod Alma) | Hesapera',
     description: 'Mod alma (a mod m), modüler toplama, çıkarma ve çarpma işlemlerini adım adım yapın. Negatif sayı desteği mevcuttur.',
     keywords: ['mod hesaplama', 'modüler aritmetik', 'mod alma', 'a mod b', 'kalan bulma', 'mod matematik'],
-    canonical: 'https://hesapera.com/moduler-aritmetik',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/moduler-aritmetik',
     faq: [],
     relatedCalculators: ['ebob-ekok', 'faktoriyel']
   },

@@ -24,7 +24,7 @@ export const eurobondCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Eurobond Hesaplama Aracı | Hesapera',
     description: 'Döviz cinsi tahvillerin (Eurobond) tahmini kupon getirisini ve vade sonu toplam nakit akışını simüle edin.',
     keywords: ["eurobond hesaplama","döviz tahvil","kupon getirisi","eurobond nakit akışı"],
-    canonical: 'https://hesapera.com/eurobond',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/eurobond',
     faq: [],
     relatedCalculators: ["tahvil","bono","faiz"]
   },

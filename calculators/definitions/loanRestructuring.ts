@@ -137,7 +137,7 @@ export const loanRestructuringCalculatorDef: CalculatorDefinition<Input, any> = 
       ]
     },
 
-    relatedCalculators: ["kredi", "ihtiyac-kredisi", "konut-kredisi"]
+    relatedCalculators: ['kredi', 'ihtiyac-kredisi', 'kredi-erken-kapatma-cezasi', 'kredi-yillik-maliyet-orani']
   },
   fields: [
     {

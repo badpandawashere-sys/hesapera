@@ -109,7 +109,7 @@ export const mtvCalculatorDef: CalculatorDefinition<MtvInput, MtvResult> = {
         { name: 'GİB Dijital Vergi Dairesi – MTV Hesaplama', url: 'https://dijital.gib.gov.tr/hesaplamalar/MTVHesaplama' },
       ],
     },
-    relatedCalculators: ['yakit-maliyeti', 'tasit-kredisi'],
+    relatedCalculators: ['tasit-kredisi', 'yakit-tuketimi', 'yakit-maliyeti'],
   },
   fields: [
     {

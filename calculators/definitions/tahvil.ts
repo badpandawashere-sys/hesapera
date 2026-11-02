@@ -24,7 +24,7 @@ export const tahvilCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Tahvil Hesaplama Aracı | Hesapera',
     description: 'Tahvilin nominal değeri, kupon oranı, vadesi ve piyasa getirisi üzerinden tahvil fiyatı ve getiri göstergelerini hesaplayın.',
     keywords: ["tahvil fiyatı","kupon ödemesi","iskontolu tahvil","primli tahvil","tahvil getirisi"],
-    canonical: 'https://hesapera.com/tahvil',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/tahvil',
     faq: [],
     relatedCalculators: ["ic-verim-orani","eurobond","repo"]
   },

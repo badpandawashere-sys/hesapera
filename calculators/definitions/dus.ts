@@ -23,7 +23,7 @@ export const dusCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'DUS Puan Hesaplama Aracı | Hesapera',
     description: '2026-DUS (Diş Hekimliği Uzmanlık Sınavı) Temel ve Klinik Bilimler testleri doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
     keywords: ["dus puan hesaplama","dis hekimligi uzmanlik sinavi","dus 2026"],
-    canonical: 'https://hesapera.com/dus-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/dus-puan',
     faq: [],
     relatedCalculators: ["ales-puan"]
   },

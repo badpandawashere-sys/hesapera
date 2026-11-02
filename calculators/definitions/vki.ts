@@ -89,7 +89,7 @@ export const vkiCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ['ideal-kilo', 'bazal-metabolizma-hizi', 'vucut-yag-orani']
+    relatedCalculators: ['ideal-kilo', 'gunluk-kalori-ihtiyaci']
   },
   fields: [
     { id: 'boy', label: 'Boyunuz (cm)', type: 'number', required: true, min: 50, max: 250 },

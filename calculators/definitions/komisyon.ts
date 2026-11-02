@@ -107,11 +107,6 @@ export const komisyonCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Evet, finansal piyasalarda ve POS oranlarında genellikle %1,25 veya %2,50 gibi ondalıklı komisyon oranları kullanılır.'
       }
     ],
-    relatedCalculators: [
-      'kar-marji-hesaplama',
-      'yuzde',
-      'oran',
-      'kdv-hesaplama'
-    ]
+    relatedCalculators: ['kar-marji-hesaplama', 'kdv-hesaplama', 'indirim-hesaplama', 'yuzde']
   }
 };

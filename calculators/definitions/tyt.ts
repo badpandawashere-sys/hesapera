@@ -80,7 +80,7 @@ export const tytCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ['obp-okul-puani', 'universite-yks-taban-puanlari']
+    relatedCalculators: ['yks-puan', 'msu-puan']
   },
   fields: [
     { id: 'turkceCorrect', label: 'Türkçe Doğru (Maks 40)', type: 'number', required: true, min: 0, max: 40 },

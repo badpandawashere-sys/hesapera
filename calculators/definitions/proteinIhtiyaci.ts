@@ -21,7 +21,7 @@ export const gunlukProteinIhtiyaciCalculatorDef: CalculatorDefinition<Input, any
     title: 'Günlük Protein İhtiyacı Hesaplama | Hesapera',
     description: 'Fiziksel aktivite seviyenize ve vücut ağırlığınıza göre (g/kg) tahmini günlük protein ihtiyacınızı WHO ve ISSN referanslarıyla hesaplayın.',
     keywords: ['günlük protein ihtiyacı hesaplama', 'protein hesabı', 'günde kaç gram protein', 'kas yapımı için protein', 'sporcu beslenmesi'],
-    canonical: 'https://hesapera.com/gunluk-protein-ihtiyaci',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gunluk-protein-ihtiyaci',
     faq: [],
     relatedCalculators: ['gunluk-makro-besin-ihtiyaci', 'gunluk-kalori-ihtiyaci']
   },

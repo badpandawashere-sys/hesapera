@@ -20,7 +20,7 @@ export const asalCarpanCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Asal Çarpanlara Ayırma Hesaplama | Hesapera',
     description: 'Pozitif tam sayıları asal çarpanlarına ayırın, listesini görün ve üslü formda matematiksel ifadesini inceleyin.',
     keywords: ['asal çarpan', 'asal çarpanlara ayırma', 'asal sayı', 'matematik asal çarpan', 'ebob ekok çarpan'],
-    canonical: 'https://hesapera.com/asal-carpan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/asal-carpan',
     faq: [],
     relatedCalculators: []
   },

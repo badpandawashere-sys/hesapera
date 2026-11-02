@@ -23,7 +23,7 @@ export const averageMaturityCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Ortalama Vade Hesaplama Aracı | Hesapera',
     description: 'Farklı tutarlardaki ödeme veya alacaklarınızın ağırlıklı ortalama vadesini (gün olarak) hesaplayın.',
     keywords: ["ortalama vade","ağırlıklı vade","vade hesaplama"],
-    canonical: 'https://hesapera.com/ortalama-vade',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ortalama-vade',
     faq: [],
     relatedCalculators: ["bono","ic-ve-dis-iskonto","faiz"]
   },

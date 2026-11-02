@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const lastUpdated = '15 Eylül 2026';
+  const lastUpdated = '31 Ekim 2026';
 
   return (
     <main className="flex-1 py-12 md:py-16 bg-muted/10">
@@ -41,9 +41,9 @@ export default function PrivacyPage() {
           <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 mb-10 flex items-start gap-4">
             <Lock className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <h2 className="text-base font-bold text-emerald-900">Hesaplama Verileriniz Kaydedilmez</h2>
+              <h2 className="text-base font-bold text-emerald-900">Hesaplama Girdileriniz Veritabanında Saklanmaz</h2>
               <p className="text-sm text-emerald-800 leading-relaxed">
-                Hesapera üzerindeki tüm hesaplama araçlarında girdiğiniz maaş, kredi, sağlık veya şahsi veriler <strong>sunucularımıza kaydedilmez</strong>. İşlemlerinizin tamamı tarayıcınızda (istemci tarafında) anlık olarak işlenir ve gizliliğiniz %100 korunur.
+                Hesapera üzerindeki hesaplama araçlarında girdiğiniz maaş, kredi, sınav, sağlık veya diğer sayısal parametreler <strong>kalıcı olarak kaydedilmez ve herhangi bir veritabanında depolanmaz</strong>. Hesaplama verileri, aracın mimarisine göre doğrudan tarayıcınızda veya sonucu üretmek üzere geçici olarak (bellekte anlık hesaplama yanıtı oluşturmak amacıyla) sunucu aksiyonlarımızda işlenir ve işlem tamamlandığında saklanmadan silinir.
               </p>
             </div>
           </div>
@@ -63,23 +63,20 @@ export default function PrivacyPage() {
             <section className="space-y-3">
               <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <Database className="w-5 h-5 text-primary" />
-                2. Toplanan Bilgiler ve Toplama Yöntemleri
+                2. İşlenen Bilgiler ve İşleme Yöntemleri
               </h2>
               <p className="text-muted-foreground">
-                Hesapera, minimum veri toplama prensibini benimser:
+                Hesapera, minimum veri işleme prensibini benimser:
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-2">
                 <li>
-                  <strong className="text-foreground">Hesaplama Verileri:</strong> Hesaplama araçlarına girdiğiniz hiçbir sayısal veya kişisel parametre sunucularımıza iletilmez ve kaydedilmez. Tüm hesaplamalar tarayıcınızda (istemci tarafında) anlık olarak gerçekleşir.
+                  <strong className="text-foreground">Hesaplama Girdileri:</strong> Hesaplama araçlarına girdiğiniz sayısal parametreler (tutar, oran, doğru/yanlış sayısı, boy/kilo vb.) herhangi bir kullanıcı profiliyle ilişkilendirilmez ve veritabanına kaydedilmez. Özel form bileşenlerinde hesaplamalar tarayıcınızda; standart hesaplama araçlarında ise Next.js sunucu aksiyonları (Server Actions) üzerinden yalnızca matematiksel sonucu hesaplayıp tarayıcınıza döndürmek amacıyla geçici olarak işlenir.
                 </li>
                 <li>
-                  <strong className="text-foreground">İletişim Verileri:</strong> İletişim formu üzerinden gönderilen mesajlar sunucu veritabanımızda saklanmaz; form, verilerinizi e-posta uygulamanız aracılığıyla doğrudan resmi adresimize (info@hesapera.com.tr) iletmek üzere hazırlar. Tarafımıza iletilen e-postalar yalnızca sorunuzu yanıtlamak amacıyla kullanılır.
+                  <strong className="text-foreground">İletişim Verileri:</strong> İletişim formu üzerinden oluşturulan mesajlar bir sunucu veritabanında saklanmaz; form, mesajınızı varsayılan e-posta uygulamanız (`mailto:`) aracılığıyla doğrudan resmi adresimize (info@hesapera.com.tr) göndermeniz için hazırlar. Tarafımıza e-posta göndermeniz halinde ilettiğiniz bilgiler yalnızca talebinizi yanıtlamak amacıyla kullanılır.
                 </li>
                 <li>
-                  <strong className="text-foreground">Teknik ve Trafik Verileri:</strong> Platformun performansını ve güvenliğini sağlamak için IP adresi, tarayıcı türü, işletim sistemi, ziyaret saati gibi anonim teknik veriler sunucu günlüklerinde geçici olarak tutulabilir.
-                </li>
-                <li>
-                  <strong className="text-foreground">Analitik Veriler:</strong> Ziyaretçilerimizin deneyimini iyileştirmek ve popüler araçları belirlemek amacıyla Google Analytics gibi standart analitik araçları anonimleştirilmiş verilerle kullanılmaktadır.
+                  <strong className="text-foreground">Teknik ve Günlük (Log) Verileri:</strong> Platformun çalışmasını ve güvenliğini sağlamak amacıyla standart web sunucusu/barındırma altyapısı tarafından IP adresi, tarayıcı türü, işletim sistemi ve istek zamanı gibi teknik erişim kayıtları geçici olarak işlenebilir.
                 </li>
               </ul>
             </section>
@@ -87,10 +84,42 @@ export default function PrivacyPage() {
             <section className="space-y-3">
               <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <Globe className="w-5 h-5 text-primary" />
-                3. Çerezler (Cookies)
+                3. Çerezler (Cookies) ve Google AdSense Bildirimi
               </h2>
               <p className="text-muted-foreground">
-                Sitemizde temel site fonksiyonlarını çalıştırmak ve kullanım istatistiklerini derlemek amacıyla çerezler kullanılmaktadır. Çerez kullanımına dair detaylı bilgiye ve çerez tercihlerinizi nasıl yönetebileceğinize{' '}
+                Sitemizde temel teknik işlevleri yürütmek ve reklam hizmetlerini sunmak amacıyla çerezler kullanılabilmektedir. Hesapera üzerinde Google AdSense reklam hizmeti entegrasyonu bulunmaktadır:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-2">
+                <li>
+                  Google dahil üçüncü taraf tedarikçiler, kullanıcıların bu web sitesine veya diğer web sitelerine yaptıkları önceki ziyaretlere dayalı olarak reklam yayınlamak için çerezleri (örneğin DoubleClick çerezlerini) kullanır.
+                </li>
+                <li>
+                  Google&apos;ın reklam çerezlerini kullanması, kendisinin ve iş ortaklarının sitemize ve/veya internetteki diğer sitelere yaptığınız ziyaretlere dayalı olarak size uygun reklamlar sunmasına olanak tanır.
+                </li>
+                <li>
+                  Kullanıcılar,{' '}
+                  <a
+                    href="https://adssettings.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    Google Reklam Ayarları (adssettings.google.com)
+                  </a>{' '}
+                  sayfasını ziyaret ederek kişiselleştirilmiş reklamcılığı devre dışı bırakabilir. Ayrıca{' '}
+                  <a
+                    href="https://policies.google.com/technologies/partner-sites"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    Google&apos;ın iş ortaklarının sitelerini veya uygulamalarını kullanan verileri nasıl kullandığı
+                  </a>{' '}
+                  hakkında resmi bilgilendirme sayfasını inceleyebilirsiniz.
+                </li>
+              </ul>
+              <p className="text-muted-foreground">
+                Çerez türleri ve tarayıcı üzerinden çerez yönetimi hakkında detaylı bilgiye{' '}
                 <Link href="/cerez" className="text-primary hover:underline font-medium">
                   Çerez Politikası
                 </Link>{' '}
@@ -101,10 +130,10 @@ export default function PrivacyPage() {
             <section className="space-y-3">
               <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <Shield className="w-5 h-5 text-primary" />
-                4. Bilgi Güvenliği ve Üçüncü Taraflarla Paylaşım
+                4. Üçüncü Taraflarla Paylaşım
               </h2>
               <p className="text-muted-foreground">
-                Hesapera, kullanıcı bilgilerini ticari amaçlarla üçüncü kişilere satmaz, kiralamaz veya ticaretini yapmaz. İletişim formu aracılığıyla ilettiğiniz bilgiler, yasal zorunluluklar (mahkeme kararları, savcılık talepleri vb.) haricinde üçüncü şahıs ve kurumlarla paylaşılmaz.
+                Hesapera, kullanıcıların e-posta yoluyla ilettiği iletişim bilgilerini ticari amaçlarla üçüncü kişilere satmaz veya kiralamaz. Bu bilgiler yalnızca yasal zorunluluklar (yetkili adli ve idari mercilerin talepleri) halinde ilgili resmi makamlarla paylaşılabilir.
               </p>
             </section>
 

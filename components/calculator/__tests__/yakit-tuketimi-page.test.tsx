@@ -29,12 +29,14 @@ describe('Yakıt tüketimi published page', () => {
     expect((await generateMetadata(props)).robots).toBeUndefined();
   });
 
-  it('keeps one related section and other drafts on ComingSoon', async () => {
+  it('keeps one related section and returns 404 for draft calculators', async () => {
     vi.stubEnv('NODE_ENV', 'development');
     const props = { params: Promise.resolve({ slug: 'yakit-tuketimi' }) };
     const page = await CalculatorPage(props);
     expect(countComponent(page, YakitTuketimiForm)).toBe(1);
     expect(countComponent(page, RelatedCalculators)).toBe(1);
-    expect((await CalculatorPage({ params: Promise.resolve({ slug: 'adet-gunu' }) })).type).toBe(ComingSoon);
+    await expect(
+      CalculatorPage({ params: Promise.resolve({ slug: 'adet-gunu' }) })
+    ).rejects.toThrow(/NEXT_NOT_FOUND|NEXT_HTTP_ERROR_FALLBACK/);
   });
 });

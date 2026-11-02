@@ -22,7 +22,7 @@ export const incCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'İnç - Santimetre Dönüştürücü | Hesapera',
     description: 'İnç (inch) ve santimetre (cm) arasında iki yönlü uzunluk birimi dönüşümü yapın. 1 inch = 2.54 cm sabiti ile doğru sonuçlar alın.',
     keywords: ['inç hesaplama', 'inch cm dönüştürme', 'santimetre inç', 'inch kaç cm', 'cm kaç inch'],
-    canonical: 'https://hesapera.com/inc',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/inc',
     faq: [],
     relatedCalculators: ['metrekare', 'cevre', 'alan']
   },

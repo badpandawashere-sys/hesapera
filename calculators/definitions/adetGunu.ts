@@ -21,7 +21,7 @@ export const adetGunuCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Adet Günü Hesaplama (Tahmini Regl Takvimi) | Hesapera',
     description: 'Son adet kanaması tarihinizle bir sonraki beklenen adet gününüzü ve yumurtlama (ovulasyon) tarihinizi hesaplayın.',
     keywords: ['adet günü hesaplama', 'regl takvimi', 'yumurtlama dönemi hesaplama', 'ovulasyon hesaplama', 'sonraki adet tarihi'],
-    canonical: 'https://hesapera.com/adet-gunu',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/adet-gunu',
     faq: [],
     relatedCalculators: []
   },

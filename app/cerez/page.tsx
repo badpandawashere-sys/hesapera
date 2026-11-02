@@ -17,23 +17,23 @@ export const metadata: Metadata = {
 };
 
 export default function CookiePolicyPage() {
-  const lastUpdated = '15 Eylül 2026';
+  const lastUpdated = '31 Ekim 2026';
 
   const cookieTypes = [
     {
-      title: 'Zorunlu Çerezler',
+      title: 'Zorunlu Teknik Çerezler',
       badge: 'Gerekli',
-      desc: 'Web sitesinin düzgün çalışması, sayfa gezinmesi ve güvenli alanlara erişim gibi temel işlevleri yerine getirmek için zorunludur. Bu çerezler devre dışı bırakılamaz.',
+      desc: 'Web sitesinin temel sayfa yönlendirmeleri, güvenli bağlantı yönetimi ve sunucu-istemci iletişimini sağlamak için kullanılan teknik çerezlerdir.',
     },
     {
       title: 'Performans ve Analitik Çerezleri',
       badge: 'İstatistik',
-      desc: 'Ziyaretçilerin web sitemizi nasıl kullandığını anlamamıza, hangi sayfaların daha çok ziyaret edildiğini tespit etmemize ve site performansını artırmamıza yardımcı olur. Bu veriler tamamen anonim tutulur.',
+      desc: 'Ziyaretçilerin sayfaları nasıl kullandığını anlamamıza, hangi hesaplama araçlarının daha sık görüntülendiğini analiz etmemize ve olası teknik hataları tespit etmemize yardımcı olur.',
     },
     {
-      title: 'İşlevsel Çerezler',
-      badge: 'Kullanıcı Tercihi',
-      desc: 'Tercih ettiğiniz hesaplama birimleri, tema modu gibi seçimlerinizi hatırlayarak daha kişiselleştirilmiş ve akıcı bir deneyim sunmayı hedefler.',
+      title: 'Reklam ve Üçüncü Taraf Çerezleri (Google AdSense)',
+      badge: 'Üçüncü Taraf / Reklam',
+      desc: 'Google AdSense (`pagead2.googlesyndication.com`) ve iş ortakları tarafından reklam gösterimi, reklam sıklığının sınırlandırılması ve reklam performansının ölçülmesi amacıyla kullanılan çerezlerdir (DoubleClick çerezleri dahil).',
     },
   ];
 
@@ -62,17 +62,17 @@ export default function CookiePolicyPage() {
                 1. Çerez (Cookie) Nedir?
               </h2>
               <p className="text-muted-foreground">
-                Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınız aracılığıyla cihazınıza (bilgisayar, tablet veya telefon) kaydedilen küçük metin dosyalarıdır. Çerezler web sitesinin verimli çalışmasını, kullanıcı tercihlerinin hatırlanmasını ve ziyaret istatistiklerinin toplanmasını sağlar.
+                Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınız aracılığıyla cihazınıza (bilgisayar, tablet veya telefon) kaydedilen küçük metin dosyalarıdır. Çerezler web sitesinin teknik olarak çalışmasını, ziyaret istatistiklerinin derlenmesini ve üçüncü taraf reklam ağlarının (Google AdSense) reklam sunmasını sağlar.
               </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <Sliders className="w-5 h-5 text-primary" />
-                2. Kullandığımız Çerez Türleri
+                2. Kullandığımız Çerez Türleri ve Google AdSense
               </h2>
               <p className="text-muted-foreground">
-                Platformumuzda kullanılan başlıca çerez türleri şunlardır:
+                Platformumuzda kullanılan başlıca çerez kategorileri şunlardır:
               </p>
               <div className="grid grid-cols-1 gap-4 pt-2">
                 {cookieTypes.map((item, idx) => (
@@ -92,25 +92,43 @@ export default function CookiePolicyPage() {
                   </div>
                 ))}
               </div>
+              <p className="text-sm text-muted-foreground pt-2">
+                Google dahil üçüncü taraf tedarikçiler, kullanıcıların bu web sitesine veya internetteki diğer web sitelerine yaptıkları önceki ziyaretlere dayalı olarak reklam yayınlamak için çerezleri kullanır. Kullanıcılar,{' '}
+                <a
+                  href="https://adssettings.google.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline font-medium"
+                >
+                  Google Reklam Ayarları (adssettings.google.com)
+                </a>{' '}
+                üzerinden kişiselleştirilmiş reklamcılık çerezlerini devre dışı bırakabilir veya{' '}
+                <a
+                  href="https://www.aboutads.info"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline font-medium"
+                >
+                  www.aboutads.info
+                </a>{' '}
+                adresini ziyaret ederek üçüncü taraf tedarikçilerin kişiselleştirilmiş reklamcılık için çerez kullanımını yönetebilir.
+              </p>
             </section>
 
             <section className="space-y-3">
               <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-primary" />
-                3. Çerezleri Nasıl Yönetebilir veya Kapatabilirsiniz?
+                3. Tarayıcı Ayarları Üzerinden Çerez Yönetimi
               </h2>
               <p className="text-muted-foreground">
-                Çoğu internet tarayıcısı çerezleri otomatik olarak kabul edecek şekilde ayarlanmıştır. Dilediğiniz zaman tarayıcınızın ayarlar menüsünden çerezleri engelleyebilir, silebilir veya çerez gönderildiğinde uyarı verilmesini sağlayabilirsiniz:
+                Sitemizde ayrı bir çerez tercih veritabanı tutulmamaktadır; çerez izinlerinizi doğrudan internet tarayıcınızın ayarları veya Google&apos;ın resmi reklam ayarları sayfası üzerinden yönetebilirsiniz. Dilediğiniz zaman tarayıcınızın ayarlar menüsünden çerezleri engelleyebilir veya silebilirsiniz:
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground ml-2">
-                <li><strong className="text-foreground">Google Chrome:</strong> Ayarlar &gt; Gizlilik ve Güvenlik &gt; Çerezler ve Diğer Site Verileri</li>
-                <li><strong className="text-foreground">Mozilla Firefox:</strong> Seçenekler &gt; Gizlilik ve Güvenlik &gt; Çerezler ve Site Verileri</li>
-                <li><strong className="text-foreground">Apple Safari:</strong> Tercihler &gt; Gizlilik &gt; Çerezleri ve Web Sitesi Verilerini Yönet</li>
+                <li><strong className="text-foreground">Google Chrome:</strong> Ayarlar &gt; Gizlilik ve Güvenlik &gt; Üçüncü Taraf Çerezleri ve Site Verileri</li>
+                <li><strong className="text-foreground">Mozilla Firefox:</strong> Ayarlar &gt; Gizlilik ve Güvenlik &gt; Çerezler ve Site Verileri</li>
+                <li><strong className="text-foreground">Apple Safari:</strong> Ayarlar / Tercihler &gt; Gizlilik &gt; Çerezleri ve Web Sitesi Verilerini Yönet</li>
                 <li><strong className="text-foreground">Microsoft Edge:</strong> Ayarlar &gt; Çerezler ve Site İzinleri</li>
               </ul>
-              <p className="text-xs text-muted-foreground italic pt-2">
-                Not: Zorunlu çerezlerin devre dışı bırakılması durumunda sitemizin bazı fonksiyonları beklenen şekilde çalışmayabilir.
-              </p>
             </section>
 
             <section className="space-y-3 border-t border-border/60 pt-8">

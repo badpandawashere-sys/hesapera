@@ -189,7 +189,7 @@ export const yakitTuketimiCalculatorDef: CalculatorDefinition<Input, YakitTuketi
         text: 'Ödenen tutar 543 TL ve gidilen mesafe 142 km olduğunda hesap 543 TL / 142 km = 3,823943... TL/km olur. Gösterilen sonuç kilometre başına 3,82 TL/km ve 100 km için 382,39 TL\'dir.',
       },
     },
-    relatedCalculators: ['yakit-maliyeti', 'tasit-kredisi'],
+    relatedCalculators: ['yakit-maliyeti', 'tasit-kredisi', 'lastik-ebat-hesaplama', 'mtv-hesaplama'],
   },
   fields: [
     {

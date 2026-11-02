@@ -81,7 +81,7 @@ export const gunlukKaloriIhtiyaciCalculatorDef: CalculatorDefinition<Input, any>
       ]
     },
 
-    relatedCalculators: ['bazal-metabolizma-hizi', 'gunluk-makro-besin-ihtiyaci']
+    relatedCalculators: ['vucut-kitle-endeksi', 'ideal-kilo']
   },
   fields: [
     {

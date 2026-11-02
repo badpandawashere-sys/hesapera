@@ -161,7 +161,7 @@ export const ekpssCalculatorDef: CalculatorDefinition<Input, any> = {
         { name: '2026-EKPSS ve Kura Başvuru Kılavuzu', url: 'https://www.osym.gov.tr' }
       ]
     },
-    relatedCalculators: ["kpss-puan", "yks-puan"]
+    relatedCalculators: ['kpss-puan']
   },
   fields: [
     {

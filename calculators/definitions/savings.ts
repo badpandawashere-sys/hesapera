@@ -65,7 +65,7 @@ export const savingsCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["bilesik-buyume","altin"]
+    relatedCalculators: ['bilesik-buyume', 'vadeli-mevduat-faizi', 'altin', 'doviz']
   },
   fields: [
   {

@@ -21,9 +21,9 @@ export const combinationCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Kombinasyon Hesaplama | Hesapera',
     description: 'n elemanlı bir kümenin r elemanlı kombinasyonlarını (seçim sayısını) BigInt hassasiyetiyle hesaplayın.',
     keywords: ["kombinasyon hesaplama", "C(n,r)", "seçim sayısı", "olasılık hesaplama"],
-    canonical: 'https://hesapera.com/kombinasyon',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kombinasyon',
     faq: [],
-    relatedCalculators: ["permutasyon", "faktoriyel", "ebob-ekok"]
+    relatedCalculators: ["permutasyon", "faktoriyel"]
   },
   fields: [
   {

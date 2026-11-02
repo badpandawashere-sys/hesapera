@@ -102,7 +102,7 @@ export const consumerLoanCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["is-yeri-kredisi","konut-kredisi"]
+    relatedCalculators: ['kredi', 'konut-kredisi', 'tasit-kredisi', 'ne-kadar-kredi-alabilirim']
   },
   fields: [
     { id: 'loanAmount', label: 'Kredi Tutarı', type: 'currency', required: true, min: 0 },

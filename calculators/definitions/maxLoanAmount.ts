@@ -71,7 +71,7 @@ export const maxLoanAmountCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["ihtiyac-kredisi","konut-kredisi"]
+    relatedCalculators: ['kredi', 'ihtiyac-kredisi', 'konut-kredisi', 'tasit-kredisi']
   },
   fields: [
   {

@@ -76,7 +76,7 @@ export const dersNotuCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ['e-okul-not']
+    relatedCalculators: ['takdir-tesekkur']
   },
   fields: [
     {

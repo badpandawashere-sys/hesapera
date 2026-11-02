@@ -161,7 +161,7 @@ export const loanCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["ihtiyac-kredisi","konut-kredisi","is-yeri-kredisi"]
+    relatedCalculators: ['ihtiyac-kredisi', 'konut-kredisi', 'tasit-kredisi', 'ne-kadar-kredi-alabilirim']
   },
   fields: [
   {

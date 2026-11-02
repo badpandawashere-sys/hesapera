@@ -82,7 +82,7 @@ export const loanAnnualCostRateCalculatorDef: CalculatorDefinition<Input, any> =
       ]
     },
 
-    relatedCalculators: ["kredi", "ihtiyac-kredisi", "konut-kredisi", "tasit-kredisi"]
+    relatedCalculators: ['kredi', 'ihtiyac-kredisi', 'konut-kredisi', 'kredi-dosya-masrafi']
   },
   fields: [
     {

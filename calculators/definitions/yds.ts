@@ -21,7 +21,7 @@ export const ydsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'YDS Puan Hesaplama 2026 | Hesapera',
     description: 'YDS veya e-YDS doğru/yanlış sayınızı girerek 100 üzerinden yabancı dil puanınızı ve harf seviyenizi hesaplayın. Yanlışlar doğruyu götürmez.',
     keywords: ['yds puan hesaplama', 'e-yds hesaplama', 'yds net hesaplama', 'yds seviyeleri'],
-    canonical: 'https://hesapera.com/yds-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/yds-puan',
     faq: [],
     relatedCalculators: ['ales-puan', 'tus-puan']
   },

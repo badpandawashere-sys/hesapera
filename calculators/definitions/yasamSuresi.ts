@@ -21,7 +21,7 @@ export const yasamSuresiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Yaşam Süresi Hesaplama (TÜİK 2023-2025) | Hesapera',
     description: 'TÜİK resmi Hayat Tabloları verilerine göre 0, 15, 30, 50 ve 65 yaşlarındaki bireylerin cinsiyete göre istatistiksel yaşam beklentisini hesaplayın.',
     keywords: ['yaşam süresi hesaplama', 'kalan ömür', 'tüik hayat tabloları 2023-2025', 'yaşam beklentisi', 'kaç yıl yaşarım'],
-    canonical: 'https://hesapera.com/yasam-suresi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/yasam-suresi',
     faq: [],
     relatedCalculators: []
   },

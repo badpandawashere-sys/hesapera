@@ -78,7 +78,7 @@ export const rentIncreaseCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["yuzde-hesaplama","zam-hesaplama","enflasyon"]
+    relatedCalculators: ['enflasyon', 'konut-kredisi', 'zam-hesaplama']
   },
   fields: [
   {

@@ -89,7 +89,7 @@ export const interestCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["basit-faiz", "bilesik-faiz-hesaplama"]
+    relatedCalculators: ['vadeli-mevduat-faizi', 'basit-faiz', 'bilesik-buyume', 'birikim']
   },
   fields: [
     {

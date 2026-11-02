@@ -25,7 +25,7 @@ export const sutyenBedeniCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Sütyen Bedeni Hesaplama (Kup Ölçüsü) | Hesapera',
     description: 'EN 13402 Avrupa standartlarına göre göğüs ve göğüs altı ölçülerinizi kullanarak doğru sütyen bedeninizi (Kup ve Sırt ölçüsü) hesaplayın.',
     keywords: ['sütyen bedeni hesaplama', 'kup ölçüsü nasıl hesaplanır', 'doğru sütyen bedeni', 'sütyen ölçüsü', 'A B C D kup hesaplama'],
-    canonical: 'https://hesapera.com/sutyen-bedeni',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/sutyen-bedeni',
     faq: [],
     relatedCalculators: []
   },

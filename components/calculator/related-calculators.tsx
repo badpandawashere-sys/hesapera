@@ -8,57 +8,119 @@ interface RelatedCalculatorsProps {
   currentSlug: string;
 }
 
-const SEMANTIC_RELATIONS: Record<string, string[]> = {
+export const SEMANTIC_RELATIONS: Record<string, string[]> = {
+  // --- Krediler ---
   'kredi': ['ihtiyac-kredisi', 'konut-kredisi', 'tasit-kredisi', 'ne-kadar-kredi-alabilirim'],
-  'ihtiyac-kredisi': ['kredi', 'ne-kadar-kredi-alabilirim', 'kredi-yapilandirma', 'kredi-yillik-maliyet-orani'],
-  'konut-kredisi': ['kredi', 'ne-kadar-kredi-alabilirim', 'ihtiyac-kredisi'],
-  'tasit-kredisi': ['kredi', 'ihtiyac-kredisi', 'ne-kadar-kredi-alabilirim'],
-  'kredi-yapilandirma': ['kredi', 'ihtiyac-kredisi', 'kredi-yillik-maliyet-orani'],
-  'kredi-yillik-maliyet-orani': ['kredi', 'ihtiyac-kredisi', 'kredi-yapilandirma'],
+  'ihtiyac-kredisi': ['kredi', 'konut-kredisi', 'tasit-kredisi', 'ne-kadar-kredi-alabilirim'],
+  'konut-kredisi': ['kredi', 'ihtiyac-kredisi', 'kredi-erken-kapatma-cezasi', 'ne-kadar-kredi-alabilirim'],
+  'tasit-kredisi': ['kredi', 'ihtiyac-kredisi', 'yakit-tuketimi', 'mtv-hesaplama'],
+  'is-yeri-kredisi': ['kredi', 'konut-kredisi', 'ihtiyac-kredisi', 'kredi-yillik-maliyet-orani'],
+  'kredi-erken-kapatma-cezasi': ['konut-kredisi', 'ihtiyac-kredisi', 'kredi', 'kredi-yapilandirma'],
+  'kredi-dosya-masrafi': ['kredi', 'ihtiyac-kredisi', 'konut-kredisi', 'kredi-yillik-maliyet-orani'],
+  'kredi-yapilandirma': ['kredi', 'ihtiyac-kredisi', 'kredi-erken-kapatma-cezasi', 'kredi-yillik-maliyet-orani'],
+  'kredi-yillik-maliyet-orani': ['kredi', 'ihtiyac-kredisi', 'konut-kredisi', 'kredi-dosya-masrafi'],
   'ne-kadar-kredi-alabilirim': ['kredi', 'ihtiyac-kredisi', 'konut-kredisi', 'tasit-kredisi'],
+
+  // --- Kredi Kartı ---
   'kredi-karti-asgari-odeme-tutari': ['kredi-karti-gecikme-faizi', 'ihtiyac-kredisi'],
   'kredi-karti-gecikme-faizi': ['kredi-karti-asgari-odeme-tutari', 'ihtiyac-kredisi'],
 
-  'yuzde': ['oran', 'basit-faiz', 'bilesik-buyume'],
-  'oran': ['yuzde', 'ebob-ekok'],
-  'metrekare': ['alan', 'cevre', 'hacim'],
-  'alan': ['metrekare', 'cevre', 'hacim'],
-  'cevre': ['alan', 'metrekare', 'hacim'],
-  'hacim': ['alan', 'metrekare', 'cevre'],
-  'ebob-ekok': ['faktoriyel', 'koklu-sayi'],
-  'koklu-sayi': ['ebob-ekok', 'faktoriyel'],
-  'faktoriyel': ['ebob-ekok', 'koklu-sayi'],
+  // --- Mevduat & Faiz ---
+  'vadeli-mevduat-faizi': ['faiz', 'basit-faiz', 'birikim', 'bilesik-buyume'],
+  'faiz': ['vadeli-mevduat-faizi', 'basit-faiz', 'bilesik-buyume', 'birikim'],
+  'basit-faiz': ['faiz', 'vadeli-mevduat-faizi', 'bilesik-buyume'],
+  'bilesik-buyume': ['birikim', 'faiz', 'vadeli-mevduat-faizi', 'basit-faiz'],
+  'birikim': ['bilesik-buyume', 'vadeli-mevduat-faizi', 'altin', 'doviz'],
 
+  // --- Altın, Döviz, Enflasyon, Kira ---
   'altin': ['gecmis-altin-fiyatlari', 'doviz', 'birikim'],
-  'gecmis-altin-fiyatlari': ['altin', 'gecmis-doviz-kurlari', 'enflasyon'],
+  'gecmis-altin-fiyatlari': ['altin', 'gecmis-doviz-kurlari', 'doviz'],
   'doviz': ['gecmis-doviz-kurlari', 'altin', 'birikim'],
   'gecmis-doviz-kurlari': ['doviz', 'gecmis-altin-fiyatlari', 'enflasyon'],
-  'enflasyon': ['kira-artis-orani', 'gecmis-doviz-kurlari', 'gecmis-altin-fiyatlari'],
-  'vadeli-mevduat-faizi': ['birikim', 'faiz', 'basit-faiz', 'bilesik-buyume'],
-  'faiz': ['vadeli-mevduat-faizi', 'basit-faiz', 'bilesik-buyume', 'birikim'],
-  'birikim': ['vadeli-mevduat-faizi', 'bilesik-buyume', 'altin', 'doviz'],
-  'bilesik-buyume': ['faiz', 'vadeli-mevduat-faizi', 'birikim', 'yuzde'],
-  'basit-faiz': ['faiz', 'vadeli-mevduat-faizi', 'bilesik-buyume', 'yuzde'],
+  'enflasyon': ['kira-artis-orani', 'zam-hesaplama', 'gecmis-altin-fiyatlari', 'gecmis-doviz-kurlari'],
+  'kira-artis-orani': ['enflasyon', 'konut-kredisi', 'zam-hesaplama'],
 
-  'vucut-kitle-endeksi': ['ideal-kilo', 'gunluk-kalori-ihtiyaci', 'yas'],
-  'ideal-kilo': ['vucut-kitle-endeksi', 'gunluk-kalori-ihtiyaci', 'yas'],
-  'gunluk-kalori-ihtiyaci': ['vucut-kitle-endeksi', 'ideal-kilo', 'yas'],
-  'yas': ['vucut-kitle-endeksi', 'ideal-kilo', 'gunluk-kalori-ihtiyaci'],
+  // --- Ticari & Vergi ---
+  'kdv-hesaplama': ['indirim-hesaplama', 'kar-marji-hesaplama', 'komisyon-hesaplama', 'yuzde'],
+  'indirim-hesaplama': ['kdv-hesaplama', 'kar-marji-hesaplama', 'yuzde'],
+  'kar-marji-hesaplama': ['komisyon-hesaplama', 'kdv-hesaplama', 'indirim-hesaplama', 'yuzde'],
+  'komisyon-hesaplama': ['kar-marji-hesaplama', 'kdv-hesaplama', 'indirim-hesaplama', 'yuzde'],
+  'zam-hesaplama': ['maas', 'enflasyon', 'kira-artis-orani', 'yuzde'],
 
-  'tyt-puan': ['yks-puan', 'ders-notu', 'takdir-tesekkur'],
-  'yks-puan': ['tyt-puan', 'ders-notu', 'takdir-tesekkur'],
-  'lgs-puan': ['ders-notu', 'takdir-tesekkur'],
-  'ders-notu': ['takdir-tesekkur', 'tyt-puan', 'lgs-puan'],
-  'takdir-tesekkur': ['ders-notu', 'tyt-puan', 'lgs-puan'],
-  'kpss-puan': ['ders-notu', 'takdir-tesekkur'],
+  // --- Maaş & Kıdem ---
+  'maas': ['kidem-tazminati', 'zam-hesaplama'],
+  'kidem-tazminati': ['maas', 'zam-hesaplama'],
 
-  'kira-artis-orani': ['enflasyon', 'konut-kredisi'],
-  'yakit-maliyeti': ['yakit-tuketimi', 'tasit-kredisi', 'yuzde', 'oran'],
-  'yakit-tuketimi': ['yakit-maliyeti', 'tasit-kredisi'],
+  // --- Bağımsız Bankacılık ---
+  'iban-dogrulama': [],
+
+  // --- Araç / Taşıt ---
+  'yakit-tuketimi': ['yakit-maliyeti', 'tasit-kredisi', 'lastik-ebat-hesaplama', 'mtv-hesaplama'],
+  'yakit-maliyeti': ['yakit-tuketimi', 'tasit-kredisi', 'lastik-ebat-hesaplama', 'mtv-hesaplama'],
+  'mtv-hesaplama': ['tasit-kredisi', 'yakit-tuketimi', 'yakit-maliyeti'],
+  'lastik-ebat-hesaplama': ['yakit-tuketimi', 'yakit-maliyeti'],
+
+  // --- Sağlık ---
+  'vucut-kitle-endeksi': ['ideal-kilo', 'gunluk-kalori-ihtiyaci'],
+  'ideal-kilo': ['vucut-kitle-endeksi', 'gunluk-kalori-ihtiyaci'],
+  'gunluk-kalori-ihtiyaci': ['vucut-kitle-endeksi', 'ideal-kilo'],
+
+  // --- Geometri & Alan ---
+  'alan': ['cevre', 'hacim', 'metrekare'],
+  'cevre': ['alan', 'hacim', 'metrekare'],
+  'hacim': ['alan', 'cevre', 'metrekare'],
+  'metrekare': ['alan', 'cevre', 'hacim'],
+
+  // --- Temel Matematik ---
+  'yuzde': ['oran', 'basit-faiz', 'bilesik-buyume'],
+  'oran': ['yuzde'],
+  'ebob-ekok': [],
+  'koklu-sayi': [],
+  'faktoriyel': [],
+
+  // --- Tarih & Yaş ---
+  'gun-hesaplama': ['yas'],
+  'yas': ['gun-hesaplama'],
+
+  // --- Eğitim (Okul) ---
+  'ders-notu': ['takdir-tesekkur'],
+  'takdir-tesekkur': ['ders-notu', 'lgs-puan'],
+  'lgs-puan': ['takdir-tesekkur', 'ders-notu'],
+
+  // --- Eğitim (Üniversite & Askeri) ---
+  'tyt-puan': ['yks-puan', 'msu-puan'],
+  'yks-puan': ['tyt-puan', 'msu-puan'],
+  'msu-puan': ['tyt-puan', 'yks-puan'],
+
+  // --- Eğitim (Kamu / Memuriyet) ---
+  'kpss-puan': ['ekpss-puan'],
+  'ekpss-puan': ['kpss-puan'],
+
+  // --- Eğitim (Hukuk & Yargı) ---
+  'hmgs-puan': ['iyos-puan', 'h-kim-ve-savci-yardimciligi-sinavi-puan'],
+  'iyos-puan': ['hmgs-puan', 'h-kim-ve-savci-yardimciligi-sinavi-puan'],
+  'h-kim-ve-savci-yardimciligi-sinavi-puan': ['hmgs-puan', 'iyos-puan'],
+
+  // --- Eğitim (Müstakil Mesleki / Uzmanlık) ---
+  'isg-puan': [],
+  'eus-puan': []
 };
 
 export function RelatedCalculators({ category, currentSlug }: RelatedCalculatorsProps) {
-  const semanticSlugs = SEMANTIC_RELATIONS[currentSlug] || [];
+  const currentCalc = CalculatorRegistry.getBySlug(currentSlug);
+  
+  // Eğer tanımda veya SEMANTIC_RELATIONS'ta açıkça boş liste tanımlanmışsa (bağımsız araçlar), fallback ekleme ve bileşeni gizle
+  const declaredRelated = currentCalc?.metadata?.relatedCalculators;
+  if (Array.isArray(declaredRelated) && declaredRelated.length === 0) {
+    return null;
+  }
+  if (SEMANTIC_RELATIONS[currentSlug] !== undefined && SEMANTIC_RELATIONS[currentSlug].length === 0) {
+    return null;
+  }
+
+  const semanticSlugs = declaredRelated && declaredRelated.length > 0
+    ? declaredRelated
+    : (SEMANTIC_RELATIONS[currentSlug] || []);
   
   const semanticCalculators: CalculatorDefinition<any, any>[] = [];
   

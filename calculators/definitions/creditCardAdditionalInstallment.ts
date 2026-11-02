@@ -22,7 +22,7 @@ export const creditCardAdditionalInstallmentCalculatorDef: CalculatorDefinition<
     title: 'Kredi Kartı Ek Taksit Hesaplama Aracı | Hesapera',
     description: 'Mevcut taksitli işleminize ek taksit eklendiğinde yeni taksit tutarınızı faizsiz eşit bölüşüm varsayımıyla hesaplayın.',
     keywords: ["ek taksit","kredi kartı taksit","taksitlendirme","taksit bölme"],
-    canonical: 'https://hesapera.com/kredi-karti-ek-taksit',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-karti-ek-taksit',
     faq: [],
     relatedCalculators: ["kredi-karti-islem-taksitlendirme"]
   },

@@ -21,7 +21,7 @@ export const dibMbstsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'DİB MBSTS Puan Hesaplama Aracı | Hesapera',
     description: '2026-DİB-MBSTS sınavı (29 Mart 2026) doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
     keywords: ["dib mbsts puan","mbsts hesaplama","diyanet sınav puanı"],
-    canonical: 'https://hesapera.com/dib-mbsts-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/dib-mbsts-puan',
     faq: [],
     relatedCalculators: ["ales-puan","ags-puan"]
   },

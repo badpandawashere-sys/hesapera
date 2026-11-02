@@ -112,11 +112,6 @@ export const lastikEbatCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Teorik olarak çap aynı kaldığı sürece kullanılabilir, ancak yeni ölçünün jant genişliğine uyması ve sürtme yapmaması (çamurluk payı) gerekir. Mutlaka üretici tavsiyesine uyulmalıdır.'
       }
     ],
-    relatedCalculators: [
-      'yakit-maliyeti',
-      'yakit-tuketimi',
-      'tasit-kredisi',
-      'yuzde'
-    ]
+    relatedCalculators: ['yakit-tuketimi', 'yakit-maliyeti']
   }
 };

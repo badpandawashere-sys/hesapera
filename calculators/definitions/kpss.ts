@@ -122,7 +122,7 @@ export const kpssCalculatorDef: CalculatorDefinition<Input, any> = {
         }
       ]
     },
-    relatedCalculators: ['ekpss-puan', 'ales-puan', 'ags-puan']
+    relatedCalculators: ['ekpss-puan']
   },
   fields: [
     {

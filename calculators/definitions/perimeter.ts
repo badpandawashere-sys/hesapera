@@ -109,7 +109,7 @@ export const perimeterCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["alan", "hacim"]
+    relatedCalculators: ['alan', 'hacim', 'metrekare']
   },
   fields: [
     {

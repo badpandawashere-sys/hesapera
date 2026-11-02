@@ -23,7 +23,7 @@ export const liseMezuniyetPuaniCalculatorDef: CalculatorDefinition<Input, any> =
     title: 'Lise Mezuniyet ve Diploma Puanı Hesaplama 2026 | Hesapera',
     description: '9, 10, 11 ve 12. sınıf yıl sonu başarı puanlarınızla lise mezuniyet (diploma) puanınızı ve YKS OBP değerinizi hesaplayın.',
     keywords: ['lise mezuniyet puanı', 'diploma puanı hesaplama', 'obp hesaplama', 'yks ortaöğretim başarı puanı', 'lise diploma notu'],
-    canonical: 'https://hesapera.com/lise-mezuniyet-puani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/lise-mezuniyet-puani',
     faq: [],
     relatedCalculators: ['obp-okul-puani', 'lise-ortalama']
   },

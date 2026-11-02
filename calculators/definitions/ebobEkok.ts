@@ -87,7 +87,7 @@ export const ebobEkokCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ['oran', 'yuzde']
+    relatedCalculators: []
   },
   fields: [
     {

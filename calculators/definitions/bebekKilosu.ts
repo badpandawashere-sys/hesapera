@@ -22,7 +22,7 @@ export const bebekKilosuCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Bebek Kilosu Hesaplama (WHO Standartları) | Hesapera',
     description: 'Bebeğinizin mevcut kilosunu yaş ve cinsiyetine göre Dünya Sağlık Örgütü (WHO) büyüme standartlarındaki 50. persentil (medyan) değerleriyle karşılaştırın.',
     keywords: ['bebek kilosu hesaplama', 'bebek gelişimi', 'who persentil', 'bebek kilo tablosu', 'aylık bebek kilosu'],
-    canonical: 'https://hesapera.com/bebek-kilosu',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/bebek-kilosu',
     faq: [],
     relatedCalculators: ['bebek-boyu', 'asi-takvimi']
   },

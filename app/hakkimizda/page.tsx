@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteContainer } from '@/components/layout/site-container';
+import { CalculatorRegistry } from '@/calculators/core/calculator-registry';
+import '@/calculators/core/init';
+import { categories } from '@/lib/data/categories';
 import { 
   Calculator, 
   ShieldCheck, 
@@ -27,11 +30,16 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const publishedCount = CalculatorRegistry.getPublishedAll().length;
+  const activeCategoryCount = categories.filter(
+    (cat) => CalculatorRegistry.getPublishedByCategory(cat.id).length > 0
+  ).length;
+
   const stats = [
-    { value: '40+', label: 'Yayınlanmış Hesaplama Aracı' },
-    { value: '14', label: 'Ana Kategori' },
-    { value: '%100', label: 'Ücretsiz & Reklamsız Deneyim' },
-    { value: '0 ms', label: 'Anlık İstemci Hesaplaması' },
+    { value: `${publishedCount}`, label: 'Yayınlanmış Hesaplama Aracı' },
+    { value: `${activeCategoryCount}`, label: 'Aktif Kategori' },
+    { value: '%100', label: 'Ücretsiz Erişim' },
+    { value: '7/24', label: 'Kesintisiz Kullanım' },
   ];
 
   const values = [
@@ -42,13 +50,13 @@ export default function AboutPage() {
     },
     {
       icon: Zap,
-      title: 'Işık Hızında Sonuç',
-      description: 'Karmaşık formüller doğrudan cihazınızda çalışır. Sayfa yenilemeye ihtiyaç duymadan parametrelerinizi anlık olarak değiştirip sonuçları görebilirsiniz.',
+      title: 'Hızlı ve Net Sonuç',
+      description: 'Karmaşık formülleri saniyeler içinde hesaplar; sayfa yenilemeye ihtiyaç duymadan parametrelerinizi değiştirip detaylı sonuç dökümlerini inceleyebilirsiniz.',
     },
     {
       icon: HeartHandshake,
       title: 'Gizlilik ve Veri Güvenliği',
-      description: 'Girdiğiniz kredi tutarları, maaş bilgileri veya kişisel veriler sunucularımıza kaydedilmez. Hesaplamalarınız tamamen sizin tarayıcınızda kalır.',
+      description: 'Girdiğiniz kredi tutarları, maaş bilgileri veya sınav verileri hiçbir veritabanında depolanmaz; yalnızca hesaplama sonucunu üretmek için anlık olarak işlenir.',
     },
     {
       icon: Layers,
@@ -100,7 +108,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-2xl font-bold text-foreground">Misyonumuz</h2>
             <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
-              Kredi faizlerinden kıdem tazminatına, sınav puanlarından gebelik takvimine kadar hayatın her alanındaki hesaplama ihtiyaçlarını anlaşılır kılmak; kullanıcılarımızın güvenilir verilere en hızlı şekilde ulaşmasını sağlamaktır.
+              Kredi faizlerinden kıdem tazminatına, sınav puanlarından vücut kitle endeksine kadar hayatın her alanındaki hesaplama ihtiyaçlarını anlaşılır kılmak; kullanıcılarımızın güvenilir verilere en hızlı şekilde ulaşmasını sağlamaktır.
             </p>
           </div>
 
@@ -153,9 +161,9 @@ export default function AboutPage() {
             {[
               'Güncel mevzuat ve yasal katsayılar',
               'Mobil ve tablet cihazlarla tam uyum',
-              'Sonuçları PDF veya resim olarak paylaşma',
+              'Açık formül ve örnek hesaplama anlatımları',
               'Adım adım detaylı hesaplama dökümleri',
-              'Kullanıcı verisi toplamayan şeffaf altyapı',
+              'Hesaplama girdilerini saklamayan şeffaf altyapı',
               'Kapsamlı rehber ve açıklama içerikleri',
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3">

@@ -23,7 +23,7 @@ export const liseLgsTabanPuanlariCalculatorDef: CalculatorDefinition<Input, any>
     title: 'Lise LGS Taban Puanları Sorgulama | Hesapera',
     description: 'LGS ile öğrenci alan liselerin yıl, il, okul türü ve taban puan bilgilerini sorgulayın. Gerçek veriler MEB e-Okul ve ÖSYM LGS Yerleştirme Sonuçlarından alınmaktadır.',
     keywords: ['lise taban puanları', 'lgs taban puan', 'lise puanları 2025', 'meb lise yerleştirme'],
-    canonical: 'https://hesapera.com/lise-lgs-taban-puanlari',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/lise-lgs-taban-puanlari',
     faq: [],
     relatedCalculators: ['lgs-puan', 'dgs-taban-puanlari']
   },

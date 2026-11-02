@@ -24,7 +24,7 @@ export const liseOrtalamaCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Lise Ortalama ve Takdir/Teşekkür Hesaplama 2026 | Hesapera',
     description: 'Güncel MEB yönetmeliğine göre lise ağırlıklı not ortalamanızı hesaplayın. Takdir ve teşekkür belgesi durumunuzu öğrenin.',
     keywords: ['lise ortalama hesaplama', 'ağırlıklı ortalama lise', 'lise takdir teşekkür hesaplama', 'meb ortalama hesaplama', 'dönem sonu puanı'],
-    canonical: 'https://hesapera.com/lise-ortalama',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/lise-ortalama',
     faq: [],
     relatedCalculators: ['lise-sinif-gecme', 'e-okul-not']
   },

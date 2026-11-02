@@ -28,7 +28,7 @@ export const dogumTarihiCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Doğum Tarihi ve Yaş Hesaplama (Tam Yaş ve Gün) | Hesapera',
     description: 'Doğum tarihine göre tam yaşınızı (yıl, ay, gün olarak) hesaplayın. Veya yaşınızı girerek geriye dönük tahmini doğum tarihinizi bulun. Artık yıllar dahildir.',
     keywords: ['doğum tarihi hesaplama', 'yaş hesaplama', 'tam yaş hesaplama', 'kaç yaşındayım', 'geriye dönük tarih hesaplama'],
-    canonical: 'https://hesapera.com/dogum-tarihi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/dogum-tarihi',
     faq: [],
     relatedCalculators: []
   },

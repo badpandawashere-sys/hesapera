@@ -20,7 +20,7 @@ export const ehliyetSinaviCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Ehliyet Sınavı Puan Hesaplama Aracı | Hesapera',
     description: 'MEB motorlu taşıt sürücü kursu teorik sınavı doğru sayınıza göre puanınızı ve başarı durumunuzu hesaplayın.',
     keywords: ["ehliyet sınavı puan","sürücü kursu sınavı","ehliyet teorik puan","ehliyet sınav hesaplama"],
-    canonical: 'https://hesapera.com/ehliyet-sinavi-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ehliyet-sinavi-puan',
     faq: [],
     relatedCalculators: ["aks-puan"]
   },

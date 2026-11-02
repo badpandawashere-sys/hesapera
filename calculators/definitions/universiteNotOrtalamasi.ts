@@ -26,7 +26,7 @@ export const universiteNotOrtalamasiCalculatorDef: CalculatorDefinition<Input, a
     title: 'Üniversite Not Ortalaması Hesaplama (GPA / GANO) | Hesapera',
     description: 'Üniversite öğrencileri için 4\'lük, 100\'lük veya harf sistemiyle dönem ve genel akademik not ortalaması (GANO/GPA) hesaplayın.',
     keywords: ['üniversite not ortalaması hesaplama', 'gpa hesaplama', 'gano hesaplama', '4 lük sistem hesaplama', 'harf notu hesaplama'],
-    canonical: 'https://hesapera.com/universite-not-ortalamasi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/universite-not-ortalamasi',
     faq: [],
     relatedCalculators: ['lise-ortalama', 'ders-notu']
   },

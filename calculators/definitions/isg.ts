@@ -38,7 +38,7 @@ export const isgCalculatorDef: CalculatorDefinition<Input, any> = {
       { question: 'İptal sorular dahil doğru sayısı girilmeli mi?', answer: 'Hesaplama yaparken yalnızca ÖSYM tarafından geçerli kabul edilen sorulara verdiğiniz doğru sayısını formdaki alana girmelisiniz.' },
       { question: 'A/B/C sınıflarında başarı sınırı farklı mı?', answer: 'Hayır, A, B ve C sınıfı iş güvenliği uzmanlığı sınavlarının tamamında başarılı olmak için en az 70 puan alınması zorunludur.' }
     ],
-    relatedCalculators: ['hmgs-puan', 'h-kim-ve-savci-yardimciligi-sinavi-puan', 'kpss-puan'],
+    relatedCalculators: [],
     content: {
       intro: 'İSG (İş Sağlığı ve Güvenliği) sınavı puanınızı ÖSYM kurallarına göre iptal edilen soru sayısını da dikkate alarak hesaplayın.',
       sections: [

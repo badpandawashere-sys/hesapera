@@ -28,7 +28,7 @@ export const pybsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'PYBS / İOKBS Puan Hesaplama 2026 | Hesapera',
     description: '2026 PYBS (İOKBS) Bursluluk sınavı için netlerinizi ve MEB 100-500 aralığındaki yaklaşık Ağırlıklı Standart Puanınızı (TASP) hesaplayın.',
     keywords: ['pybs puan hesaplama', 'iokbs puan hesaplama', 'bursluluk sınavı puan', 'meb iokbs 2026'],
-    canonical: 'https://hesapera.com/pybs-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/pybs-puan',
     faq: [],
     relatedCalculators: ['lgs-puan', 'lise-lgs-taban-puanlari']
   },

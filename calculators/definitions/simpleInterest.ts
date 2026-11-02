@@ -65,7 +65,7 @@ export const simpleInterestCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["yuzde-hesaplama","bilesik-faiz-hesaplama"]
+    relatedCalculators: ['faiz', 'vadeli-mevduat-faizi', 'bilesik-buyume']
   },
   fields: [
   {

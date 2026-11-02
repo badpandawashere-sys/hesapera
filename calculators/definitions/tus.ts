@@ -24,7 +24,7 @@ export const tusCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'TUS Puan Hesaplama 2026 | Hesapera',
     description: '2026 TUS Temel Tıp Bilimleri Testi (TTBT) ve Klinik Tıp Bilimleri Testi (KTBT) netlerinize göre yaklaşık T ve K puanınızı hesaplayın.',
     keywords: ['tus puan hesaplama', 'tıpta uzmanlık sınavı', 'tus k puanı', 'tus t puanı', 'tus net hesaplama'],
-    canonical: 'https://hesapera.com/tus-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/tus-puan',
     faq: [],
     relatedCalculators: ['dus-puan', 'eus-puan']
   },

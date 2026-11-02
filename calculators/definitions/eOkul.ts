@@ -29,7 +29,7 @@ export const eOkulNotCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'E-Okul Ortalama ve Takdir/Teşekkür Hesaplama 2026 | Hesapera',
     description: 'İlkokul, Ortaokul ve Lise öğrencileri için güncel e-okul dönem ortalaması, belge (takdir/teşekkür) durumu ve ders notu hesaplama aracı.',
     keywords: ['e-okul not hesaplama', 'dönem ortalaması hesaplama', 'takdir teşekkür hesaplama', 'meb not hesaplama', 'lise ortalama hesaplama'],
-    canonical: 'https://hesapera.com/e-okul-not',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/e-okul-not',
     faq: [],
     relatedCalculators: ['ders-notu', 'obp-okul-puani']
   },

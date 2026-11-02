@@ -22,7 +22,7 @@ export const pomemCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'POMEM Puan Hesaplama â€” Polis Meslek Eğitim Merkezi | Hesapera',
     description: 'Polis Meslek Eğitim Merkezi (POMEM) güncel başarı formülüne göre KPSS (%25), fiziki yeterlilik (%25) ve mülakat (%50) puanlarıyla nihai sıralama puanınızı öğrenin.',
     keywords: ['pomem puan hesaplama', 'polis meslek eğitim merkezi', 'pomem başarı puanı', 'kpss fiziki mülakat'],
-    canonical: 'https://hesapera.com/pomem-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/pomem-puan',
     faq: [],
     relatedCalculators: ['pmyo-puan', 'kpss-puan']
   },

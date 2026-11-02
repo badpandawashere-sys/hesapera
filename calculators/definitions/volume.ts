@@ -94,7 +94,7 @@ export const volumeCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["alan", "cevre"]
+    relatedCalculators: ['alan', 'cevre', 'metrekare']
   },
   fields: [
     {

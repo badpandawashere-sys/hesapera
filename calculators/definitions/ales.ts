@@ -23,7 +23,7 @@ export const alesCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'ALES Puan Hesaplama Aracı | Hesapera',
     description: 'ALES Sayısal, Sözel ve Eşit Ağırlık (EA) puanlarınızı ÖSYM katsayı standartlarıyla hesaplayın.',
     keywords: ["ales puan hesaplama","ales say","ales söz","ales ea"],
-    canonical: 'https://hesapera.com/ales-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ales-puan',
     faq: [],
     relatedCalculators: ["dgs-puan","ags-puan"]
   },

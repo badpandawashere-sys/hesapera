@@ -24,7 +24,7 @@ export const dgsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'DGS Puan Hesaplama Aracı | Hesapera',
     description: 'Dikey Geçiş Sınavı (DGS) Sayısal, Sözel ve Eşit Ağırlık (EA) puanlarınızı ÖBP dahil şekilde hesaplayın.',
     keywords: ["dgs puan hesaplama","dgs öbp","dikey geçiş sınavı","dgs 2026"],
-    canonical: 'https://hesapera.com/dgs-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/dgs-puan',
     faq: [],
     relatedCalculators: ["ales-puan"]
   },

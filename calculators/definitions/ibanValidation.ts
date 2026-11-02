@@ -63,7 +63,7 @@ export const ibanValidationCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["kredi", "ihtiyac-kredisi"]
+    relatedCalculators: []
   },
   fields: [
     {

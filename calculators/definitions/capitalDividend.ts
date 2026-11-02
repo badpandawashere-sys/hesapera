@@ -31,7 +31,7 @@ export const capitalDividendCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Sermaye ve Temettü Hesaplama Aracı | Hesapera',
     description: 'Sermaye, hisse adedi ve temettü oranları arasındaki ilişkiyi kullanarak hisse başına düşen temettü ve nominal değeri hesaplayın.',
     keywords: ["temettü hesaplama","hisse temettü","sermaye hesaplama","hisse başına temettü"],
-    canonical: 'https://hesapera.com/sermaye-ve-temettu',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/sermaye-ve-temettu',
     faq: [],
     relatedCalculators: ["reel-getiri","repo","ic-verim-orani"]
   },

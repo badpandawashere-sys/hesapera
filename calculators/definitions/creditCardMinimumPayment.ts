@@ -124,7 +124,7 @@ export const creditCardMinimumPaymentCalculatorDef: CalculatorDefinition<Input, 
       ]
     },
 
-    relatedCalculators: ["kredi-karti-gecikme-faizi","kredi-karti-islem-taksitlendirme"]
+    relatedCalculators: ['kredi-karti-gecikme-faizi', 'ihtiyac-kredisi']
   },
   fields: [
   {

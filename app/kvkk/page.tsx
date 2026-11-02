@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function KvkkPage() {
-  const lastUpdated = '15 Eylül 2026';
+  const lastUpdated = '31 Ekim 2026';
 
   return (
     <main className="flex-1 py-12 md:py-16 bg-muted/10">
@@ -54,7 +54,7 @@ export default function KvkkPage() {
                 2. İşlenen Kişisel Veriler ve İşleme Amaçları
               </h2>
               <p className="text-muted-foreground">
-                Hesapera web platformu üzerinden hesaplama araçlarını kullanırken girdiğiniz parametrik değerler (tutar, faiz oranı, yaş, kilo vb.) <strong>sunucularımızda saklanmamakta ve işlenmemektedir</strong>.
+                Hesapera web platformu üzerinden hesaplama araçlarını kullanırken girdiğiniz parametrik değerler (tutar, faiz oranı, yaş, kilo vb.) <strong>sunucularımızda kalıcı olarak saklanmamakta ve herhangi bir veritabanına kaydedilmemektedir</strong>; bu değerler yalnızca ilgili hesaplama sonucunu üretip ekranınıza yansıtmak amacıyla anlık ve geçici olarak işlenir.
               </p>
               <p className="text-muted-foreground">
                 Sitemizdeki iletişim formu verilerinizi bir sunucu veritabanına kaydetmez; mesajınızı doğrudan e-posta uygulamanız aracılığıyla resmi adresimize (info@hesapera.com.tr) iletmeniz için köprü görevi görür. Tarafımıza doğrudan e-posta göndermeniz halinde;

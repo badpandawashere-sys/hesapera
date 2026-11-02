@@ -22,7 +22,7 @@ export const commercialConsumerLoanCalculatorDef: CalculatorDefinition<Input, an
     title: 'Ticari İhtiyaç Kredisi Hesaplama Aracı | Hesapera',
     description: 'İşletmenizin kısa ve orta vadeli nakit ihtiyaçları için kullanacağınız ticari ihtiyaç kredisini parametrik olarak simüle edin.',
     keywords: ["ticari ihtiyaç kredisi","esnaf kredisi","kobi kredisi","işletme kredisi"],
-    canonical: 'https://hesapera.com/ticari-ihtiyac-kredisi',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ticari-ihtiyac-kredisi',
     faq: [],
     relatedCalculators: ["ticari-kredi","is-yeri-kredisi","ihtiyac-kredisi"]
   },

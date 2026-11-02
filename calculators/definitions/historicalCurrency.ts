@@ -75,7 +75,7 @@ export const historicalCurrencyCalculatorDef: CalculatorDefinition<Input, any> =
       ]
     },
 
-    relatedCalculators: ["doviz","gecmis-altin-fiyatlari","enflasyon"]
+    relatedCalculators: ['doviz', 'gecmis-altin-fiyatlari', 'enflasyon']
   },
   fields: [
     {

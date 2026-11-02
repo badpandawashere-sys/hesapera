@@ -80,7 +80,7 @@ export const hmgsCalculatorDef: CalculatorDefinition<Input, any> = {
         answer: 'Eski sistemde iptal edilen sorular toplam soru sayısından çıkarılır ve kalan sorular üzerinden orantılama yapılırdı (örneğin 1 soru iptalinde 119 soru 100 puan üzerinden değerlendirilirdi).'
       }
     ],
-    relatedCalculators: ['h-kim-ve-savci-yardimciligi-sinavi-puan', 'kpss-puan', 'yks-puan'],
+    relatedCalculators: ['iyos-puan', 'h-kim-ve-savci-yardimciligi-sinavi-puan'],
     content: {
       intro: 'HMGS (Hukuk Mesleklerine Giriş Sınavı) puanınızı güncel ÖSYM kurallarına göre hesaplayın.',
       sections: [

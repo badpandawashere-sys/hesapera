@@ -57,7 +57,7 @@ export const oranCalculatorDef: CalculatorDefinition<Input, any> = {
       }
     },
 
-    relatedCalculators: ["ebob-ekok", "yuzde"]
+    relatedCalculators: ['yuzde']
   },
   fields: [
     { id: 'a', label: 'Birinci Sayı (A)', type: 'number', required: true, min: 1 },

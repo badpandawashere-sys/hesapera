@@ -137,7 +137,7 @@ export const vehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
       ]
     },
 
-    relatedCalculators: ["ticari-arac-kredisi","kredi-hesaplama","ihtiyac-kredisi"]
+    relatedCalculators: ['kredi', 'ihtiyac-kredisi', 'yakit-tuketimi', 'mtv-hesaplama']
   },
   fields: [
     { id: 'loanAmount', label: 'Kredi Tutarı', type: 'currency', required: true, min: 0 },

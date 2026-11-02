@@ -34,7 +34,7 @@ export const vucutYagOraniCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Vücut Yağ Oranı Hesaplama (U.S. Navy Metodu) | Hesapera',
     description: 'Boy, boyun, bel ve (kadınlar için) kalça çevre ölçümlerinizi kullanarak vücut yağ oranınızı Amerikan Donanması formülü ile hesaplayın.',
     keywords: ['vücut yağ oranı hesaplama', 'yağ yüzdesi hesaplama', 'yağ oranı ölçme', 'navy body fat calculator', 'mezura ile yağ hesabı'],
-    canonical: 'https://hesapera.com/vucut-yag-orani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/vucut-yag-orani',
     faq: [],
     relatedCalculators: ['vucut-kitle-endeksi', 'ideal-kilo', 'bazal-metabolizma-hizi']
   },

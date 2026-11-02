@@ -13,7 +13,7 @@ export function Header() {
 
   const navLinks = [
     { label: 'Hesaplayıcılar', href: '/hesaplama', icon: Calculator },
-    { label: 'Kategoriler', href: '/kategoriler', icon: Grid2X2, chevron: true },
+    { label: 'Kategoriler', href: '/kategoriler', icon: Grid2X2 },
     { label: 'Rehber', href: '/rehber', icon: BookOpen },
     { label: 'RayBilgi', href: '/raybilgi', icon: TrainFront },
   ];
@@ -33,7 +33,7 @@ export function Header() {
               </div>
             </Link>
             
-            <nav className="hidden lg:flex items-center gap-1.5 px-4 ml-2">
+            <nav className="hidden md:flex items-center gap-1 lg:gap-1.5 px-2 lg:px-4 ml-1 lg:ml-2">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href || (pathname?.startsWith(`${link.href}/`) ?? false);
                 const Icon = link.icon;
@@ -41,7 +41,7 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[15px] font-medium transition-colors ${
+                    className={`flex items-center gap-1.5 lg:gap-2 px-2.5 lg:px-3 py-2 rounded-lg text-[14px] lg:text-[15px] font-medium transition-colors ${
                       isActive 
                         ? 'bg-violet-50 text-violet-600' 
                         : 'text-muted-foreground hover:bg-violet-50 hover:text-violet-600'
@@ -49,14 +49,13 @@ export function Header() {
                   >
                     <Icon className="w-[17px] h-[17px]" strokeWidth={1.8} />
                     {link.label}
-                    {link.chevron && <ChevronDown className="w-3.5 h-3.5 ml-0.5 opacity-70" strokeWidth={2} />}
                   </Link>
                 );
               })}
             </nav>
           </div>
 
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             <Link href="/hesaplama" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2">
               Tüm Hesaplayıcılar
             </Link>
@@ -93,7 +92,6 @@ export function Header() {
                   >
                     <Icon className="w-[18px] h-[18px]" strokeWidth={1.8} />
                     {link.label}
-                    {link.chevron && <ChevronDown className="w-4 h-4 ml-auto opacity-50" strokeWidth={2} />}
                   </Link>
                 );
               })}

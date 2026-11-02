@@ -22,7 +22,7 @@ export const monetaryValueCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Parasal Değer Hesaplama Aracı | Hesapera',
     description: 'Bir parasal tutarın belirli bir değişim (örneğin enflasyon) oranı sonrası nominal değerini hesaplayın.',
     keywords: ["parasal değer","enflasyon farkı","nominal değer","paranın bugünkü değeri"],
-    canonical: 'https://hesapera.com/parasal-deger',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/parasal-deger',
     faq: [],
     relatedCalculators: ["reel-getiri","enflasyon","faiz"]
   },

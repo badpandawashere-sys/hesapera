@@ -22,7 +22,7 @@ export const oypCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'ÖYP Puan Hesaplama â€” Öğretim Üyesi Yetiştirme Programı (Tarihi) | Hesapera',
     description: 'Tarihi ÖYP (Öğretim Üyesi Yetiştirme Programı) formülüne göre ALES, yabancı dil ve lisans notu ile ÖYP puanınızı hesaplayın. ÖYP sistemi ~2018 itibarıyla sona ermiştir.',
     keywords: ['oyp puan hesaplama', 'öyp hesaplama', 'öğretim üyesi yetiştirme programı', 'oyp ales yds'],
-    canonical: 'https://hesapera.com/oyp-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/oyp-puan',
     faq: [],
     relatedCalculators: ['ales-puan', 'kpss-puan']
   },

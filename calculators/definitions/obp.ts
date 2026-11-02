@@ -21,7 +21,7 @@ export const obpCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'OBP Hesaplama â€” Ortaöğretim Başarı Puanı | Hesapera',
     description: 'Diploma notunuzdan OBP ve YKS katkınızı hesaplayın. Önceki yıl yerleşme durumuna göre kırık OBP katkısı (0.06) veya normal katkı (0.12) hesaplanır.',
     keywords: ['obp hesaplama', 'ortaöğretim başarı puanı', 'diploma notu obp', 'yks obp katkısı', 'kırık obp'],
-    canonical: 'https://hesapera.com/obp-okul-puani',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/obp-okul-puani',
     faq: [],
     relatedCalculators: ['lgs-puan', 'kpss-puan', 'ales-puan']
   },

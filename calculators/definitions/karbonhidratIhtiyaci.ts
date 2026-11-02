@@ -21,7 +21,7 @@ export const gunlukKarbonhidratIhtiyaciCalculatorDef: CalculatorDefinition<Input
     title: 'Günlük Karbonhidrat İhtiyacı Hesaplama | Hesapera',
     description: 'Spor beslenmesi standartlarına (g/kg) göre fiziksel aktivite yoğunluğunuza uygun tahmini günlük karbonhidrat ihtiyacınızı öğrenin.',
     keywords: ['günlük karbonhidrat ihtiyacı hesaplama', 'karbonhidrat hesaplama', 'sporcu karbonhidrat', 'makro karbonhidrat ihtiyacı'],
-    canonical: 'https://hesapera.com/gunluk-karbonhidrat-ihtiyaci',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/gunluk-karbonhidrat-ihtiyaci',
     faq: [],
     relatedCalculators: ['gunluk-makro-besin-ihtiyaci']
   },

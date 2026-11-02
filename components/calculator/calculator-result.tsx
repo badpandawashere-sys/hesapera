@@ -40,8 +40,15 @@ export function CalculatorMainResultCard({ result, calculatorName }: CalculatorR
   if (!result.data) return null;
 
   const { primaryResult, secondaryResults, categoryIndicator, primaryLabel: customLabel } = result.data as any;
-  const { warnings, notes } = result;
+  const warnings = result.warnings || (result.data as any)?.warnings;
+  const notes = result.notes || (result.data as any)?.notes;
   const primaryLabel = customLabel || (calculatorName ? calculatorName.replace(/ Hesaplama$/i, '') : 'Sonuç');
+  const safePrimaryResult =
+    typeof primaryResult === 'number'
+      ? new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(primaryResult)
+      : primaryResult !== null && typeof primaryResult === 'object'
+        ? JSON.stringify(primaryResult)
+        : String(primaryResult ?? '');
 
   return (
     <div className="rounded-[24px] bg-[var(--color-glass-bg-strong)] backdrop-blur-[24px] border border-[var(--color-glass-border)] shadow-[var(--shadow-glass-elevated)] overflow-hidden flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -65,9 +72,7 @@ export function CalculatorMainResultCard({ result, calculatorName }: CalculatorR
           <p className="text-sm font-semibold text-[#7C3AED] mb-1.5 relative z-10">{primaryLabel}</p>
           <div className="flex items-end justify-between relative z-10">
             <div className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-              {typeof primaryResult === 'number' 
-                ? new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(primaryResult) 
-                : primaryResult}
+              {safePrimaryResult}
             </div>
             {categoryIndicator?.statusMessage && (
               <div className={`px-2.5 py-1 rounded-lg text-xs font-bold whitespace-nowrap mb-1 ${
@@ -97,12 +102,20 @@ export function CalculatorMainResultCard({ result, calculatorName }: CalculatorR
                        'sm:grid-cols-2 lg:grid-cols-3';
           return (
             <div className={`grid ${cols} gap-3`}>
-              {entries.map(([key, value]) => (
-                <div key={key} className="bg-muted/30 p-3 rounded-xl border border-border/50">
-                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 truncate" title={key.replace(/([A-Z])/g, ' $1').trim()}>{key.replace(/([A-Z])/g, ' $1').trim()}</p>
-                  <p className="text-sm md:text-base font-bold text-foreground truncate">{value as React.ReactNode}</p>
-                </div>
-              ))}
+              {entries.map(([key, value]) => {
+                const safeValue =
+                  typeof value === 'number'
+                    ? new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 2 }).format(value)
+                    : value !== null && typeof value === 'object'
+                      ? JSON.stringify(value)
+                      : String(value ?? '');
+                return (
+                  <div key={key} className="bg-muted/30 p-3 rounded-xl border border-border/50">
+                    <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1 truncate" title={key.replace(/([A-Z])/g, ' $1').trim()}>{key.replace(/([A-Z])/g, ' $1').trim()}</p>
+                    <p className="text-sm md:text-base font-bold text-foreground truncate">{safeValue}</p>
+                  </div>
+                );
+              })}
             </div>
           );
         })()}
@@ -310,15 +323,9 @@ export function CalculatorInfoCard({ result }: CalculatorResultProps) {
           </div>
           <h3 className="text-lg md:text-xl font-bold text-foreground">{infoReference.title}</h3>
         </div>
-        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-6 max-w-3xl">
+        <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-3xl">
           {infoReference.description}
         </p>
-        <div className="flex">
-          <button className="text-sm font-semibold text-primary bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-lg flex items-center transition-colors">
-            Daha Fazla Oku
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1.5"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export const liseYbpCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Lise Yıl Sonu Başarı Puanı (YBP) Hesaplama 2026 | Hesapera',
     description: 'Güncel MEB yönetmeliğine göre lise yıl sonu başarı puanınızı (YBP) ağırlıklı ortalama yöntemiyle hesaplayın.',
     keywords: ['lise ybp hesaplama', 'yıl sonu başarı puanı', 'meb ybp hesaplama', 'ybp lise hesaplama', 'yıl sonu ağırlıklı ortalama'],
-    canonical: 'https://hesapera.com/lise-ybp',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/lise-ybp',
     faq: [],
     relatedCalculators: ['lise-ortalama', 'lise-mezuniyet-puani', 'lise-sinif-gecme']
   },

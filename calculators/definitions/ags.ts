@@ -23,7 +23,7 @@ export const agsCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'AGS Puan Hesaplama Aracı | Hesapera',
     description: 'MEB Akademi Giriş Sınavı (AGS) için doğru/yanlış sayılarınıza göre tahmini puanınızı hesaplayın.',
     keywords: ["ags puan hesaplama","akademi giriş sınavı","meb ags","2026 ags"],
-    canonical: 'https://hesapera.com/ags-puan',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/ags-puan',
     faq: [],
     relatedCalculators: ["ales-puan","dgs-puan"]
   },

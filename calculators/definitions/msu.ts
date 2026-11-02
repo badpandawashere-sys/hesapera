@@ -93,7 +93,7 @@ export const msuCalculatorDef: CalculatorDefinition<Input, ReturnType<typeof cal
         answer: "Adayların standart puanlarına ilgili puan türünün katsayıları uygulanır ve sonuçlar en küçüğü 100, en büyüğü 500 olacak şekilde istatistiksel bir dönüşüm (normalize) işlemine tabi tutulur."
       }
     ],
-    relatedCalculators: ['yks-puan', 'tyt-puan', 'kpss-puan']
+    relatedCalculators: ['tyt-puan', 'yks-puan']
   },
   fields: [
     { id: 'turkceCorrect', label: 'Türkçe Doğru (Maks 40)', type: 'number', required: true, min: 0, max: 40, defaultValue: 0 },

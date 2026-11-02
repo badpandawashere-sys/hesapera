@@ -25,7 +25,7 @@ export const altinOranCalculatorDef: CalculatorDefinition<Input, any> = {
     title: 'Altın Oran (Phi) Hesaplama | Hesapera',
     description: 'Uzun ve kısa kenar değerlerinizi girerek oranlarının kusursuz matematiksel Altın Oran (1.6180...) sabitine uygunluğunu test edin.',
     keywords: ['altın oran hesaplama', 'phi sayısı', 'altın oran nedir', 'altın oran testi', 'oran orantı hesabı'],
-    canonical: 'https://hesapera.com/altin-oran',
+    canonical: 'https://www.hesapera.com.tr/hesaplama/altin-oran',
     faq: [],
     relatedCalculators: []
   },

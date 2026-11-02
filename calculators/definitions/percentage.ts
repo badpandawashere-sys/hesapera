@@ -62,7 +62,7 @@ export const percentageCalculatorDef: CalculatorDefinition<PercentageInput, numb
         answer: "Evet, örneğin ana paranızın %10 zamlı halini bulmak isterseniz ana değer x 110 / 100 yapabilir veya aracın bulduğu değeri (örneğin %10 hesabı) ilk fiyata ekleyebilirsiniz."
       }
     ],
-    relatedCalculators: ['kdv-hesaplama', 'oran-oranti-hesaplama']
+    relatedCalculators: ['oran', 'basit-faiz', 'bilesik-buyume']
   },
   fields: [
     {

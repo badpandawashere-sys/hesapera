@@ -44,7 +44,7 @@ export const hakimSavcıYardımcılığıCalculatorDef: CalculatorDefinition<Inp
   slug: 'h-kim-ve-savci-yardimciligi-sinavi-puan',
   status: 'published',
   name: 'Hâkim ve Savcı Yardımcılığı Sınavı Puan Hesaplama',
-  shortDescription: 'Hâkim ve Savcı Yardımcılığı sınavında netlerinizi ve tahmini genel başarı puanınızı hesaplayın.',
+  shortDescription: 'Hâkim ve Savcı Yardımcılığı sınavında oturum bazlı netlerinizi hesaplayın ve ÖSYM standartlaştırma yöntemini inceleyin.',
   category: 'education',
   type: 'complex',
   metadata: {
@@ -52,7 +52,7 @@ export const hakimSavcıYardımcılığıCalculatorDef: CalculatorDefinition<Inp
     description: 'Hâkim ve savcı yardımcılığı sınavında GYGK, Ortak Alan, Adli Yargı, İdari Yargı ve Adli Yargı-Avukat doğru ve yanlış sayılarına göre netlerinizi hesaplayın ve resmî puanlama yöntemini inceleyin.',
     keywords: ["hâkim ve savcı yardımcılığı puan hesaplama","adli yargı puan hesaplama","idari yargı puan hesaplama","avukat adli yargı puan","hmgs puan hesaplama"],
     canonical: 'https://www.hesapera.com.tr/hesaplama/h-kim-ve-savci-yardimciligi-sinavi-puan',
-    relatedCalculators: ["kpss-puan"]
+    relatedCalculators: ['hmgs-puan', 'iyos-puan']
 ,
     content: {
     intro: 'Bu araç, Hâkim ve Savcı Yardımcılığı Sınavı netlerinizi hesaplar ve puanlama yöntemini inceler.',
@@ -86,7 +86,7 @@ export const hakimSavcıYardımcılığıCalculatorDef: CalculatorDefinition<Inp
         paragraphs: [
           'ÖSYM\'nin resmî değerlendirme sisteminde, adayların netleri doğrudan toplandıktan sonra sınava giren tüm adayların istatistiksel sonuçları (ortalama ve standart sapma) kullanılarak standart puanlara dönüştürülür.',
           'Resmî Genel Başarı Puanı 17 alt testin standartlaştırılması ile belirlenir.',
-          'Alt-test dağılımları ve aday istatistikleri bilinmeden exact resmî puan hesaplanamaz.'
+          'Alt-test dağılımları ve aday istatistikleri bilinmeden kesin resmî puan hesaplanamaz.'
         ]
       },
       {
