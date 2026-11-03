@@ -25,52 +25,60 @@ export const creditCardLateFeeCalculatorDef: CalculatorDefinition<Input, any> = 
     canonical: 'https://www.hesapera.com.tr/hesaplama/kredi-karti-gecikme-faizi',
     faq: [
       {
-        question: "Hesaplayıcının bulduğu miktar neden ekstremdekiyle tam uyuşmuyor?",
-        answer: "Bankalar net faiz tutarının üzerine yasal olarak KKDF ve BSMV gibi (faizin üzerinden alınan) ek vergiler ekler. Ayrıca resmi tatil günlerine denk gelen günlerin faiz valör hesaplaması iç algoritmalarca farklı yansıtılabilir."
+        question: "Hesaplayıcının bulduğu miktar ekstredekiyle neden ufak fark gösterebilir?",
+        answer: "Hesaplayıcımız saf gecikme faizini ve üzerine eklenen %15 KKDF ile %15 BSMV tutarlarını standart kuruş hassasiyetinde hesaplar. Banka ekstreniz ile hesaplayıcı arasında oluşabilecek farklar şu temel nedenlerden ileri gelebilir: 1) Banka Faiz Oranı: Bankanızın uyguladığı fiili gecikme faizi oranı, TCMB'nin ilan ettiği azami tavanı aşmamak kaydıyla farklı olabilir. 2) Faiz Matrahı: 5464 sayılı Kanun m. 26 gereğince gecikme faizi yalnızca asgari tutarın ödenmeyen kısmına işletilir; asgariyi aşan borca akdi faiz uygulanır; ayrıca nakit avans veya taksitli işlemlerin ekstrenizdeki ayrımı matrahı değiştirebilir. 3) Ödeme Tarihi ve Valör: Son ödeme gününün resmî tatil veya hafta sonuna denk gelmesi durumunda bankaların valör ve faiz gününü sonraki iş gününe kaydırması ya da ara kısmi ödemelerin gün hesabı. 4) Yuvarlama Yöntemi: Bankaların muhasebe sistemlerinde vergileri (KKDF/BSMV) her vergi kalemi için bağımsız olarak mı, yoksa toplam %30 üzerinden kümülatif olarak mı kuruşa yuvarladığına bağlı olarak yarım kuruş sınırlarında 1 kuruşluk teknik yuvarlama farkları oluşabilmektedir."
       },
       {
-        question: "Sabit bir TCMB oranı var mı?",
-        answer: "TCMB kredi kartı referans ve tavan oranları enflasyona ve politika faizine göre her ay güncellenebilmektedir. Bu yüzden kendi ekstremizdeki oranı araca yazmanız en doğrusudur."
+        question: "Sabit bir TCMB gecikme faizi oranı var mıdır?",
+        answer: "Hayır. TCMB, kredi kartı azami akdi ve gecikme faiz oranlarını referans faiz oranına bağlı olarak dönemsel olarak belirler. TCMB'nin yürürlükteki resmî düzenlemelerinde Türk Lirası kredi kartları için dönem borcu büyüklüğüne göre üç kademeli barem ve net sınır durumları uygulanmaktadır: 1. Kademe: 30.000 TL altında kalan dönem borçları (örneğin 29.999,99 TL dahil), 2. Kademe: 30.000 TL ile 180.000 TL arasındaki dönem borçları (30.000,00 TL ve 180.000,00 TL sınırları dahil), 3. Kademe: 180.000 TL üzerindeki dönem borçları (180.000,01 TL ve üzeri). Yabancı para kart borçları için ise tek bir tavan belirlenmiştir. Bankalar bu tavanları aşamaz. Doğru sonuç için kendi ekstrenizde belirtilen aylık gecikme faiz oranını araca girmeniz gerekir."
+      },
+      {
+        question: "Asgari tutarın üzerindeki borç için gecikme faizi işler mi?",
+        answer: "Hayır. 5464 sayılı Kanun m. 26 gereğince gecikme faizi yalnızca asgari ödeme tutarının ödenmeyen (gecikmeye giren) kısmına uygulanır. Asgari tutarın üzerinde kalan dönem borcu bakiyesine ise gecikme faizi değil, daha düşük olan 'akdi faiz (alışveriş faizi)' işletilir."
       }
     ],
     content: {
-      intro: "Kredi kartı dönem borcunun ödenmeyen kısmına TCMB oranları çerçevesinde işletilen faizin çalışma mantığı",
+      intro: "Kredi kartı dönem borcunun ödenmeyen asgari kısmına 5464 sayılı Kanun ve TCMB düzenlemeleri çerçevesinde işletilen günlük faizin ve yasal vergilerin (KKDF ve BSMV) çalışma mantığı.",
 
       sections: [
         {
           title: "Kredi Kartı Gecikme Faizi Nedir?",
           paragraphs: [
-            "Kredi kartı ekstre son ödeme tarihine kadar 'asgari ödeme tutarının' altında bir ödeme yaparsanız veya hiç ödeme yapmazsanız, eksik kalan (gecikmeye giren) asgari tutar kısmına uygulanan özel faize 'Gecikme Faizi' denir.",
-            "Eğer asgari tutarı tam yatırır ancak kalan borcu bırakırsanız, kalan kısma gecikme faizi değil, normal 'Akdi Faiz (Alışveriş Faizi)' işler."
+            "Kredi kartı dönem ekstrenizde belirtilen son ödeme tarihine kadar 'asgari ödeme tutarının' altında bir ödeme yaparsanız veya hiç ödeme yapmazsanız, eksik kalan asgari tutara uygulanan faize 'Gecikme Faizi' denir.",
+            "5464 sayılı Banka Kartları ve Kredi Kartları Kanunu'nun 26. maddesi gereğince gecikme faizi yalnızca asgari tutarın ödenmeyen kısmına işletilebilir. Asgari tutarı tam ödeyip dönem borcunun kalanını bırakırsanız, kalan bakiyeye gecikme faizi değil akdi faiz uygulanır."
           ]
         },
         {
-          title: "Hesaplama Yöntemi (Basit Günlük Model)",
+          title: "Hesaplama Yöntemi (TCMB Basit Günlük Model)",
           paragraphs: [
-            "Kredi kartlarında faizler aylık olarak ilan edilse de, bankalar arka planda bunu günlüğe bölerek hesaplar.",
-            "Araç, girdiğiniz aylık gecikme faizi oranını 30'a bölerek 'Günlük Gecikme Faizi Oranını' bulur. Gecikmeye giren tutar, günlük oran ve geciktiğiniz gün sayısı çarpılarak bankanın keseceği tahmini net faiz yükü ortaya çıkar."
+            "Kredi kartı faiz oranları aylık yüzde olarak ilan edilir; ancak bankacılık sisteminde faiz günlük olarak tahakkuk ettirilir. TCMB 2020/16 sayılı Tebliği uyarınca günlük faiz oranı, aylık faiz oranının 30'a bölünmesiyle (Aylık Oran / 30) bulunur.",
+            "Gecikmeye giren tutar, günlük oran ve gecikilen gün sayısı çarpılarak saf gecikme faizi hesaplanır. Ardından bireysel kredi kartları için mevzuat gereği bu net faiz tutarı üzerinden %15 KKDF ve %15 BSMV hesaplanarak nihai toplam borca eklenir."
           ]
         },
         {
-          title: "Güncel TCMB Tavan Oranları ve Masraflar",
+          title: "TCMB Kademeli Tavan Oranları ve Masraflar",
           paragraphs: [
-            "Türkiye Cumhuriyet Merkez Bankası (TCMB), kredi kartı azami akdi ve gecikme faiz oranlarını dönemsel olarak piyasa şartlarına göre belirler. Son dönemdeki mevzuata göre borç bakiyesine (30.000 TL altı, 30.000-180.000 TL arası veya nakit çekim vb.) göre farklı kademeli faiz oranları uygulanabilmektedir.",
-            "Sizden hesabınızın doğru çıkması için kendi banka ekstrenizdeki GÜNCEL faiz oranını araca (Aylık Oran kısmına) girmeniz beklenir. Sonuca banka tarafından ayrıca BSMV (Banka Sigorta Muamele Vergisi) gibi %15 ekstra vergilerin eklenebileceğini unutmayınız."
+            "Türkiye Cumhuriyet Merkez Bankası (TCMB), kredi kartı azami akdi ve gecikme faiz oranlarını piyasa koşullarına ve referans faize göre dönemsel olarak yayımlar. TCMB'nin resmî tablosunda TL cinsi kredi kartı dönem borçları üç bareme ayrılmıştır: 30.000 TL altında kalan borçlar (1. Kademe, örneğin 29.999,99 TL dahil), 30.000 TL ile 180.000 TL arasında kalan borçlar (2. Kademe, 30.000,00 TL ve 180.000,00 TL dahil) ve 180.000 TL üzerinde kalan borçlar (3. Kademe, örneğin 180.000,01 TL ve üzeri). Yabancı para borçları için ise tek bir azami oran belirlenir. Bu baremler bankaların tüketiciden talep edebileceği en yüksek yasal tavanları gösterir.",
+            "Önemli Ayrım: Aracımızda varsayılan olarak yer alan aylık %4,25 oranı, yürürlükteki bir zorunlu sabit oran veya banka oranı olmayıp, yalnızca hesaplama adımlarını ve vergi tahakkukunu somutlaştırmak için kullanılan bir 'örnek orandır'. Gerçek borç maliyetinizi hesaplamak için kredi kartı hesap özetinizdeki (ekstrenizdeki) güncel gecikme faiz oranını ilgili alana girmelisiniz."
           ]
         },
       ],
       example: {
-        title: "Gecikme Faizi Örneği",
-        text: "Kredi kartınızın asgari tutarından 10.000 TL'lik kısmı eksik yatırdığınızı ve bu tutarın 15 gün gecikmeye düştüğünü varsayalım. Bankanın aylık gecikme faizi %4.25 olsun. Araç bu aylık oranı 30'a bölüp 15 günle çarparak 10.000 TL'nin üzerinden sadece 15 günde kabaca 212 TL salt gecikme faizi (vergiler hariç) biriktiğini hesaplar."
+        title: "10.000 TL Kredi Kartı Gecikme Faizi ve Vergi Hesaplama Örneği",
+        text: "Kredi kartı ekstrenizde asgari ödeme tutarının 10.000 TL'lik kısmının ödenmediğini ve 15 gün boyunca gecikmede kaldığını varsayalım. Bankanın aylık gecikme faizi oranının örnek olarak %4,25 olduğunu kabul edelim (Günlük faiz oranı: %4,25 / 30 = %0,141667):\n\n1. Saf Gecikme Faizi: 10.000 TL × (0,0425 / 30) × 15 = 212,50 TL\n2. KKDF Kesintisi (%15): 212,50 TL × 0,15 = 31,88 TL (Yarım kuruş kuralına göre 31,875 TL yukarı yuvarlanır)\n3. BSMV Kesintisi (%15): 212,50 TL × 0,15 = 31,88 TL (Yarım kuruş kuralına göre 31,875 TL yukarı yuvarlanır)\n4. Toplam Gecikme Maliyeti: 212,50 TL + 31,88 TL + 31,88 TL = 276,26 TL\n5. Bankaya Ödenecek Toplam Tutar: 10.000 TL + 276,26 TL = 10.276,26 TL\n\nTeknik Yuvarlama ve Oran Notu: Hesapera, her bir yasal vergi kalemini (KKDF %15 ve BSMV %15) bağımsız olarak kuruşa yuvarlayan standart muhasebe yöntemini uygulamaktadır. Bazı bankaların sistemlerinde vergilerin kümülatif çarpanla (%30) tek kalemde yuvarlanması nedeniyle yarım kuruş sınırlarında ekstre ile araç arasında 1 kuruşluk teknik yuvarlama farkı oluşabilmektedir. Aylık %4,25 oranı yalnızca örnek bir oran olup, güncel oranlar için TCMB azami faiz tabloları referans alınmalıdır."
       },
       sources: [
         {
-          name: "TCMB - Kredi Kartı Azami Faiz Oranları",
-          url: "https://www.tcmb.gov.tr/"
+          name: "TCMB – Kredi Kartı İşlemlerinde Uygulanacak Azami Faiz Oranları Resmî Tablosu",
+          url: "https://www.tcmb.gov.tr/wps/wcm/connect/tr/tcmb+tr/main+menu/istatistikler/bankacilik+verileri/kredi+karti+islemlerinde+uygulanacak+azami+faiz+oranlari"
         },
         {
-          name: "BDDK - Tüketici Bilgilendirmesi",
-          url: "https://www.bddk.org.tr/"
+          name: "5464 sayılı Banka Kartları ve Kredi Kartları Kanunu Madde 26 (Mevzuat Bilgi Sistemi)",
+          url: "https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=5464&MevzuatTur=1&MevzuatTertip=5"
+        },
+        {
+          name: "TCMB 2020/16 Sayılı Kredi Kartı İşlemlerinde Uygulanacak Azami Faiz Oranları Hakkında Tebliğ (Resmî Gazete)",
+          url: "https://www.resmigazete.gov.tr/eskiler/2020/10/20201031-4.htm"
         }
       ]
     },
