@@ -96,11 +96,23 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
 
   const principal = loanAmount;
   let totalInterest = 0;
+  let totalKKDF = 0;
+  let totalBSMV = 0;
+  let totalTax = 0;
   let totalPaymentNum = 0;
   let monthlyPayment = 0;
   
   if (result?.data?.secondaryResults?.['Toplam Faiz']) {
     totalInterest = parseFormattedNumber(result.data.secondaryResults['Toplam Faiz'] as string);
+  }
+  if (result?.data?.secondaryResults?.['KKDF (%15)']) {
+    totalKKDF = parseFormattedNumber(result.data.secondaryResults['KKDF (%15)'] as string);
+  }
+  if (result?.data?.secondaryResults?.['BSMV (%15)']) {
+    totalBSMV = parseFormattedNumber(result.data.secondaryResults['BSMV (%15)'] as string);
+  }
+  if (result?.data?.secondaryResults?.['Toplam Vergi']) {
+    totalTax = parseFormattedNumber(result.data.secondaryResults['Toplam Vergi'] as string);
   }
   if (result?.data?.secondaryResults?.['Toplam Ödeme']) {
     totalPaymentNum = parseFormattedNumber(result.data.secondaryResults['Toplam Ödeme'] as string);
@@ -111,6 +123,7 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
 
   const principalPct = totalPaymentNum > 0 ? (principal / totalPaymentNum) * 100 : 0;
   const interestPct = totalPaymentNum > 0 ? (totalInterest / totalPaymentNum) * 100 : 0;
+  const taxPct = totalPaymentNum > 0 ? (totalTax / totalPaymentNum) * 100 : 0;
 
   const formatThousands = (num: number) => new Intl.NumberFormat('tr-TR').format(num);
   const formatCurrency = (num: number) => new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(num);
@@ -292,12 +305,17 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
                     title="Anapara"
                   ></div>
                   <div 
-                    className="bg-violet-300 h-full transition-all duration-1000 ease-out" 
+                    className="bg-violet-400 h-full transition-all duration-1000 ease-out" 
                     style={{ width: `${interestPct}%` }}
-                    title="Faiz"
+                    title="Saf Faiz"
+                  ></div>
+                  <div 
+                    className="bg-amber-400 h-full transition-all duration-1000 ease-out" 
+                    style={{ width: `${taxPct}%` }}
+                    title="Yasal Vergiler (KKDF+BSMV)"
                   ></div>
                 </div>
-                <div className="flex justify-between mt-3 text-sm">
+                <div className="flex justify-between mt-3 text-xs md:text-sm">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className="w-2.5 h-2.5 rounded-full bg-violet-600"></div>
@@ -305,31 +323,62 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
                     </div>
                     <span className="font-bold text-slate-900">{formatCurrency(principal)}</span>
                   </div>
-                  <div className="flex flex-col items-end">
+                  <div className="flex flex-col items-center">
                     <div className="flex items-center gap-1.5 mb-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-violet-300"></div>
-                      <span className="font-medium text-slate-600 text-xs">Faiz</span>
+                      <div className="w-2.5 h-2.5 rounded-full bg-violet-400"></div>
+                      <span className="font-medium text-slate-600 text-xs">Saf Faiz</span>
                     </div>
                     <span className="font-bold text-slate-900">{result?.data?.secondaryResults?.['Toplam Faiz'] || "0,00 ₺"}</span>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                      <span className="font-medium text-slate-600 text-xs">Yasal Vergi</span>
+                    </div>
+                    <span className="font-bold text-slate-900">{result?.data?.secondaryResults?.['Toplam Vergi'] || "0,00 ₺"}</span>
                   </div>
                 </div>
               </div>
 
               {/* Summary Items */}
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between items-center py-2.5 border-b border-violet-100">
-                  <span className="text-sm font-medium text-slate-600">Kredi Tutarı</span>
+              <div className="space-y-2.5 mb-6">
+                <div className="flex justify-between items-center py-2 border-b border-violet-100">
+                  <span className="text-sm font-medium text-slate-600">Kredi Tutarı (Anapara)</span>
                   <span className="text-sm font-bold text-slate-900">
                     {formatCurrency(principal)}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2.5 border-b border-violet-100">
+                <div className="flex justify-between items-center py-2 border-b border-violet-100">
+                  <span className="text-sm font-medium text-slate-600">Toplam Saf Faiz</span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {result?.data?.secondaryResults?.['Toplam Faiz'] || "0,00 ₺"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-violet-100">
+                  <span className="text-sm font-medium text-slate-600">KKDF (%15)</span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {result?.data?.secondaryResults?.['KKDF (%15)'] || "0,00 ₺"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-violet-100">
+                  <span className="text-sm font-medium text-slate-600">BSMV (%15)</span>
+                  <span className="text-sm font-bold text-slate-900">
+                    {result?.data?.secondaryResults?.['BSMV (%15)'] || "0,00 ₺"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-violet-100 bg-amber-50/60 -mx-2 px-2 rounded-lg">
+                  <span className="text-sm font-semibold text-amber-900">Toplam Yasal Vergi</span>
+                  <span className="text-sm font-bold text-amber-900">
+                    {result?.data?.secondaryResults?.['Toplam Vergi'] || "0,00 ₺"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-violet-100">
                   <span className="text-sm font-medium text-slate-600">Toplam Geri Ödeme</span>
                   <span className="text-sm font-bold text-slate-900">
                     {result?.data?.secondaryResults?.['Toplam Ödeme'] || "0,00 ₺"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center py-2.5">
+                <div className="flex justify-between items-center py-2">
                   <span className="text-sm font-medium text-slate-600">Vade</span>
                   <span className="text-sm font-bold text-slate-900">{term} Ay</span>
                 </div>
@@ -369,24 +418,28 @@ export function ConsumerLoanForm({ calculator }: ConsumerLoanFormProps) {
           
           {showTable && (
             <div className="p-4 md:p-8 overflow-x-auto">
-              <table className="w-full min-w-[600px] text-sm text-left">
+              <table className="w-full min-w-[700px] text-sm text-left">
                 <thead className="text-xs text-slate-500 uppercase bg-slate-50/50">
                   <tr>
-                    <th className="px-6 py-4 font-semibold rounded-l-xl">Taksit No</th>
-                    <th className="px-6 py-4 font-semibold">Taksit Tutarı</th>
-                    <th className="px-6 py-4 font-semibold">Anapara</th>
-                    <th className="px-6 py-4 font-semibold">Faiz</th>
-                    <th className="px-6 py-4 font-semibold rounded-r-xl">Kalan Bakiye</th>
+                    <th className="px-4 py-4 font-semibold rounded-l-xl">Taksit No</th>
+                    <th className="px-4 py-4 font-semibold">Taksit Tutarı</th>
+                    <th className="px-4 py-4 font-semibold">Anapara</th>
+                    <th className="px-4 py-4 font-semibold">Faiz</th>
+                    <th className="px-4 py-4 font-semibold">KKDF (%15)</th>
+                    <th className="px-4 py-4 font-semibold">BSMV (%15)</th>
+                    <th className="px-4 py-4 font-semibold rounded-r-xl">Kalan Bakiye</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {result.data.table.map((row: any, i: number) => (
                     <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-slate-900">{row['Taksit No']}</td>
-                      <td className="px-6 py-4 font-semibold text-violet-600">{row['Taksit Tutarı']}</td>
-                      <td className="px-6 py-4 text-slate-600">{row['Anapara']}</td>
-                      <td className="px-6 py-4 text-slate-600">{row['Faiz']}</td>
-                      <td className="px-6 py-4 text-slate-900 font-medium">{row['Kalan Bakiye']}</td>
+                      <td className="px-4 py-4 font-medium text-slate-900">{row['Taksit No']}</td>
+                      <td className="px-4 py-4 font-semibold text-violet-600">{row['Taksit Tutarı']}</td>
+                      <td className="px-4 py-4 text-slate-600">{row['Anapara']}</td>
+                      <td className="px-4 py-4 text-slate-600">{row['Faiz']}</td>
+                      <td className="px-4 py-4 text-slate-600">{row['KKDF']}</td>
+                      <td className="px-4 py-4 text-slate-600">{row['BSMV']}</td>
+                      <td className="px-4 py-4 text-slate-900 font-medium">{row['Kalan Bakiye']}</td>
                     </tr>
                   ))}
                 </tbody>

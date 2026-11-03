@@ -1,4 +1,4 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import { CalculatorDefinition } from '../core/calculator-types';
 import { calculateVehicleLoan } from '../formulas/vehicleLoan';
 
@@ -26,113 +26,80 @@ export const vehicleLoanCalculatorDef: CalculatorDefinition<Input, any> = {
     faq: [
       {
         question: "Taşıt kredisi taksiti nasıl hesaplanır?",
-        answer: "Araç kredisi taksiti; anapara, güncel aylık faiz oranı ve tercih edilen vade süresi kullanılarak eşit taksitli (anüite) sistemine göre hesaplanır."
+        answer: "Bireysel taşıt kredisi taksitleri; kredi anaparası, bankanın aylık saf faiz oranı ve yasal vergiler (%15 KKDF ve %15 BSMV) eklenerek eşit taksitli (anüite) amortisman formülüyle hesaplanır. Aylık saf faiz oranının %30 fazlası efektif faizi oluşturur."
       },
       {
-        question: "Sıfır araç ile ikinci el araç kredi faizi aynı mıdır?",
-        answer: "Genellikle finans kuruluşları, sıfır kilometre araçlar ile 2. el araçlar için farklı kampanya ve faiz oranları sunabilmektedir. İkinci elde aracın yaşına göre kısıtlamalar da olabilir."
+        question: "Taşıt kredisinde BDDK azami kredi tutarı ve vade sınırları nelerdir?",
+        answer: "BDDK düzenlemelerine göre azami kredi tutarı ve vade; aracın içten yanmalı/hibrit/ithal elektrikli mi yoksa özel düzenleme kapsamındaki yerli elektrikli araç mı olduğuna ve nihai fatura/kasko değerine göre belirlenir. Değer arttıkça hem kredi kullandırma oranı (%70'ten %0'a) hem de azami vade (48 aydan 12 aya) kademeli olarak düşer."
       },
       {
-        question: "Taşıt kredisinde kasko zorunlu mu?",
-        answer: "Bankalar, kredi kullandırdıkları aracın değerini korumak adına kredi süresince kasko yaptırılmasını ve üzerine rehin (daintehin) konulmasını genel olarak şart koşarlar."
+        question: "İthal elektrikli araçlar yerli elektrikli araç limitlerinden yararlanabilir mi?",
+        answer: "Hayır. BDDK'nın 10586, 10880 ve 11158 sayılı kararları yalnızca Türkiye'de üretilen elektrik motorlu taşıtlar için avantajlı matrah ve vadeler tanımıştır. İthal elektrikli araçlar, Bankaların Kredi İşlemlerine İlişkin Yönetmelik m. 12/A uyarınca 10099 sayılı genel taşıt kredisi sınırlarına tabidir."
       },
       {
-        question: "Aracın kasko değerinin tamamına kredi çekilebilir mi?",
-        answer: "Hayır. BDDK düzenlemeleri gereği, aracın kasko değerinin belirli bir yüzdesine kadar kredi kullanılabilir. Kalan kısım tüketici tarafından peşinat olarak karşılanmalıdır."
+        question: "Bu hesaplama bankanın kesin kredi onayı anlamına gelir mi?",
+        answer: "Hayır. Bu araç bir matematiksel taksit simülasyonudur. Bankanın nihai kredi onayı; aracın sıfır/ikinci el durumuna, fatura veya kasko değerine, ekspertiz raporuna, müşterinin gelir belgesine ve BDDK limit uygunluğuna göre banka şubesince netleştirilir."
       },
       {
-        question: "Taşıt kredisi vade sınırları nelerdir?",
-        answer: "Araç kredisi maksimum vadeleri, aracın fatura veya kasko değerine göre BDDK tarafından sınırlandırılır. Değer arttıkça kullanılabilecek maksimum vade süresi (48, 36, 24, 12 ay gibi) düşer."
+        question: "Bireysel ve ticari taşıt kredisi arasındaki vergi farkı nedir?",
+        answer: "Gerçek kişilerin bireysel araç alımlarında faiz üzerinden %15 KKDF ve %15 BSMV kesilir. Şirketler veya işletmeler adına kullanılan ticari taşıt kredilerinde ise KKDF kesintisi yapılmaz (%0) ve BSMV oranı %5 olarak uygulanır (bu hesaplama için Ticari Taşıt Kredisi aracımızı inceleyebilirsiniz)."
       },
       {
         question: "Araç kredisi erken kapatılabilir mi?",
-        answer: "Evet, taşıt kredisi borcunun tamamı vadesinden önce kapatılabilir. Bu durumda ileriye dönük faizler düşülerek indirim sağlanır. Erken ödeme şartları sözleşmede yer alır."
+        answer: "Evet. Tüketici Kanunu uyarınca borcun tamamı vadesinden önce ödenebilir. Bu durumda henüz vadesi gelmemiş dönemlere ait faiz, KKDF ve BSMV tutarları düşülerek erken ödeme indirimi uygulanır."
       }
     ],
     content: {
-      intro: "Taşıt kredisi ve araç finansmanı hesaplama hakkında bilmeniz gerekenler",
-
+      intro: "Bireysel taşıt kredisi faiz hesaplama, BDDK yasal sınırları, elektrikli araç rejimleri ve vergi yapısı rehberi",
       sections: [
         {
-          title: "Taşıt Kredisi Hesaplama Nedir?",
+          title: "Taşıt Kredisi Hesaplama Mantığı ve Yasal Vergiler",
           paragraphs: [
-            "Taşıt kredisi hesaplama, sıfır veya ikinci el araç satın alırken kullanmayı planladığınız kredi tutarının, faiz ve vade koşullarına göre aylık taksitlerini ve toplam geri ödeme tutarını gösteren bir hesaplamadır.",
-            "Otomobil kredisinde yalnızca aylık taksite bakmak yerine, farklı faiz oranlarını ve vadeleri karşılaştırarak toplam finansman maliyetini (borcun size toplamda ne kadara mal olacağını) anlamak, doğru bütçe planlaması için kritik öneme sahiptir."
+            "Bireysel taşıt kredisi, gerçek kişilerin sıfır kilometre veya ikinci el araç alımlarını finanse etmek için kullandıkları eşit taksitli tüketici kredisidir.",
+            "Tüketici kredileri mevzuatı gereği, bireysel araç kredilerinde tahakkuk eden aylık faiz üzerinden %15 Kaynak Kullanımını Destekleme Fonu (KKDF) ve %15 Banka ve Sigorta Muameleleri Vergisi (BSMV) olmak üzere toplam %30 yasal vergi kesintisi uygulanır.",
+            "Bu hesaplayıcı, kullanıcıların girdikleri tutar ve vadeye göre teorik ödeme planını gösteren bir matematiksel simülasyondur; bankanın tahsis şartlarına veya BDDK yasal uygunluk onayına garanti teşkil etmez."
           ]
         },
-
         {
-          title: "Araç Kredisi Taksiti Nasıl Hesaplanır?",
+          title: "BDDK Taşıt Kredisi Düzenlemeleri: Karar Eşleştirmesi ve Limitler",
           paragraphs: [
-            "Eşit taksitli taşıt kredilerinde aylık taksit hesabı; kullanılacak kredi anaparası, aylık faiz oranı ve seçilen vade sayısına (ay) göre yapılır.",
-            "Ticaret Bakanlığı'nın standartlarına göre anüite (eşit taksitli ödeme) formülü kullanılarak, vade boyunca taksit tutarı sabit kalacak şekilde her ay ne kadar faiz ve ne kadar anapara ödeneceği belirlenir.",
-            "Ödemeler ilerledikçe, kalan anapara borcu düşeceğinden taksit içindeki faiz payı azalır, anaparaya giden pay ise artar."
+            "Bankacılık Düzenleme ve Denetleme Kurulu (BDDK), finansal riskleri sınırlandırmak amacıyla taşıt kredilerinde fatura/kasko değerine dayalı azami kredi tutarı ve azami vade sınırlamaları uygulamaktadır. Kararlar araç niteliğine göre ayrışmaktadır:"
           ],
           bullets: [
-            "Kredi tutarı: Aracın değeri üzerinden mevzuatça belirlenen oranda kullanılabilecek finansman miktarı.",
-            "Aylık faiz oranı: Finans kuruluşunun uyguladığı taşıt kredisi faiz oranı.",
-            "Vade: Araç kredilerinde yaş ve değere göre değişebilen yasal maksimum ay sayısı.",
-            "Aylık taksit: Kredi süresince düzenli olarak yapılması gereken ödeme."
+            "Genel Taşıt Kredisi Sınırları (BDDK Kararı No: 10099 - 21.02.2022): İçten yanmalı, hibrit ve ithal elektrikli araçlar için geçerlidir. Fatura/kasko değeri 400.000 TL ve altına azami %70 kredi / 48 ay vade; 400.001 - 800.000 TL arasına azami %50 kredi / 36 ay vade; 800.001 - 1.200.000 TL arasına azami %30 kredi / 24 ay vade; 1.200.001 - 2.000.000 TL arasına azami %20 kredi / 12 ay vade verilebilir. 2.000.000 TL üzerindeki araçlara kredi kullandırılamaz (%0).",
+            "Türkiye'de Üretilen Elektrik Motorlu Taşıtlar Düzenleme Geçmişi: Yerli üretim elektrikli araçlar için ilk özel genişletme 06.05.2023 tarihli 10586 sayılı kararla yapılmış, ardından 22.02.2024 tarihli 10880 sayılı kararla güncellenmiştir.",
+            "Güncel Yerli Elektrikli Taşıt Sınırları (BDDK Kararı No: 11158 - 06.03.2025): Yalnızca Türkiye'de üretilen elektrik motorlu taşıtlar için uygulanır. Değeri 2.500.000 TL ve altına azami %70 kredi / 48 ay vade; 2.500.001 - 5.000.000 TL arasına azami %50 kredi / 36 ay vade; 5.000.001 - 6.500.000 TL arasına azami %30 kredi / 24 ay vade; 6.500.001 - 7.500.000 TL arasına azami %20 kredi / 12 ay vade uygulanır. 7.500.000 TL üzerindeki araçlar için kredi kullandırılamaz (%0).",
+            "İthal Elektrikli Taşıtların Hukuki Durumu: Yönetmelik m. 12/A uyarınca özel genişletmeler yalnızca yerli üretim elektrikli taşıtları kapsadığından, ithal elektrik motorlu taşıtlar 10099 sayılı genel kurul kararındaki sınırlara tabidir."
           ]
         },
-
         {
-          title: "Taşıt Kredisi Limitleri ve Kasko Değeri Oranları",
+          title: "Taşıt Kredisinde Ek Masraflar ve Ticari Kredi Ayrımı",
           paragraphs: [
-            "Taşıt kredilerinde kullanılabilecek maksimum kredi tutarı ve vade süresi, aracın sıfır kilometre mi yoksa ikinci el mi olduğuna ve fatura/kasko değerine göre yasal düzenlemelerle belirlenmektedir.",
-            "Taşıt kredilerinde kullanılabilecek azami kredi tutarı ve vade, aracın türü, değeri ve yürürlükteki BDDK düzenlemelerine göre değişebilir. Bu nedenle %70, %50, %30 veya %20 gibi oranlar ile 48, 36, 24 veya 12 ay gibi vade sınırları bütün araçlar için değişmez bir kural olarak değerlendirilmemelidir. Özellikle elektrik motorlu taşıtlar için farklı düzenlemeler bulunabildiğinden, kredi başvurusu öncesinde güncel BDDK kuralları ve finans kuruluşunun uyguladığı limitler kontrol edilmelidir.",
-            "Aynı şekilde maksimum vade sınırları da kasko değerine göre 48 ay, 36 ay, 24 ay veya 12 ay olarak sınırlandırılabilmektedir. Bu sınırlar piyasa koşullarına göre yetkili kurumlarca güncellenir."
-          ]
-        },
-
-        {
-          title: "Taşıt Kredisi Hesaplama Nasıl Kullanılır?",
-          paragraphs: [
-            "Almak istediğiniz aracın değerine göre peşinatınızı çıkardıktan sonra kalan finansman ihtiyacınızı (kredi tutarını) hesaplama aracına girin.",
-            "Bankanızın size sunduğu güncel taşıt kredisi faiz oranını ve yasaların izin verdiği sınırlar içerisindeki vadeyi (örneğin 36 veya 48 ay) seçin.",
-            "Sonuç ekranında, aylık taksitleri ve en önemlisi kredinin size toplam geri ödeme maliyetini detaylıca inceleyebilirsiniz."
-          ]
-        },
-
-        {
-          title: "Faiz Oranı ve Vade Araç Kredisini Nasıl Etkiler?",
-          paragraphs: [
-            "Vade uzadıkça aylık taksit tutarınız düşer, aylık bütçenize binen yük azalır. Ancak borç uzun süreye yayıldığı için bankaya ödeyeceğiniz toplam faiz (ve dolayısıyla toplam geri ödeme tutarı) artar.",
-            "Bu nedenle araç kredisi çekerken, 'Aylık ne kadar ödeyebilirim?' sorusu ile 'Bu araca toplamda ne kadar faiz ödeyeceğim?' sorusunu dengeleyen en optimum vadeyi bulmak gerekir."
-          ]
-        },
-
-        {
-          title: "Taşıt Kredisi Toplam Geri Ödeme Nasıl Değerlendirilir?",
-          paragraphs: [
-            "Toplam geri ödeme tutarı, sadece aylık taksitlere odaklanmanın önüne geçerek kredinin asıl maliyetini ortaya çıkarır.",
-            "Finans kuruluşları sözleşmede efektif yıllık maliyet oranını belirtmek zorundadır. Bu oran; kredi tahsis ücreti (dosya masrafı), rehin tesis ücreti, kasko ve sigorta masrafları gibi ek maliyetleri de kapsadığı için bankalar arası karşılaştırma yaparken en doğru kriterdir."
-          ]
-        },
-
-        {
-          title: "Araç Kredisi Kullanırken Nelere Dikkat Edilmeli?",
-          paragraphs: [
-            "Yalnızca aylık taksitlere ve manşet faiz oranına değil, mutlaka kredi tahsis ücreti, hayat sigortası, zorunlu kasko poliçesi gibi yan masraflara ve Yıllık Maliyet Oranına dikkat edin.",
-            "Aracın üzerine banka tarafından rehin konulacağını unutmayın. Kredi borcu bitene kadar araç satılamaz. Borç bittiğinde fek yazısı (rehin kaldırma) işlemi yapılarak araç üzerindeki rehin kaldırılır.",
-            "Taşıt kredilerinde erken ödeme yapmak veya krediyi tamamen erken kapatmak mümkündür. Erken kapama durumunda vadesi gelmemiş faizlerde yasal mevzuata uygun indirimler yapılır."
+            "Kredi çekerken taksitlerin yanı sıra yasal olarak kredi tutarının binde 5'i kadar kredi tahsis ücreti (+%15 BSMV), rehin tesis ücreti, kasko poliçesi ve hayat sigortası masrafları doğabilir.",
+            "İşletmeler ve şirketler adına kullanılan ticari taşıt kredilerinde ise KKDF oranı %0 olup BSMV %5 olarak tahakkuk ettirilir. Ticari araç alımı yapacak kullanıcılarımızın Ticari Taşıt Kredisi hesaplama modülünü kullanmaları önerilir."
           ]
         }
       ],
-
       example: {
-        title: "Taşıt Kredisi Hesaplama Örneği",
-        text: "Örneğin 600.000 TL taşıt kredisi kullanacağınızı varsayalım. Aynı tutarı 24 ay ve 48 ay vadelerle hesapladığınızda, 48 ay vadede aylık taksitiniz belirgin şekilde düşük çıkacaktır. Ancak 48 ayın sonunda ödemiş olduğunuz toplam tutar, 24 aya göre çok daha yüksek bir faiz yükü içerecektir."
+        title: "Adım Adım Sayısal Taşıt Kredisi Simülasyonu",
+        text: "Simülasyon Şartları: 500.000 TL kredi anaparası, 36 ay vade, aylık %3,50 faiz oranı (%15 KKDF ve %15 BSMV yasal kesintileri dahil).\n\n1. Efektif Aylık Faiz Oranı: %3,50 × 1,30 = %4,55 (0,0455)\n2. Eşit Aylık Taksit Tutarı: 500.000 × [0,0455 × (1,0455)^36] / [(1,0455)^36 - 1] ≈ 28.491,9074 TL. İlk 35 ayın aylık taksiti 28.491,91 TL'dir.\n3. İlk Ayın Maliyet Dökümü: 500.000 TL anapara üzerinden aylık saf faiz 17.500,00 TL; KKDF (%15) 2.625,00 TL; BSMV (%15) 2.625,00 TL; ödenen anapara 5.741,91 TL; aylık taksit 28.491,91 TL.\n4. Son Ay (36. Ay) Kapanış Taksiti: Kalan son anapara 27.251,72 TL, saf faiz 953,81 TL, KKDF 143,07 TL, BSMV 143,07 TL olmak üzere 28.491,67 TL ile borç tamamen kapatılır.\n5. Toplam Geri Ödeme: 1.025.708,52 TL (500.000,00 TL Anapara + 404.391,16 TL Saf Faiz + 60.658,68 TL KKDF + 60.658,68 TL BSMV). Toplam yasal vergi 121.317,36 TL, toplam finansman faiz maliyeti ise 525.708,52 TL'dir. Amortisman tablosundaki her satırın vergi toplamı ile bu genel toplam kuruşu kuruşuna örtüşmektedir."
       },
-
       sources: [
         {
-          name: "BDDK - Bankacılık Düzenleme ve Denetleme Kurumu Taşıt Kredisi Sınırları",
+          name: "Bankacılık Düzenleme ve Denetleme Kurumu (BDDK) – Karar No: 10099 (Genel Taşıt Sınırları)",
           url: "https://www.bddk.org.tr/"
         },
         {
-          name: "T.C. Ticaret Bakanlığı – Tüketici Bilgi Rehberi",
+          name: "Bankacılık Düzenleme ve Denetleme Kurumu (BDDK) – Karar No: 11158 (Yerli Elektrikli Taşıt Sınırları)",
+          url: "https://www.bddk.org.tr/"
+        },
+        {
+          name: "T.C. Ticaret Bakanlığı – Tüketici Hakları ve Finansman Rehberi",
           url: "https://tuketici.ticaret.gov.tr/"
+        },
+        {
+          name: "Gelir İdaresi Başkanlığı – Tüketici Kredilerinde BSMV ve KKDF Uygulama Esasları",
+          url: "https://www.gib.gov.tr/"
         }
       ]
     },

@@ -4,14 +4,20 @@ export function calculateVehicleLoan(loanAmount: number, monthlyInterestRate: nu
   const result = generateAmortizationSchedule({
     principal: loanAmount,
     monthlyInterestRate: monthlyInterestRate,
-    termMonths: termMonths
+    termMonths: termMonths,
+    kkdfRate: 15,
+    bsmvRate: 15
   });
   
+  const totalTax = (result.totalKKDF || 0) + (result.totalBSMV || 0);
+
   const formattedTable = result.schedule.map(row => ({
     'Taksit No': row.installmentNumber,
     'Taksit Tutarı': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(row.payment),
     'Anapara': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(row.principalPaid),
     'Faiz': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(row.interestPaid),
+    'KKDF': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(row.kkdfPaid || 0),
+    'BSMV': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(row.bsmvPaid || 0),
     'Kalan Bakiye': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(row.remainingPrincipal)
   }));
   
@@ -21,13 +27,16 @@ export function calculateVehicleLoan(loanAmount: number, monthlyInterestRate: nu
     secondaryResults: {
       'Kredi Tutarı': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(loanAmount),
       'Toplam Faiz': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(result.totalInterest),
+      'KKDF (%15)': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(result.totalKKDF || 0),
+      'BSMV (%15)': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(result.totalBSMV || 0),
+      'Toplam Vergi': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(totalTax),
       'Toplam Ödeme': new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(result.totalPayment),
       'Vade': termMonths + ' Ay'
     },
     table: formattedTable,
     infoReference: {
-      title: 'Taşıt Kredisi Nasıl Hesaplanır?',
-      description: 'Hesaplama anüite yöntemiyle anapara + faiz üzerinden yapılır. KKDF, BSMV, tahsis ücreti, sigorta ve banka/kurumlara göre değişebilecek diğer ek maliyetler hesaplamaya dahil değildir. Araç bedeline göre uygulanabilecek kredi oranı, vade veya diğer yasal/kurumsal sınırlamalar bu matematiksel simülasyona otomatik olarak uygulanmamaktadır. Kullanıcı gerçek kredi başvurusu öncesinde banka/finans kuruluşunun güncel koşullarını kontrol etmelidir.'
+      title: 'Bireysel Taşıt Kredisi Simülasyonu',
+      description: 'Hesaplama, gerçek kişi bireysel taşıt kredilerinde uygulanan %15 KKDF ve %15 BSMV yasal kesintileri dahil edilerek eşit taksitli (anüite) modeliyle hazırlanmış bir matematiksel ödeme simülasyonudur. Bu simülasyon bankanın nihai kredi onayını veya BDDK sınırlarına uygunluk garantisini teşkil etmez. Kredi tahsis ücreti, kasko poliçesi, rehin ücreti ve hayat sigortası bankalara göre değişebileceğinden bu plana dahil edilmemiştir. Ticari taşıt kredilerinde ise KKDF uygulanmamakta (%0) ve BSMV %5 olarak tahakkuk etmektedir (ticari krediler için Ticari Taşıt Kredisi hesaplayıcımızı inceleyebilirsiniz).'
     }
   };
 }
